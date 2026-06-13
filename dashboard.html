@@ -1595,15 +1595,36 @@
               ><i class="ti ti-chevron-right nav-caret"></i>
             </div>
             <div class="nav-sub">
-              <div class="nav-subitem" onclick="navSub(this,'All Users');setTimeout(function(){location.href='user-management.html';},100)">
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'All Users');
+                  setTimeout(function () {
+                    location.href = 'user-management.html';
+                  }, 100);
+                "
+              >
                 <span class="dot"></span>All Users
               </div>
-              <div class="nav-subitem" onclick="navSub(this,'Add User');setTimeout(function(){location.href='user-add.html';},100)">
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Add User');
+                  setTimeout(function () {
+                    location.href = 'user-add.html';
+                  }, 100);
+                "
+              >
                 <span class="dot"></span>Add User
               </div>
               <div
                 class="nav-subitem"
-                onclick="navSub(this,'Roles &amp; Permissions');setTimeout(function(){location.href='user-roles.html';},100)"
+                onclick="
+                  navSub(this, 'Roles &amp; Permissions');
+                  setTimeout(function () {
+                    location.href = 'user-roles.html';
+                  }, 100);
+                "
               >
                 <span class="dot"></span>Roles &amp; Permissions
               </div>
@@ -1618,15 +1639,36 @@
               ><i class="ti ti-chevron-right nav-caret"></i>
             </div>
             <div class="nav-sub">
-              <div class="nav-subitem" onclick="navSub(this,'Create Role');setTimeout(function(){location.href='role-form.html';},100)">
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Create Role');
+                  setTimeout(function () {
+                    location.href = 'role-form.html';
+                  }, 100);
+                "
+              >
                 <span class="dot"></span>Create Role
               </div>
-              <div class="nav-subitem" onclick="navSub(this,'Edit Role');setTimeout(function(){location.href='role-list.html';},100)">
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Edit Role');
+                  setTimeout(function () {
+                    location.href = 'role-list.html';
+                  }, 100);
+                "
+              >
                 <span class="dot"></span>Edit Role
               </div>
               <div
                 class="nav-subitem"
-                onclick="navSub(this,'Assign Permissions');setTimeout(function(){location.href='role-assign.html';},100)"
+                onclick="
+                  navSub(this, 'Assign Permissions');
+                  setTimeout(function () {
+                    location.href = 'role-assign.html';
+                  }, 100);
+                "
               >
                 <span class="dot"></span>Assign Permissions
               </div>
@@ -1643,11 +1685,24 @@
             <div class="nav-sub">
               <div
                 class="nav-subitem"
-                onclick="navSub(this,'Department List');setTimeout(function(){location.href='dept-list.html';},100)"
+                onclick="
+                  navSub(this, 'Department List');
+                  setTimeout(function () {
+                    location.href = 'dept-list.html';
+                  }, 100);
+                "
               >
                 <span class="dot"></span>Department List
               </div>
-              <div class="nav-subitem" onclick="navSub(this,'Add Department');setTimeout(function(){location.href='dept-form.html';},100)">
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Add Department');
+                  setTimeout(function () {
+                    location.href = 'dept-form.html';
+                  }, 100);
+                "
+              >
                 <span class="dot"></span>Add Department
               </div>
             </div>
@@ -1701,15 +1756,37 @@
 
           <div class="nav-section">Academics</div>
           <!-- Academic Year -->
-      <div class="nav-group" id="g-acad-year">
-        <div class="nav-group-toggle" onclick="toggleGroup('g-acad-year')">
-          <i class="ti ti-calendar-stats nav-ico"></i><span class="nav-label">Academic Year</span><i class="ti ti-chevron-right nav-caret"></i>
-        </div>
-        <div class="nav-sub">
-          <div class="nav-subitem" onclick="navSub(this,'Academic Year List');setTimeout(function(){location.href='acad-year.html';},100)"><span class="dot"></span>Year List</div>
-          <div class="nav-subitem" onclick="navSub(this,'Add Academic Year');setTimeout(function(){location.href='acad-year.html';},100)"><span class="dot"></span>Add Academic Year</div>
-        </div>
-      </div>
+          <div class="nav-group" id="g-acad-year">
+            <div class="nav-group-toggle" onclick="toggleGroup('g-acad-year')">
+              <i class="ti ti-calendar-stats nav-ico"></i
+              ><span class="nav-label">Academic Year</span
+              ><i class="ti ti-chevron-right nav-caret"></i>
+            </div>
+            <div class="nav-sub">
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Academic Year List');
+                  setTimeout(function () {
+                    location.href = 'acad-year.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Year List
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Add Academic Year');
+                  setTimeout(function () {
+                    location.href = 'acad-year.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Add Academic Year
+              </div>
+            </div>
+          </div>
           <!-- Academic Management -->
           <div class="nav-group" id="g-acad">
             <div class="nav-group-toggle" onclick="toggleGroup('g-acad')">
@@ -1724,50 +1801,127 @@
               <div class="nav-subitem" onclick="navSub(this, 'Subjects')">
                 <span class="dot"></span>Subjects
               </div> -->
-              <div class="nav-subitem"
-     onclick="navSub(this,'Classes');setTimeout(function(){location.href='acad-classes.html';},100)">
-    <span class="dot"></span>Classes
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Subjects');setTimeout(function(){location.href='acad-subjects.html';},100)">
-    <span class="dot"></span>Subjects
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Sections');setTimeout(function(){location.href='acad-sections.html';},100)">
-    <span class="dot"></span>Sections
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Academic Calendar');setTimeout(function(){location.href='acad-calendar.html';},100)">
-    <span class="dot"></span>Academic Calendar
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Religion');setTimeout(function(){location.href='sis-religion.html';},100)">
-    <span class="dot"></span>Religion
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Category');setTimeout(function(){location.href='sis-category.html';},100)">
-    <span class="dot"></span>Category
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Caste');setTimeout(function(){location.href='sis-caste.html';},100)">
-    <span class="dot"></span>Caste
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Sub Caste');setTimeout(function(){location.href='sis-subcaste.html';},100)">
-    <span class="dot"></span>Sub Caste
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Cap');setTimeout(function(){location.href='sis-cap.html';},100)">
-    <span class="dot"></span>Cap
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'Online Document');setTimeout(function(){location.href='sis-doc-online.html';},100)">
-    <span class="dot"></span>Online Document
-</div>
-<div class="nav-subitem"
-     onclick="navSub(this,'DTE Category');setTimeout(function(){location.href='sis-dte-category.html';},100)">
-    <span class="dot"></span>DTE Category
-</div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Classes');
+                  setTimeout(function () {
+                    location.href = 'acad-classes.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Classes
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Subjects');
+                  setTimeout(function () {
+                    location.href = 'acad-subjects.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Subjects
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Sections');
+                  setTimeout(function () {
+                    location.href = 'acad-sections.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Sections
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Academic Calendar');
+                  setTimeout(function () {
+                    location.href = 'acad-calendar.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Academic Calendar
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Religion');
+                  setTimeout(function () {
+                    location.href = 'sis-religion.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Religion
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Category');
+                  setTimeout(function () {
+                    location.href = 'sis-category.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Category
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Caste');
+                  setTimeout(function () {
+                    location.href = 'sis-caste.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Caste
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Sub Caste');
+                  setTimeout(function () {
+                    location.href = 'sis-subcaste.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Sub Caste
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Cap');
+                  setTimeout(function () {
+                    location.href = 'sis-cap.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Cap
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'Online Document');
+                  setTimeout(function () {
+                    location.href = 'sis-doc-online.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>Online Document
+              </div>
+              <div
+                class="nav-subitem"
+                onclick="
+                  navSub(this, 'DTE Category');
+                  setTimeout(function () {
+                    location.href = 'sis-dte-category.html';
+                  }, 100);
+                "
+              >
+                <span class="dot"></span>DTE Category
+              </div>
               <!-- <div class="nav-subitem" onclick="navSub(this, 'Sections')">
                 <span class="dot"></span>Sections
               </div> -->
@@ -1848,7 +2002,7 @@
 
           <div class="nav-section">Admission Set Up</div>
           <!-- Admission Set Up → opens Add Admission directly -->
-          <div class="nav-item" onclick="location.href='add-admission.html'">
+          <div class="nav-item" onclick="location.href = 'add-admission.html'">
             <i class="ti ti-clipboard-list"></i
             ><span class="nav-label">Admission Set Up</span>
           </div>
@@ -1891,7 +2045,13 @@
               <div class="nav-sub-head">Reports</div>
               <div
                 class="nav-subitem"
-                onclick="navSub(this, 'Academic Reports')"
+                onclick="
+                  location.href =
+                    'academic-reports.html?role=' +
+                    encodeURIComponent(getParam('role') || 'Admin') +
+                    '&u=' +
+                    encodeURIComponent(getParam('u') || '')
+                "
               >
                 <span class="dot"></span>Academic Reports
               </div>
@@ -2624,22 +2784,39 @@
         function hexToRgb(hex) {
           hex = String(hex || "").replace("#", "");
           if (hex.length === 3)
-            hex = hex.split("").map(function (c) { return c + c; }).join("");
+            hex = hex
+              .split("")
+              .map(function (c) {
+                return c + c;
+              })
+              .join("");
           var n = parseInt(hex, 16);
           if (isNaN(n)) return { r: 15, g: 76, b: 117 };
           return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
         }
         function mixWhite(hex, ratio) {
           var c = hexToRgb(hex);
-          return "rgb(" + Math.round(c.r + (255 - c.r) * ratio) + "," + Math.round(c.g + (255 - c.g) * ratio) + "," + Math.round(c.b + (255 - c.b) * ratio) + ")";
+          return (
+            "rgb(" +
+            Math.round(c.r + (255 - c.r) * ratio) +
+            "," +
+            Math.round(c.g + (255 - c.g) * ratio) +
+            "," +
+            Math.round(c.b + (255 - c.b) * ratio) +
+            ")"
+          );
         }
         function rgba(hex, a) {
           var c = hexToRgb(hex);
           return "rgba(" + c.r + "," + c.g + "," + c.b + "," + a + ")";
         }
         function load() {
-          try { var s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; }
-          catch (e) { return null; }
+          try {
+            var s = localStorage.getItem(KEY);
+            return s ? JSON.parse(s) : null;
+          } catch (e) {
+            return null;
+          }
         }
         function applyColors(b) {
           var root = document.documentElement.style;
@@ -2648,26 +2825,38 @@
             root.setProperty("--p-bg", mixWhite(b.primary, 0.9));
             root.setProperty("--p-glow", rgba(b.primary, 0.15));
             root.setProperty("--p-line", rgba(b.primary, 0.25));
-            root.setProperty("--sh-brand", "0 8px 32px " + rgba(b.primary, 0.28) + ", 0 2px 8px " + rgba(b.primary, 0.18));
+            root.setProperty(
+              "--sh-brand",
+              "0 8px 32px " +
+                rgba(b.primary, 0.28) +
+                ", 0 2px 8px " +
+                rgba(b.primary, 0.18),
+            );
           }
           if (b.secondary) root.setProperty("--p2", b.secondary);
-          if (b.accent)    root.setProperty("--p3", b.accent);
+          if (b.accent) root.setProperty("--p3", b.accent);
         }
         function setFavicon(url) {
           if (!url) return;
           var link = document.querySelector("link[rel~='icon']");
-          if (!link) { link = document.createElement("link"); link.rel = "icon"; document.head.appendChild(link); }
+          if (!link) {
+            link = document.createElement("link");
+            link.rel = "icon";
+            document.head.appendChild(link);
+          }
           link.href = url;
         }
         function injectImg(el, url) {
           if (!el || !url) return;
-          if (getComputedStyle(el).position === "static") el.style.position = "relative";
+          if (getComputedStyle(el).position === "static")
+            el.style.position = "relative";
           var img = el.querySelector("img.brand-img");
           if (!img) {
             img = document.createElement("img");
             img.className = "brand-img";
             img.alt = "";
-            img.style.cssText = "width:100%;height:100%;object-fit:cover;border-radius:inherit;position:absolute;inset:0;z-index:1;";
+            img.style.cssText =
+              "width:100%;height:100%;object-fit:cover;border-radius:inherit;position:absolute;inset:0;z-index:1;";
             el.appendChild(img);
           }
           img.src = url;
@@ -2677,16 +2866,26 @@
           if (!b) return;
           applyColors(b);
           if (b.logo)
-            document.querySelectorAll('.tb-mark, [data-brand="logo"]').forEach(function (el) { injectImg(el, b.logo); });
+            document
+              .querySelectorAll('.tb-mark, [data-brand="logo"]')
+              .forEach(function (el) {
+                injectImg(el, b.logo);
+              });
           if (b.favicon)
-            document.querySelectorAll('[data-brand="favicon"]').forEach(function (el) { injectImg(el, b.favicon); });
+            document
+              .querySelectorAll('[data-brand="favicon"]')
+              .forEach(function (el) {
+                injectImg(el, b.favicon);
+              });
           setFavicon(b.favicon);
         }
         window.AspireBranding = { load: load, apply: apply };
         if (document.readyState === "loading")
-          document.addEventListener("DOMContentLoaded", function () { apply(); });
+          document.addEventListener("DOMContentLoaded", function () {
+            apply();
+          });
         else apply();
-      })(); 
+      })();
     </script>
 
     <script>

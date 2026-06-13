@@ -1,0 +1,1314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Classes — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* TOPBAR */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display);cursor:pointer}
+
+    /* LAYOUT */
+    .page-wrap{max-width:1280px;margin:0 auto;padding:28px 28px 60px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+    .page-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .15s;cursor:pointer;border:none;outline:none;white-space:nowrap}
+    .btn i{font-size:16px}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(15,76,117,.25)}
+    .btn-primary:hover{background:var(--p2);box-shadow:0 4px 16px rgba(15,76,117,.32)}
+    .btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--line)}
+    .btn-ghost:hover{border-color:var(--line2);background:var(--smoke);color:var(--ink)}
+    .btn-danger{background:var(--fire-bg);color:var(--fire);border:1.5px solid rgba(239,68,68,.2)}
+    .btn-danger:hover{background:var(--fire);color:#fff}
+    .btn-success{background:var(--jade-bg);color:var(--jade-text);border:1.5px solid rgba(14,165,113,.2)}
+    .btn-success:hover{background:var(--jade);color:#fff}
+    .btn-sm{padding:6px 11px;font-size:12px}
+    .btn-sm i{font-size:14px}
+    button:disabled{opacity:.45;cursor:not-allowed}
+
+    /* STAT STRIP */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.teal{background:var(--p-bg);color:var(--p)}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* FILTER BAR */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .srch-wrap{flex:1;min-width:220px;position:relative}
+    .srch-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .srch-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 36px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .srch-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .srch-inp::placeholder{color:var(--ink4)}
+    .fsel{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:140px}
+    .fsel:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .fdiv{width:1px;height:24px;background:var(--line);margin:0 2px}
+    .view-toggle{display:flex;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+    .vbtn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink4);background:var(--smoke);cursor:pointer;transition:all .15s;border:none}
+    .vbtn.active{background:var(--p);color:#fff}
+    .vbtn:not(.active):hover{background:var(--line);color:var(--ink)}
+
+    /* CARDS */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+    .cls-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh);transition:box-shadow .2s,transform .2s;cursor:default}
+    .cls-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+    .card-accent{height:5px;width:100%}
+    .card-body{padding:18px 18px 14px}
+    .card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+    .cls-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:500}
+    .badge i{font-size:11px}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+    .badge-archived{background:var(--sun-bg);color:var(--sun-text)}
+    .cls-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px;margin-bottom:3px}
+    .cls-meta{font-size:11.5px;color:var(--ink4);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .cls-meta span{display:flex;align-items:center;gap:4px}
+    .cls-meta i{font-size:12px}
+    .card-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:14px 0;padding:12px;background:var(--smoke);border-radius:var(--r-lg)}
+    .cs-item{text-align:center}
+    .cs-val{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink);line-height:1}
+    .cs-lbl{font-size:9.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+    .fill-wrap{margin:10px 0 4px}
+    .fill-bar-track{height:5px;background:var(--line);border-radius:3px;overflow:hidden}
+    .fill-bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+    .fill-label{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink4);margin-bottom:5px}
+    .card-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 18px 14px;border-top:1.5px solid var(--line)}
+    .card-footer-tags{display:flex;gap:6px;flex-wrap:wrap}
+    .tag{font-size:10.5px;color:var(--ink3);background:var(--smoke);border:1px solid var(--line);border-radius:5px;padding:2px 8px;display:flex;align-items:center;gap:4px}
+    .tag i{font-size:11px}
+    .row-acts-card{display:flex;gap:5px}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink3);background:transparent;border:1.5px solid var(--line);transition:all .14s;cursor:pointer}
+    .row-btn:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .row-btn.danger:hover{background:var(--fire-bg);border-color:var(--fire);color:var(--fire)}
+
+    /* TABLE */
+    .tbl-wrap{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+    .tbl-head-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line)}
+    .tbl-count-txt{font-size:12px;color:var(--ink4)}
+    table{width:100%;border-collapse:collapse}
+    thead th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.7px;background:var(--smoke);border-bottom:1.5px solid var(--line);white-space:nowrap}
+    tbody td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink2);vertical-align:middle}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:var(--smoke)}
+    .sort-th{cursor:pointer;user-select:none}
+    .sort-th:hover{color:var(--ink2)}
+    .sort-th i{font-size:13px;vertical-align:middle;margin-left:3px;color:var(--ink4)}
+    td .row-acts{display:flex;gap:5px;opacity:0;transition:opacity .14s}
+    tr:hover .row-acts{opacity:1}
+    .hide-sm{display:table-cell}
+    @media(max-width:768px){.hide-sm{display:none}}
+
+    /* PAGINATION */
+    .pg-wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1.5px solid var(--line)}
+    .pg-info{font-size:12px;color:var(--ink4)}
+    .pg-btns{display:flex;gap:4px}
+    .pg-btn{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:500;color:var(--ink3);background:var(--white);border:1.5px solid var(--line);cursor:pointer;transition:all .14s}
+    .pg-btn:hover:not(:disabled){background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .pg-btn.active{background:var(--p);border-color:var(--p);color:#fff}
+    .pg-btn:disabled{opacity:.4;cursor:default}
+
+    /* OVERLAY / MODAL */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:540px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-lg{width:660px}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line);position:sticky;top:0;background:var(--white);z-index:2}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink)}
+    .modal-subtitle{font-size:11.5px;color:var(--ink4);margin-top:2px}
+    .modal-close{width:32px;height:32px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:16px;cursor:pointer;transition:all .15s}
+    .modal-close:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:space-between;border-top:1.5px solid var(--line);position:sticky;bottom:0;background:var(--white)}
+    .modal-foot-right{display:flex;gap:8px}
+
+    /* FORM */
+    .msec{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .msec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .msec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+    .msec-title i{font-size:14px;color:var(--p3)}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .fgrp{margin-bottom:14px}
+    .fgrp:last-child{margin-bottom:0}
+    .flabel{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+    .req{color:var(--fire);margin-left:3px}
+    .flabel-hint{font-size:10.5px;color:var(--ink4);font-weight:400}
+    .finput-wrap{position:relative}
+    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .15s}
+    .finput-wrap:focus-within .ficon{color:var(--p2)}
+    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+    .finput.no-icon{padding-left:13px}
+    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .finput::placeholder{color:var(--ink4)}
+    select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+    .finput-textarea{resize:vertical;min-height:80px;padding-top:10px;padding-left:13px;line-height:1.55}
+
+    /* COLOUR SWATCHES */
+    .swatch-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+    .swatch{width:28px;height:28px;border-radius:8px;cursor:pointer;border:2.5px solid transparent;transition:all .15s;position:relative;display:flex;align-items:center;justify-content:center}
+    .swatch.sel{border-color:var(--ink2);transform:scale(1.15)}
+    .swatch.sel::after{content:'✓';position:absolute;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+
+    /* IMPORT RESULT STYLES */
+    .imp-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+    .imp-tile{border-radius:var(--r-lg);padding:14px;text-align:center}
+    .imp-tile.ok{background:var(--jade-bg);border:1.5px solid rgba(14,165,113,.2)}
+    .imp-tile.err{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2)}
+    .imp-tile.info{background:var(--p-bg);border:1.5px solid var(--p-line)}
+    .imp-tile-val{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1}
+    .imp-tile.ok .imp-tile-val{color:var(--jade)}
+    .imp-tile.err .imp-tile-val{color:var(--fire)}
+    .imp-tile.info .imp-tile-val{color:var(--p)}
+    .imp-tile-lbl{font-size:11px;font-weight:600;margin-top:3px}
+    .imp-tile.ok .imp-tile-lbl{color:var(--jade-text)}
+    .imp-tile.err .imp-tile-lbl{color:var(--fire-text)}
+    .imp-tile.info .imp-tile-lbl{color:var(--p2)}
+    .imp-section-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .imp-preview-tbl{border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:18px}
+    .imp-preview-tbl table{width:100%;border-collapse:collapse}
+    .imp-preview-tbl thead th{padding:8px 11px;font-size:10.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.6px;background:var(--smoke);border-bottom:1px solid var(--line)}
+    .imp-preview-tbl tbody td{padding:8px 11px;font-size:12.5px;border-bottom:1px solid var(--line)}
+    .imp-preview-tbl tbody tr:last-child td{border-bottom:none}
+    .imp-err-row{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.15);border-radius:var(--r-lg);padding:10px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+    .imp-err-row:last-child{margin-bottom:0}
+    .imp-row-num{background:var(--fire);color:#fff;border-radius:5px;font-size:10px;font-weight:700;padding:2px 6px;flex-shrink:0;margin-top:1px;font-family:var(--mono)}
+    .imp-err-name{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px}
+    .imp-err-msg{font-size:11.5px;color:var(--fire-text)}
+    .warn-notice{background:var(--sun-bg);border:1.5px solid rgba(245,158,11,.25);border-radius:var(--r-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:9px;margin-bottom:14px}
+    .warn-notice i{color:var(--sun);font-size:16px;flex-shrink:0;margin-top:1px}
+    .del-confirm-wrap{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.18);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:10px}
+    .del-confirm-wrap i{color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px}
+
+    /* EMPTY STATE */
+    .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 20px;text-align:center}
+    .es-ico{width:56px;height:56px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink4);margin-bottom:14px}
+    .es-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+    .es-desc{font-size:12px;color:var(--ink4);max-width:220px;line-height:1.6;margin-bottom:18px}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:18px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}.toast.warn i{color:#fbbf24}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}
+    @media(max-width:900px){.stat-strip{grid-template-columns:1fr 1fr}.card-grid{grid-template-columns:1fr}}
+    @media(max-width:640px){.page-wrap{padding:16px 16px 40px}.stat-strip{grid-template-columns:1fr}.frow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="dashboard.html" class="tb-brand">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Academic</div></div>
+  </a>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <span>Academics</span>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur">Classes</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" title="Help"><i class="ti ti-help-circle"></i></button>
+    <div class="tb-av" title="Profile" onclick="location.href='view-profile.html'">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag"><i class="ti ti-school"></i>Academic Management</div>
+      <div class="page-title">Classes</div>
+      <div class="page-sub">Manage grade classes, capacities, class teachers and academic years</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-ghost" onclick="downloadTemplate()"><i class="ti ti-table-import"></i>Download Template</button>
+      <button class="btn btn-ghost" onclick="triggerImport()"><i class="ti ti-upload"></i>Import</button>
+      <input type="file" id="import-file-inp" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleImport(this)">
+      <button class="btn btn-ghost" onclick="exportClasses()"><i class="ti ti-download"></i>Export</button>
+      <button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Class</button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile"><div class="st-ico teal"><i class="ti ti-school"></i></div><div><div class="st-val" id="st-total">0</div><div class="st-lbl">Total Classes</div></div></div>
+    <div class="stat-tile"><div class="st-ico green"><i class="ti ti-circle-check"></i></div><div><div class="st-val" id="st-active">0</div><div class="st-lbl">Active</div></div></div>
+    <div class="stat-tile"><div class="st-ico blue"><i class="ti ti-users"></i></div><div><div class="st-val" id="st-students">0</div><div class="st-lbl">Total Students</div></div></div>
+    <div class="stat-tile"><div class="st-ico amber"><i class="ti ti-layout-grid"></i></div><div><div class="st-val" id="st-sections">0</div><div class="st-lbl">Total Sections</div></div></div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar anim d2">
+    <div class="srch-wrap">
+      <i class="ti ti-search"></i>
+      <input class="srch-inp" type="text" id="f-search" placeholder="Search classes…" oninput="applyFilters()">
+    </div>
+    <select class="fsel" id="f-dept" onchange="applyFilters()">
+      <option value="">All Departments</option>
+    </select>
+    <select class="fsel" id="f-grade" onchange="applyFilters()">
+      <option value="">All Grades</option>
+      <option>Primary (I–V)</option>
+      <option>Middle (VI–VIII)</option>
+      <option>Secondary (IX–X)</option>
+      <option>Senior (XI–XII)</option>
+      <option>UG</option>
+    </select>
+    <select class="fsel" id="f-status" onchange="applyFilters()">
+      <option value="">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+    <select class="fsel" id="f-sort" onchange="applyFilters()">
+      <option value="name">Name A–Z</option>
+      <option value="students-desc">Most Students</option>
+      <option value="fill-desc">Highest Fill Rate</option>
+      <option value="newest">Newest First</option>
+    </select>
+    <div class="fdiv"></div>
+    <div class="view-toggle">
+      <button class="vbtn active" id="vbtn-card" onclick="setView('card')" title="Card view"><i class="ti ti-layout-grid"></i></button>
+      <button class="vbtn" id="vbtn-table" onclick="setView('table')" title="Table view"><i class="ti ti-list"></i></button>
+    </div>
+  </div>
+
+  <!-- CARD VIEW -->
+  <div id="view-card">
+    <div class="card-grid" id="card-grid"></div>
+  </div>
+
+  <!-- TABLE VIEW -->
+  <div id="view-table" style="display:none">
+    <div class="tbl-wrap">
+      <div class="tbl-head-bar">
+        <div class="tbl-count-txt">Showing <b id="tbl-count">0</b> classes</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width:38px"><input type="checkbox" id="chk-all" onchange="selectAll(this)"></th>
+            <th class="sort-th" onclick="sortBy('name')">Class <i class="ti ti-arrows-sort"></i></th>
+            <th>Department</th>
+            <th class="sort-th hide-sm" onclick="sortBy('students-desc')">Students <i class="ti ti-arrows-sort"></i></th>
+            <th class="hide-sm">Sections</th>
+            <th class="hide-sm">Class Teacher</th>
+            <th>Fill Rate</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="cls-tbody"></tbody>
+      </table>
+      <div class="pg-wrap" id="pagination"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ADD/EDIT MODAL -->
+<div class="overlay" id="cls-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title-txt">Add Class</div>
+        <div class="modal-subtitle" id="modal-sub-txt">Fill in the class details below</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('cls-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-info-circle"></i>Class Identity</div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Class Name <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-school ficon"></i>
+              <input class="finput" type="text" id="m-name" placeholder="e.g. Class X – Science">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Grade / Level <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-stairs ficon"></i>
+              <select class="finput" id="m-grade">
+                <option value="">Select grade</option>
+                <option>I</option><option>II</option><option>III</option><option>IV</option><option>V</option>
+                <option>VI</option><option>VII</option><option>VIII</option><option>IX</option><option>X</option>
+                <option>XI</option><option>XII</option><option>UG Year 1</option><option>UG Year 2</option><option>UG Year 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Department <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-building-community ficon"></i>
+              <select class="finput" id="m-dept"><option value="">Select department</option></select>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Academic Year <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-calendar ficon"></i>
+              <select class="finput" id="m-year"><option value="">Loading years…</option></select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-users"></i>Capacity &amp; Sections</div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Student Capacity <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-users ficon"></i>
+              <input class="finput" type="number" id="m-capacity" placeholder="e.g. 60" min="1" max="300">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Number of Sections</div>
+            <div class="finput-wrap">
+              <i class="ti ti-layout-grid ficon"></i>
+              <input class="finput" type="number" id="m-sections" placeholder="e.g. 3" min="1" max="20">
+            </div>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Class Teacher</div>
+          <div class="finput-wrap">
+            <i class="ti ti-chalkboard ficon"></i>
+            <input class="finput" type="text" id="m-teacher" placeholder="Teacher name" list="teacher-list" autocomplete="off">
+            <datalist id="teacher-list">
+              <option>Dr. Anjali Rao</option><option>Prof. Vikram Shah</option><option>Meera Iyer</option>
+              <option>Rohan Gupta</option><option>Sana Khan</option><option>Karthik Nair</option>
+              <option>Priya Deshpande</option><option>Suresh Kumar</option><option>Divya Menon</option>
+            </datalist>
+          </div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-palette"></i>Colour &amp; Status</div>
+        <div class="fgrp">
+          <div class="flabel">Class Colour</div>
+          <div class="swatch-grid" id="swatch-grid"></div>
+        </div>
+        <div class="fgrp" style="margin-top:10px">
+          <div class="flabel">Status</div>
+          <div class="finput-wrap">
+            <i class="ti ti-toggle-left ficon"></i>
+            <select class="finput" id="m-status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+              <option value="Archived">Archived</option>
+            </select>
+          </div>
+        </div>
+        <div class="fgrp" style="margin-top:10px">
+          <div class="flabel">Description / Notes</div>
+          <textarea class="finput finput-textarea no-icon" id="m-desc" placeholder="Optional notes…"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('cls-modal')">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveClass()"><i class="ti ti-check"></i>Save Class</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="overlay" id="del-modal">
+  <div class="modal" style="width:440px">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px"><i class="ti ti-trash" style="color:var(--fire)"></i>Delete Class</div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="del-confirm-wrap">
+        <i class="ti ti-alert-triangle"></i>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">This action cannot be undone</div>
+          <div style="font-size:12px;color:var(--ink3)">Deleting <b id="del-name"></b> will remove all associated section data.</div>
+        </div>
+      </div>
+      <div class="fgrp">
+        <div class="flabel" style="font-size:12px;color:var(--ink3)">Type <b id="del-confirm-txt" style="font-family:var(--mono);color:var(--ink)"></b> to confirm</div>
+        <input class="finput no-icon" type="text" id="del-inp" oninput="chkDel()" placeholder="Type class name…">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-btn" onclick="execDel()" disabled><i class="ti ti-trash"></i>Delete Class</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT RESULT MODAL -->
+<div class="overlay" id="import-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="imp-modal-title">Import Results</div>
+        <div class="modal-subtitle" id="imp-modal-sub">Review before committing</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('import-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="imp-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('import-modal')">Close</button>
+      <div class="modal-foot-right">
+        <button class="btn btn-primary" id="imp-confirm-btn" onclick="commitImport()" style="display:none">
+          <i class="ti ti-check"></i>Import Valid Records
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ══ CONFIG ══════════════════════════════════════════════════ */
+var COLORS=['#0f4c75','#0ea571','#ef4444','#f59e0b','#3b82f6','#7c3aed','#ec4899','#0891b2','#059669','#d97706','#dc2626','#6366f1','#14b8a6','#f97316','#8b5cf6'];
+var DEPTS=['Science','Commerce','Arts','Computer Science','Mathematics','Languages','Social Studies','Physical Education'];
+var VALID_GRADES=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','UG Year 1','UG Year 2','UG Year 3'];
+var VALID_STATUSES=['Active','Inactive','Archived'];
+
+/* ══ SEED DATA ═══════════════════════════════════════════════ */
+var CLASSES=JSON.parse(sessionStorage.getItem('classStore')||'null')||[
+  {id:'cls1', name:'Class X – Science',   grade:'X',   dept:'Science',       year:'2025–26',capacity:60, sections:3,students:52,teacher:'Dr. Anjali Rao',    color:'#0f4c75',status:'Active',  desc:'Senior secondary science stream'},
+  {id:'cls2', name:'Class X – Commerce',  grade:'X',   dept:'Commerce',      year:'2025–26',capacity:60, sections:2,students:48,teacher:'Prof. Vikram Shah', color:'#0ea571',status:'Active',  desc:''},
+  {id:'cls3', name:'Class IX – Science',  grade:'IX',  dept:'Science',       year:'2025–26',capacity:60, sections:3,students:55,teacher:'Meera Iyer',        color:'#3b82f6',status:'Active',  desc:''},
+  {id:'cls4', name:'Class IX – Arts',     grade:'IX',  dept:'Arts',          year:'2025–26',capacity:50, sections:2,students:38,teacher:'Sana Khan',         color:'#7c3aed',status:'Active',  desc:''},
+  {id:'cls5', name:'Class VIII',          grade:'VIII',dept:'Science',       year:'2025–26',capacity:70, sections:4,students:64,teacher:'Karthik Nair',      color:'#f59e0b',status:'Active',  desc:''},
+  {id:'cls6', name:'Class VII',           grade:'VII', dept:'Mathematics',   year:'2025–26',capacity:65, sections:3,students:58,teacher:'Priya Deshpande',   color:'#0891b2',status:'Active',  desc:''},
+  {id:'cls7', name:'Class VI',            grade:'VI',  dept:'Social Studies',year:'2025–26',capacity:65, sections:3,students:60,teacher:'Rohan Gupta',       color:'#059669',status:'Active',  desc:''},
+  {id:'cls8', name:'Class XI – PCM',      grade:'XI',  dept:'Mathematics',   year:'2025–26',capacity:45, sections:2,students:40,teacher:'Suresh Kumar',      color:'#6366f1',status:'Active',  desc:'Physics-Chemistry-Mathematics'},
+  {id:'cls9', name:'Class XI – Bio',      grade:'XI',  dept:'Science',       year:'2025–26',capacity:40, sections:2,students:36,teacher:'Divya Menon',       color:'#ec4899',status:'Active',  desc:'Biology stream'},
+  {id:'cls10',name:'Class XII – Science', grade:'XII', dept:'Science',       year:'2025–26',capacity:50, sections:2,students:22,teacher:'Dr. Anjali Rao',    color:'#dc2626',status:'Inactive',desc:'Board year class'}
+];
+function saveClasses(){ sessionStorage.setItem('classStore',JSON.stringify(CLASSES)); }
+saveClasses();
+
+/* ══ STATE ═══════════════════════════════════════════════════ */
+var filtered=[],currentPage=1,PAGE_SZ=10,currentView='card',editId=null,delTarget=null,selectedColor=COLORS[0];
+var selIds=new Set();
+var _pendingImport=[];
+
+/* ══ DEPT SELECTS ════════════════════════════════════════════ */
+(function(){
+  var ds=document.getElementById('f-dept'),ms=document.getElementById('m-dept');
+  DEPTS.forEach(function(d){
+    ds.innerHTML+='<option>'+d+'</option>';
+    ms.innerHTML+='<option>'+d+'</option>';
+  });
+})();
+
+/* ══ SWATCHES ════════════════════════════════════════════════ */
+(function(){
+  var g=document.getElementById('swatch-grid');
+  COLORS.forEach(function(c,i){
+    var s=document.createElement('div');
+    s.className='swatch'+(i===0?' sel':'');
+    s.style.background=c;
+    s.dataset.color=c;
+    s.onclick=function(){
+      document.querySelectorAll('.swatch').forEach(function(x){x.classList.remove('sel');});
+      s.classList.add('sel'); selectedColor=c;
+    };
+    g.appendChild(s);
+  });
+})();
+
+/* ══ ACADEMIC YEAR SELECT ════════════════════════════════════ */
+function populateYearSelect(selectedValue){
+  var YEARS=JSON.parse(sessionStorage.getItem('yearStore')||'null');
+  var sel=document.getElementById('m-year');
+  sel.innerHTML='';
+  if(YEARS&&YEARS.length){
+    var sorted=YEARS.slice().sort(function(a,b){
+      if(a.status==='Active'&&b.status!=='Active') return -1;
+      if(b.status==='Active'&&a.status!=='Active') return 1;
+      return b.name.localeCompare(a.name);
+    });
+    sorted.forEach(function(y){
+      var opt=document.createElement('option');
+      opt.value=y.name;
+      opt.textContent=y.name+(y.status==='Active'?' (Active)':'');
+      sel.appendChild(opt);
+    });
+  } else {
+    ['2025–26','2026–27','2024–25'].forEach(function(y){
+      var opt=document.createElement('option');opt.value=y;opt.textContent=y;sel.appendChild(opt);
+    });
+  }
+  if(selectedValue) sel.value=selectedValue;
+  if(!sel.value&&YEARS){ var a=YEARS.find(function(y){return y.status==='Active';}); if(a) sel.value=a.name; }
+}
+
+function setSwatchColor(c){
+  selectedColor=c;
+  document.querySelectorAll('.swatch').forEach(function(s){s.classList.toggle('sel',s.dataset.color===c);});
+}
+
+/* ══ STATS ═══════════════════════════════════════════════════ */
+function updateStats(){
+  document.getElementById('st-total').textContent=CLASSES.length;
+  document.getElementById('st-active').textContent=CLASSES.filter(function(c){return c.status==='Active';}).length;
+  document.getElementById('st-students').textContent=CLASSES.reduce(function(a,c){return a+c.students;},0);
+  document.getElementById('st-sections').textContent=CLASSES.reduce(function(a,c){return a+c.sections;},0);
+}
+
+/* ══ FILTERS ══════════════════════════════════════════════════ */
+function applyFilters(){
+  var s=document.getElementById('f-search').value.toLowerCase().trim();
+  var dept=document.getElementById('f-dept').value;
+  var grade=document.getElementById('f-grade').value;
+  var status=document.getElementById('f-status').value;
+  var sort=document.getElementById('f-sort').value;
+  filtered=CLASSES.filter(function(c){
+    if(s&&c.name.toLowerCase().indexOf(s)<0&&c.teacher.toLowerCase().indexOf(s)<0) return false;
+    if(dept&&c.dept!==dept) return false;
+    if(status&&c.status!==status) return false;
+    if(grade){
+      var gMap={'Primary (I–V)':['I','II','III','IV','V'],'Middle (VI–VIII)':['VI','VII','VIII'],'Secondary (IX–X)':['IX','X'],'Senior (XI–XII)':['XI','XII'],'UG':['UG Year 1','UG Year 2','UG Year 3']};
+      if(gMap[grade]&&gMap[grade].indexOf(c.grade)<0) return false;
+    }
+    return true;
+  });
+  if(sort==='name') filtered.sort(function(a,b){return a.name.localeCompare(b.name);});
+  else if(sort==='students-desc') filtered.sort(function(a,b){return b.students-a.students;});
+  else if(sort==='fill-desc') filtered.sort(function(a,b){return (b.students/b.capacity)-(a.students/a.capacity);});
+  currentPage=1;
+  render();
+}
+
+function render(){ updateStats(); if(currentView==='card') renderCards(); else renderTable(); }
+
+/* ══ CARDS ════════════════════════════════════════════════════ */
+function renderCards(){
+  var g=document.getElementById('card-grid');
+  if(!filtered.length){
+    g.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="es-ico"><i class="ti ti-school-off"></i></div><div class="es-title">No classes found</div><div class="es-desc">Try adjusting your filters or add a new class.</div><button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Class</button></div>';
+    return;
+  }
+  g.innerHTML=filtered.map(function(c){
+    var fill=Math.round((c.students/c.capacity)*100);
+    var fc=fill>=90?'var(--fire)':fill>=70?'var(--sun)':'var(--jade)';
+    return '<div class="cls-card anim">'
+      +'<div class="card-accent" style="background:'+c.color+'"></div>'
+      +'<div class="card-body">'
+        +'<div class="card-top">'
+          +'<div class="cls-ico" style="background:'+c.color+'">'+c.grade.substring(0,3)+'</div>'
+          +'<span class="badge badge-'+(c.status==='Active'?'active':'inactive')+'"><i class="ti ti-'+(c.status==='Active'?'circle-check':'circle-x')+'"></i>'+c.status+'</span>'
+        +'</div>'
+        +'<div class="cls-name">'+esc(c.name)+'</div>'
+        +'<div class="cls-meta">'
+          +'<span><i class="ti ti-building-community"></i>'+esc(c.dept)+'</span>'
+          +'<span><i class="ti ti-calendar"></i>'+c.year+'</span>'
+        +'</div>'
+        +'<div class="card-stats">'
+          +'<div class="cs-item"><div class="cs-val">'+c.students+'</div><div class="cs-lbl">Students</div></div>'
+          +'<div class="cs-item"><div class="cs-val">'+c.sections+'</div><div class="cs-lbl">Sections</div></div>'
+          +'<div class="cs-item"><div class="cs-val">'+c.capacity+'</div><div class="cs-lbl">Capacity</div></div>'
+        +'</div>'
+        +'<div class="fill-wrap">'
+          +'<div class="fill-label"><span>Fill Rate</span><span style="font-family:var(--mono);font-weight:600;color:'+fc+'">'+fill+'%</span></div>'
+          +'<div class="fill-bar-track"><div class="fill-bar-fill" style="width:'+fill+'%;background:'+fc+'"></div></div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="card-footer">'
+        +'<div class="card-footer-tags">'+(c.teacher?'<span class="tag"><i class="ti ti-chalkboard"></i>'+esc(c.teacher)+'</span>':'')+'</div>'
+        +'<div class="row-acts-card">'
+          +'<button class="row-btn" title="View Sections" onclick="location.href=\'acad-sections.html?class='+c.id+'\'"><i class="ti ti-layout-grid"></i></button>'
+          +'<button class="row-btn" title="Edit" onclick="openEdit(\''+c.id+'\')"><i class="ti ti-edit"></i></button>'
+          +'<button class="row-btn danger" title="Delete" onclick="openDel(\''+c.id+'\')"><i class="ti ti-trash"></i></button>'
+        +'</div>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+/* ══ TABLE ════════════════════════════════════════════════════ */
+function renderTable(){
+  document.getElementById('tbl-count').textContent=filtered.length;
+  var pages=Math.max(1,Math.ceil(filtered.length/PAGE_SZ));
+  if(currentPage>pages) currentPage=1;
+  var start=(currentPage-1)*PAGE_SZ,page=filtered.slice(start,start+PAGE_SZ);
+  if(!page.length){
+    document.getElementById('cls-tbody').innerHTML='<tr><td colspan="9"><div class="empty-state"><div class="es-ico"><i class="ti ti-school-off"></i></div><div class="es-title">No classes found</div></div></td></tr>';
+    document.getElementById('pagination').innerHTML=''; return;
+  }
+  document.getElementById('cls-tbody').innerHTML=page.map(function(c){
+    var fill=Math.round((c.students/c.capacity)*100);
+    var fc=fill>=90?'var(--fire)':fill>=70?'var(--sun)':'var(--jade)';
+    return '<tr>'
+      +'<td><input type="checkbox"'+(selIds.has(c.id)?' checked':'')+' onchange="toggleSel(this,\''+c.id+'\')"/></td>'
+      +'<td><div style="display:flex;align-items:center;gap:10px">'
+        +'<div style="width:34px;height:34px;border-radius:9px;background:'+c.color+';display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:11px;font-weight:700;color:#fff">'+c.grade.substring(0,3)+'</div>'
+        +'<div><div style="font-size:13px;font-weight:600;color:var(--ink)">'+esc(c.name)+'</div><div style="font-size:10.5px;color:var(--ink4);font-family:var(--mono)">'+c.year+'</div></div>'
+      +'</div></td>'
+      +'<td style="font-size:12.5px;color:var(--ink3)">'+esc(c.dept)+'</td>'
+      +'<td class="hide-sm" style="font-family:var(--mono);font-weight:600">'+c.students+' / '+c.capacity+'</td>'
+      +'<td class="hide-sm"><span style="font-family:var(--mono);font-size:13px;font-weight:600">'+c.sections+'</span></td>'
+      +'<td class="hide-sm" style="font-size:12.5px;color:var(--ink3)">'+esc(c.teacher||'—')+'</td>'
+      +'<td><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;max-width:80px;height:5px;background:var(--line);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+fill+'%;background:'+fc+';border-radius:3px"></div></div><span style="font-family:var(--mono);font-size:11.5px;color:'+fc+'">'+fill+'%</span></div></td>'
+      +'<td><span class="badge badge-'+(c.status==='Active'?'active':'inactive')+'">'+c.status+'</span></td>'
+      +'<td><div class="row-acts">'
+        +'<button class="row-btn" title="Sections" onclick="location.href=\'acad-sections.html?class='+c.id+'\'"><i class="ti ti-layout-grid"></i></button>'
+        +'<button class="row-btn" title="Edit" onclick="openEdit(\''+c.id+'\')"><i class="ti ti-edit"></i></button>'
+        +'<button class="row-btn danger" title="Delete" onclick="openDel(\''+c.id+'\')"><i class="ti ti-trash"></i></button>'
+      +'</div></td>'
+    +'</tr>';
+  }).join('');
+  var s=start+1,e=Math.min(start+PAGE_SZ,filtered.length);
+  var btns='<div class="pg-btns"><button class="pg-btn" onclick="goPage('+(currentPage-1)+')"'+(currentPage<=1?' disabled':'')+'><i class="ti ti-chevron-left"></i></button>';
+  for(var p=Math.max(1,currentPage-2);p<=Math.min(pages,currentPage+2);p++) btns+='<button class="pg-btn'+(p===currentPage?' active':'')+'" onclick="goPage('+p+')">'+p+'</button>';
+  btns+='<button class="pg-btn" onclick="goPage('+(currentPage+1)+')"'+(currentPage>=pages?' disabled':'')+'><i class="ti ti-chevron-right"></i></button></div>';
+  document.getElementById('pagination').innerHTML='<div class="pg-info">Showing <b>'+s+'–'+e+'</b> of <b>'+filtered.length+'</b></div>'+btns;
+}
+function goPage(p){var pages=Math.max(1,Math.ceil(filtered.length/PAGE_SZ));if(p<1||p>pages)return;currentPage=p;renderTable();}
+function toggleSel(cb,id){if(cb.checked)selIds.add(id);else selIds.delete(id);}
+function selectAll(cb){var start=(currentPage-1)*PAGE_SZ;var page=filtered.slice(start,start+PAGE_SZ);page.forEach(function(c){if(cb.checked)selIds.add(c.id);else selIds.delete(c.id);});renderTable();}
+function sortBy(f){document.getElementById('f-sort').value=f;applyFilters();}
+
+/* ══ VIEW TOGGLE ══════════════════════════════════════════════ */
+function setView(v){
+  currentView=v;
+  document.getElementById('view-card').style.display=v==='card'?'block':'none';
+  document.getElementById('view-table').style.display=v==='table'?'block':'none';
+  document.getElementById('vbtn-card').classList.toggle('active',v==='card');
+  document.getElementById('vbtn-table').classList.toggle('active',v==='table');
+  render();
+}
+
+/* ══ ADD / EDIT ═══════════════════════════════════════════════ */
+function openAdd(){
+  editId=null;
+  document.getElementById('modal-title-txt').textContent='Add Class';
+  document.getElementById('modal-sub-txt').textContent='Fill in the class details below';
+  document.getElementById('modal-save-btn').innerHTML='<i class="ti ti-plus"></i>Add Class';
+  clearForm(); showModal('cls-modal');
+}
+function openEdit(id){
+  var c=CLASSES.find(function(x){return x.id===id;}); if(!c) return;
+  editId=id;
+  document.getElementById('modal-title-txt').textContent='Edit Class';
+  document.getElementById('modal-sub-txt').textContent='Update "'+c.name+'"';
+  document.getElementById('modal-save-btn').innerHTML='<i class="ti ti-check"></i>Save Changes';
+  document.getElementById('m-name').value=c.name;
+  document.getElementById('m-grade').value=c.grade;
+  document.getElementById('m-dept').value=c.dept;
+  populateYearSelect(c.year);
+  document.getElementById('m-capacity').value=c.capacity;
+  document.getElementById('m-sections').value=c.sections;
+  document.getElementById('m-teacher').value=c.teacher||'';
+  document.getElementById('m-status').value=c.status;
+  document.getElementById('m-desc').value=c.desc||'';
+  setSwatchColor(c.color);
+  showModal('cls-modal');
+}
+function clearForm(){
+  ['m-name','m-capacity','m-sections','m-teacher','m-desc'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('m-grade').value='';
+  document.getElementById('m-dept').value='';
+  document.getElementById('m-status').value='Active';
+  populateYearSelect(null);
+  setSwatchColor(COLORS[0]);
+}
+function saveClass(){
+  var name=document.getElementById('m-name').value.trim();
+  var grade=document.getElementById('m-grade').value;
+  var dept=document.getElementById('m-dept').value;
+  var cap=parseInt(document.getElementById('m-capacity').value)||0;
+  if(!name){toast('Class name is required.','err');return;}
+  if(!grade){toast('Please select a grade.','err');return;}
+  if(!dept){toast('Please select a department.','err');return;}
+  if(cap<1){toast('Capacity must be at least 1.','err');return;}
+  var dup=CLASSES.find(function(c){return c.name.toLowerCase()===name.toLowerCase()&&c.id!==editId;});
+  if(dup){toast('"'+name+'" already exists.','err');return;}
+  var obj={
+    id:editId||'cls'+Date.now(),
+    name:name,grade:grade,dept:dept,
+    year:document.getElementById('m-year').value,
+    capacity:cap,
+    sections:parseInt(document.getElementById('m-sections').value)||1,
+    students:0,
+    teacher:document.getElementById('m-teacher').value.trim(),
+    color:selectedColor,
+    status:document.getElementById('m-status').value,
+    desc:document.getElementById('m-desc').value.trim()
+  };
+  if(editId){
+    var idx=CLASSES.findIndex(function(c){return c.id===editId;});
+    obj.students=CLASSES[idx].students;
+    CLASSES[idx]=obj;
+    toast('"'+name+'" updated.','ok');
+  } else {
+    CLASSES.unshift(obj);
+    toast('"'+name+'" added.','ok');
+  }
+  saveClasses(); closeModal('cls-modal'); applyFilters();
+}
+
+/* ══ DELETE ══════════════════════════════════════════════════ */
+function openDel(id){
+  delTarget=id;
+  var c=CLASSES.find(function(x){return x.id===id;}); if(!c) return;
+  document.getElementById('del-name').textContent=c.name;
+  document.getElementById('del-confirm-txt').textContent=c.name;
+  document.getElementById('del-inp').value='';
+  document.getElementById('del-btn').disabled=true;
+  showModal('del-modal');
+}
+function chkDel(){
+  var c=CLASSES.find(function(x){return x.id===delTarget;});
+  document.getElementById('del-btn').disabled=!c||document.getElementById('del-inp').value.trim()!==c.name;
+}
+function execDel(){
+  var c=CLASSES.find(function(x){return x.id===delTarget;}); if(!c) return;
+  CLASSES.splice(CLASSES.indexOf(c),1);
+  saveClasses(); closeModal('del-modal'); applyFilters();
+  toast('"'+c.name+'" deleted.','ok'); delTarget=null;
+}
+
+/* ══ EXPORT CSV ══════════════════════════════════════════════ */
+function exportClasses(){
+  var rows=[['Class Name','Grade','Department','Academic Year','Capacity','Sections','Class Teacher','Status','Description']];
+  CLASSES.forEach(function(c){
+    rows.push([c.name,c.grade,c.dept,c.year,c.capacity,c.sections,c.teacher||'',c.status,c.desc||'']);
+  });
+  var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='class-master.csv'; a.click();
+  toast('Exported as class-master.csv','info');
+}
+
+/* ══ DOWNLOAD TEMPLATE (two-sheet xlsx) ══════════════════════ */
+function downloadTemplate(){
+  if(typeof XLSX==='undefined'){toast('Excel library not loaded — please refresh.','warn');return;}
+  var wb=XLSX.utils.book_new();
+
+  /* ── Sheet 1: Data Entry ── */
+  var headers=['Class Name','Grade','Department','Academic Year','Capacity','Sections','Class Teacher','Status','Description'];
+  var dataRows=[headers];
+  for(var b=0;b<50;b++) dataRows.push(['','','','','','','','','']);
+  var wsData=XLSX.utils.aoa_to_sheet(dataRows);
+  wsData['!cols']=[{wch:30},{wch:12},{wch:20},{wch:14},{wch:11},{wch:10},{wch:22},{wch:12},{wch:36}];
+  wsData['!freeze']={xSplit:0,ySplit:1,topLeftCell:'A2',activeCell:'A2',sqref:'A2'};
+  wsData['!rows']=[{hpt:22}];
+
+  /* Required columns A, B, C, E in deeper blue; others in standard blue */
+  var hReq={font:{bold:true,color:{rgb:'FFFFFF'},sz:11},fill:{patternType:'solid',fgColor:{rgb:'1B6CA8'}},alignment:{horizontal:'center',vertical:'center'}};
+  var hStd={font:{bold:true,color:{rgb:'FFFFFF'},sz:11},fill:{patternType:'solid',fgColor:{rgb:'0F4C75'}},alignment:{horizontal:'center',vertical:'center'}};
+  var reqCols=[0,1,2,4]; /* Class Name, Grade, Department, Capacity */
+  ['A','B','C','D','E','F','G','H','I'].forEach(function(c,ci){
+    var ref=c+'1';
+    if(!wsData[ref]) wsData[ref]={t:'s',v:headers[ci]};
+    wsData[ref].s=reqCols.indexOf(ci)>-1?hReq:hStd;
+  });
+  var evF={patternType:'solid',fgColor:{rgb:'F7F8FC'}};
+  var odF={patternType:'solid',fgColor:{rgb:'FFFFFF'}};
+  for(var row=2;row<=51;row++){
+    ['A','B','C','D','E','F','G','H','I'].forEach(function(c){
+      var ref=c+row;
+      if(!wsData[ref]) wsData[ref]={t:'s',v:''};
+      wsData[ref].s={fill:row%2===0?evF:odF,alignment:{vertical:'center'},border:{right:{style:'hair',color:{rgb:'E4E8F0'}},bottom:{style:'hair',color:{rgb:'E4E8F0'}}}};
+    });
+  }
+  XLSX.utils.book_append_sheet(wb,wsData,'Data Entry');
+
+  /* ── Sheet 2: Instructions & Sample Data ── */
+  var now=new Date();
+  var stamp=now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  var validDepts=DEPTS.join(' | ');
+  var validGrades=VALID_GRADES.join(' | ');
+
+  var instrRows=[
+    ['CLASS MASTER — BULK UPLOAD TEMPLATE','','','','','','','',''],
+    ['Aspire ERP v3.0  ·  Academic Management  ·  Generated: '+stamp,'','','','','','','',''],
+    ['','','','','','','','',''],
+    ['ABOUT THIS TEMPLATE','','','','','','','',''],
+    ['Use the "Data Entry" sheet to enter or paste bulk class records.','','','','','','','',''],
+    ['Columns highlighted in deep blue (Class Name, Grade, Department, Capacity) are mandatory.','','','','','','','',''],
+    ['Do not change, reorder, or remove column headers in the Data Entry sheet.','','','','','','','',''],
+    ['','','','','','','','',''],
+    ['FIELD REFERENCE','','','','','','','',''],
+    ['Column','Required?','Accepted Values / Format','Default if blank','Notes','','','',''],
+    ['Class Name',    'YES', 'Text. Max 100 characters. Must be unique.','—',                    'Primary dedup key. Case-insensitive match.','','','',''],
+    ['Grade',         'YES', validGrades,                                '—',                    'Must exactly match one of the listed values.','','','',''],
+    ['Department',    'YES', validDepts,                                 '—',                    'Must exactly match one of the listed values.','','','',''],
+    ['Academic Year', 'No',  'Text. e.g. 2025–26',                      'Current active year',  'Must match Academic Year Master if populated.','','','',''],
+    ['Capacity',      'YES', 'Integer 1–999.',                           '—',                    'Total student capacity for the class.','','','',''],
+    ['Sections',      'No',  'Integer 1–20.',                            '1',                    'Number of sections under this class.','','','',''],
+    ['Class Teacher', 'No',  'Free text.',                               '(blank)',              'Teacher name — not validated against staff master.','','','',''],
+    ['Status',        'No',  'Active | Inactive | Archived',             'Active',               'Controls visibility in academic screens.','','','',''],
+    ['Description',   'No',  'Free text.',                               '(blank)',              'Optional notes. Not shown to students.','','','',''],
+    ['','','','','','','','',''],
+    ['VALID GRADE VALUES','','','','','','','',''],
+    ['I','Class 1 / Grade I','','','','','','',''],
+    ['II','Class 2 / Grade II','','','','','','',''],
+    ['III','Class 3 / Grade III','','','','','','',''],
+    ['IV','Class 4 / Grade IV','','','','','','',''],
+    ['V','Class 5 / Grade V','','','','','','',''],
+    ['VI','Class 6 / Grade VI','','','','','','',''],
+    ['VII','Class 7 / Grade VII','','','','','','',''],
+    ['VIII','Class 8 / Grade VIII','','','','','','',''],
+    ['IX','Class 9 / Grade IX','','','','','','',''],
+    ['X','Class 10 / Grade X (SSC)','','','','','','',''],
+    ['XI','Class 11 / Grade XI (HSC Year 1)','','','','','','',''],
+    ['XII','Class 12 / Grade XII (HSC Year 2)','','','','','','',''],
+    ['UG Year 1','Undergraduate First Year','','','','','','',''],
+    ['UG Year 2','Undergraduate Second Year','','','','','','',''],
+    ['UG Year 3','Undergraduate Third Year','','','','','','',''],
+    ['','','','','','','','',''],
+    ['VALIDATION RULES','','','','','','','',''],
+    ['#','Rule','','','','','','',''],
+    ['1','Class Name, Grade, Department, and Capacity are mandatory.','','','','','','',''],
+    ['2','Class Name must be unique — duplicates within the file or against existing records are rejected.','','','','','','',''],
+    ['3','Grade must exactly match one of the 15 valid values listed above (case-sensitive).','','','','','','',''],
+    ['4','Department must exactly match one of the department values (case-sensitive).','','','','','','',''],
+    ['5','Capacity must be a whole number between 1 and 999.','','','','','','',''],
+    ['6','Sections must be a whole number between 1 and 20 if provided.','','','','','','',''],
+    ['7','Status must be: Active, Inactive, or Archived. Defaults to Active if blank.','','','','','','',''],
+    ['8','Blank rows are silently skipped.','','','','','','',''],
+    ['','','','','','','','',''],
+    ['IMPORT WORKFLOW','','','','','','','',''],
+    ['Step 1','Fill the "Data Entry" sheet with your class records.','','','','','','',''],
+    ['Step 2','Save as .xlsx (keep as Excel) or .csv — both are accepted.','','','','','','',''],
+    ['Step 3','On the Classes screen, click Import.','','','','','','',''],
+    ['Step 4','Select your .xlsx or .csv file. The system reads the "Data Entry" sheet automatically.','','','','','','',''],
+    ['Step 5','Review Import Results — total processed, successful, failed, and row-wise errors.','','','','','','',''],
+    ['Step 6','Click "Import Valid Records" to commit. Failed rows are skipped; you can fix and re-import them.','','','','','','',''],
+    ['','','','','','','','',''],
+    ['SAMPLE DATA  (for reference only — do not copy to Data Entry sheet)','','','','','','','',''],
+    ['Class Name','Grade','Department','Academic Year','Capacity','Sections','Class Teacher','Status','Description'],
+    ['Class X – Science',   'X',        'Science',      '2025–26',60,3,'Dr. Anjali Rao',  'Active',  'Senior secondary science stream'],
+    ['Class X – Commerce',  'X',        'Commerce',     '2025–26',60,2,'Prof. Vikram Shah','Active', ''],
+    ['Class IX – Science',  'IX',       'Science',      '2025–26',60,3,'Meera Iyer',       'Active', ''],
+    ['Class VIII',          'VIII',     'Science',      '2025–26',70,4,'Karthik Nair',     'Active', ''],
+    ['Class VII',           'VII',      'Mathematics',  '2025–26',65,3,'Priya Deshpande',  'Active', ''],
+    ['Class XI – PCM',      'XI',       'Mathematics',  '2025–26',45,2,'Suresh Kumar',     'Active', 'Physics-Chemistry-Mathematics'],
+    ['UG Year 1 – CS',      'UG Year 1','Computer Science','2025–26',60,2,'',              'Active', 'Bachelor of Computer Science'],
+    ['','','','','','','','',''],
+    ['For support contact your Aspire ERP system administrator.','','','','','','','','']
+  ];
+
+  var wsInstr=XLSX.utils.aoa_to_sheet(instrRows);
+  wsInstr['!cols']=[{wch:18},{wch:14},{wch:44},{wch:22},{wch:46},{wch:12},{wch:12},{wch:12},{wch:12}];
+
+  function cs(ref,style){if(wsInstr[ref])wsInstr[ref].s=style;}
+  var sT  ={font:{bold:true,sz:14,color:{rgb:'0F4C75'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}}};
+  var sSb ={font:{italic:true,sz:10,color:{rgb:'64748B'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}}};
+  var sSH ={font:{bold:true,sz:11,color:{rgb:'0F4C75'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}},border:{bottom:{style:'medium',color:{rgb:'1B6CA8'}}}};
+  var sCH ={font:{bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{patternType:'solid',fgColor:{rgb:'1B6CA8'}},alignment:{horizontal:'center',wrapText:true}};
+  var sSH2={font:{bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{patternType:'solid',fgColor:{rgb:'0EA571'}},alignment:{horizontal:'center'}};
+  var sRN ={font:{bold:true,sz:10,color:{rgb:'1B6CA8'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}},alignment:{horizontal:'center'}};
+  var sEv ={font:{sz:10},fill:{patternType:'solid',fgColor:{rgb:'F7F8FC'}},alignment:{wrapText:true,vertical:'top'}};
+  var sOd ={font:{sz:10},fill:{patternType:'solid',fgColor:{rgb:'FFFFFF'}},alignment:{wrapText:true,vertical:'top'}};
+  var sRq ={font:{bold:true,sz:10,color:{rgb:'991B1B'}},fill:{patternType:'solid',fgColor:{rgb:'FEF2F2'}},alignment:{horizontal:'center'}};
+
+  cs('A1',sT); cs('A2',sSb);
+  ['A4','A9','A21','A37','A47','A55'].forEach(function(r){cs(r,sSH);});
+  ['A','B','C','D','E','F','G','H','I'].forEach(function(c){cs(c+'10',sCH);});
+
+  /* Field rows 11–19 */
+  [11,12,13,14,15,16,17,18,19].forEach(function(row,i){
+    var reqRows=[11,12,13,15]; /* Name, Grade, Dept, Capacity */
+    cs('B'+row, reqRows.indexOf(row)>-1 ? sRq : {font:{sz:10,color:{rgb:'0EA571'}},fill:{patternType:'solid',fgColor:{rgb:'ECFDF5'}}});
+    ['A','C','D','E'].forEach(function(c){cs(c+row, i%2===0?sEv:sOd);});
+  });
+
+  /* Grade values 22–36 */
+  cs('A38',sCH); cs('B38',sCH);
+  for(var ri=39;ri<=46;ri++){cs('A'+ri,sRN);cs('B'+ri,ri%2===0?sEv:sOd);}
+
+  /* Workflow 48–53 */
+  for(var si=48;si<=53;si++){cs('A'+si,sRN);cs('B'+si,si%2===0?sEv:sOd);}
+
+  /* Sample header row 56, data 57–63 */
+  ['A','B','C','D','E','F','G','H','I'].forEach(function(c){cs(c+'56',sSH2);});
+  for(var dr=57;dr<=63;dr++){['A','B','C','D','E','F','G','H','I'].forEach(function(c){cs(c+dr,dr%2===0?sEv:sOd);});}
+
+  wsInstr['!merges']=[
+    {s:{r:0,c:0},e:{r:0,c:8}},{s:{r:1,c:0},e:{r:1,c:8}},
+    {s:{r:3,c:0},e:{r:3,c:8}},{s:{r:4,c:0},e:{r:4,c:8}},{s:{r:5,c:0},e:{r:5,c:8}},{s:{r:6,c:0},e:{r:6,c:8}},
+    {s:{r:8,c:0},e:{r:8,c:8}},{s:{r:20,c:0},e:{r:20,c:8}},
+    {s:{r:36,c:0},e:{r:36,c:8}},{s:{r:37,c:1},e:{r:37,c:8}},
+    {s:{r:46,c:0},e:{r:46,c:8}},{s:{r:54,c:0},e:{r:54,c:8}},
+    /* grade rows B-I merged */
+    {s:{r:21,c:1},e:{r:21,c:8}},{s:{r:22,c:1},e:{r:22,c:8}},{s:{r:23,c:1},e:{r:23,c:8}},{s:{r:24,c:1},e:{r:24,c:8}},{s:{r:25,c:1},e:{r:25,c:8}},{s:{r:26,c:1},e:{r:26,c:8}},{s:{r:27,c:1},e:{r:27,c:8}},{s:{r:28,c:1},e:{r:28,c:8}},{s:{r:29,c:1},e:{r:29,c:8}},{s:{r:30,c:1},e:{r:30,c:8}},{s:{r:31,c:1},e:{r:31,c:8}},{s:{r:32,c:1},e:{r:32,c:8}},{s:{r:33,c:1},e:{r:33,c:8}},{s:{r:34,c:1},e:{r:34,c:8}},{s:{r:35,c:1},e:{r:35,c:8}},
+    /* validation rule rows */
+    {s:{r:38,c:1},e:{r:38,c:8}},{s:{r:39,c:1},e:{r:39,c:8}},{s:{r:40,c:1},e:{r:40,c:8}},{s:{r:41,c:1},e:{r:41,c:8}},{s:{r:42,c:1},e:{r:42,c:8}},{s:{r:43,c:1},e:{r:43,c:8}},{s:{r:44,c:1},e:{r:44,c:8}},{s:{r:45,c:1},e:{r:45,c:8}},
+    /* workflow rows */
+    {s:{r:47,c:1},e:{r:47,c:8}},{s:{r:48,c:1},e:{r:48,c:8}},{s:{r:49,c:1},e:{r:49,c:8}},{s:{r:50,c:1},e:{r:50,c:8}},{s:{r:51,c:1},e:{r:51,c:8}},{s:{r:52,c:1},e:{r:52,c:8}}
+  ];
+  wsInstr['!rows']=[{hpt:26},{hpt:16}];
+  XLSX.utils.book_append_sheet(wb,wsInstr,'Instructions & Sample Data');
+
+  var wbOut=XLSX.write(wb,{bookType:'xlsx',type:'array',cellStyles:true});
+  var blob=new Blob([wbOut],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='class_master_template.xlsx'; a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);},10000);
+  toast('Template downloaded: class_master_template.xlsx (2 sheets)','ok');
+}
+
+/* ══ IMPORT ═══════════════════════════════════════════════════ */
+function triggerImport(){
+  var inp=document.getElementById('import-file-inp');
+  inp.value=''; inp.click();
+}
+
+function handleImport(input){
+  var file=input.files[0]; if(!file) return;
+  var ext=file.name.split('.').pop().toLowerCase();
+  if(['xlsx','xls'].indexOf(ext)>-1){
+    if(typeof XLSX==='undefined'){showImportResult(file.name,[],[],['Excel library not loaded. Please refresh.']);return;}
+    var reader=new FileReader();
+    reader.onload=function(e){
+      try{
+        var wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+        var sn=wb.SheetNames.indexOf('Data Entry')>-1?'Data Entry':wb.SheetNames[0];
+        var ws=wb.Sheets[sn];
+        var aoa=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+        aoa=aoa.filter(function(row){return row.some(function(c){return String(c||'').trim()!=='';});});
+        if(aoa.length<2){showImportResult(file.name,[],[],['Sheet "'+sn+'" has no data rows. Fill in the Data Entry sheet first.']);return;}
+        parseAndValidate(aoa,file.name,sn);
+      }catch(err){showImportResult(file.name,[],[],['Could not read the Excel file: '+err.message]);}
+    };
+    reader.onerror=function(){showImportResult(file.name,[],[],['Failed to read the file. Please try again.']);};
+    reader.readAsArrayBuffer(file);
+  } else if(ext==='csv'){
+    var rc=new FileReader();
+    rc.onload=function(e){parseCSV(e.target.result,file.name);};
+    rc.onerror=function(){showImportResult(file.name,[],[],['Failed to read the CSV file.']);};
+    rc.readAsText(file);
+  } else {
+    showImportResult(file.name,[],[],['Unsupported file type ".'+ext+'". Please upload .xlsx, .xls or .csv.']);
+  }
+}
+
+/* ── CSV parser ── */
+function parseCSV(text,fileName){
+  var lines=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(function(l){return l.trim();});
+  if(lines.length<2){showImportResult(fileName,[],[],['File is empty or has only headers.']);return;}
+  function parseLine(line){
+    var result=[],current='',inQ=false;
+    for(var i=0;i<line.length;i++){
+      var c=line[i];
+      if(c==='"'){if(inQ&&line[i+1]==='"'){current+='"';i++;}else inQ=!inQ;}
+      else if(c===','&&!inQ){result.push(current.trim());current='';}
+      else current+=c;
+    }
+    result.push(current.trim()); return result;
+  }
+  var rawHeaders=parseLine(lines[0]);
+  var aoa=[rawHeaders.map(function(h){return h.replace(/^"+|"+$/g,'').trim();})];
+  lines.slice(1).filter(function(l){return l.indexOf('---')===-1&&l.replace(/,/g,'').trim();}).forEach(function(line){
+    aoa.push(parseLine(line).map(function(v){return v.replace(/^"+|"+$/g,'').trim();}));
+  });
+  parseAndValidate(aoa,fileName,'CSV');
+}
+
+/* ── Core validator (works on AOA from either xlsx or csv) ── */
+function parseAndValidate(aoa,fileName,sheetName){
+  var headers=aoa[0].map(function(h){return String(h||'').trim().toLowerCase();});
+  function col(names){
+    for(var i=0;i<names.length;i++){
+      var idx=headers.indexOf(names[i].toLowerCase());
+      if(idx>-1) return idx;
+    }
+    return -1;
+  }
+  var iName=col(['class name','name','class']);
+  var iGrade=col(['grade','grade / level','grade/level','level']);
+  var iDept=col(['department','dept']);
+  var iYear=col(['academic year','year','academic_year']);
+  var iCap=col(['capacity','student capacity','cap']);
+  var iSec=col(['sections','number of sections','num sections']);
+  var iTch=col(['class teacher','teacher','class_teacher']);
+  var iStat=col(['status']);
+  var iDesc=col(['description','notes','desc']);
+
+  if(iName===-1){showImportResult(fileName,[],[],['Column "Class Name" not found in sheet "'+sheetName+'". Please use the downloaded template.']);return;}
+  if(iGrade===-1){showImportResult(fileName,[],[],['Column "Grade" not found in sheet "'+sheetName+'".']);return;}
+  if(iDept===-1){showImportResult(fileName,[],[],['Column "Department" not found in sheet "'+sheetName+'".']);return;}
+  if(iCap===-1){showImportResult(fileName,[],[],['Column "Capacity" not found in sheet "'+sheetName+'".']);return;}
+
+  var valid=[],errors=[];
+
+  aoa.slice(1).forEach(function(cells,idx){
+    var rowNum=idx+2;
+    var name=String(cells[iName]||'').trim();
+    if(!name) return; /* skip blank rows */
+
+    var rowErrors=[];
+
+    /* ── Class Name ── */
+    if(name.length>100) rowErrors.push('Class Name exceeds 100 characters');
+    var dupExisting=CLASSES.find(function(c){return c.name.toLowerCase()===name.toLowerCase();});
+    if(dupExisting) rowErrors.push('"'+name+'" already exists in Class Master');
+    var dupBatch=valid.find(function(v){return v.name.toLowerCase()===name.toLowerCase();});
+    if(dupBatch) rowErrors.push('Duplicate Class Name within import file');
+
+    /* ── Grade ── */
+    var gradeRaw=String(cells[iGrade]||'').trim();
+    var grade='';
+    if(!gradeRaw) rowErrors.push('Grade is required');
+    else{
+      var gm=VALID_GRADES.find(function(g){return g.toLowerCase()===gradeRaw.toLowerCase();});
+      if(!gm) rowErrors.push('Grade "'+gradeRaw+'" is not valid. Valid values: '+VALID_GRADES.join(', '));
+      else grade=gm;
+    }
+
+    /* ── Department ── */
+    var deptRaw=String(cells[iDept]||'').trim();
+    var dept='';
+    if(!deptRaw) rowErrors.push('Department is required');
+    else{
+      var dm=DEPTS.find(function(d){return d.toLowerCase()===deptRaw.toLowerCase();});
+      if(!dm) rowErrors.push('Department "'+deptRaw+'" not recognised. Valid: '+DEPTS.join(', '));
+      else dept=dm;
+    }
+
+    /* ── Academic Year ── */
+    var yearRaw=iYear>-1?String(cells[iYear]||'').trim():'';
+    var year=yearRaw||'2025–26';
+    /* normalise en-dash variants */
+    year=year.replace(/\u2013/g,'–').replace(/-/g,'–');
+
+    /* ── Capacity ── */
+    var capRaw=cells[iCap];
+    var capacity=0;
+    if(capRaw===''||capRaw===null||capRaw===undefined){
+      rowErrors.push('Capacity is required');
+    } else {
+      capacity=typeof capRaw==='number'?capRaw:parseInt(capRaw);
+      if(isNaN(capacity)||capacity<1||capacity>999) rowErrors.push('Capacity must be an integer between 1 and 999');
+    }
+
+    /* ── Sections ── */
+    var secRaw=iSec>-1?cells[iSec]:'';
+    var sections=1;
+    if(secRaw!==''&&secRaw!==null&&secRaw!==undefined){
+      var sp=typeof secRaw==='number'?secRaw:parseInt(secRaw);
+      if(isNaN(sp)||sp<1||sp>20) rowErrors.push('Sections must be 1–20');
+      else sections=sp;
+    }
+
+    /* ── Status ── */
+    var statRaw=iStat>-1?String(cells[iStat]||'').trim():'';
+    var status='Active';
+    if(statRaw){
+      var stLow=statRaw.toLowerCase();
+      if(['active','1','yes','true'].indexOf(stLow)>-1) status='Active';
+      else if(['inactive','0','no','false'].indexOf(stLow)>-1) status='Inactive';
+      else if(stLow==='archived') status='Archived';
+      else rowErrors.push('Status "'+statRaw+'" not recognised — use Active, Inactive, or Archived');
+    }
+
+    /* ── Teacher & Description ── */
+    var teacher=iTch>-1?String(cells[iTch]||'').trim():'';
+    var desc=iDesc>-1?String(cells[iDesc]||'').trim():'';
+
+    if(rowErrors.length){
+      errors.push({row:rowNum,name:name,issues:rowErrors});
+    } else {
+      valid.push({
+        id:'cls'+Date.now()+Math.random().toString(36).slice(2,6),
+        name:name, grade:grade, dept:dept,
+        year:year, capacity:capacity, sections:sections,
+        students:0, teacher:teacher,
+        color:COLORS[valid.length % COLORS.length],
+        status:status, desc:desc
+      });
+    }
+  });
+
+  _pendingImport=valid;
+  showImportResult(fileName,valid,errors,[]);
+}
+
+/* ══ SHOW IMPORT RESULTS ═════════════════════════════════════ */
+function showImportResult(fileName,valid,errors,fatalErrors){
+  var hasFatal=fatalErrors.length>0;
+  var hasValid=valid.length>0;
+  var hasErrors=errors.length>0;
+  var total=(hasFatal?0:valid.length+errors.length);
+
+  document.getElementById('imp-modal-title').textContent='Import Results — '+fileName;
+  document.getElementById('imp-modal-sub').textContent=hasFatal
+    ?'File could not be processed.'
+    :total+' rows processed: '+valid.length+' ready, '+errors.length+' failed';
+
+  var html='';
+
+  /* Fatal error */
+  if(hasFatal){
+    html+='<div style="background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px 16px;display:flex;align-items:flex-start;gap:10px;margin-bottom:14px">'
+      +'<i class="ti ti-ban" style="color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px"></i>'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">File could not be processed</div>'
+        +'<div style="font-size:12.5px;color:var(--ink3)">'+fatalErrors.map(esc).join('<br>')+'</div>'
+      +'</div></div>';
+  }
+
+  /* Summary tiles */
+  if(!hasFatal){
+    html+='<div class="imp-summary">'
+      +'<div class="imp-tile info"><div class="imp-tile-val">'+total+'</div><div class="imp-tile-lbl">Total Processed</div></div>'
+      +'<div class="imp-tile ok"><div class="imp-tile-val">'+valid.length+'</div><div class="imp-tile-lbl">Ready to Import</div></div>'
+      +'<div class="imp-tile err"><div class="imp-tile-val">'+errors.length+'</div><div class="imp-tile-lbl">Failed Rows</div></div>'
+    +'</div>';
+  }
+
+  /* Valid rows preview */
+  if(valid.length){
+    html+='<div class="imp-section-title"><i class="ti ti-circle-check" style="color:var(--jade)"></i>Valid Records ('+valid.length+')</div>';
+    html+='<div class="imp-preview-tbl"><table><thead><tr>'
+      +'<th>Class Name</th><th>Grade</th><th>Department</th><th>Year</th><th>Capacity</th><th>Sections</th><th>Status</th>'
+    +'</tr></thead><tbody>';
+    valid.forEach(function(v,i){
+      html+='<tr style="border-bottom:'+(i<valid.length-1?'1px solid var(--line)':'none')+'">'
+        +'<td style="font-weight:600;color:var(--ink)">'+esc(v.name)+'</td>'
+        +'<td style="font-family:var(--mono);font-size:12px">'+esc(v.grade)+'</td>'
+        +'<td style="font-size:12px;color:var(--ink3)">'+esc(v.dept)+'</td>'
+        +'<td style="font-family:var(--mono);font-size:11px;color:var(--ink4)">'+esc(v.year)+'</td>'
+        +'<td style="font-family:var(--mono);font-size:12px;text-align:center">'+v.capacity+'</td>'
+        +'<td style="font-family:var(--mono);font-size:12px;text-align:center">'+v.sections+'</td>'
+        +'<td><span class="badge badge-'+(v.status==='Active'?'active':'inactive')+'">'+v.status+'</span></td>'
+      +'</tr>';
+    });
+    html+='</tbody></table></div>';
+  }
+
+  /* Error rows */
+  if(errors.length){
+    html+='<div class="imp-section-title" style="margin-top:4px"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i>Failed Rows ('+errors.length+') — will not be imported</div>';
+    html+='<div>';
+    errors.forEach(function(e){
+      html+='<div class="imp-err-row">'
+        +'<div class="imp-row-num">Row '+e.row+'</div>'
+        +'<div><div class="imp-err-name">'+esc(e.name)+'</div>'
+          +'<div class="imp-err-msg">'+e.issues.map(esc).join(' · ')+'</div>'
+        +'</div></div>';
+    });
+    html+='</div>';
+    if(valid.length){
+      html+='<div class="warn-notice" style="margin-top:14px">'
+        +'<i class="ti ti-info-circle"></i>'
+        +'<div style="font-size:12px;color:var(--ink2);line-height:1.5">'+errors.length+' row(s) failed validation and will be skipped. The '+valid.length+' valid record(s) can still be imported. Fix errors in your file and re-import to add the failed rows.</div>'
+      +'</div>';
+    }
+  }
+
+  if(!hasFatal&&!valid.length&&!errors.length){
+    html+='<div style="text-align:center;padding:30px;color:var(--ink4);font-size:13px">No data rows found in the file.</div>';
+  }
+
+  document.getElementById('imp-modal-body').innerHTML=html;
+
+  var btn=document.getElementById('imp-confirm-btn');
+  btn.style.display=(!hasFatal&&hasValid)?'inline-flex':'none';
+  btn.innerHTML='<i class="ti ti-check"></i>Import '+valid.length+' Valid Record'+(valid.length!==1?'s':'');
+  showModal('import-modal');
+}
+
+/* ══ COMMIT IMPORT ════════════════════════════════════════════ */
+function commitImport(){
+  if(!_pendingImport.length) return;
+  _pendingImport.forEach(function(r){ CLASSES.unshift(r); });
+  var count=_pendingImport.length;
+  _pendingImport=[];
+  saveClasses();
+  closeModal('import-modal');
+  applyFilters(); /* ← triggers render() — list auto-updates immediately */
+  toast(count+' class record'+(count!==1?'s':'')+' imported successfully.','ok');
+}
+
+/* ══ UTILS ═══════════════════════════════════════════════════ */
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function showModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle',warn:'ti-alert-triangle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){var o=e.target.closest('.overlay');if(o&&e.target===o)o.classList.remove('open');});
+
+/* ══ INIT ════════════════════════════════════════════════════ */
+applyFilters();
+</script>
+</body>
+</html>

@@ -1,0 +1,1524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sections — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display);cursor:pointer}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .15s;cursor:pointer;white-space:nowrap}
+    .btn i{font-size:16px}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(15,76,117,.25)}
+    .btn-primary:hover{background:var(--p2);box-shadow:0 4px 16px rgba(15,76,117,.32)}
+    .btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--line)}
+    .btn-ghost:hover{border-color:var(--line2);background:var(--smoke)}
+    .btn-danger{background:var(--fire-bg);color:var(--fire);border:1.5px solid rgba(239,68,68,.2)}
+    .btn-danger:hover{background:var(--fire);color:#fff}
+    .btn-sm{padding:6px 11px;font-size:12px}.btn-sm i{font-size:14px}
+
+    /* ── LAYOUT ── */
+    .page-wrap{max-width:1280px;margin:0 auto;padding:28px 28px 60px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+    .page-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+    /* ── STAT STRIP ── */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.teal{background:var(--p-bg);color:var(--p)}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* ── FILTER BAR ── */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+    .srch-wrap{flex:1;min-width:220px;position:relative}
+    .srch-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .srch-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 36px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .srch-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .srch-inp::placeholder{color:var(--ink4)}
+    .fsel{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:140px}
+    .fsel:focus{border-color:var(--p2)}
+
+    /* ── CLASS GROUP ACCORDION ── */
+    .class-group{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);margin-bottom:14px;overflow:hidden;box-shadow:var(--sh);transition:box-shadow .2s}
+    .class-group:hover{box-shadow:var(--sh-md)}
+    .class-group-head{display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;user-select:none;transition:background .15s;position:relative}
+    .class-group-head:hover{background:#fafbfd}
+    .cls-badge{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+    .cls-head-info{flex:1;min-width:0}
+    .cls-head-name{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.2px;margin-bottom:2px}
+    .cls-head-meta{font-size:11.5px;color:var(--ink4);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .cls-head-meta span{display:flex;align-items:center;gap:4px}
+    .cls-head-meta i{font-size:12px}
+    .cls-stats-row{display:flex;gap:24px;flex-shrink:0}
+    .cls-stat{text-align:center}
+    .cls-stat-val{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink);line-height:1}
+    .cls-stat-lbl{font-size:9.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+    /* fill pill on header */
+    .fill-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:var(--r-pill);font-family:var(--mono);font-size:11px;font-weight:700}
+    .caret-ico{font-size:18px;color:var(--ink4);transition:transform .22s;flex-shrink:0;margin-left:4px}
+    .class-group.open .caret-ico{transform:rotate(90deg)}
+    .class-group-body{display:none}
+    .class-group.open .class-group-body{display:block}
+
+    /* ── SECTIONS TABLE ── */
+    .sec-table{width:100%;border-collapse:collapse}
+    .sec-table thead th{padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.7px;background:var(--smoke);border-top:1.5px solid var(--line);border-bottom:1px solid var(--line);white-space:nowrap}
+    .sec-table tbody td{padding:13px 16px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink2);vertical-align:middle}
+    .sec-table tbody tr:last-child td{border-bottom:none}
+    .sec-table tbody tr:hover td{background:#fafbfd}
+    td .row-acts{display:flex;gap:5px;opacity:0;transition:opacity .14s}
+    tr:hover .row-acts{opacity:1}
+    .sec-name-chip{width:34px;height:34px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--display);font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink3);background:transparent;border:1.5px solid var(--line);transition:all .14s;cursor:pointer}
+    .row-btn:hover{background:var(--smoke);border-color:var(--line2)}
+    .row-btn.danger:hover{background:var(--fire-bg);border-color:var(--fire);color:var(--fire)}
+    .fill-bar-wrap{display:flex;align-items:center;gap:8px}
+    .fill-bar-track{height:6px;background:var(--line);border-radius:3px;overflow:hidden;width:70px;flex-shrink:0}
+    .fill-bar-fill{height:100%;border-radius:3px;transition:width .6s ease}
+    .fill-pct{font-family:var(--mono);font-size:11.5px;font-weight:600;flex-shrink:0}
+
+    /* ── INLINE ADD ROW ── */
+    .inline-add-row{display:flex;align-items:center;gap:8px;padding:11px 16px;background:linear-gradient(to right,var(--p-bg),var(--smoke));border-top:1.5px dashed var(--p-line)}
+    .inline-add-row .ial{font-size:11px;font-weight:700;color:var(--p2);text-transform:uppercase;letter-spacing:.6px;white-space:nowrap;flex-shrink:0}
+    .ia-input{height:34px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 10px;font-size:12.5px;color:var(--ink);background:var(--white);outline:none;transition:border-color .15s,box-shadow .15s;font-family:var(--font)}
+    .ia-input:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .ia-input::placeholder{color:var(--ink4)}
+
+    /* BADGE */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:500}
+    .badge i{font-size:12px}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+
+    /* ── EMPTY ── */
+    .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 20px;text-align:center}
+    .es-ico{width:56px;height:56px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink4);margin-bottom:14px}
+    .es-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+    .es-desc{font-size:12px;color:var(--ink4);max-width:220px;line-height:1.65;margin-bottom:18px}
+
+    /* ── OVERLAY / MODAL ── */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:560px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .modal-sm{width:440px}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line);position:sticky;top:0;background:var(--white);z-index:2}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink)}
+    .modal-subtitle{font-size:11.5px;color:var(--ink4);margin-top:2px}
+    .modal-close{width:32px;height:32px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:16px;cursor:pointer;transition:all .15s}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line);position:sticky;bottom:0;background:var(--white)}
+
+    /* FORM */
+    .msec{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .msec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .msec-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+    .msec-title i{font-size:14px;color:var(--p3)}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .fgrp{margin-bottom:14px}
+    .fgrp:last-child{margin-bottom:0}
+    .flabel{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+    .req{color:var(--fire);margin-left:3px}
+    .flabel-hint{font-size:10.5px;color:var(--ink4);font-weight:400}
+    .finput-wrap{position:relative}
+    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .15s}
+    .finput-wrap:focus-within .ficon{color:var(--p2)}
+    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+    .finput.no-icon{padding-left:13px}
+    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .finput::placeholder{color:var(--ink4)}
+    select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+    .finput-textarea{resize:vertical;min-height:70px;padding-top:10px;padding-left:13px;line-height:1.55}
+
+    /* DELETE BOX */
+    .del-box{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:11px}
+    .del-box i{color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px}
+    .del-box-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+    .del-box-desc{font-size:12px;color:var(--ink3);line-height:1.5}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:18px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}
+
+    @media(max-width:1024px){.stat-strip{grid-template-columns:1fr 1fr}.cls-stats-row{display:none}}
+    @media(max-width:900px){.frow{grid-template-columns:1fr}.frow3{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.page-wrap{padding:16px 16px 40px}.stat-strip{grid-template-columns:1fr 1fr}.inline-add-row{flex-wrap:wrap}}
+
+    /* ── IMPORT RESULT STYLES ── */
+    .imp-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+    .imp-tile{border-radius:var(--r-lg);padding:14px;text-align:center}
+    .imp-tile.ok{background:var(--jade-bg);border:1.5px solid rgba(14,165,113,.2)}
+    .imp-tile.err{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2)}
+    .imp-tile.info{background:var(--p-bg);border:1.5px solid var(--p-line)}
+    .imp-tile-val{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1}
+    .imp-tile.ok .imp-tile-val{color:var(--jade)}.imp-tile.err .imp-tile-val{color:var(--fire)}.imp-tile.info .imp-tile-val{color:var(--p)}
+    .imp-tile-lbl{font-size:11px;font-weight:600;margin-top:3px}
+    .imp-tile.ok .imp-tile-lbl{color:var(--jade-text)}.imp-tile.err .imp-tile-lbl{color:var(--fire-text)}.imp-tile.info .imp-tile-lbl{color:var(--p2)}
+    .imp-section-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .imp-preview-tbl{border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:18px}
+    .imp-preview-tbl table{width:100%;border-collapse:collapse}
+    .imp-preview-tbl thead th{padding:8px 11px;font-size:10.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.6px;background:var(--smoke);border-bottom:1px solid var(--line)}
+    .imp-preview-tbl tbody td{padding:8px 11px;font-size:12.5px;border-bottom:1px solid var(--line)}
+    .imp-preview-tbl tbody tr:last-child td{border-bottom:none}
+    .imp-err-row{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.15);border-radius:var(--r-lg);padding:10px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+    .imp-err-row:last-child{margin-bottom:0}
+    .imp-row-num{background:var(--fire);color:#fff;border-radius:5px;font-size:10px;font-weight:700;padding:2px 6px;flex-shrink:0;margin-top:1px;font-family:var(--mono)}
+    .imp-err-name{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px}
+    .imp-err-msg{font-size:11.5px;color:var(--fire-text)}
+    .imp-warn-notice{background:var(--sun-bg);border:1.5px solid rgba(245,158,11,.25);border-radius:var(--r-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:9px;margin-top:14px}
+    .imp-warn-notice i{color:var(--sun);font-size:16px;flex-shrink:0;margin-top:1px}
+  </style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<div class="topbar">
+  <a href="dashboard.html" class="tb-brand">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div>
+      <div class="tb-name">Aspire ERP</div>
+      <div class="tb-ver">v3.0 · Academic</div>
+    </div>
+  </a>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="acad-classes.html">Classes</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur">Sections</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" onclick="exportCSV()" title="Export CSV"><i class="ti ti-download"></i></button>
+    <button class="tb-ico" title="Help"><i class="ti ti-help-circle"></i></button>
+    <div class="tb-av" onclick="location.href='view-profile.html'" title="Profile">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag"><i class="ti ti-layout-grid"></i> Academic Management</div>
+      <div class="page-title">Sections</div>
+      <div class="page-sub">Manage class sections, teachers, room assignments and student capacity</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-ghost" id="btn-expand-all" onclick="toggleAll()">
+        <i class="ti ti-arrows-vertical"></i>Expand All
+      </button>
+      <button class="btn btn-ghost" onclick="downloadTemplate()">
+        <i class="ti ti-table-import"></i>Download Template
+      </button>
+      <button class="btn btn-ghost" onclick="triggerImport()">
+        <i class="ti ti-upload"></i>Import
+      </button>
+      <input type="file" id="import-file-inp" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleImport(this)">
+      <button class="btn btn-ghost" onclick="exportCSV()">
+        <i class="ti ti-download"></i>Export CSV
+      </button>
+      <button class="btn btn-primary" onclick="openAdd(null)">
+        <i class="ti ti-plus"></i>Add Section
+      </button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile">
+      <div class="st-ico teal"><i class="ti ti-layout-grid"></i></div>
+      <div><div class="st-val" id="st-total">0</div><div class="st-lbl">Total Sections</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico blue"><i class="ti ti-users"></i></div>
+      <div><div class="st-val" id="st-students">0</div><div class="st-lbl">Total Students</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico amber"><i class="ti ti-door"></i></div>
+      <div><div class="st-val" id="st-rooms">0</div><div class="st-lbl">Rooms Assigned</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico green"><i class="ti ti-chart-bar"></i></div>
+      <div><div class="st-val" id="st-fill">0%</div><div class="st-lbl">Avg Fill Rate</div></div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar anim d2">
+    <div class="srch-wrap">
+      <i class="ti ti-search"></i>
+      <input class="srch-inp" type="text" id="f-search" placeholder="Search by section, teacher or room…" oninput="renderGroups()">
+    </div>
+    <select class="fsel" id="f-class" onchange="renderGroups()">
+      <option value="">All Classes</option>
+    </select>
+    <select class="fsel" id="f-status" onchange="renderGroups()">
+      <option value="">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </div>
+
+  <!-- GROUPS CONTAINER -->
+  <div id="groups-container"></div>
+
+</div><!-- /page-wrap -->
+
+<!-- ════════════════════════════════════
+     ADD / EDIT MODAL
+════════════════════════════════════ -->
+<div class="overlay" id="sec-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title-txt">Add Section</div>
+        <div class="modal-subtitle" id="modal-subtitle-txt">Fill in the details to create a new section</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('sec-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- SECTION IDENTITY -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-info-circle"></i>Section Identity</div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Class <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-school ficon"></i>
+              <select class="finput" id="m-class">
+                <option value="">Select class</option>
+              </select>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Section Name <span class="req">*</span> <span class="flabel-hint">e.g. A, B, Alpha</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-layout-grid ficon"></i>
+              <input class="finput" type="text" id="m-name" placeholder="e.g. A">
+            </div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Section Teacher</div>
+            <div class="finput-wrap">
+              <i class="ti ti-chalkboard ficon"></i>
+              <input class="finput" type="text" id="m-teacher" placeholder="Assign a teacher…" list="teacher-dl-sec" autocomplete="off">
+              <datalist id="teacher-dl-sec">
+                <option>Dr. Anjali Rao</option><option>Prof. Vikram Shah</option>
+                <option>Meera Iyer</option><option>Rohan Gupta</option>
+                <option>Sana Khan</option><option>Karthik Nair</option>
+                <option>Priya Deshpande</option><option>Suresh Kumar</option>
+                <option>Divya Menon</option>
+              </datalist>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Room / Lab</div>
+            <div class="finput-wrap">
+              <i class="ti ti-door ficon"></i>
+              <input class="finput" type="text" id="m-room" placeholder="e.g. Room 101">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPACITY & STUDENTS -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-users"></i>Capacity &amp; Strength</div>
+        <div class="frow3">
+          <div class="fgrp">
+            <div class="flabel">Max Capacity <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-users ficon"></i>
+              <input class="finput" type="number" id="m-capacity" placeholder="e.g. 40" min="1" max="200">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Current Students <span class="flabel-hint">enrolled</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-user-check ficon"></i>
+              <input class="finput" type="number" id="m-students" placeholder="e.g. 35" min="0">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Status</div>
+            <div class="finput-wrap">
+              <i class="ti ti-toggle-left ficon"></i>
+              <select class="finput" id="m-status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACADEMIC YEAR -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-calendar"></i>Academic Details</div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Academic Year</div>
+            <div class="finput-wrap">
+              <i class="ti ti-calendar-event ficon"></i>
+              <select class="finput" id="m-year">
+                <option value="">Loading years…</option>
+              </select>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Time Slot <span class="flabel-hint">optional</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-clock ficon"></i>
+              <input class="finput" type="text" id="m-slot" placeholder="e.g. Morning / Afternoon">
+            </div>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Notes</div>
+          <textarea class="finput finput-textarea no-icon" id="m-notes" placeholder="Optional notes about this section…"></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('sec-modal')">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveSection()">
+        <i class="ti ti-plus"></i>Add Section
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     DELETE MODAL
+════════════════════════════════════ -->
+<div class="overlay" id="del-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-trash" style="color:var(--fire)"></i>Delete Section
+      </div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="del-box">
+        <i class="ti ti-alert-triangle"></i>
+        <div>
+          <div class="del-box-title">This cannot be undone</div>
+          <div class="del-box-desc">Deleting <b id="del-name"></b> will unassign all enrolled students and remove it from the timetable.</div>
+        </div>
+      </div>
+      <div class="fgrp">
+        <div class="flabel">Type <b id="del-confirm-txt" style="font-family:var(--mono);color:var(--ink)"></b> to confirm</div>
+        <input class="finput no-icon" type="text" id="del-inp" oninput="chkDel()" placeholder="Type section name to confirm…" autocomplete="off">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-btn" onclick="execDel()" disabled>
+        <i class="ti ti-trash"></i>Delete Section
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── IMPORT RESULT MODAL ── -->
+<div class="overlay" id="import-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="imp-modal-title">Import Results</div>
+        <div class="modal-subtitle" id="imp-modal-sub">Review before committing</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('import-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="imp-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('import-modal')">Close</button>
+      <button class="btn btn-primary" id="imp-confirm-btn" onclick="commitImport()" style="display:none">
+        <i class="ti ti-check"></i>Import Valid Records
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ════════════════════════════════════════
+   SEED DATA — Classes (reads sessionStorage first)
+════════════════════════════════════════ */
+var CLASSES = JSON.parse(sessionStorage.getItem('classStore') || 'null') || [
+  {id:'cls1', name:'Class X – Science',   grade:'X',    dept:'Science',     color:'#0f4c75', capacity:60, year:'2025–26', teacher:'Dr. Anjali Rao'},
+  {id:'cls2', name:'Class X – Commerce',  grade:'X',    dept:'Commerce',    color:'#0ea571', capacity:60, year:'2025–26', teacher:'Prof. Vikram Shah'},
+  {id:'cls3', name:'Class IX – Science',  grade:'IX',   dept:'Science',     color:'#3b82f6', capacity:60, year:'2025–26', teacher:'Meera Iyer'},
+  {id:'cls4', name:'Class IX – Arts',     grade:'IX',   dept:'Arts',        color:'#7c3aed', capacity:50, year:'2025–26', teacher:'Sana Khan'},
+  {id:'cls5', name:'Class VIII',          grade:'VIII', dept:'Science',     color:'#f59e0b', capacity:70, year:'2025–26', teacher:'Karthik Nair'},
+  {id:'cls6', name:'Class VII',           grade:'VII',  dept:'Mathematics', color:'#0891b2', capacity:65, year:'2025–26', teacher:'Priya Deshpande'},
+  {id:'cls7', name:'Class VI',            grade:'VI',   dept:'Social Studies',color:'#059669',capacity:65, year:'2025–26', teacher:'Rohan Gupta'}
+];
+
+/* ════════════════════════════════════════
+   SEED DATA — Sections
+════════════════════════════════════════ */
+var SECTIONS = JSON.parse(sessionStorage.getItem('sectionStore') || 'null') || [
+  {id:'sec1',  classId:'cls1', name:'A', teacher:'Dr. Anjali Rao',   room:'Room 101', capacity:30, students:28, year:'2025-26', slot:'Morning',   status:'Active',   notes:''},
+  {id:'sec2',  classId:'cls1', name:'B', teacher:'Meera Iyer',       room:'Room 102', capacity:30, students:24, year:'2025-26', slot:'Morning',   status:'Active',   notes:''},
+  {id:'sec3',  classId:'cls2', name:'A', teacher:'Prof. Vikram Shah', room:'Room 201', capacity:30, students:26, year:'2025-26', slot:'Morning',   status:'Active',   notes:''},
+  {id:'sec4',  classId:'cls2', name:'B', teacher:'Sana Khan',        room:'Room 202', capacity:30, students:22, year:'2025-26', slot:'Afternoon', status:'Active',   notes:''},
+  {id:'sec5',  classId:'cls3', name:'A', teacher:'Karthik Nair',     room:'Room 301', capacity:35, students:32, year:'2025-26', slot:'Morning',   status:'Active',   notes:''},
+  {id:'sec6',  classId:'cls3', name:'B', teacher:'Rohan Gupta',      room:'Room 302', capacity:35, students:23, year:'2025-26', slot:'Afternoon', status:'Active',   notes:''},
+  {id:'sec7',  classId:'cls3', name:'C', teacher:'Divya Menon',      room:'Room 303', capacity:35, students:0,  year:'2025-26', slot:'',          status:'Inactive', notes:'Awaiting allocation'},
+  {id:'sec8',  classId:'cls4', name:'A', teacher:'Priya Deshpande',  room:'Room 401', capacity:30, students:20, year:'2025-26', slot:'Morning',   status:'Active',   notes:''},
+  {id:'sec9',  classId:'cls5', name:'A', teacher:'Dr. Anjali Rao',   room:'Lab 1',    capacity:35, students:33, year:'2025-26', slot:'Morning',   status:'Active',   notes:'Uses Science Lab'},
+  {id:'sec10', classId:'cls5', name:'B', teacher:'Suresh Kumar',     room:'Room 102', capacity:35, students:31, year:'2025-26', slot:'Afternoon', status:'Active',   notes:''},
+  {id:'sec11', classId:'cls6', name:'A', teacher:'Meera Iyer',       room:'Room 501', capacity:38, students:35, year:'2025-26', slot:'Morning',   status:'Active',   notes:''},
+  {id:'sec12', classId:'cls7', name:'A', teacher:'Karthik Nair',     room:'Room 601', capacity:38, students:36, year:'2025-26', slot:'Morning',   status:'Active',   notes:''}
+];
+
+function saveSections(){ sessionStorage.setItem('sectionStore', JSON.stringify(SECTIONS)); }
+saveSections();
+
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+var editId    = null;
+var delTarget = null;
+var allExpanded = false;
+var _pendingImport = [];
+
+/* ════════════════════════════════════════
+   INIT — populate class filters & handle ?class= URL param
+════════════════════════════════════════ */
+(function init(){
+  var fs = document.getElementById('f-class');
+  var ms = document.getElementById('m-class');
+  CLASSES.forEach(function(c){
+    fs.innerHTML += '<option value="'+c.id+'">'+esc(c.name)+'</option>';
+    ms.innerHTML += '<option value="'+c.id+'">'+esc(c.name)+'</option>';
+  });
+  // If navigated from acad-classes.html?class=id, pre-filter to that class
+  var param = new URLSearchParams(window.location.search).get('class');
+  if(param){
+    fs.value = param;
+    // Auto-expand that class group on load
+    setTimeout(function(){
+      var grp = document.getElementById('grp-'+param);
+      if(grp){ grp.classList.add('open'); }
+    }, 50);
+  }
+  renderGroups();
+})();
+
+/* ════════════════════════════════════════
+   ACADEMIC YEAR SELECT — loaded from yearStore
+════════════════════════════════════════ */
+function populateYearSelect(selectedValue){
+  var YEARS = JSON.parse(sessionStorage.getItem('yearStore')||'null');
+  var sel   = document.getElementById('m-year');
+  sel.innerHTML = '';
+  if(YEARS && YEARS.length){
+    var sorted = YEARS.slice().sort(function(a,b){
+      if(a.status==='Active' && b.status!=='Active') return -1;
+      if(b.status==='Active' && a.status!=='Active') return  1;
+      return b.name.localeCompare(a.name);
+    });
+    sorted.forEach(function(y){
+      var opt = document.createElement('option');
+      opt.value = y.name;
+      opt.textContent = y.name + (y.status==='Active' ? ' (Active)' : '');
+      sel.appendChild(opt);
+    });
+  } else {
+    ['2025–26','2026–27','2024–25'].forEach(function(y){
+      var opt=document.createElement('option'); opt.value=y; opt.textContent=y; sel.appendChild(opt);
+    });
+  }
+  if(selectedValue) sel.value = selectedValue;
+  if(!sel.value && YEARS){
+    var active = YEARS.find(function(y){ return y.status==='Active'; });
+    if(active) sel.value = active.name;
+  }
+}
+
+/* ════════════════════════════════════════
+   STATS
+════════════════════════════════════════ */
+function updateStats(){
+  var visibleSecs = getVisibleSections();
+  var totalCap    = visibleSecs.reduce(function(a,s){ return a + s.capacity; }, 0);
+  var totalStu    = visibleSecs.reduce(function(a,s){ return a + s.students; }, 0);
+  var rooms       = visibleSecs.filter(function(s){ return !!s.room; }).length;
+  var fill        = totalCap ? Math.round((totalStu / totalCap) * 100) : 0;
+  document.getElementById('st-total').textContent    = visibleSecs.length;
+  document.getElementById('st-students').textContent = totalStu;
+  document.getElementById('st-rooms').textContent    = rooms;
+  document.getElementById('st-fill').textContent     = fill + '%';
+}
+
+function getVisibleSections(){
+  var q          = document.getElementById('f-search').value.toLowerCase().trim();
+  var filterCls  = document.getElementById('f-class').value;
+  var filterStat = document.getElementById('f-status').value;
+  return SECTIONS.filter(function(s){
+    if(filterCls  && s.classId !== filterCls)   return false;
+    if(filterStat && s.status  !== filterStat)  return false;
+    if(q && s.name.toLowerCase().indexOf(q)<0
+        && (s.teacher||'').toLowerCase().indexOf(q)<0
+        && (s.room||'').toLowerCase().indexOf(q)<0) return false;
+    return true;
+  });
+}
+
+/* ════════════════════════════════════════
+   RENDER GROUPS
+════════════════════════════════════════ */
+function renderGroups(){
+  var q          = document.getElementById('f-search').value.toLowerCase().trim();
+  var filterCls  = document.getElementById('f-class').value;
+  var filterStat = document.getElementById('f-status').value;
+  var container  = document.getElementById('groups-container');
+
+  var classesToShow = filterCls
+    ? CLASSES.filter(function(c){ return c.id === filterCls; })
+    : CLASSES;
+
+  var html = '';
+  var anyVisible = false;
+
+  classesToShow.forEach(function(cls){
+    var secs = SECTIONS.filter(function(s){
+      if(s.classId !== cls.id) return false;
+      if(filterStat && s.status !== filterStat) return false;
+      if(q && s.name.toLowerCase().indexOf(q)<0
+          && (s.teacher||'').toLowerCase().indexOf(q)<0
+          && (s.room||'').toLowerCase().indexOf(q)<0) return false;
+      return true;
+    });
+
+    // When filtered to a specific class, always show it even if no matching secs
+    if(!filterCls && !secs.length) return;
+    anyVisible = true;
+
+    var allSecs       = SECTIONS.filter(function(s){ return s.classId === cls.id; });
+    var totalStu      = secs.reduce(function(a,s){ return a + s.students; }, 0);
+    var totalCap      = secs.reduce(function(a,s){ return a + s.capacity; }, 0);
+    var allStu        = allSecs.reduce(function(a,s){ return a + s.students; }, 0);
+    var allCap        = allSecs.reduce(function(a,s){ return a + s.capacity; }, 0);
+    var fill          = totalCap ? Math.round((totalStu / totalCap) * 100) : 0;
+    var fillColor     = fill >= 90 ? 'var(--fire)' : fill >= 70 ? 'var(--sun)' : 'var(--jade)';
+    var fillBg        = fill >= 90 ? 'var(--fire-bg)' : fill >= 70 ? 'var(--sun-bg)' : 'var(--jade-bg)';
+    var isOpen        = allExpanded || (filterCls === cls.id);
+
+    html += '<div class="class-group'+(isOpen?' open':'')+'" id="grp-'+cls.id+'">'
+      + '<div class="class-group-head" onclick="toggleGrp(\''+cls.id+'\')">'
+        + '<div class="cls-badge" style="background:'+cls.color+'">'+esc((cls.grade||'').substring(0,4))+'</div>'
+        + '<div class="cls-head-info">'
+          + '<div class="cls-head-name">'+esc(cls.name)+'</div>'
+          + '<div class="cls-head-meta">'
+            + '<span><i class="ti ti-building-community"></i>'+esc(cls.dept||'')+'</span>'
+            + '<span><i class="ti ti-calendar"></i>'+(cls.year||'2025–26')+'</span>'
+            + (cls.teacher ? '<span><i class="ti ti-chalkboard"></i>'+esc(cls.teacher)+'</span>' : '')
+          + '</div>'
+        + '</div>'
+        + '<div class="cls-stats-row">'
+          + '<div class="cls-stat"><div class="cls-stat-val">'+allSecs.length+'</div><div class="cls-stat-lbl">Sections</div></div>'
+          + '<div class="cls-stat"><div class="cls-stat-val">'+allStu+'</div><div class="cls-stat-lbl">Students</div></div>'
+          + '<div class="cls-stat"><div class="cls-stat-val">'+allCap+'</div><div class="cls-stat-lbl">Capacity</div></div>'
+        + '</div>'
+        + '<div class="fill-pill" style="background:'+fillBg+';color:'+fillColor+'">'
+          + '<i class="ti ti-chart-bar" style="font-size:12px"></i>'+fill+'% full'
+        + '</div>'
+        + '<i class="ti ti-chevron-right caret-ico"></i>'
+      + '</div>'
+      + '<div class="class-group-body">';
+
+    if(!secs.length){
+      html += '<div style="padding:28px 20px;text-align:center">'
+        + '<div style="font-size:13px;color:var(--ink4);margin-bottom:10px">'
+          + (q || filterStat ? 'No sections match your filters.' : 'No sections added yet for this class.')
+        + '</div>'
+        + '<button class="btn btn-sm btn-primary" onclick="openAdd(\''+cls.id+'\')"><i class="ti ti-plus"></i>Add First Section</button>'
+        + '</div>';
+    } else {
+      html += '<table class="sec-table">'
+        + '<thead><tr>'
+          + '<th style="width:50px">Section</th>'
+          + '<th>Teacher</th>'
+          + '<th>Room</th>'
+          + '<th>Time Slot</th>'
+          + '<th>Students</th>'
+          + '<th>Fill Rate</th>'
+          + '<th>Status</th>'
+          + '<th style="width:100px">Actions</th>'
+        + '</tr></thead>'
+        + '<tbody>';
+
+      secs.forEach(function(sec){
+        var f   = sec.capacity ? Math.round((sec.students / sec.capacity) * 100) : 0;
+        var fc  = f >= 90 ? 'var(--fire)' : f >= 70 ? 'var(--sun)' : 'var(--jade)';
+        html += '<tr>'
+          + '<td>'
+            + '<div style="display:flex;align-items:center;gap:10px">'
+              + '<div class="sec-name-chip" style="background:'+cls.color+'">'+esc(sec.name)+'</div>'
+              + '<div>'
+                + '<div style="font-size:13px;font-weight:600;color:var(--ink)">Section '+esc(sec.name)+'</div>'
+                + (sec.notes ? '<div style="font-size:10.5px;color:var(--ink4);margin-top:1px">'+esc(sec.notes)+'</div>' : '')
+              + '</div>'
+            + '</div>'
+          + '</td>'
+          + '<td style="font-size:12.5px;color:var(--ink3)">'+(sec.teacher ? '<div style="display:flex;align-items:center;gap:7px"><div style="width:26px;height:26px;border-radius:50%;background:'+cls.color+';display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:9px;font-weight:700;color:#fff;flex-shrink:0">'+initials(sec.teacher)+'</div><span>'+esc(sec.teacher)+'</span></div>' : '<span style="color:var(--ink4)">—</span>')+'</td>'
+          + '<td style="font-size:12.5px;color:var(--ink3)">'+(sec.room ? '<span style="display:flex;align-items:center;gap:5px"><i class="ti ti-door" style="font-size:13px;color:var(--ink4)"></i>'+esc(sec.room)+'</span>' : '<span style="color:var(--ink4)">—</span>')+'</td>'
+          + '<td style="font-size:12px;color:var(--ink4)">'+(sec.slot||'—')+'</td>'
+          + '<td><span style="font-family:var(--mono);font-weight:700;color:var(--ink)">'+sec.students+'</span><span style="font-size:11px;color:var(--ink4)"> / '+sec.capacity+'</span></td>'
+          + '<td><div class="fill-bar-wrap">'
+              + '<div class="fill-bar-track"><div class="fill-bar-fill" style="width:'+f+'%;background:'+fc+'"></div></div>'
+              + '<span class="fill-pct" style="color:'+fc+'">'+f+'%</span>'
+            + '</div></td>'
+          + '<td><span class="badge badge-'+(sec.status==='Active'?'active':'inactive')+'">'
+              + '<i class="ti ti-'+(sec.status==='Active'?'circle-check':'circle-x')+'"></i>'+sec.status
+            + '</span></td>'
+          + '<td><div class="row-acts">'
+              + '<button class="row-btn" title="Edit" onclick="openEdit(\''+sec.id+'\')"><i class="ti ti-edit"></i></button>'
+              + '<button class="row-btn danger" title="Delete" onclick="openDel(\''+sec.id+'\')"><i class="ti ti-trash"></i></button>'
+            + '</div></td>'
+        + '</tr>';
+      });
+
+      html += '</tbody></table>';
+    }
+
+    // Inline quick-add row
+    html += '<div class="inline-add-row" id="iar-'+cls.id+'">'
+      + '<span class="ial"><i class="ti ti-plus" style="font-size:12px"></i> Quick Add</span>'
+      + '<input class="ia-input" type="text" id="ia-name-'+cls.id+'" placeholder="Section (e.g. D)" style="width:120px">'
+      + '<input class="ia-input" type="text" id="ia-teacher-'+cls.id+'" placeholder="Teacher" style="flex:1;min-width:130px" list="dl-t-'+cls.id+'">'
+      + '<datalist id="dl-t-'+cls.id+'"><option>Dr. Anjali Rao</option><option>Prof. Vikram Shah</option><option>Meera Iyer</option><option>Rohan Gupta</option><option>Sana Khan</option><option>Karthik Nair</option><option>Priya Deshpande</option><option>Suresh Kumar</option><option>Divya Menon</option></datalist>'
+      + '<input class="ia-input" type="text" id="ia-room-'+cls.id+'" placeholder="Room" style="width:100px">'
+      + '<button class="btn btn-sm btn-primary" onclick="quickAdd(\''+cls.id+'\')"><i class="ti ti-plus"></i>Add</button>'
+      + '<button class="btn btn-sm btn-ghost" onclick="openAdd(\''+cls.id+'\')"><i class="ti ti-expand"></i>Full Form</button>'
+    + '</div>';
+
+    html += '</div></div>'; // class-group-body + class-group
+  });
+
+  if(!anyVisible){
+    html = '<div class="empty-state">'
+      + '<div class="es-ico"><i class="ti ti-layout-grid-remove"></i></div>'
+      + '<div class="es-title">No sections found</div>'
+      + '<div class="es-desc">Adjust your filters or add a new section to a class.</div>'
+      + '<button class="btn btn-primary" onclick="openAdd(null)"><i class="ti ti-plus"></i>Add Section</button>'
+      + '</div>';
+  }
+
+  container.innerHTML = html;
+  updateStats();
+}
+
+/* ════════════════════════════════════════
+   ACCORDION
+════════════════════════════════════════ */
+function toggleGrp(id){
+  var grp = document.getElementById('grp-'+id);
+  if(grp) grp.classList.toggle('open');
+}
+
+function toggleAll(){
+  allExpanded = !allExpanded;
+  document.querySelectorAll('.class-group').forEach(function(g){
+    g.classList.toggle('open', allExpanded);
+  });
+  document.getElementById('btn-expand-all').innerHTML = allExpanded
+    ? '<i class="ti ti-arrows-minimize"></i>Collapse All'
+    : '<i class="ti ti-arrows-vertical"></i>Expand All';
+}
+
+/* ════════════════════════════════════════
+   QUICK ADD (inline row)
+════════════════════════════════════════ */
+function quickAdd(clsId){
+  var name    = (document.getElementById('ia-name-'+clsId)    || {}).value;
+  var teacher = (document.getElementById('ia-teacher-'+clsId) || {}).value;
+  var room    = (document.getElementById('ia-room-'+clsId)    || {}).value;
+
+  name    = (name||'').trim();
+  teacher = (teacher||'').trim();
+  room    = (room||'').trim();
+
+  if(!name){ toast('Section name is required.','err'); document.getElementById('ia-name-'+clsId).focus(); return; }
+
+  // Duplicate check within same class
+  var dup = SECTIONS.find(function(s){ return s.classId===clsId && s.name.toLowerCase()===name.toLowerCase(); });
+  if(dup){ toast('Section "'+name+'" already exists in this class.','err'); return; }
+
+  var cls = CLASSES.find(function(c){ return c.id===clsId; });
+  SECTIONS.push({
+    id: 'sec'+Date.now(),
+    classId: clsId,
+    name: name,
+    teacher: teacher,
+    room: room,
+    capacity: cls ? Math.round((cls.capacity||40) / 2) : 40,
+    students: 0,
+    year: '2025-26',
+    slot: '',
+    status: 'Active',
+    notes: ''
+  });
+
+  saveSections();
+  toast('Section "'+name+'" added to '+esc((cls||{}).name||'class')+'.','ok');
+  document.getElementById('grp-'+clsId).classList.add('open');
+  renderGroups();
+}
+
+/* ════════════════════════════════════════
+   ADD / EDIT MODAL
+════════════════════════════════════════ */
+function openAdd(clsId){
+  editId = null;
+  document.getElementById('modal-title-txt').textContent    = 'Add Section';
+  document.getElementById('modal-subtitle-txt').textContent = 'Fill in the details to create a new section';
+  document.getElementById('modal-save-btn').innerHTML = '<i class="ti ti-plus"></i>Add Section';
+  clearForm();
+  if(clsId) document.getElementById('m-class').value = clsId;
+  showModal('sec-modal');
+}
+
+function openEdit(id){
+  var s = SECTIONS.find(function(x){ return x.id===id; });
+  if(!s) return;
+  var cls = CLASSES.find(function(c){ return c.id===s.classId; });
+  editId = id;
+  document.getElementById('modal-title-txt').textContent    = 'Edit Section';
+  document.getElementById('modal-subtitle-txt').textContent = 'Update details for Section '+s.name+(cls?' — '+cls.name:'');
+  document.getElementById('modal-save-btn').innerHTML = '<i class="ti ti-check"></i>Save Changes';
+  document.getElementById('m-class').value    = s.classId;
+  document.getElementById('m-name').value     = s.name;
+  document.getElementById('m-teacher').value  = s.teacher  || '';
+  document.getElementById('m-room').value     = s.room     || '';
+  document.getElementById('m-capacity').value = s.capacity || 40;
+  document.getElementById('m-students').value = s.students || 0;
+  document.getElementById('m-status').value   = s.status;
+  document.getElementById('m-year').value     = s.year     || '2025-26';
+  populateYearSelect(s.year || '2025-26');
+  document.getElementById('m-slot').value     = s.slot     || '';
+  document.getElementById('m-notes').value    = s.notes    || '';
+  showModal('sec-modal');
+}
+
+function clearForm(){
+  ['m-name','m-teacher','m-room','m-capacity','m-students','m-slot','m-notes'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('m-class').value  = '';
+  document.getElementById('m-status').value = 'Active';
+  document.getElementById('m-year').value   = '2025-26';
+  populateYearSelect(null);
+}
+
+function saveSection(){
+  var clsId    = document.getElementById('m-class').value;
+  var name     = document.getElementById('m-name').value.trim();
+  var capacity = parseInt(document.getElementById('m-capacity').value) || 0;
+  var students = parseInt(document.getElementById('m-students').value) || 0;
+
+  if(!clsId){ toast('Please select a class.','err'); document.getElementById('m-class').focus(); return; }
+  if(!name) { toast('Section name is required.','err'); document.getElementById('m-name').focus(); return; }
+  if(capacity < 1){ toast('Capacity must be at least 1.','err'); return; }
+  if(students > capacity){ toast('Students enrolled cannot exceed capacity.','err'); return; }
+
+  // Duplicate check (excluding self on edit)
+  var dup = SECTIONS.find(function(s){
+    return s.classId === clsId && s.name.toLowerCase() === name.toLowerCase() && s.id !== editId;
+  });
+  if(dup){ toast('Section "'+name+'" already exists in this class.','err'); return; }
+
+  var obj = {
+    id:       editId || 'sec'+Date.now(),
+    classId:  clsId,
+    name:     name,
+    teacher:  document.getElementById('m-teacher').value.trim(),
+    room:     document.getElementById('m-room').value.trim(),
+    capacity: capacity,
+    students: students,
+    year:     document.getElementById('m-year').value,
+    slot:     document.getElementById('m-slot').value.trim(),
+    status:   document.getElementById('m-status').value,
+    notes:    document.getElementById('m-notes').value.trim()
+  };
+
+  if(editId){
+    var idx = SECTIONS.findIndex(function(s){ return s.id===editId; });
+    SECTIONS[idx] = obj;
+    toast('Section "'+name+'" updated.','ok');
+  } else {
+    SECTIONS.push(obj);
+    toast('Section "'+name+'" added.','ok');
+    // Auto-expand the class group
+    var grp = document.getElementById('grp-'+clsId);
+    if(grp) grp.classList.add('open');
+  }
+
+  saveSections();
+  closeModal('sec-modal');
+  renderGroups();
+}
+
+/* ════════════════════════════════════════
+   DELETE
+════════════════════════════════════════ */
+function openDel(id){
+  delTarget = id;
+  var s   = SECTIONS.find(function(x){ return x.id===id; });
+  if(!s) return;
+  var cls = CLASSES.find(function(c){ return c.id===s.classId; });
+  var label = 'Section '+s.name+(cls?' ('+cls.name+')':'');
+  document.getElementById('del-name').textContent        = label;
+  document.getElementById('del-confirm-txt').textContent = 'Section '+s.name;
+  document.getElementById('del-inp').value               = '';
+  document.getElementById('del-btn').disabled            = true;
+  showModal('del-modal');
+}
+
+function chkDel(){
+  var s = SECTIONS.find(function(x){ return x.id===delTarget; });
+  if(!s) return;
+  document.getElementById('del-btn').disabled =
+    document.getElementById('del-inp').value.trim() !== 'Section '+s.name;
+}
+
+function execDel(){
+  var s = SECTIONS.find(function(x){ return x.id===delTarget; });
+  if(!s) return;
+  SECTIONS.splice(SECTIONS.indexOf(s), 1);
+  saveSections();
+  closeModal('del-modal');
+  renderGroups();
+  toast('Section deleted.','ok');
+  delTarget = null;
+}
+
+/* ════════════════════════════════════════
+   EXPORT CSV
+════════════════════════════════════════ */
+function exportCSV(){
+  var rows = [['Class','Section','Teacher','Room','Time Slot','Capacity','Students','Fill Rate','Academic Year','Status','Notes']];
+  var clsFilter = document.getElementById('f-class').value;
+  var src = clsFilter ? SECTIONS.filter(function(s){ return s.classId===clsFilter; }) : SECTIONS;
+  src.forEach(function(s){
+    var cls  = CLASSES.find(function(c){ return c.id===s.classId; });
+    var fill = s.capacity ? Math.round((s.students/s.capacity)*100)+'%' : '0%';
+    rows.push([
+      (cls||{}).name||'',
+      s.name, s.teacher||'', s.room||'', s.slot||'',
+      s.capacity, s.students, fill,
+      s.year||'', s.status, (s.notes||'').replace(/,/g,' ')
+    ]);
+  });
+  var csv  = rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var a    = document.createElement('a');
+  a.href   = URL.createObjectURL(blob);
+  a.download = 'sections-export.csv';
+  a.click();
+  toast('Sections exported as CSV.','ok');
+}
+
+/* ════════════════════════════════════════
+   UTILS
+════════════════════════════════════════ */
+function initials(n){
+  var p = String(n||'').trim().split(' ');
+  return ((p[0]||'')[0]||'').toUpperCase() + ((p[1]||'')[0]||'').toUpperCase();
+}
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function showModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function toast(msg, type){
+  var icons = {ok:'ti-circle-check', err:'ti-alert-circle', info:'ti-info-circle', warn:'ti-alert-triangle'};
+  var wrap  = document.getElementById('toast-wrap');
+  var el    = document.createElement('div');
+  el.className = 'toast '+(type||'info');
+  el.innerHTML = '<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){ el.classList.add('in'); });
+  });
+  setTimeout(function(){
+    el.classList.remove('in');
+    setTimeout(function(){ el.remove(); }, 400);
+  }, 3400);
+}
+document.addEventListener('click', function(e){
+  var o = e.target.closest('.overlay');
+  if(o && e.target === o) o.classList.remove('open');
+});
+
+/* ════════════════════════════════════════
+   VALID SLOT VALUES (for import validation)
+════════════════════════════════════════ */
+var VALID_SLOTS = ['Morning','Afternoon','Evening',''];
+
+/* ════════════════════════════════════════
+   DOWNLOAD TEMPLATE (two-sheet xlsx)
+════════════════════════════════════════ */
+function downloadTemplate(){
+  if(typeof XLSX==='undefined'){toast('Excel library not loaded — please refresh.','warn');return;}
+  var wb = XLSX.utils.book_new();
+
+  /* ── Sheet 1: Data Entry ── */
+  var headers = ['Class Name','Section Name','Section Teacher','Room / Lab','Time Slot','Capacity','Academic Year','Status','Notes'];
+  var dataRows = [headers];
+  for(var b=0;b<50;b++) dataRows.push(['','','','','','','','','']);
+  var wsData = XLSX.utils.aoa_to_sheet(dataRows);
+  wsData['!cols'] = [{wch:28},{wch:14},{wch:22},{wch:14},{wch:13},{wch:10},{wch:12},{wch:11},{wch:36}];
+  wsData['!freeze'] = {xSplit:0,ySplit:1,topLeftCell:'A2',activeCell:'A2',sqref:'A2'};
+  wsData['!rows']   = [{hpt:22}];
+
+  /* Columns A (Class Name), B (Section Name), F (Capacity) = required deep blue;
+     rest = standard blue */
+  var hReq = {font:{bold:true,color:{rgb:'FFFFFF'},sz:11},fill:{patternType:'solid',fgColor:{rgb:'1B6CA8'}},alignment:{horizontal:'center',vertical:'center'}};
+  var hStd = {font:{bold:true,color:{rgb:'FFFFFF'},sz:11},fill:{patternType:'solid',fgColor:{rgb:'0F4C75'}},alignment:{horizontal:'center',vertical:'center'}};
+  var reqCols = [0,1,5]; /* Class Name, Section Name, Capacity */
+  ['A','B','C','D','E','F','G','H','I'].forEach(function(c,ci){
+    var ref = c+'1';
+    if(!wsData[ref]) wsData[ref] = {t:'s',v:headers[ci]};
+    wsData[ref].s = reqCols.indexOf(ci)>-1 ? hReq : hStd;
+  });
+  var evF = {patternType:'solid',fgColor:{rgb:'F7F8FC'}};
+  var odF = {patternType:'solid',fgColor:{rgb:'FFFFFF'}};
+  for(var row=2;row<=51;row++){
+    ['A','B','C','D','E','F','G','H','I'].forEach(function(c){
+      var ref = c+row;
+      if(!wsData[ref]) wsData[ref] = {t:'s',v:''};
+      wsData[ref].s = {fill:row%2===0?evF:odF,alignment:{vertical:'center'},border:{right:{style:'hair',color:{rgb:'E4E8F0'}},bottom:{style:'hair',color:{rgb:'E4E8F0'}}}};
+    });
+  }
+  XLSX.utils.book_append_sheet(wb, wsData, 'Data Entry');
+
+  /* ── Sheet 2: Instructions & Sample Data ── */
+  var now   = new Date();
+  var stamp = now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+
+  /* Embed live class names from CLASSES */
+  var classNames = CLASSES.map(function(c){ return c.name; }).join(' | ');
+
+  var instrRows = [
+    ['SECTION MASTER — BULK UPLOAD TEMPLATE','','','','','','','',''],
+    ['Aspire ERP v3.0  ·  Academic Management  ·  Generated: '+stamp,'','','','','','','',''],
+    ['','','','','','','','',''],
+    ['ABOUT THIS TEMPLATE','','','','','','','',''],
+    ['Use the "Data Entry" sheet to enter or paste bulk section records.','','','','','','','',''],
+    ['Columns highlighted in deep blue (Class Name, Section Name, Capacity) are mandatory.','','','','','','','',''],
+    ['Class Name must exactly match an existing Class in the Class Master.','','','','','','','',''],
+    ['A section is uniquely identified by its Class Name + Section Name combination.','','','','','','','',''],
+    ['','','','','','','','',''],
+    ['FIELD REFERENCE','','','','','','','',''],
+    ['Column','Required?','Accepted Values / Format','Default if blank','Notes','','','',''],
+    ['Class Name',        'YES', 'Must match a class in the Class Master.',         '—',       'Case-insensitive match against Class Master names.','','','',''],
+    ['Section Name',      'YES', 'Text. e.g. A, B, C or Alpha, Beta.',              '—',       'Must be unique within the same class.','','','',''],
+    ['Section Teacher',   'No',  'Free text.',                                      '(blank)', 'Teacher name — not validated against staff master.','','','',''],
+    ['Room / Lab',        'No',  'Free text. e.g. Room 101, Lab 2.',                '(blank)', 'Room or laboratory assignment.','','','',''],
+    ['Time Slot',         'No',  'Morning | Afternoon | Evening',                   '(blank)', 'Session/shift. Leave blank if not applicable.','','','',''],
+    ['Capacity',          'YES', 'Integer 1–999.',                                  '—',       'Maximum students this section can accommodate.','','','',''],
+    ['Academic Year',     'No',  'Text. e.g. 2025–26',                              'Active year','Must match Academic Year Master if populated.','','','',''],
+    ['Status',            'No',  'Active | Inactive',                               'Active',  'Controls visibility in timetable and forms.','','','',''],
+    ['Notes',             'No',  'Free text.',                                      '(blank)', 'Optional remarks for this section.','','','',''],
+    ['','','','','','','','',''],
+    ['AVAILABLE CLASS NAMES  (from Class Master at template generation time)','','','','','','','',''],
+    [classNames,'','','','','','','',''],
+    ['','','','','','','','',''],
+    ['VALIDATION RULES','','','','','','','',''],
+    ['#','Rule','','','','','','',''],
+    ['1','Class Name, Section Name, and Capacity are mandatory.','','','','','','',''],
+    ['2','Class Name must exactly match an existing class in the Class Master (case-insensitive).','','','','','','',''],
+    ['3','Section Name must be unique within the same class. Duplicate Class + Section combinations are rejected.','','','','','','',''],
+    ['4','Capacity must be a whole number between 1 and 999.','','','','','','',''],
+    ['5','Time Slot must be Morning, Afternoon, or Evening if provided; leave blank for none.','','','','','','',''],
+    ['6','Status must be Active or Inactive if provided; defaults to Active if blank.','','','','','','',''],
+    ['7','Blank rows are silently skipped.','','','','','','',''],
+    ['8','Sections are validated against both existing records AND other rows within the same import file.','','','','','','',''],
+    ['','','','','','','','',''],
+    ['IMPORT WORKFLOW','','','','','','','',''],
+    ['Step 1','Fill the "Data Entry" sheet with your section records.','','','','','','',''],
+    ['Step 2','Save as .xlsx (keep as Excel) or .csv — both are accepted.','','','','','','',''],
+    ['Step 3','On the Sections screen, click Import.','','','','','','',''],
+    ['Step 4','Select your .xlsx or .csv file. The system reads "Data Entry" sheet automatically.','','','','','','',''],
+    ['Step 5','Review Import Results: Total / Successful / Failed + row-wise error messages.','','','','','','',''],
+    ['Step 6','Click "Import Valid Records" to commit. Failed rows are skipped.','','','','','','',''],
+    ['','','','','','','','',''],
+    ['SAMPLE DATA  (for reference only — do not copy to Data Entry sheet)','','','','','','','',''],
+    ['Class Name','Section Name','Section Teacher','Room / Lab','Time Slot','Capacity','Academic Year','Status','Notes'],
+    ['Class X – Science',  'A','Dr. Anjali Rao',   'Room 101','Morning',  30,'2025–26','Active',  ''],
+    ['Class X – Science',  'B','Meera Iyer',        'Room 102','Morning',  30,'2025–26','Active',  ''],
+    ['Class X – Commerce', 'A','Prof. Vikram Shah', 'Room 201','Morning',  30,'2025–26','Active',  ''],
+    ['Class IX – Science', 'A','Karthik Nair',      'Room 301','Morning',  35,'2025–26','Active',  ''],
+    ['Class IX – Science', 'B','Rohan Gupta',       'Room 302','Afternoon',35,'2025–26','Active',  ''],
+    ['Class VIII',         'A','Dr. Anjali Rao',    'Lab 1',   'Morning',  35,'2025–26','Active',  'Uses Science Lab'],
+    ['Class VII',          'A','Meera Iyer',        'Room 501','Morning',  38,'2025–26','Active',  ''],
+    ['','','','','','','','',''],
+    ['For support contact your Aspire ERP system administrator.','','','','','','','','']
+  ];
+
+  var wsInstr = XLSX.utils.aoa_to_sheet(instrRows);
+  wsInstr['!cols'] = [{wch:28},{wch:14},{wch:46},{wch:20},{wch:44},{wch:12},{wch:12},{wch:12},{wch:12}];
+
+  function cs(ref,style){ if(wsInstr[ref]) wsInstr[ref].s=style; }
+  var sT   = {font:{bold:true,sz:14,color:{rgb:'0F4C75'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}}};
+  var sSb  = {font:{italic:true,sz:10,color:{rgb:'64748B'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}}};
+  var sSH  = {font:{bold:true,sz:11,color:{rgb:'0F4C75'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}},border:{bottom:{style:'medium',color:{rgb:'1B6CA8'}}}};
+  var sCH  = {font:{bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{patternType:'solid',fgColor:{rgb:'1B6CA8'}},alignment:{horizontal:'center',wrapText:true}};
+  var sSH2 = {font:{bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{patternType:'solid',fgColor:{rgb:'0EA571'}},alignment:{horizontal:'center'}};
+  var sRN  = {font:{bold:true,sz:10,color:{rgb:'1B6CA8'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}},alignment:{horizontal:'center'}};
+  var sEv  = {font:{sz:10},fill:{patternType:'solid',fgColor:{rgb:'F7F8FC'}},alignment:{wrapText:true,vertical:'top'}};
+  var sOd  = {font:{sz:10},fill:{patternType:'solid',fgColor:{rgb:'FFFFFF'}},alignment:{wrapText:true,vertical:'top'}};
+  var sRq  = {font:{bold:true,sz:10,color:{rgb:'991B1B'}},fill:{patternType:'solid',fgColor:{rgb:'FEF2F2'}},alignment:{horizontal:'center'}};
+  var sCls = {font:{sz:9,color:{rgb:'0F4C75'},italic:true},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}},alignment:{wrapText:true}};
+
+  cs('A1',sT); cs('A2',sSb);
+  ['A4','A10','A21','A25','A34','A43'].forEach(function(r){ cs(r,sSH); });
+  ['A','B','C','D','E','F','G','H','I'].forEach(function(c){ cs(c+'11',sCH); });
+  /* Field rows 12–20 */
+  [12,13,14,15,16,17,18,19,20].forEach(function(row,i){
+    var reqRows=[12,13,17];
+    cs('B'+row, reqRows.indexOf(row)>-1 ? sRq : {font:{sz:10,color:{rgb:'0EA571'}},fill:{patternType:'solid',fgColor:{rgb:'ECFDF5'}}});
+    ['A','C','D','E','F','G','H','I'].forEach(function(c){ cs(c+row, i%2===0?sEv:sOd); });
+  });
+  /* Class names row 23 */
+  cs('A23',sCls);
+  /* Validation rule header 26, rows 27-34 */
+  cs('A26',sCH); cs('B26',sCH);
+  for(var vi=27;vi<=34;vi++){ cs('A'+vi,sRN); cs('B'+vi,vi%2===0?sEv:sOd); }
+  /* Workflow rows 36-41 */
+  for(var wi=36;wi<=41;wi++){ cs('A'+wi,sRN); cs('B'+wi,wi%2===0?sEv:sOd); }
+  /* Sample header 44, data 45-51 */
+  ['A','B','C','D','E','F','G','H','I'].forEach(function(c){ cs(c+'44',sSH2); });
+  for(var dr=45;dr<=51;dr++){ ['A','B','C','D','E','F','G','H','I'].forEach(function(c){ cs(c+dr,dr%2===0?sEv:sOd); }); }
+
+  wsInstr['!merges'] = [
+    {s:{r:0,c:0},e:{r:0,c:8}},{s:{r:1,c:0},e:{r:1,c:8}},
+    {s:{r:3,c:0},e:{r:3,c:8}},{s:{r:4,c:0},e:{r:4,c:8}},{s:{r:5,c:0},e:{r:5,c:8}},
+    {s:{r:6,c:0},e:{r:6,c:8}},{s:{r:7,c:0},e:{r:7,c:8}},
+    {s:{r:9,c:0},e:{r:9,c:8}},{s:{r:20,c:0},e:{r:20,c:8}},
+    {s:{r:21,c:0},e:{r:21,c:8}},{s:{r:22,c:0},e:{r:22,c:8}},
+    {s:{r:24,c:0},e:{r:24,c:8}},{s:{r:25,c:1},e:{r:25,c:8}},
+    {s:{r:33,c:0},e:{r:33,c:8}},{s:{r:42,c:0},e:{r:42,c:8}},
+    /* rule rows B-I merged */
+    {s:{r:26,c:1},e:{r:26,c:8}},{s:{r:27,c:1},e:{r:27,c:8}},{s:{r:28,c:1},e:{r:28,c:8}},
+    {s:{r:29,c:1},e:{r:29,c:8}},{s:{r:30,c:1},e:{r:30,c:8}},{s:{r:31,c:1},e:{r:31,c:8}},
+    {s:{r:32,c:1},e:{r:32,c:8}},{s:{r:33,c:1},e:{r:33,c:8}},
+    /* workflow B-I merged */
+    {s:{r:35,c:1},e:{r:35,c:8}},{s:{r:36,c:1},e:{r:36,c:8}},{s:{r:37,c:1},e:{r:37,c:8}},
+    {s:{r:38,c:1},e:{r:38,c:8}},{s:{r:39,c:1},e:{r:39,c:8}},{s:{r:40,c:1},e:{r:40,c:8}}
+  ];
+  wsInstr['!rows'] = [{hpt:26},{hpt:16}];
+  XLSX.utils.book_append_sheet(wb, wsInstr, 'Instructions & Sample Data');
+
+  var wbOut = XLSX.write(wb, {bookType:'xlsx',type:'array',cellStyles:true});
+  var blob  = new Blob([wbOut],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  var a     = document.createElement('a');
+  a.href    = URL.createObjectURL(blob);
+  a.download = 'section_master_template.xlsx';
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 10000);
+  toast('Template downloaded: section_master_template.xlsx (2 sheets)','ok');
+}
+
+/* ════════════════════════════════════════
+   IMPORT — trigger, route, validate
+════════════════════════════════════════ */
+function triggerImport(){
+  var inp = document.getElementById('import-file-inp');
+  inp.value = ''; inp.click();
+}
+
+function handleImport(input){
+  var file = input.files[0]; if(!file) return;
+  var ext  = file.name.split('.').pop().toLowerCase();
+
+  if(['xlsx','xls'].indexOf(ext) > -1){
+    if(typeof XLSX==='undefined'){showImportResult(file.name,[],[],['Excel library not loaded. Please refresh.']);return;}
+    var reader = new FileReader();
+    reader.onload = function(e){
+      try{
+        var wb = XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+        var sn = wb.SheetNames.indexOf('Data Entry')>-1 ? 'Data Entry' : wb.SheetNames[0];
+        var ws = wb.Sheets[sn];
+        var aoa= XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+        aoa = aoa.filter(function(row){ return row.some(function(c){ return String(c||'').trim()!==''; }); });
+        if(aoa.length<2){ showImportResult(file.name,[],[],['Sheet "'+sn+'" has no data rows. Fill in the Data Entry sheet first.']); return; }
+        parseAndValidate(aoa, file.name, sn);
+      }catch(err){ showImportResult(file.name,[],[],['Could not read the Excel file: '+err.message]); }
+    };
+    reader.onerror = function(){ showImportResult(file.name,[],[],['Failed to read the file. Please try again.']); };
+    reader.readAsArrayBuffer(file);
+
+  } else if(ext==='csv'){
+    var rc = new FileReader();
+    rc.onload  = function(e){ parseCSV(e.target.result, file.name); };
+    rc.onerror = function(){ showImportResult(file.name,[],[],['Failed to read the CSV file.']); };
+    rc.readAsText(file);
+
+  } else {
+    showImportResult(file.name,[],[],['Unsupported file type ".'+ext+'". Please upload .xlsx, .xls or .csv.']);
+  }
+}
+
+/* ── CSV parser ── */
+function parseCSV(text, fileName){
+  var lines = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(function(l){ return l.trim(); });
+  if(lines.length<2){ showImportResult(fileName,[],[],['File is empty or has only headers.']); return; }
+  function parseLine(line){
+    var result=[],current='',inQ=false;
+    for(var i=0;i<line.length;i++){
+      var c=line[i];
+      if(c==='"'){ if(inQ&&line[i+1]==='"'){current+='"';i++;} else inQ=!inQ; }
+      else if(c===','&&!inQ){ result.push(current.trim()); current=''; }
+      else current+=c;
+    }
+    result.push(current.trim()); return result;
+  }
+  var rawHdrs = parseLine(lines[0]);
+  var aoa = [rawHdrs.map(function(h){ return h.replace(/^"+|"+$/g,'').trim(); })];
+  lines.slice(1).filter(function(l){ return l.indexOf('---')===-1&&l.replace(/,/g,'').trim(); }).forEach(function(line){
+    aoa.push(parseLine(line).map(function(v){ return v.replace(/^"+|"+$/g,'').trim(); }));
+  });
+  parseAndValidate(aoa, fileName, 'CSV');
+}
+
+/* ── Core validator ── */
+function parseAndValidate(aoa, fileName, sheetName){
+  var headers = aoa[0].map(function(h){ return String(h||'').trim().toLowerCase(); });
+  function col(names){
+    for(var i=0;i<names.length;i++){
+      var idx=headers.indexOf(names[i].toLowerCase());
+      if(idx>-1) return idx;
+    }
+    return -1;
+  }
+
+  var iClass = col(['class name','class','className']);
+  var iName  = col(['section name','section','name']);
+  var iTch   = col(['section teacher','teacher','class teacher']);
+  var iRoom  = col(['room / lab','room','lab','room/lab']);
+  var iSlot  = col(['time slot','slot','session']);
+  var iCap   = col(['capacity','cap','student capacity']);
+  var iYear  = col(['academic year','year']);
+  var iStat  = col(['status']);
+  var iNotes = col(['notes','remarks','note']);
+
+  if(iClass===-1){ showImportResult(fileName,[],[],['Column "Class Name" not found in sheet "'+sheetName+'". Please use the downloaded template.']); return; }
+  if(iName ===-1){ showImportResult(fileName,[],[],['Column "Section Name" not found in sheet "'+sheetName+'".']); return; }
+  if(iCap  ===-1){ showImportResult(fileName,[],[],['Column "Capacity" not found in sheet "'+sheetName+'".']); return; }
+
+  /* Build live lookup tables for validation (Req 8) */
+  var validYears = [];
+  var storedYears = JSON.parse(sessionStorage.getItem('yearStore')||'null');
+  if(storedYears&&storedYears.length) validYears = storedYears.map(function(y){ return y.name; });
+
+  var valid  = [];
+  var errors = [];
+
+  aoa.slice(1).forEach(function(cells, idx){
+    var rowNum   = idx + 2;
+    var className = String(cells[iClass]||'').trim();
+    var secName  = String(cells[iName] ||'').trim();
+
+    /* skip blank rows */
+    if(!className && !secName) return;
+
+    var rowErrors = [];
+    var rowLabel  = (className && secName) ? className+' / '+secName
+                  : className || secName   || '(blank)';
+
+    /* ── Req 8: Class Name must match Class Master ── */
+    var cls = null;
+    if(!className){
+      rowErrors.push('Class Name is required');
+    } else {
+      cls = CLASSES.find(function(c){ return c.name.toLowerCase()===className.toLowerCase(); });
+      if(!cls) rowErrors.push('Class "'+className+'" not found in Class Master. Valid classes: '+CLASSES.map(function(c){return c.name;}).join(', '));
+    }
+
+    /* ── Section Name ── */
+    if(!secName){
+      rowErrors.push('Section Name is required');
+    } else if(secName.length>50){
+      rowErrors.push('Section Name exceeds 50 characters');
+    }
+
+    /* ── Duplicate check (existing records + within batch) ── */
+    if(cls && secName){
+      var dupExisting = SECTIONS.find(function(s){
+        return s.classId===cls.id && s.name.toLowerCase()===secName.toLowerCase();
+      });
+      if(dupExisting) rowErrors.push('Section "'+secName+'" already exists in class "'+className+'"');
+
+      var dupBatch = valid.find(function(v){
+        return v.classId===cls.id && v.name.toLowerCase()===secName.toLowerCase();
+      });
+      if(dupBatch) rowErrors.push('Duplicate Class + Section combination within import file');
+    }
+
+    /* ── Capacity ── */
+    var capRaw  = cells[iCap];
+    var capacity = 0;
+    if(capRaw===''||capRaw===null||capRaw===undefined){
+      rowErrors.push('Capacity is required');
+    } else {
+      capacity = typeof capRaw==='number' ? capRaw : parseInt(capRaw);
+      if(isNaN(capacity)||capacity<1||capacity>999) rowErrors.push('Capacity must be an integer between 1 and 999');
+    }
+
+    /* ── Time Slot (optional, validated if provided) ── */
+    var slot = iSlot>-1 ? String(cells[iSlot]||'').trim() : '';
+    if(slot && ['Morning','Afternoon','Evening'].indexOf(slot)<0 &&
+       ['morning','afternoon','evening'].indexOf(slot.toLowerCase())<0){
+      rowErrors.push('Time Slot "'+slot+'" not recognised — use Morning, Afternoon, Evening, or leave blank');
+    } else if(slot){
+      /* normalise capitalisation */
+      slot = slot.charAt(0).toUpperCase()+slot.slice(1).toLowerCase();
+    }
+
+    /* ── Req 8: Academic Year validation ── */
+    var yearRaw = iYear>-1 ? String(cells[iYear]||'').trim() : '';
+    var year    = yearRaw;
+    if(!year){
+      /* default to active year from Class master entry if available, else leave blank */
+      year = (cls && cls.year) ? cls.year : '2025–26';
+    } else {
+      /* normalise dashes */
+      year = year.replace(/\u2013/g,'–').replace(/-/g,'–');
+      /* validate against yearStore if populated */
+      if(validYears.length){
+        var normalised = validYears.map(function(y){ return y.replace(/\u2013/g,'–').replace(/-/g,'–'); });
+        if(normalised.indexOf(year)<0){
+          rowErrors.push('Academic Year "'+yearRaw+'" not found in Academic Year Master. Valid: '+validYears.join(', '));
+        }
+      }
+    }
+
+    /* ── Status ── */
+    var statRaw = iStat>-1 ? String(cells[iStat]||'').trim() : '';
+    var status  = 'Active';
+    if(statRaw){
+      if(['active','1','yes','true'].indexOf(statRaw.toLowerCase())>-1)   status='Active';
+      else if(['inactive','0','no','false'].indexOf(statRaw.toLowerCase())>-1) status='Inactive';
+      else rowErrors.push('Status "'+statRaw+'" not recognised — use Active or Inactive');
+    }
+
+    var teacher = iTch  >-1 ? String(cells[iTch]  ||'').trim() : '';
+    var room    = iRoom >-1 ? String(cells[iRoom] ||'').trim() : '';
+    var notes   = iNotes>-1 ? String(cells[iNotes]||'').trim() : '';
+
+    if(rowErrors.length){
+      errors.push({row:rowNum, name:rowLabel, issues:rowErrors});
+    } else {
+      valid.push({
+        id:       'sec'+Date.now()+Math.random().toString(36).slice(2,6),
+        classId:  cls.id,
+        name:     secName,
+        teacher:  teacher,
+        room:     room,
+        capacity: capacity,
+        students: 0,
+        year:     year,
+        slot:     slot,
+        status:   status,
+        notes:    notes,
+        /* stash display helper for preview — not saved */
+        _className: cls.name
+      });
+    }
+  });
+
+  _pendingImport = valid;
+  showImportResult(fileName, valid, errors, []);
+}
+
+/* ════════════════════════════════════════
+   SHOW IMPORT RESULTS
+════════════════════════════════════════ */
+function showImportResult(fileName, valid, errors, fatalErrors){
+  var hasFatal = fatalErrors.length > 0;
+  var hasValid = valid.length > 0;
+  var total    = hasFatal ? 0 : (valid.length + errors.length);
+
+  document.getElementById('imp-modal-title').textContent = 'Import Results — '+fileName;
+  document.getElementById('imp-modal-sub').textContent   = hasFatal
+    ? 'File could not be processed.'
+    : total+' rows processed: '+valid.length+' ready, '+errors.length+' failed';
+
+  var html = '';
+
+  /* Fatal error block */
+  if(hasFatal){
+    html += '<div style="background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px 16px;display:flex;align-items:flex-start;gap:10px">'
+      +'<i class="ti ti-ban" style="color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px"></i>'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">File could not be processed</div>'
+        +'<div style="font-size:12.5px;color:var(--ink3)">'+fatalErrors.map(esc).join('<br>')+'</div>'
+      +'</div></div>';
+  }
+
+  /* Summary strip */
+  if(!hasFatal){
+    html += '<div class="imp-summary">'
+      +'<div class="imp-tile info"><div class="imp-tile-val">'+total+'</div><div class="imp-tile-lbl">Total Processed</div></div>'
+      +'<div class="imp-tile ok"><div class="imp-tile-val">'+valid.length+'</div><div class="imp-tile-lbl">Ready to Import</div></div>'
+      +'<div class="imp-tile err"><div class="imp-tile-val">'+errors.length+'</div><div class="imp-tile-lbl">Failed Rows</div></div>'
+    +'</div>';
+  }
+
+  /* Valid records preview */
+  if(valid.length){
+    html += '<div class="imp-section-title"><i class="ti ti-circle-check" style="color:var(--jade)"></i>Valid Records ('+valid.length+')</div>';
+    html += '<div class="imp-preview-tbl"><table><thead><tr>'
+      +'<th>Section</th><th>Class</th><th>Teacher</th><th>Room</th><th>Slot</th><th>Capacity</th><th>Status</th>'
+    +'</tr></thead><tbody>';
+    valid.forEach(function(v,i){
+      html += '<tr style="border-bottom:'+(i<valid.length-1?'1px solid var(--line)':'none')+'">'
+        +'<td style="font-weight:600;color:var(--ink);font-family:var(--mono)">'+esc(v.name)+'</td>'
+        +'<td style="font-size:12px;color:var(--ink3)">'+esc(v._className)+'</td>'
+        +'<td style="font-size:12px;color:var(--ink3)">'+esc(v.teacher||'—')+'</td>'
+        +'<td style="font-size:12px;color:var(--ink4)">'+esc(v.room||'—')+'</td>'
+        +'<td style="font-size:12px;color:var(--ink4)">'+esc(v.slot||'—')+'</td>'
+        +'<td style="font-family:var(--mono);font-size:12px;text-align:center">'+v.capacity+'</td>'
+        +'<td><span class="badge badge-'+(v.status==='Active'?'active':'inactive')+'">'+v.status+'</span></td>'
+      +'</tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+
+  /* Error rows */
+  if(errors.length){
+    html += '<div class="imp-section-title" style="margin-top:4px"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i>Failed Rows ('+errors.length+') — will not be imported</div>';
+    html += '<div>';
+    errors.forEach(function(e){
+      html += '<div class="imp-err-row">'
+        +'<div class="imp-row-num">Row '+e.row+'</div>'
+        +'<div><div class="imp-err-name">'+esc(e.name)+'</div>'
+          +'<div class="imp-err-msg">'+e.issues.map(esc).join(' · ')+'</div>'
+        +'</div></div>';
+    });
+    html += '</div>';
+    if(valid.length){
+      html += '<div class="imp-warn-notice">'
+        +'<i class="ti ti-info-circle"></i>'
+        +'<div style="font-size:12px;color:var(--ink2);line-height:1.5">'+errors.length+' row(s) failed validation and will be skipped. '
+          +'The '+valid.length+' valid record(s) can still be imported. Fix errors in your file and re-import to add the failed rows.</div>'
+      +'</div>';
+    }
+  }
+
+  if(!hasFatal && !valid.length && !errors.length){
+    html += '<div style="text-align:center;padding:30px;color:var(--ink4);font-size:13px">No data rows found in the file.</div>';
+  }
+
+  document.getElementById('imp-modal-body').innerHTML = html;
+  var btn = document.getElementById('imp-confirm-btn');
+  btn.style.display = (!hasFatal && hasValid) ? 'inline-flex' : 'none';
+  btn.innerHTML = '<i class="ti ti-check"></i>Import '+valid.length+' Valid Record'+(valid.length!==1?'s':'');
+  showModal('import-modal');
+}
+
+/* ════════════════════════════════════════
+   COMMIT IMPORT
+════════════════════════════════════════ */
+function commitImport(){
+  if(!_pendingImport.length) return;
+
+  var newClassIds = new Set();
+  _pendingImport.forEach(function(r){
+    /* strip the display helper before saving */
+    delete r._className;
+    SECTIONS.push(r);
+    newClassIds.add(r.classId);
+  });
+
+  var count = _pendingImport.length;
+  _pendingImport = [];
+  saveSections();
+  closeModal('import-modal');
+
+  /* Req 7: auto-expand newly imported class groups so records are visible */
+  newClassIds.forEach(function(id){
+    var grp = document.getElementById('grp-'+id);
+    if(grp) grp.classList.add('open');
+  });
+
+  renderGroups();  /* re-render list immediately */
+  toast(count+' section record'+(count!==1?'s':'')+' imported successfully.','ok');
+}
+</script>
+</body>
+</html>

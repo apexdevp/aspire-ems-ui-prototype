@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Department Management — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+      --sh-brand:0 8px 32px rgba(15,76,117,.28),0 2px 8px rgba(15,76,117,.18);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display)}
+
+    /* ── LAYOUT ── */
+    .page-wrap{max-width:1280px;margin:0 auto;padding:28px 28px 60px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+
+    /* ── STAT STRIP ── */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s;cursor:default}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.purple{background:#f3e8ff;color:#7c3aed}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* ── FILTER BAR ── */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .srch-wrap{flex:1;min-width:220px;position:relative}
+    .srch-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .srch-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 36px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .srch-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .srch-inp::placeholder{color:var(--ink4)}
+    .fsel{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:140px}
+    .fsel:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .fdiv{width:1px;height:24px;background:var(--line);margin:0 2px}
+    .view-toggle{display:flex;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+    .vbtn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink4);background:var(--smoke);cursor:pointer;transition:all .15s;border:none}
+    .vbtn.active{background:var(--p);color:#fff}
+    .vbtn:not(.active):hover{background:var(--line);color:var(--ink)}
+
+    /* ── DEPT CARDS ── */
+    .dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+    .dept-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh);transition:box-shadow .2s,transform .2s;cursor:pointer}
+    .dept-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+    .dc-accent{height:5px;transition:background .3s}
+    .dc-body{padding:18px 18px 0}
+    .dc-top{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
+    .dc-ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .dc-meta{flex:1;min-width:0}
+    .dc-name{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.2px;margin-bottom:3px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+    .dc-code{font-size:10.5px;font-family:var(--mono);background:var(--smoke);border:1px solid var(--line);border-radius:5px;padding:1px 7px;color:var(--ink4);font-weight:500}
+    .dc-desc{font-size:12px;color:var(--ink4);line-height:1.55;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+    .dc-status{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:10.5px;font-weight:700;flex-shrink:0}
+    .dcs-active{background:var(--jade-bg);color:var(--jade-text)}
+    .dcs-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+    .dc-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line);margin-top:4px}
+    .dc-stat{padding:10px 0;text-align:center;border-right:1px solid var(--line)}
+    .dc-stat:last-child{border-right:none}
+    .dc-stat-val{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--ink);line-height:1}
+    .dc-stat-lbl{font-size:10px;color:var(--ink4);margin-top:2px;text-transform:uppercase;letter-spacing:.4px}
+    .dc-hod-row{display:flex;align-items:center;gap:9px;padding:12px 18px;border-bottom:1px solid var(--line)}
+    .hod-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .hod-info{flex:1;min-width:0}
+    .hod-name{font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .hod-role{font-size:10.5px;color:var(--ink4)}
+    .dc-footer{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--smoke)}
+    .dc-footer-tag{font-size:10.5px;color:var(--ink4);margin-right:auto;display:flex;align-items:center;gap:4px}
+
+    /* ── TABLE ── */
+    .table-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);display:none}
+    .tbl-head-row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1.5px solid var(--line)}
+    .tbl-count{font-size:12px;color:var(--ink4)}.tbl-count b{color:var(--ink2);font-weight:600}
+    table{width:100%;border-collapse:collapse}
+    thead th{background:var(--smoke);padding:11px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1.5px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none;transition:background .12s}
+    thead th:hover{background:#eef0f6}
+    .th-inner{display:flex;align-items:center;gap:5px}
+    tbody tr{border-bottom:1px solid var(--line);transition:background .12s}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:#f9fafc}
+    td{padding:11px 16px;font-size:13px;color:var(--ink2);vertical-align:middle}
+    .row-acts{display:flex;justify-content:flex-end;gap:4px;opacity:0;transition:opacity .15s}
+    tbody tr:hover .row-acts{opacity:1}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;border:none;background:transparent;color:var(--ink4);transition:all .14s}
+    .row-btn:hover{background:var(--smoke);color:var(--ink)}
+    .row-btn.danger:hover{background:var(--fire-bg);color:var(--fire)}
+
+    /* ── PAGINATION ── */
+    .pagination{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1.5px solid var(--line);background:var(--smoke)}
+    .pg-info{font-size:12px;color:var(--ink4)}.pg-info b{color:var(--ink2);font-weight:600}
+    .pg-btns{display:flex;gap:4px}
+    .pg-btn{width:32px;height:32px;border-radius:var(--r);border:1.5px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--ink3);cursor:pointer;transition:all .14s;font-family:var(--font)}
+    .pg-btn:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .pg-btn.active{background:var(--p);border-color:var(--p);color:#fff}
+    .pg-btn:disabled{opacity:.35;cursor:not-allowed}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;outline:none;transition:all .18s;position:relative;overflow:hidden;white-space:nowrap}
+    .btn i{font-size:15px;flex-shrink:0}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:var(--sh-brand)}.btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}.btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .btn-danger{background:transparent;color:var(--fire);border:1.5px solid rgba(239,68,68,.25)}.btn-danger:hover{background:var(--fire-bg);border-color:var(--fire)}
+    .btn-sm{padding:7px 13px;font-size:12px}
+    .btn-loading{pointer-events:none}.btn-loading::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── MODAL ── */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:500px;max-width:95vw;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line)}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+    .modal-close{width:30px;height:30px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:15px;cursor:pointer;transition:all .15s}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line)}
+    .warn-box{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r);font-size:12.5px;color:var(--fire-text);margin-bottom:14px}
+    .warn-box i{font-size:16px;flex-shrink:0;margin-top:1px}
+
+    /* ── QUICK EDIT INLINE ── */
+    .qe-wrap{background:var(--p-bg);border:1.5px solid var(--p-line);border-radius:var(--r);padding:14px 16px;margin-top:6px;animation:fadeUp .2s ease both}
+    .qe-row{display:flex;gap:8px;align-items:flex-end}
+    .qe-inp{flex:1;border:1.5px solid var(--line);border-radius:var(--r);padding:8px 11px;font-size:13px;color:var(--ink);outline:none;background:var(--white)}
+    .qe-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+
+    /* ── EMPTY ── */
+    .empty-state{display:flex;flex-direction:column;align-items:center;padding:64px 20px;text-align:center;grid-column:1/-1}
+    .es-ico{width:64px;height:64px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--ink4);margin-bottom:16px}
+    .es-title{font-size:15px;font-weight:700;color:var(--ink);font-family:var(--display);margin-bottom:6px}
+    .es-desc{font-size:13px;color:var(--ink4);line-height:1.6;max-width:280px;margin-bottom:18px}
+
+    /* ── BADGE ── */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:var(--r-pill);font-size:10.5px;font-weight:600}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+
+    /* ── ANIM ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
+
+    /* ── TOAST ── */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:12px 18px;font-size:13px;min-width:240px;max-width:320px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:17px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @media(max-width:1100px){.stat-strip{grid-template-columns:1fr 1fr}}
+    @media(max-width:700px){.dept-grid{grid-template-columns:1fr};.stat-strip{grid-template-columns:1fr 1fr};.page-header{flex-direction:column;align-items:flex-start};td.hide-sm{display:none};th.hide-sm{display:none}}
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand" onclick="location.href='dashboard.html'">
+    <div class="tb-mark"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Admin</div></div>
+  </div>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home" style="font-size:13px;vertical-align:-1px"></i> Dashboard</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur">Department Management</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" title="Back to Dashboard" onclick="location.href='dashboard.html'"><i class="ti ti-layout-dashboard"></i></button>
+    <div class="tb-av">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag"><i class="ti ti-building-community"></i> Departments</div>
+      <div class="page-title">Department Management</div>
+      <div class="page-sub">Organise your institution's academic and administrative departments, assign heads, and track strength.</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <button class="btn btn-ghost" onclick="exportDepts()"><i class="ti ti-download"></i> Export</button>
+      <button class="btn btn-primary" onclick="location.href='dept-form.html'"><i class="ti ti-plus"></i> Add Department</button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile">
+      <div class="st-ico blue"><i class="ti ti-building-community"></i></div>
+      <div><div class="st-val" id="stat-total">0</div><div class="st-lbl">Total Departments</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico green"><i class="ti ti-circle-check"></i></div>
+      <div><div class="st-val" id="stat-active">0</div><div class="st-lbl">Active</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico amber"><i class="ti ti-users"></i></div>
+      <div><div class="st-val" id="stat-staff">0</div><div class="st-lbl">Total Staff</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico purple"><i class="ti ti-school"></i></div>
+      <div><div class="st-val" id="stat-students">0</div><div class="st-lbl">Total Students</div></div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar anim d2">
+    <div class="srch-wrap">
+      <i class="ti ti-search"></i>
+      <input class="srch-inp" type="text" id="srch" placeholder="Search by name, code, or HOD…" oninput="applyFilters()"/>
+    </div>
+    <select class="fsel" id="f-faculty" onchange="applyFilters()">
+      <option value="">All Faculties</option>
+      <option>Science</option><option>Commerce</option><option>Arts</option>
+      <option>Technology</option><option>Administration</option><option>Management</option>
+    </select>
+    <select class="fsel" id="f-status" onchange="applyFilters()">
+      <option value="">All Status</option>
+      <option>Active</option><option>Inactive</option>
+    </select>
+    <select class="fsel" id="f-sort" onchange="applyFilters()">
+      <option value="name">Sort: Name A–Z</option>
+      <option value="name-desc">Sort: Name Z–A</option>
+      <option value="staff">Sort: Staff ↓</option>
+      <option value="students">Sort: Students ↓</option>
+      <option value="newest">Sort: Newest</option>
+    </select>
+    <div class="fdiv"></div>
+    <div class="view-toggle">
+      <button class="vbtn active" id="vb-card" onclick="setView('card')" title="Card view"><i class="ti ti-layout-grid"></i></button>
+      <button class="vbtn" id="vb-table" onclick="setView('table')" title="Table view"><i class="ti ti-list"></i></button>
+    </div>
+  </div>
+
+  <!-- CARD VIEW -->
+  <div id="card-view" class="dept-grid"></div>
+
+  <!-- TABLE VIEW -->
+  <div class="table-card" id="table-view">
+    <div class="tbl-head-row">
+      <div class="tbl-count"><b id="tbl-count">0</b> departments</div>
+      <div id="bulk-actions" style="display:none;align-items:center;gap:8px">
+        <span id="bulk-label" style="font-size:12px;color:var(--p);font-weight:600"></span>
+        <button class="btn btn-ghost btn-sm" onclick="bulkDeactivate()"><i class="ti ti-circle-off"></i> Deactivate</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40px"><input type="checkbox" id="sel-all" onchange="selectAll(this)"/></th>
+            <th style="min-width:200px" onclick="sortBy('name')"><div class="th-inner">Department <i class="ti ti-arrows-sort"></i></div></th>
+            <th class="hide-sm">Faculty</th>
+            <th>HOD</th>
+            <th style="width:80px" onclick="sortBy('staff')"><div class="th-inner">Staff <i class="ti ti-arrows-sort"></i></div></th>
+            <th style="width:90px" class="hide-sm" onclick="sortBy('students')"><div class="th-inner">Students <i class="ti ti-arrows-sort"></i></div></th>
+            <th style="width:90px">Status</th>
+            <th style="width:80px"></th>
+          </tr>
+        </thead>
+        <tbody id="dept-tbody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- DELETE MODAL -->
+<div class="overlay" id="del-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i> Delete Department</div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="warn-box"><i class="ti ti-alert-triangle"></i><span>Deleting <b id="del-name"></b> will permanently remove all department data. Staff and students currently assigned to this department will need to be reassigned.</span></div>
+      <p style="font-size:13px;color:var(--ink3);line-height:1.7">This action cannot be undone. Type the department name to confirm.</p>
+      <div style="margin-top:12px">
+        <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px">Type <b id="del-confirm-txt" style="font-family:var(--mono)"></b> to confirm</div>
+        <input class="srch-inp" type="text" id="del-inp" placeholder="Department name…" oninput="chkDel()" style="background:var(--white)"/>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-btn" disabled onclick="execDel()"><i class="ti ti-trash"></i> Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- STATUS TOGGLE MODAL -->
+<div class="overlay" id="status-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="status-modal-title"></div>
+      <button class="modal-close" onclick="closeModal('status-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p id="status-modal-body" style="font-size:13.5px;color:var(--ink2);line-height:1.7"></p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('status-modal')">Cancel</button>
+      <button class="btn" id="status-confirm-btn" onclick="execStatus()"></button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ── SHARED DATA ── stored in sessionStorage so dept-form writes are reflected here */
+var DEPT_COLORS = ['#0F4C75','#0EA571','#7C3AED','#3B82F6','#F59E0B','#EF4444','#06B6D4','#64748B','#D97706','#16A34A'];
+var DEPT_ICONS  = {Science:'ti-microscope',Commerce:'ti-coin',Arts:'ti-paint',Technology:'ti-cpu',Administration:'ti-building-skyscraper',Management:'ti-briefcase',Mathematics:'ti-calculator',Languages:'ti-language',Physical:'ti-run',Library:'ti-books'};
+
+function loadDepts(){
+  var stored=null; try{stored=JSON.parse(sessionStorage.getItem('deptStore'));}catch(e){}
+  if(stored&&stored.length) return stored;
+  return [
+    {id:'d1', name:'Administration',   code:'ADM', faculty:'Administration', hod:'Priya Menon',      hodColor:'#0F4C75', desc:'Central administrative hub — manages operations, HR, procurement, and institutional governance.',    staff:8,  students:0,   subjects:0,  status:'Active',   color:'#0F4C75', icon:'ti-building-skyscraper', created:'10 Jan 2024', updated:'2 days ago'},
+    {id:'d2', name:'Science',          code:'SCI', faculty:'Science',        hod:'Sneha Patil',      hodColor:'#7C3AED', desc:'Covers Physics, Chemistry, Biology — equips students with analytical thinking and laboratory skills.', staff:14, students:312, subjects:8,  status:'Active',   color:'#7C3AED', icon:'ti-microscope',          created:'10 Jan 2024', updated:'3 days ago'},
+    {id:'d3', name:'Commerce',         code:'COM', faculty:'Commerce',       hod:'Anil Sharma',      hodColor:'#0EA571', desc:'Focuses on Accountancy, Economics, Business Studies, and Entrepreneurship.',                          staff:11, students:268, subjects:6,  status:'Active',   color:'#0EA571', icon:'ti-coin',                created:'10 Jan 2024', updated:'1 week ago'},
+    {id:'d4', name:'Arts',             code:'ART', faculty:'Arts',           hod:'Meera Iyer',       hodColor:'#EF4444', desc:'Humanities and fine arts — History, Political Science, Sociology, Drawing, and Music.',               staff:9,  students:194, subjects:7,  status:'Active',   color:'#EF4444', icon:'ti-paint',               created:'10 Jan 2024', updated:'4 days ago'},
+    {id:'d5', name:'Computer Science', code:'CS',  faculty:'Technology',     hod:'Vikram Shah',      hodColor:'#3B82F6', desc:'Programming, Data Structures, DBMS, Networks — prepares students for technology careers.',            staff:10, students:228, subjects:9,  status:'Active',   color:'#3B82F6', icon:'ti-cpu',                 created:'15 Jan 2024', updated:'Yesterday'},
+    {id:'d6', name:'Management',       code:'MGT', faculty:'Management',     hod:'Deepak Joshi',     hodColor:'#F59E0B', desc:'Business Administration, Marketing, HR — bridges theory and industry practice.',                      staff:7,  students:156, subjects:5,  status:'Active',   color:'#F59E0B', icon:'ti-briefcase',           created:'20 Jan 2024', updated:'5 days ago'},
+    {id:'d7', name:'Mathematics',      code:'MTH', faculty:'Science',        hod:'Ravi Teja',        hodColor:'#06B6D4', desc:'Pure and applied mathematics — Calculus, Statistics, Algebra, and Discrete Mathematics.',            staff:6,  students:0,   subjects:4,  status:'Active',   color:'#06B6D4', icon:'ti-calculator',          created:'25 Jan 2024', updated:'6 days ago'},
+    {id:'d8', name:'Physical Education',code:'PE', faculty:'Arts',           hod:'Sana Khan',        hodColor:'#64748B', desc:'Sports science, health education, and physical fitness programmes for all students.',                 staff:4,  students:0,   subjects:2,  status:'Inactive', color:'#64748B', icon:'ti-run',                 created:'01 Feb 2024', updated:'2 weeks ago'},
+  ];
+}
+var DEPTS = loadDepts();
+function saveDepts(){ try{sessionStorage.setItem('deptStore',JSON.stringify(DEPTS));}catch(e){} }
+
+var filtered = [];
+var currentView = 'card';
+var PAGE_SZ = 8;
+var currentPage = 1;
+var delTarget = null;
+var statusTarget = null;
+var selectedIds = new Set();
+
+/* ── INIT ── */
+applyFilters();
+updateStats();
+
+function updateStats(){
+  var active   = DEPTS.filter(function(d){return d.status==='Active';}).length;
+  var totStaff = DEPTS.reduce(function(a,d){return a+d.staff;},0);
+  var totStuds = DEPTS.reduce(function(a,d){return a+d.students;},0);
+  document.getElementById('stat-total').textContent    = DEPTS.length;
+  document.getElementById('stat-active').textContent   = active;
+  document.getElementById('stat-staff').textContent    = totStaff;
+  document.getElementById('stat-students').textContent = totStuds;
+}
+
+function applyFilters(){
+  var q       = (document.getElementById('srch').value||'').toLowerCase().trim();
+  var faculty = document.getElementById('f-faculty').value;
+  var status  = document.getElementById('f-status').value;
+  var sort    = document.getElementById('f-sort').value;
+
+  filtered = DEPTS.filter(function(d){
+    if(q && d.name.toLowerCase().indexOf(q)===-1 && d.code.toLowerCase().indexOf(q)===-1 && d.hod.toLowerCase().indexOf(q)===-1 && d.faculty.toLowerCase().indexOf(q)===-1) return false;
+    if(faculty && d.faculty!==faculty) return false;
+    if(status  && d.status!==status)   return false;
+    return true;
+  });
+
+  filtered.sort(function(a,b){
+    if(sort==='name')     return a.name.localeCompare(b.name);
+    if(sort==='name-desc')return b.name.localeCompare(a.name);
+    if(sort==='staff')    return b.staff-a.staff;
+    if(sort==='students') return b.students-a.students;
+    if(sort==='newest')   return b.id.localeCompare(a.id);
+    return 0;
+  });
+
+  currentPage = 1;
+  renderView();
+}
+
+function setView(v){
+  currentView=v;
+  document.getElementById('vb-card').classList.toggle('active',v==='card');
+  document.getElementById('vb-table').classList.toggle('active',v==='table');
+  document.getElementById('card-view').style.display = v==='card'?'grid':'none';
+  document.getElementById('table-view').style.display= v==='table'?'block':'none';
+  renderView();
+}
+
+function renderView(){ if(currentView==='card') renderCards(); else renderTable(); }
+
+/* ── CARDS ── */
+function renderCards(){
+  var cv=document.getElementById('card-view');
+  if(!filtered.length){ cv.innerHTML='<div class="empty-state"><div class="es-ico"><i class="ti ti-building-off"></i></div><div class="es-title">No departments found</div><div class="es-desc">Try adjusting your search or filter criteria.</div><button class="btn btn-primary" onclick="location.href=\'dept-form.html\'"><i class="ti ti-plus"></i> Add Department</button></div>'; return; }
+  cv.innerHTML=filtered.map(function(d){
+    var bgLight=d.color+'18';
+    return '<div class="dept-card" onclick="location.href=\'dept-detail.html?id='+d.id+'\'">'
+      +'<div class="dc-accent" style="background:'+d.color+'"></div>'
+      +'<div class="dc-body">'
+        +'<div class="dc-top">'
+          +'<div class="dc-ico" style="background:'+bgLight+';color:'+d.color+'"><i class="ti '+d.icon+'"></i></div>'
+          +'<div class="dc-meta">'
+            +'<div class="dc-name">'+escHtml(d.name)+' <span class="dc-code">'+d.code+'</span></div>'
+            +'<div class="dc-desc">'+escHtml(d.desc)+'</div>'
+          +'</div>'
+          +'<span class="dc-status '+(d.status==='Active'?'dcs-active':'dcs-inactive')+'">'+d.status+'</span>'
+        +'</div>'
+      +'</div>'
+      +'<div class="dc-stats">'
+        +'<div class="dc-stat"><div class="dc-stat-val">'+d.staff+'</div><div class="dc-stat-lbl">Staff</div></div>'
+        +'<div class="dc-stat"><div class="dc-stat-val">'+d.students+'</div><div class="dc-stat-lbl">Students</div></div>'
+        +'<div class="dc-stat"><div class="dc-stat-val">'+d.subjects+'</div><div class="dc-stat-lbl">Subjects</div></div>'
+      +'</div>'
+      +'<div class="dc-hod-row">'
+        +'<div class="hod-av" style="background:'+d.hodColor+'">'+initials(d.hod)+'</div>'
+        +'<div class="hod-info"><div class="hod-name">'+escHtml(d.hod)+'</div><div class="hod-role">Head of Department</div></div>'
+        +'<i class="ti ti-award" style="font-size:14px;color:var(--ink4)"></i>'
+      +'</div>'
+      +'<div class="dc-footer" onclick="event.stopPropagation()">'
+        +'<span class="dc-footer-tag"><i class="ti ti-building" style="font-size:11px"></i>'+escHtml(d.faculty)+'</span>'
+        +'<button class="btn btn-ghost btn-sm" onclick="location.href=\'dept-detail.html?id='+d.id+'\'"><i class="ti ti-eye"></i></button>'
+        +'<button class="btn btn-ghost btn-sm" onclick="location.href=\'dept-form.html?id='+d.id+'\'"><i class="ti ti-edit"></i></button>'
+        +'<button class="btn btn-ghost btn-sm" style="color:var(--fire)" onclick="openDel(\''+d.id+'\')"><i class="ti ti-trash"></i></button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+/* ── TABLE ── */
+function renderTable(){
+  document.getElementById('tbl-count').textContent=filtered.length;
+  var total=filtered.length, pages=Math.max(1,Math.ceil(total/PAGE_SZ));
+  if(currentPage>pages) currentPage=1;
+  var start=(currentPage-1)*PAGE_SZ, page=filtered.slice(start,start+PAGE_SZ);
+
+  if(!page.length){ document.getElementById('dept-tbody').innerHTML='<tr><td colspan="8"><div class="empty-state"><div class="es-ico"><i class="ti ti-building-off"></i></div><div class="es-title">No departments found</div><div class="es-desc">Try adjusting your filters.</div></div></td></tr>'; document.getElementById('pagination').innerHTML=''; return; }
+
+  document.getElementById('dept-tbody').innerHTML=page.map(function(d){
+    var checked=selectedIds.has(d.id);
+    return '<tr class="'+(checked?'selected':'')+'">'
+      +'<td><input type="checkbox" '+(checked?'checked':'')+' onchange="toggleSel(this,\''+d.id+'\')"/></td>'
+      +'<td><div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:9px;background:'+d.color+'18;color:'+d.color+';display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0"><i class="ti '+d.icon+'"></i></div><div><div style="font-size:13px;font-weight:600;color:var(--ink)">'+escHtml(d.name)+'</div><div style="font-size:10.5px;font-family:var(--mono);color:var(--ink4)">'+d.code+'</div></div></div></td>'
+      +'<td class="hide-sm" style="font-size:12px;color:var(--ink3)">'+escHtml(d.faculty)+'</td>'
+      +'<td><div style="display:flex;align-items:center;gap:7px"><div style="width:24px;height:24px;border-radius:50%;background:'+d.hodColor+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;font-family:var(--display)">'+initials(d.hod)+'</div><span style="font-size:12.5px;color:var(--ink2)">'+escHtml(d.hod)+'</span></div></td>'
+      +'<td style="font-family:var(--mono);font-weight:600;color:var(--ink)">'+d.staff+'</td>'
+      +'<td class="hide-sm" style="font-family:var(--mono);color:var(--ink3)">'+d.students+'</td>'
+      +'<td><span class="badge '+(d.status==='Active'?'badge-active':'badge-inactive')+'">'+d.status+'</span></td>'
+      +'<td><div class="row-acts">'
+        +'<button class="row-btn" title="View" onclick="location.href=\'dept-detail.html?id='+d.id+'\'"><i class="ti ti-eye"></i></button>'
+        +'<button class="row-btn" title="Edit" onclick="location.href=\'dept-form.html?id='+d.id+'\'"><i class="ti ti-edit"></i></button>'
+        +'<button class="row-btn danger" title="Delete" onclick="openDel(\''+d.id+'\')"><i class="ti ti-trash"></i></button>'
+      +'</div></td>'
+    +'</tr>';
+  }).join('');
+
+  /* Pagination */
+  var s=start+1,e=Math.min(start+PAGE_SZ,total);
+  var btns='<div class="pg-btns"><button class="pg-btn" onclick="goPage('+(currentPage-1)+')" '+(currentPage<=1?'disabled':'')+'><i class="ti ti-chevron-left"></i></button>';
+  for(var p=Math.max(1,currentPage-2);p<=Math.min(pages,currentPage+2);p++) btns+='<button class="pg-btn'+(p===currentPage?' active':'')+'" onclick="goPage('+p+')">'+p+'</button>';
+  btns+='<button class="pg-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage>=pages?'disabled':'')+'><i class="ti ti-chevron-right"></i></button></div>';
+  document.getElementById('pagination').innerHTML='<div class="pg-info">Showing <b>'+s+'–'+e+'</b> of <b>'+total+'</b></div>'+btns;
+}
+
+function goPage(p){ var pages=Math.max(1,Math.ceil(filtered.length/PAGE_SZ)); if(p<1||p>pages)return; currentPage=p; renderTable(); }
+
+/* ── SELECTION ── */
+function toggleSel(cb,id){ if(cb.checked)selectedIds.add(id);else selectedIds.delete(id); var tr=cb.closest('tr'); if(tr)tr.classList.toggle('selected',cb.checked); updateBulk(); }
+function selectAll(cb){ var start=(currentPage-1)*PAGE_SZ; var page=filtered.slice(start,start+PAGE_SZ); page.forEach(function(d){if(cb.checked)selectedIds.add(d.id);else selectedIds.delete(d.id);}); renderTable(); updateBulk(); }
+function updateBulk(){ var ba=document.getElementById('bulk-actions'); var lbl=document.getElementById('bulk-label'); var n=selectedIds.size; ba.style.display=n>0?'flex':'none'; if(lbl)lbl.textContent=n+' selected'; }
+function bulkDeactivate(){ selectedIds.forEach(function(id){var d=DEPTS.find(function(x){return x.id===id;});if(d)d.status='Inactive';}); selectedIds.clear(); saveDepts(); applyFilters(); updateStats(); toast(selectedIds.size+' departments deactivated.','ok'); }
+
+/* ── DELETE ── */
+function openDel(id){ delTarget=id; var d=DEPTS.find(function(x){return x.id===id;}); if(!d)return; document.getElementById('del-name').textContent=d.name; document.getElementById('del-confirm-txt').textContent=d.name; document.getElementById('del-inp').value=''; document.getElementById('del-btn').disabled=true; showModal('del-modal'); }
+function chkDel(){ var d=DEPTS.find(function(x){return x.id===delTarget;}); var v=document.getElementById('del-inp').value.trim(); document.getElementById('del-btn').disabled=!d||v!==d.name; }
+function execDel(){ var d=DEPTS.find(function(x){return x.id===delTarget;}); if(!d)return; DEPTS.splice(DEPTS.indexOf(d),1); saveDepts(); closeModal('del-modal'); applyFilters(); updateStats(); toast('"'+d.name+'" deleted.','ok'); delTarget=null; }
+
+/* ── STATUS TOGGLE ── */
+function openStatus(id){ statusTarget=id; var d=DEPTS.find(function(x){return x.id===id;}); if(!d)return; var deact=d.status==='Active'; document.getElementById('status-modal-title').innerHTML=(deact?'<i class="ti ti-circle-off" style="color:var(--sun)"></i> Deactivate':'<i class="ti ti-circle-check" style="color:var(--jade)"></i> Activate')+' Department'; document.getElementById('status-modal-body').innerHTML='This will '+(deact?'deactivate':'activate')+' <b>'+escHtml(d.name)+'</b>.'+(deact?' Staff will retain their accounts but the department will be hidden from active views.':''); var btn=document.getElementById('status-confirm-btn'); btn.className='btn '+(deact?'':'btn-primary'); btn.style.background=deact?'var(--sun)':''; btn.style.color=deact?'var(--white)':''; btn.innerHTML=(deact?'<i class="ti ti-circle-off"></i> Deactivate':'<i class="ti ti-circle-check"></i> Activate'); showModal('status-modal'); }
+function execStatus(){ var d=DEPTS.find(function(x){return x.id===statusTarget;}); if(d){ d.status=d.status==='Active'?'Inactive':'Active'; saveDepts(); } closeModal('status-modal'); applyFilters(); updateStats(); toast('Department status updated.','ok'); }
+
+/* ── UTILS ── */
+function initials(n){ var p=n.trim().split(' '); return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase(); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function sortBy(f){ document.getElementById('f-sort').value=f; applyFilters(); }
+function exportDepts(){ toast('Exporting departments as CSV…','info'); }
+function showModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){var o=e.target.closest('.overlay');if(o&&e.target===o)o.classList.remove('open');});
+</script>
+</body>
+</html>

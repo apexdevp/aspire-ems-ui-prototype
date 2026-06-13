@@ -1,0 +1,1720 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Religion Master — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display);cursor:pointer}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .15s;cursor:pointer;white-space:nowrap}
+    .btn i{font-size:16px}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(15,76,117,.25)}
+    .btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--line)}
+    .btn-ghost:hover{border-color:var(--line2);background:var(--smoke)}
+    .btn-danger{background:var(--fire-bg);color:var(--fire);border:1.5px solid rgba(239,68,68,.2)}
+    .btn-danger:hover{background:var(--fire);color:#fff}
+    .btn-success{background:var(--jade-bg);color:var(--jade-text);border:1.5px solid rgba(14,165,113,.2)}
+    .btn-success:hover{background:var(--jade);color:#fff}
+    .btn-warn{background:var(--sun-bg);color:var(--sun-text);border:1.5px solid rgba(245,158,11,.2)}
+    .btn-warn:hover{background:var(--sun);color:#fff}
+    .btn-sm{padding:6px 11px;font-size:12px}.btn-sm i{font-size:13px}
+    button:disabled{opacity:.45;cursor:not-allowed}
+
+    /* ── LAYOUT ── */
+    .page-wrap{max-width:1060px;margin:0 auto;padding:28px 28px 60px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+    .page-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+    /* ── STAT STRIP ── */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.teal{background:var(--p-bg);color:var(--p)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* ── FILTER BAR ── */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .srch-wrap{flex:1;min-width:220px;position:relative}
+    .srch-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .srch-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 36px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .srch-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .srch-inp::placeholder{color:var(--ink4)}
+    .fsel{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:130px}
+    .fsel:focus{border-color:var(--p2)}
+    .filter-count{font-size:11.5px;color:var(--ink4);padding:0 4px;white-space:nowrap}
+
+    /* ── TABLE ── */
+    .tbl-wrap{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+    .tbl-head-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line)}
+    .tbl-count{font-size:12px;color:var(--ink4)}
+    table{width:100%;border-collapse:collapse}
+    thead th{padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.7px;background:var(--smoke);border-bottom:1.5px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+    thead th:hover{color:var(--ink2)}
+    thead th.sorted{color:var(--p2)}
+    thead th i{font-size:11px;margin-left:3px;vertical-align:middle}
+    tbody td{padding:14px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink2);vertical-align:middle}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:#fafbfd}
+    td .row-acts{display:flex;gap:5px;opacity:0;transition:opacity .15s}
+    tr:hover .row-acts{opacity:1}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink3);background:transparent;border:1.5px solid var(--line);transition:all .14s;cursor:pointer}
+    .row-btn:hover{background:var(--smoke);border-color:var(--line2)}
+    .row-btn.danger:hover{background:var(--fire-bg);border-color:var(--fire);color:var(--fire)}
+    .row-btn.success:hover{background:var(--jade-bg);border-color:var(--jade);color:var(--jade)}
+    .row-btn.warn:hover{background:var(--sun-bg);border-color:var(--sun);color:var(--sun)}
+
+    /* ── RELIGION ICON ── */
+    .rel-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+
+    /* ── BADGES ── */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:600}
+    .badge i{font-size:12px}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+
+    /* ── USAGE CHIP ── */
+    .usage-chip{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink3);background:var(--smoke);border:1.5px solid var(--line);border-radius:6px;padding:2px 8px}
+
+    /* ── CODE CHIP ── */
+    .code-chip{font-family:var(--mono);font-size:11px;font-weight:700;background:var(--smoke);border:1.5px solid var(--line);border-radius:6px;padding:3px 9px;color:var(--ink3);letter-spacing:.4px}
+
+    /* ── EMPTY STATE ── */
+    .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}
+    .es-ico{width:58px;height:58px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink4);margin-bottom:14px}
+    .es-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+    .es-desc{font-size:12px;color:var(--ink4);max-width:220px;line-height:1.65;margin-bottom:18px}
+
+    /* ── OVERLAY / MODAL ── */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:520px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .modal-sm{width:440px}
+    .modal-lg{width:640px}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line);position:sticky;top:0;background:var(--white);z-index:2}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink)}
+    .modal-subtitle{font-size:11.5px;color:var(--ink4);margin-top:2px}
+    .modal-close{width:32px;height:32px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:16px;cursor:pointer;transition:all .15s;flex-shrink:0}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:22px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:space-between;border-top:1.5px solid var(--line);position:sticky;bottom:0;background:var(--white)}
+    .modal-foot-right{display:flex;gap:8px}
+
+    /* ── FORM ── */
+    .msec{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .msec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .msec-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--ink4);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+    .msec-title i{font-size:14px;color:var(--p3)}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .fgrp{margin-bottom:14px}.fgrp:last-child{margin-bottom:0}
+    .flabel{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+    .req{color:var(--fire);margin-left:3px}
+    .flabel-hint{font-size:10.5px;color:var(--ink4);font-weight:400}
+    .finput-wrap{position:relative}
+    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .15s}
+    .finput-wrap:focus-within .ficon{color:var(--p2)}
+    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+    .finput.no-icon{padding-left:13px}
+    .finput.ro{background:var(--smoke);color:var(--ink3);cursor:not-allowed;font-family:var(--mono);letter-spacing:.3px}
+    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .finput::placeholder{color:var(--ink4)}
+    select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+    textarea.finput{resize:vertical;min-height:72px;padding-top:10px;padding-left:13px;line-height:1.55}
+
+    /* ── ICON PICKER ── */
+    .icon-picker-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:8px}
+    .ip-opt{width:36px;height:36px;border-radius:9px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;transition:all .14s;background:var(--white)}
+    .ip-opt:hover{border-color:var(--p-line);background:var(--p-bg)}
+    .ip-opt.sel{border-color:var(--p);background:var(--p-bg);box-shadow:0 0 0 2px var(--p-glow)}
+
+    /* ── DETAIL VIEW ── */
+    .detail-hero{display:flex;align-items:center;gap:16px;padding:20px 24px 16px;background:linear-gradient(135deg,var(--p-bg),var(--white));border-bottom:1.5px solid var(--line)}
+    .detail-hero-ico{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+    .detail-row{display:flex;align-items:flex-start;gap:12px;padding:12px 24px;border-bottom:1px solid var(--line)}
+    .detail-row:last-child{border-bottom:none}
+    .detail-ico{width:30px;height:30px;border-radius:8px;background:var(--smoke);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink4);flex-shrink:0;margin-top:1px}
+    .detail-lbl{font-size:10.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+    .detail-val{font-size:13px;color:var(--ink)}
+
+    /* ── WARN / DELETE NOTICES ── */
+    .warn-box{background:var(--sun-bg);border:1.5px solid rgba(245,158,11,.25);border-radius:var(--r-lg);padding:13px 15px;display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+    .warn-box i{color:var(--sun);font-size:17px;flex-shrink:0;margin-top:1px}
+    .del-box{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:13px 15px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
+    .del-box i{color:var(--fire);font-size:17px;flex-shrink:0;margin-top:1px}
+    .del-box-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+    .del-box-desc{font-size:12px;color:var(--ink3);line-height:1.5}
+
+    /* ── TOAST ── */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:360px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:18px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}.toast.warn i{color:#fbbf24}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}
+    @media(max-width:768px){.stat-strip{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr}.page-wrap{padding:16px 16px 40px}}
+  </style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<div class="topbar">
+  <a href="dashboard.html" class="tb-brand">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · SIS</div></div>
+  </a>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="#">Student Information System</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur">Religion Master</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" onclick="exportCSV()" title="Export CSV"><i class="ti ti-download"></i></button>
+    <button class="tb-ico" title="Help"><i class="ti ti-help-circle"></i></button>
+    <div class="tb-av" onclick="location.href='view-profile.html'" title="Profile">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag"><i class="ti ti-id-badge"></i>Student Information System · Masters</div>
+      <div class="page-title">Religion Master</div>
+      <div class="page-sub">Centrally manage religion values used across student admission, registration and profile forms.</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-ghost" onclick="downloadTemplate()"><i class="ti ti-table-import"></i>Download Template</button>
+      <button class="btn btn-ghost" onclick="triggerImport()"><i class="ti ti-upload"></i>Import</button>
+      <input type="file" id="import-file-inp" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleImport(this)">
+      <button class="btn btn-ghost" onclick="exportCSV()"><i class="ti ti-download"></i>Export CSV</button>
+      <button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Religion</button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile">
+      <div class="st-ico teal"><i class="ti ti-list"></i></div>
+      <div><div class="st-val" id="st-total">0</div><div class="st-lbl">Total Records</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico green"><i class="ti ti-circle-check"></i></div>
+      <div><div class="st-val" id="st-active">0</div><div class="st-lbl">Active</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico amber"><i class="ti ti-circle-x"></i></div>
+      <div><div class="st-val" id="st-inactive">0</div><div class="st-lbl">Inactive</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico blue"><i class="ti ti-users"></i></div>
+      <div><div class="st-val" id="st-usage">0</div><div class="st-lbl">Student Usage</div></div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar anim d2">
+    <div class="srch-wrap">
+      <i class="ti ti-search"></i>
+      <input class="srch-inp" type="text" id="f-search" placeholder="Search religion name or code…" oninput="render()">
+    </div>
+    <select class="fsel" id="f-status" onchange="render()">
+      <option value="">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+    <select class="fsel" id="f-sort" onchange="render()">
+      <option value="name-asc">Name A–Z</option>
+      <option value="name-desc">Name Z–A</option>
+      <option value="code-asc">Code A–Z</option>
+      <option value="newest">Newest First</option>
+      <option value="usage-desc">Most Used</option>
+    </select>
+    <button class="btn btn-ghost btn-sm" onclick="clearFilters()"><i class="ti ti-x"></i>Clear</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="tbl-wrap anim d3">
+    <div class="tbl-head-bar">
+      <div class="tbl-count">Showing <b id="tbl-showing">0</b> of <b id="tbl-total">0</b> records</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-ghost btn-sm" onclick="bulkToggle('Active')"><i class="ti ti-circle-check"></i>Activate All</button>
+        <button class="btn btn-ghost btn-sm" onclick="bulkToggle('Inactive')"><i class="ti ti-circle-minus"></i>Deactivate All</button>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortCol('name')" id="th-name">Religion Name <i class="ti ti-arrows-sort"></i></th>
+          <th onclick="sortCol('code')" id="th-code">Code <i class="ti ti-arrows-sort"></i></th>
+          <th>Icon</th>
+          <th onclick="sortCol('usage')" id="th-usage">Students <i class="ti ti-arrows-sort"></i></th>
+          <th>Status</th>
+          <th onclick="sortCol('createdAt')" id="th-createdAt">Created <i class="ti ti-arrows-sort"></i></th>
+          <th style="width:130px">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="main-tbody"></tbody>
+    </table>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- ══════════════════════════════════════
+     ADD / EDIT MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="rec-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title-txt">Add Religion</div>
+        <div class="modal-subtitle" id="modal-sub-txt">Create a new religion record for the SIS dropdown</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('rec-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-info-circle"></i>Basic Information</div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Religion Name <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-pray ficon"></i>
+              <input class="finput" type="text" id="m-name" placeholder="e.g. Hinduism" oninput="autoCode()">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Code <span class="flabel-hint">Auto-generated</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-hash ficon"></i>
+              <input class="finput ro" type="text" id="m-code" placeholder="Generated from name…"
+                readonly tabindex="-1">
+            </div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Status</div>
+            <div class="finput-wrap">
+              <i class="ti ti-toggle-left ficon"></i>
+              <select class="finput" id="m-status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Display Order <span class="flabel-hint">lower = first</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-sort-ascending ficon"></i>
+              <input class="finput" type="number" id="m-order" placeholder="e.g. 1" min="1" max="999">
+            </div>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Description <span class="flabel-hint">optional</span></div>
+          <textarea class="finput no-icon" id="m-desc" placeholder="Optional notes about this religion…"></textarea>
+        </div>
+      </div>
+
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-palette"></i>Icon</div>
+        <div class="fgrp">
+          <div class="flabel">Select an icon for this religion</div>
+          <div class="icon-picker-grid" id="icon-grid"></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('rec-modal')">Cancel</button>
+      <div class="modal-foot-right">
+        <button class="btn btn-primary" id="modal-save-btn" onclick="saveRecord()">
+          <i class="ti ti-plus"></i>Add Religion
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DETAIL MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="detail-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div class="modal-title" id="detail-title-txt">Religion Details</div>
+      <button class="modal-close" onclick="closeModal('detail-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="detail-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-danger btn-sm" id="detail-del-btn" onclick="openDelFromDetail()">
+        <i class="ti ti-trash"></i>Delete
+      </button>
+      <div class="modal-foot-right">
+        <button class="btn btn-ghost" onclick="closeModal('detail-modal')">Close</button>
+        <button class="btn btn-warn btn-sm" id="detail-toggle-btn" onclick="toggleFromDetail()">
+          <i class="ti ti-circle-minus"></i>Deactivate
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="editFromDetail()">
+          <i class="ti ti-edit"></i>Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ACTIVATE / DEACTIVATE MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="toggle-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" id="tog-title">Deactivate Religion</div>
+      <button class="modal-close" onclick="closeModal('toggle-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="warn-box">
+        <i class="ti ti-alert-triangle"></i>
+        <div style="font-size:12px;color:var(--ink2);line-height:1.55" id="tog-desc"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('toggle-modal')">Cancel</button>
+      <button class="btn" id="tog-confirm-btn" onclick="execToggle()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DELETE MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="del-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-trash" style="color:var(--fire)"></i>Delete Religion
+      </div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="del-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-confirm-btn" onclick="execDel()">
+        <i class="ti ti-trash"></i>Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     IMPORT RESULT MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="import-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="imp-modal-title">Import Results</div>
+        <div class="modal-subtitle" id="imp-modal-sub">Review the results of your bulk import</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('import-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="imp-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('import-modal')">Close</button>
+      <button class="btn btn-primary" id="imp-confirm-btn" onclick="commitImport()" style="display:none">
+        <i class="ti ti-check"></i>Import Valid Records
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ════════════════════════════════════════
+   CONFIG
+════════════════════════════════════════ */
+var STORE_KEY = 'sis_religion';
+var ICONS = [
+  'ti-pray','ti-moon-stars','ti-sun','ti-star-of-david','ti-triangle','ti-circle',
+  'ti-diamond','ti-flame','ti-leaf','ti-flower','ti-heart','ti-infinity',
+  'ti-yin-yang','ti-anchor','ti-dove','ti-globe','ti-universe','ti-eye',
+  'ti-cross','ti-sparkles','ti-om','ti-lotus','ti-droplet','ti-feather'
+];
+var COLORS = [
+  '#f59e0b','#ef4444','#0ea571','#3b82f6','#7c3aed','#0f4c75',
+  '#0891b2','#6366f1','#ec4899','#14b8a6'
+];
+
+/* ════════════════════════════════════════
+   SEED DATA
+════════════════════════════════════════ */
+var RECORDS = JSON.parse(sessionStorage.getItem(STORE_KEY) || 'null') || [
+  {id:'rel1',  name:'Hinduism',    code:'HIN', icon:'ti-pray',        color:'#f59e0b', order:1,  status:'Active',   desc:'',                              usage:420, createdAt:'2024-01-10'},
+  {id:'rel2',  name:'Islam',       code:'ISL', icon:'ti-moon-stars',  color:'#0ea571', order:2,  status:'Active',   desc:'',                              usage:185, createdAt:'2024-01-10'},
+  {id:'rel3',  name:'Christianity',code:'CHR', icon:'ti-cross',       color:'#3b82f6', order:3,  status:'Active',   desc:'',                              usage:97,  createdAt:'2024-01-10'},
+  {id:'rel4',  name:'Sikhism',     code:'SIK', icon:'ti-star',        color:'#0f4c75', order:4,  status:'Active',   desc:'',                              usage:62,  createdAt:'2024-01-10'},
+  {id:'rel5',  name:'Buddhism',    code:'BUD', icon:'ti-circle',      color:'#0891b2', order:5,  status:'Active',   desc:'',                              usage:28,  createdAt:'2024-01-10'},
+  {id:'rel6',  name:'Jainism',     code:'JAI', icon:'ti-diamond',     color:'#7c3aed', order:6,  status:'Active',   desc:'',                              usage:19,  createdAt:'2024-01-10'},
+  {id:'rel7',  name:'Zoroastrianism',code:'ZOR',icon:'ti-flame',      color:'#ef4444', order:7,  status:'Active',   desc:'',                              usage:4,   createdAt:'2024-01-10'},
+  {id:'rel8',  name:'Other',       code:'OTH', icon:'ti-dots',        color:'#94a3b8', order:99, status:'Active',   desc:'For any religion not listed.',   usage:11,  createdAt:'2024-01-10'},
+  {id:'rel9',  name:'Not Specified',code:'NS', icon:'ti-minus',       color:'#cbd5e1', order:100,status:'Active',   desc:'Student has not specified.',    usage:6,   createdAt:'2024-01-10'}
+];
+
+function save(){ sessionStorage.setItem(STORE_KEY, JSON.stringify(RECORDS)); }
+save();
+
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+var editId      = null;
+var detailId    = null;
+var delTarget   = null;
+var togTarget   = null;
+var sortField   = 'name';
+var sortDir     = 'asc';
+var selectedIcon  = ICONS[0];
+var selectedColor = COLORS[0];
+
+/* ════════════════════════════════════════
+   STATS
+════════════════════════════════════════ */
+function updateStats(){
+  document.getElementById('st-total').textContent   = RECORDS.length;
+  document.getElementById('st-active').textContent  = RECORDS.filter(function(r){return r.status==='Active';}).length;
+  document.getElementById('st-inactive').textContent= RECORDS.filter(function(r){return r.status==='Inactive';}).length;
+  document.getElementById('st-usage').textContent   = RECORDS.reduce(function(a,r){return a+(r.usage||0);},0);
+}
+
+/* ════════════════════════════════════════
+   SORT BY COLUMN HEADER
+════════════════════════════════════════ */
+function sortCol(field){
+  if(sortField===field) sortDir = sortDir==='asc'?'desc':'asc';
+  else { sortField=field; sortDir='asc'; }
+  document.querySelectorAll('thead th').forEach(function(th){th.classList.remove('sorted');});
+  var th = document.getElementById('th-'+field);
+  if(th) th.classList.add('sorted');
+  document.getElementById('f-sort').value = '';
+  render();
+}
+
+/* ════════════════════════════════════════
+   MAIN RENDER
+════════════════════════════════════════ */
+function render(){
+  updateStats();
+  var q      = document.getElementById('f-search').value.toLowerCase().trim();
+  var status = document.getElementById('f-status').value;
+  var sort   = document.getElementById('f-sort').value;
+
+  var list = RECORDS.filter(function(r){
+    if(q && r.name.toLowerCase().indexOf(q)<0 && r.code.toLowerCase().indexOf(q)<0) return false;
+    if(status && r.status!==status) return false;
+    return true;
+  });
+
+  // Sort
+  var sf = sortField, sd = sortDir;
+  if(sort){
+    var map = {'name-asc':['name','asc'],'name-desc':['name','desc'],'code-asc':['code','asc'],'newest':['createdAt','desc'],'usage-desc':['usage','desc']};
+    if(map[sort]){ sf=map[sort][0]; sd=map[sort][1]; }
+  }
+  list.sort(function(a,b){
+    var av = sf==='usage'||(sf==='order') ? (a[sf]||0) : String(a[sf]||'');
+    var bv = sf==='usage'||(sf==='order') ? (b[sf]||0) : String(b[sf]||'');
+    if(typeof av==='number') return sd==='asc' ? av-bv : bv-av;
+    return sd==='asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+
+  document.getElementById('tbl-showing').textContent = list.length;
+  document.getElementById('tbl-total').textContent   = RECORDS.length;
+
+  if(!list.length){
+    document.getElementById('main-tbody').innerHTML =
+      '<tr><td colspan="7"><div class="empty-state">'
+      +'<div class="es-ico"><i class="ti ti-mood-empty"></i></div>'
+      +'<div class="es-title">No religions found</div>'
+      +'<div class="es-desc">Try adjusting your filters or add a new religion record.</div>'
+      +'<button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Religion</button>'
+      +'</div></td></tr>';
+    return;
+  }
+
+  document.getElementById('main-tbody').innerHTML = list.map(function(r){
+    var isActive = r.status==='Active';
+    return '<tr>'
+      +'<td>'
+        +'<div style="display:flex;align-items:center;gap:11px">'
+          +'<div class="rel-icon" style="background:'+hexBg(r.color)+';color:'+r.color+'">'
+            +'<i class="ti '+r.icon+'"></i>'
+          +'</div>'
+          +'<div>'
+            +'<div style="font-weight:600;color:var(--ink)">'+esc(r.name)+'</div>'
+            +(r.desc?'<div style="font-size:11px;color:var(--ink4);margin-top:1px">'+esc(r.desc.substring(0,50))+(r.desc.length>50?'…':'')+'</div>':'')
+          +'</div>'
+        +'</div>'
+      +'</td>'
+      +'<td><span class="code-chip">'+esc(r.code)+'</span></td>'
+      +'<td>'
+        +'<div class="rel-icon" style="background:'+hexBg(r.color)+';color:'+r.color+'"><i class="ti '+r.icon+'"></i></div>'
+      +'</td>'
+      +'<td><span class="usage-chip"><i class="ti ti-users" style="font-size:11px"></i>'+((r.usage||0))+'</span></td>'
+      +'<td>'
+        +'<span class="badge badge-'+(isActive?'active':'inactive')+'">'
+          +'<i class="ti ti-'+(isActive?'circle-check':'circle-x')+'"></i>'+r.status
+        +'</span>'
+      +'</td>'
+      +'<td style="font-size:11.5px;color:var(--ink4);font-family:var(--mono)">'+fmtDate(r.createdAt)+'</td>'
+      +'<td>'
+        +'<div class="row-acts">'
+          +'<button class="row-btn" title="View" onclick="openDetail(\''+r.id+'\')"><i class="ti ti-eye"></i></button>'
+          +'<button class="row-btn" title="Edit" onclick="openEdit(\''+r.id+'\')"><i class="ti ti-edit"></i></button>'
+          +(isActive
+            ? '<button class="row-btn warn" title="Deactivate" onclick="openToggle(\''+r.id+'\',false)"><i class="ti ti-circle-minus"></i></button>'
+            : '<button class="row-btn success" title="Activate" onclick="openToggle(\''+r.id+'\',true)"><i class="ti ti-circle-check"></i></button>'
+          )
+          +'<button class="row-btn danger" title="Delete" onclick="openDel(\''+r.id+'\')"><i class="ti ti-trash"></i></button>'
+        +'</div>'
+      +'</td>'
+    +'</tr>';
+  }).join('');
+}
+
+/* ════════════════════════════════════════
+   ICON PICKER
+════════════════════════════════════════ */
+function buildIconPicker(){
+  var g = document.getElementById('icon-grid');
+  g.innerHTML = ICONS.map(function(ic){
+    return '<div class="ip-opt'+(ic===selectedIcon?' sel':'')+'" data-icon="'+ic+'" title="'+ic+'" onclick="pickIcon(this)">'
+      +'<i class="ti '+ic+'"></i>'
+    +'</div>';
+  }).join('');
+}
+function pickIcon(el){
+  selectedIcon = el.dataset.icon;
+  document.querySelectorAll('.ip-opt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+}
+
+/* ════════════════════════════════════════
+   AUTO CODE from name
+════════════════════════════════════════ */
+function autoCode(){
+  var name    = document.getElementById('m-name').value.trim();
+  var code    = genUniqueCode(name, editId);
+  document.getElementById('m-code').value = code;
+}
+
+/* Generate a unique 3-6 char code from the name, appending a number if collisions exist */
+function genUniqueCode(name, excludeId){
+  var base = name.toUpperCase().replace(/[^A-Z]/g,'').slice(0,3);
+  if(!base) return '';
+  while(base.length < 3) base += 'X';
+  // Check for collision
+  var candidate = base;
+  var seq = 1;
+  while(RECORDS.some(function(r){ return r.code === candidate && r.id !== excludeId; })){
+    candidate = base.slice(0,2) + seq;
+    seq++;
+  }
+  return candidate;
+}
+
+/* ════════════════════════════════════════
+   ADD
+════════════════════════════════════════ */
+function openAdd(){
+  editId = null;
+  selectedIcon  = ICONS[0];
+  selectedColor = COLORS[0];
+  document.getElementById('modal-title-txt').textContent = 'Add Religion';
+  document.getElementById('modal-sub-txt').textContent   = 'Create a new religion record for the SIS dropdown';
+  document.getElementById('modal-save-btn').innerHTML    = '<i class="ti ti-plus"></i>Add Religion';
+  clearForm();
+  buildIconPicker();
+  showModal('rec-modal');
+}
+
+/* ════════════════════════════════════════
+   EDIT
+════════════════════════════════════════ */
+function openEdit(id){
+  var r = find(id); if(!r) return;
+  editId = id;
+  selectedIcon  = r.icon  || ICONS[0];
+  selectedColor = r.color || COLORS[0];
+  document.getElementById('modal-title-txt').textContent = 'Edit Religion';
+  document.getElementById('modal-sub-txt').textContent   = 'Update "'+r.name+'"';
+  document.getElementById('modal-save-btn').innerHTML    = '<i class="ti ti-check"></i>Save Changes';
+  document.getElementById('m-name').value   = r.name;
+  document.getElementById('m-code').value   = r.code;
+  document.getElementById('m-status').value = r.status;
+  document.getElementById('m-order').value  = r.order || '';
+  document.getElementById('m-desc').value   = r.desc  || '';
+  buildIconPicker();
+  showModal('rec-modal');
+}
+
+function clearForm(){
+  ['m-name','m-code','m-order','m-desc'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('m-status').value = 'Active';
+}
+
+/* ════════════════════════════════════════
+   SAVE
+════════════════════════════════════════ */
+function saveRecord(){
+  var name   = document.getElementById('m-name').value.trim();
+  var status = document.getElementById('m-status').value;
+  var order  = parseInt(document.getElementById('m-order').value) || 99;
+  var desc   = document.getElementById('m-desc').value.trim();
+
+  if(!name){ toast('Religion name is required.','err'); document.getElementById('m-name').focus(); return; }
+
+  // Duplicate name check
+  var dupName = RECORDS.find(function(r){ return r.name.toLowerCase()===name.toLowerCase() && r.id!==editId; });
+  if(dupName){ toast('"'+name+'" already exists.','err'); return; }
+
+  // On add: auto-generate code. On edit: keep existing code (user sees it read-only, unchanged)
+  var code = editId ? (find(editId)||{}).code : genUniqueCode(name, null);
+  // Update the display field so user sees the final code
+  document.getElementById('m-code').value = code;
+
+  var obj = {
+    id:        editId || 'rel'+Date.now(),
+    name:      name,
+    code:      code,
+    icon:      selectedIcon,
+    color:     selectedColor,
+    order:     order,
+    status:    status,
+    desc:      desc,
+    usage:     editId ? (find(editId)||{}).usage||0 : 0,
+    createdAt: editId ? (find(editId)||{}).createdAt : today()
+  };
+
+  if(editId){
+    RECORDS[RECORDS.findIndex(function(r){return r.id===editId;})] = obj;
+    toast('"'+name+'" updated.','ok');
+  } else {
+    RECORDS.push(obj);
+    toast('"'+name+'" added to Religion Master.','ok');
+  }
+
+  save(); closeModal('rec-modal'); render();
+}
+
+/* ════════════════════════════════════════
+   DETAIL
+════════════════════════════════════════ */
+function openDetail(id){
+  var r = find(id); if(!r) return;
+  detailId = id;
+  var isActive = r.status==='Active';
+  document.getElementById('detail-title-txt').textContent = r.name;
+
+  // Delete button — block if usage > 0
+  var delBtn = document.getElementById('detail-del-btn');
+  delBtn.disabled = (r.usage||0) > 0;
+  delBtn.title    = (r.usage||0) > 0 ? 'Cannot delete — religion is in use by students' : '';
+
+  // Toggle button
+  var togBtn = document.getElementById('detail-toggle-btn');
+  togBtn.innerHTML = isActive
+    ? '<i class="ti ti-circle-minus"></i>Deactivate'
+    : '<i class="ti ti-circle-check"></i>Activate';
+  togBtn.className = isActive ? 'btn btn-warn btn-sm' : 'btn btn-success btn-sm';
+
+  document.getElementById('detail-body').innerHTML =
+    '<div class="detail-hero">'
+      +'<div class="detail-hero-ico" style="background:'+hexBg(r.color)+';color:'+r.color+'">'
+        +'<i class="ti '+r.icon+'" style="font-size:26px"></i>'
+      +'</div>'
+      +'<div>'
+        +'<div style="font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink);margin-bottom:6px">'+esc(r.name)+'</div>'
+        +'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'
+          +'<span class="code-chip">'+esc(r.code)+'</span>'
+          +'<span class="badge badge-'+(isActive?'active':'inactive')+'">'
+            +'<i class="ti ti-'+(isActive?'circle-check':'circle-x')+'"></i>'+r.status
+          +'</span>'
+          +'<span class="usage-chip"><i class="ti ti-users" style="font-size:11px"></i>'+((r.usage||0))+' students</span>'
+        +'</div>'
+      +'</div>'
+    +'</div>'
+    +'<div class="detail-row"><div class="detail-ico"><i class="ti ti-sort-ascending"></i></div>'
+      +'<div><div class="detail-lbl">Display Order</div><div class="detail-val">'+(r.order||'—')+'</div></div></div>'
+    +'<div class="detail-row"><div class="detail-ico"><i class="ti ti-calendar"></i></div>'
+      +'<div><div class="detail-lbl">Created On</div><div class="detail-val">'+fmtDate(r.createdAt)+'</div></div></div>'
+    +(r.desc?'<div class="detail-row"><div class="detail-ico"><i class="ti ti-notes"></i></div>'
+      +'<div><div class="detail-lbl">Description</div><div class="detail-val">'+esc(r.desc)+'</div></div></div>':'')
+    +((r.usage||0)>0
+      ?'<div style="padding:14px 24px"><div style="background:var(--p-bg);border:1.5px solid var(--p-line);border-radius:var(--r-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:10px">'
+        +'<i class="ti ti-info-circle" style="color:var(--p2);font-size:16px;flex-shrink:0;margin-top:1px"></i>'
+        +'<div style="font-size:12px;color:var(--ink2);line-height:1.55">This religion is assigned to <b>'+(r.usage||0)+' student(s)</b> and cannot be deleted until they are reassigned.</div>'
+      +'</div></div>'
+      :'');
+
+  showModal('detail-modal');
+}
+
+function editFromDetail(){
+  var id = detailId;
+  closeModal('detail-modal');
+  openEdit(id);
+}
+function openDelFromDetail(){
+  var id = detailId;
+  closeModal('detail-modal');
+  openDel(id);
+}
+function toggleFromDetail(){
+  var r = find(detailId); if(!r) return;
+  closeModal('detail-modal');
+  openToggle(detailId, r.status!=='Active');
+}
+
+/* ════════════════════════════════════════
+   ACTIVATE / DEACTIVATE
+════════════════════════════════════════ */
+function openToggle(id, activate){
+  togTarget = {id:id, activate:activate};
+  var r = find(id); if(!r) return;
+  document.getElementById('tog-title').textContent = activate ? 'Activate Religion' : 'Deactivate Religion';
+  document.getElementById('tog-desc').innerHTML = activate
+    ? 'Activate <b>'+esc(r.name)+'</b>? It will appear in all SIS dropdowns and admission forms.'
+    : 'Deactivate <b>'+esc(r.name)+'</b>? It will be hidden from SIS dropdowns but existing student records will not be affected.';
+  var btn = document.getElementById('tog-confirm-btn');
+  btn.innerHTML = activate
+    ? '<i class="ti ti-circle-check"></i>Yes, Activate'
+    : '<i class="ti ti-circle-minus"></i>Yes, Deactivate';
+  btn.className = activate ? 'btn btn-success' : 'btn btn-warn';
+  showModal('toggle-modal');
+}
+
+function execToggle(){
+  if(!togTarget) return;
+  var r = find(togTarget.id); if(!r) return;
+  r.status = togTarget.activate ? 'Active' : 'Inactive';
+  save(); closeModal('toggle-modal'); togTarget=null;
+  toast('"'+r.name+'" '+(r.status==='Active'?'activated':'deactivated')+'.', r.status==='Active'?'ok':'info');
+  render();
+}
+
+/* ════════════════════════════════════════
+   BULK TOGGLE (filtered records)
+════════════════════════════════════════ */
+function bulkToggle(newStatus){
+  var q      = document.getElementById('f-search').value.toLowerCase().trim();
+  var status = document.getElementById('f-status').value;
+  var count  = 0;
+  RECORDS.forEach(function(r){
+    var match = true;
+    if(q && r.name.toLowerCase().indexOf(q)<0 && r.code.toLowerCase().indexOf(q)<0) match=false;
+    if(status && r.status!==status) match=false;
+    if(match && r.status!==newStatus){ r.status=newStatus; count++; }
+  });
+  save(); render();
+  toast(count+' record(s) '+(newStatus==='Active'?'activated':'deactivated')+'.','ok');
+}
+
+/* ════════════════════════════════════════
+   DELETE
+════════════════════════════════════════ */
+function openDel(id){
+  var r = find(id); if(!r) return;
+  delTarget = id;
+  var inUse = (r.usage||0) > 0;
+  document.getElementById('del-confirm-btn').disabled = inUse;
+  document.getElementById('del-body').innerHTML = inUse
+    ? '<div class="del-box"><i class="ti ti-ban"></i><div>'
+        +'<div class="del-box-title">Cannot delete — religion is in use</div>'
+        +'<div class="del-box-desc"><b>'+esc(r.name)+'</b> is assigned to <b>'+r.usage+' student(s)</b>. Reassign them before deleting this religion.</div>'
+      +'</div></div>'
+    : '<div class="del-box"><i class="ti ti-alert-triangle"></i><div>'
+        +'<div class="del-box-title">This cannot be undone</div>'
+        +'<div class="del-box-desc">Delete religion <b>'+esc(r.name)+'</b> ('+esc(r.code)+')? It will be permanently removed from the system.</div>'
+      +'</div></div>'
+    +'<div class="fgrp" style="margin-top:14px">'
+      +'<div class="flabel">Type <b style="font-family:var(--mono);color:var(--ink)">'+esc(r.name)+'</b> to confirm</div>'
+      +'<input class="finput no-icon" type="text" id="del-inp" placeholder="Type religion name…" oninput="chkDel()" autocomplete="off"'+(inUse?' disabled':'')+'/>'
+    +'</div>';
+  document.getElementById('del-confirm-btn').disabled = true;
+  showModal('del-modal');
+  if(!inUse) setTimeout(function(){ document.getElementById('del-inp') && document.getElementById('del-inp').focus(); },200);
+}
+
+function chkDel(){
+  var r = find(delTarget); if(!r) return;
+  var inp = document.getElementById('del-inp');
+  document.getElementById('del-confirm-btn').disabled = !inp || inp.value.trim() !== r.name;
+}
+
+function execDel(){
+  var r = find(delTarget);
+  if(!r || (r.usage||0)>0) return;
+  RECORDS.splice(RECORDS.indexOf(r),1);
+  save(); closeModal('del-modal');
+  toast('"'+r.name+'" deleted.','ok');
+  delTarget=null; render();
+}
+
+/* ════════════════════════════════════════
+   EXPORT CSV
+════════════════════════════════════════ */
+function exportCSV(){
+  var rows=[['Religion Name','Code','Status','Students','Display Order','Created','Description']];
+  RECORDS.forEach(function(r){
+    rows.push([r.name,r.code,r.status,(r.usage||0),(r.order||''),(r.createdAt||''),(r.desc||'').replace(/,/g,' ')]);
+  });
+  var csv = rows.map(function(row){return row.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+  var a   = document.createElement('a');
+  a.href  = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='religion-master.csv'; a.click();
+  toast('Exported as religion-master.csv','ok');
+}
+
+/* ════════════════════════════════════════
+   CLEAR FILTERS
+════════════════════════════════════════ */
+function clearFilters(){
+  document.getElementById('f-search').value='';
+  document.getElementById('f-status').value='';
+  document.getElementById('f-sort').value='name-asc';
+  sortField='name'; sortDir='asc';
+  render();
+}
+
+/* ════════════════════════════════════════
+   DOWNLOAD TEMPLATE
+════════════════════════════════════════ */
+function downloadTemplate(){
+  if(typeof XLSX === 'undefined'){
+    toast('Excel library not loaded yet — please try again in a moment.','warn');
+    return;
+  }
+
+  var wb = XLSX.utils.book_new();
+
+  /* ─────────────────────────────────────────
+     SHEET 1 — Data Entry
+     Clean sheet: headers only, no sample data,
+     ready for user to paste or type bulk records.
+  ───────────────────────────────────────── */
+  var dataHeaders = ['Religion Name','Status','Display Order','Description'];
+
+  // Build AOA (array of arrays) — just the header row; 50 blank rows below for visual guide
+  var dataRows = [dataHeaders];
+  for(var b=0;b<50;b++) dataRows.push(['','','','']);
+
+  var wsData = XLSX.utils.aoa_to_sheet(dataRows);
+
+  // Column widths (wch = width in characters)
+  wsData['!cols'] = [
+    {wch:28},  // Religion Name
+    {wch:14},  // Status
+    {wch:16},  // Display Order
+    {wch:40}   // Description
+  ];
+
+  // Freeze the header row so it stays visible while scrolling
+  wsData['!freeze'] = {xSplit:0, ySplit:1, topLeftCell:'A2', activeCell:'A2', sqref:'A2'};
+
+  // Apply header cell styling via cell objects
+  var headerStyle = {
+    font:    {bold:true, color:{rgb:'FFFFFF'}, sz:11},
+    fill:    {patternType:'solid', fgColor:{rgb:'0F4C75'}},
+    alignment:{horizontal:'center', vertical:'center', wrapText:true},
+    border:{
+      bottom:{style:'medium', color:{rgb:'1B6CA8'}},
+      right: {style:'thin',   color:{rgb:'1B6CA8'}}
+    }
+  };
+  // Mark required column (Religion Name) with a different accent
+  var requiredStyle = {
+    font:    {bold:true, color:{rgb:'FFFFFF'}, sz:11},
+    fill:    {patternType:'solid', fgColor:{rgb:'1B6CA8'}},
+    alignment:{horizontal:'center', vertical:'center'},
+    border:  {bottom:{style:'medium', color:{rgb:'0F4C75'}}}
+  };
+
+  // Apply styles to header cells A1–D1
+  var hCols = ['A','B','C','D'];
+  var hLabels = dataHeaders;
+  hCols.forEach(function(col, ci){
+    var cellRef = col+'1';
+    if(!wsData[cellRef]) wsData[cellRef] = {t:'s', v:hLabels[ci]};
+    wsData[cellRef].s = (ci===0) ? requiredStyle : headerStyle;
+  });
+
+  // Style the blank data rows with alternating light fill and data-validation hints
+  var evenFill = {patternType:'solid', fgColor:{rgb:'F7F8FC'}};
+  var oddFill  = {patternType:'solid', fgColor:{rgb:'FFFFFF'}};
+  for(var row=2; row<=51; row++){
+    var fill = (row%2===0) ? evenFill : oddFill;
+    hCols.forEach(function(col){
+      var ref = col+row;
+      if(!wsData[ref]) wsData[ref] = {t:'s', v:''};
+      wsData[ref].s = {fill:fill, alignment:{vertical:'center'}, border:{right:{style:'hair',color:{rgb:'E4E8F0'}},bottom:{style:'hair',color:{rgb:'E4E8F0'}}}};
+    });
+  }
+
+  // Row height for header
+  wsData['!rows'] = [{hpt:22}]; // header row = 22pt
+
+  XLSX.utils.book_append_sheet(wb, wsData, 'Data Entry');
+
+
+  /* ─────────────────────────────────────────
+     SHEET 2 — Instructions & Sample Data
+     Detailed field guide + 7 sample records.
+  ───────────────────────────────────────── */
+  var now   = new Date();
+  var stamp = now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+
+  var instrRows = [
+    // ── Title block ──
+    ['RELIGION MASTER — BULK UPLOAD TEMPLATE','','','',''],
+    ['Aspire ERP v3.0  ·  Student Information System  ·  Generated: '+stamp,'','','',''],
+    ['','','','',''],
+
+    // ── About section ──
+    ['ABOUT THIS TEMPLATE','','','',''],
+    ['Use the "Data Entry" sheet to enter or paste your bulk religion data.','','','',''],
+    ['This sheet explains each column, its rules and accepted values.','','','',''],
+    ['Religion Code is auto-generated by the system — do NOT include a Code column.','','','',''],
+    ['','','','',''],
+
+    // ── Field guide table header ──
+    ['FIELD REFERENCE','','','',''],
+    ['Column','Required?','Accepted Values / Format','Default if blank','Notes'],
+
+    // ── Field rows ──
+    ['Religion Name','YES','Text. Max 100 characters. Must be unique.','—','Primary key for deduplication. Case-insensitive match.'],
+    ['Status','No','Active  |  Inactive  |  1  |  0  |  Yes  |  No','Active','Controls visibility in admission/profile dropdowns.'],
+    ['Display Order','No','Integer  1 – 999. Lower number = shown first.','99','Affects sort order in all SIS dropdowns.'],
+    ['Description','No','Free text. No character limit.','(empty)','Internal notes only. Not shown to students.'],
+    ['','','','',''],
+
+    // ── Validation rules ──
+    ['VALIDATION RULES','','','',''],
+    ['#','Rule','','',''],
+    ['1','Religion Name is the only mandatory column.','','',''],
+    ['2','Religion Name must be unique within the file and within existing master records.','','',''],
+    ['3','Status must be one of: Active, Inactive, 1, 0, Yes, No, True, False (case-insensitive).','','',''],
+    ['4','Display Order must be a whole number between 1 and 999.','','',''],
+    ['5','Blank rows are automatically skipped — no need to delete them.','','',''],
+    ['6','Rows starting with "---" are treated as comments and ignored.','','',''],
+    ['7','Do NOT rename, reorder, or add columns to the Data Entry sheet.','','',''],
+    ['8','Do NOT include a "Religion Code" column — codes are assigned automatically.','','',''],
+    ['','','','',''],
+
+    // ── Import workflow ──
+    ['IMPORT WORKFLOW','','','',''],
+    ['Step 1','Fill the "Data Entry" sheet with your religion records.','','',''],
+    ['Step 2','Save the file as CSV (.csv) — File → Save As → CSV (Comma delimited).','','',''],
+    ['Step 3','On the Religion Master screen, click the Import button.','','',''],
+    ['Step 4','Select your saved CSV file.','','',''],
+    ['Step 5','Review the Import Results screen — it shows valid rows and any errors.','','',''],
+    ['Step 6','Click "Import Valid Records" to commit. Error rows are skipped automatically.','','',''],
+    ['','','','',''],
+
+    // ── Sample data header ──
+    ['SAMPLE DATA  (for reference only — do not copy to Data Entry sheet)','','','',''],
+    ['Religion Name','Status','Display Order','Description'],
+
+    // ── Sample rows ──
+    ['Hinduism',     'Active',  1, 'Major religion in India — largest student demographic'],
+    ['Islam',        'Active',  2, ''],
+    ['Christianity', 'Active',  3, ''],
+    ['Sikhism',      'Active',  4, ''],
+    ['Buddhism',     'Active',  5, ''],
+    ['Jainism',      'Active',  6, ''],
+    ['Zoroastrianism','Active', 7, 'Parsi community'],
+    ['Other',        'Active', 99, 'For religions not listed above'],
+    ['Not Specified','Active',100,'Student has not disclosed religion'],
+    ['','','',''],
+
+    // ── Footer ──
+    ['For support contact your Aspire ERP system administrator.','','','','']
+  ];
+
+  var wsInstr = XLSX.utils.aoa_to_sheet(instrRows);
+
+  // Column widths for instructions sheet
+  wsInstr['!cols'] = [
+    {wch:32}, // A
+    {wch:14}, // B
+    {wch:52}, // C
+    {wch:22}, // D
+    {wch:46}  // E
+  ];
+
+  // ── Style helpers ──
+  function cellStyle(ref, style){
+    if(!wsInstr[ref]) return;
+    wsInstr[ref].s = style;
+  }
+
+  var styleTitle = {
+    font: {bold:true, sz:14, color:{rgb:'0F4C75'}},
+    fill: {patternType:'solid', fgColor:{rgb:'EBF5FB'}},
+    alignment:{vertical:'center'}
+  };
+  var styleSubtitle = {
+    font: {italic:true, sz:10, color:{rgb:'64748B'}},
+    fill: {patternType:'solid', fgColor:{rgb:'EBF5FB'}}
+  };
+  var styleSectionHead = {
+    font: {bold:true, sz:11, color:{rgb:'0F4C75'}},
+    fill: {patternType:'solid', fgColor:{rgb:'EBF5FB'}},
+    border:{bottom:{style:'medium', color:{rgb:'1B6CA8'}}}
+  };
+  var styleColHead = {
+    font: {bold:true, sz:10, color:{rgb:'FFFFFF'}},
+    fill: {patternType:'solid', fgColor:{rgb:'1B6CA8'}},
+    alignment:{horizontal:'center', wrapText:true},
+    border:{bottom:{style:'thin', color:{rgb:'0F4C75'}}}
+  };
+  var styleSampleHead = {
+    font: {bold:true, sz:10, color:{rgb:'FFFFFF'}},
+    fill: {patternType:'solid', fgColor:{rgb:'0EA571'}},
+    alignment:{horizontal:'center'}
+  };
+  var styleBodyEven = {
+    font: {sz:10}, fill:{patternType:'solid', fgColor:{rgb:'F7F8FC'}},
+    alignment:{wrapText:true, vertical:'top'}
+  };
+  var styleBodyOdd = {
+    font: {sz:10}, fill:{patternType:'solid', fgColor:{rgb:'FFFFFF'}},
+    alignment:{wrapText:true, vertical:'top'}
+  };
+  var styleRequired = {
+    font:{bold:true, sz:10, color:{rgb:'991B1B'}},
+    fill:{patternType:'solid', fgColor:{rgb:'FEF2F2'}},
+    alignment:{horizontal:'center'}
+  };
+  var styleRuleNum = {
+    font:{bold:true, sz:10, color:{rgb:'1B6CA8'}},
+    fill:{patternType:'solid', fgColor:{rgb:'EBF5FB'}},
+    alignment:{horizontal:'center'}
+  };
+
+  // Apply styles by row (1-based row index in instrRows)
+  // Row 1 — title
+  cellStyle('A1', styleTitle);
+  // Row 2 — subtitle
+  cellStyle('A2', styleSubtitle);
+  // Row 4 — ABOUT section head
+  cellStyle('A4', styleSectionHead);
+  // Row 9 — FIELD REFERENCE section head
+  cellStyle('A9', styleSectionHead);
+  // Row 10 — field table header: Column, Required?, Accepted Values, Default, Notes
+  ['A','B','C','D','E'].forEach(function(c){ cellStyle(c+'10', styleColHead); });
+  // Rows 11–14 — field rows
+  [11,12,13,14].forEach(function(row,i){
+    var fill = i%2===0 ? styleBodyEven : styleBodyOdd;
+    ['A','B','C','D','E'].forEach(function(c){ cellStyle(c+row, fill); });
+    cellStyle('B'+row, row===11 ? styleRequired : {font:{sz:10,color:{rgb:'0EA571'}},fill:{patternType:'solid',fgColor:{rgb:'ECFDF5'}}});
+  });
+  // Row 16 — VALIDATION RULES head
+  cellStyle('A16', styleSectionHead);
+  // Row 17 — rule table header
+  cellStyle('A17', styleColHead); cellStyle('B17', styleColHead);
+  // Rows 18–25 — rule rows
+  for(var ri=18;ri<=25;ri++){
+    var rf = ri%2===0 ? styleBodyEven : styleBodyOdd;
+    cellStyle('A'+ri, styleRuleNum);
+    cellStyle('B'+ri, rf);
+  }
+  // Row 27 — IMPORT WORKFLOW head
+  cellStyle('A27', styleSectionHead);
+  // Step rows 28–33
+  for(var si=28;si<=33;si++){
+    var sf2 = si%2===0 ? styleBodyEven : styleBodyOdd;
+    cellStyle('A'+si, styleRuleNum);
+    cellStyle('B'+si, sf2);
+  }
+  // Row 35 — SAMPLE DATA head
+  cellStyle('A35', styleSectionHead);
+  // Row 36 — sample header columns
+  ['A','B','C','D'].forEach(function(c){ cellStyle(c+'36', styleSampleHead); });
+  // Rows 37–45 — sample data rows
+  for(var dr=37;dr<=45;dr++){
+    var df = dr%2===0 ? styleBodyEven : styleBodyOdd;
+    ['A','B','C','D'].forEach(function(c){ cellStyle(c+dr, df); });
+  }
+  // Row heights
+  wsInstr['!rows'] = [
+    {hpt:26}, // row1 title
+    {hpt:16}, // row2 subtitle
+    {hpt:8},  // blank
+    {hpt:20}, // section head
+  ];
+
+  // Merge title cells A1:E1 and A2:E2 for clean look
+  wsInstr['!merges'] = [
+    {s:{r:0,c:0}, e:{r:0,c:4}},  // A1:E1 — title
+    {s:{r:1,c:0}, e:{r:1,c:4}},  // A2:E2 — subtitle
+    {s:{r:3,c:0}, e:{r:3,c:4}},  // A4:E4 — ABOUT head
+    {s:{r:4,c:0}, e:{r:4,c:4}},  // A5:E5
+    {s:{r:5,c:0}, e:{r:5,c:4}},  // A6:E6
+    {s:{r:6,c:0}, e:{r:6,c:4}},  // A7:E7
+    {s:{r:8,c:0}, e:{r:8,c:4}},  // A9:E9 — FIELD REF head
+    {s:{r:15,c:0},e:{r:15,c:4}}, // A16:E16 — VALIDATION head
+    {s:{r:16,c:1},e:{r:16,c:4}}, // B17:E17 — rule table head
+    {s:{r:26,c:0},e:{r:26,c:4}}, // A27:E27 — WORKFLOW head
+    {s:{r:34,c:0},e:{r:34,c:4}}, // A35:E35 — SAMPLE DATA head
+    // Rule & Step B–E merges
+    {s:{r:17,c:1},e:{r:17,c:4}},{s:{r:18,c:1},e:{r:18,c:4}},{s:{r:19,c:1},e:{r:19,c:4}},
+    {s:{r:20,c:1},e:{r:20,c:4}},{s:{r:21,c:1},e:{r:21,c:4}},{s:{r:22,c:1},e:{r:22,c:4}},
+    {s:{r:23,c:1},e:{r:23,c:4}},{s:{r:24,c:1},e:{r:24,c:4}},
+    {s:{r:27,c:1},e:{r:27,c:4}},{s:{r:28,c:1},e:{r:28,c:4}},{s:{r:29,c:1},e:{r:29,c:4}},
+    {s:{r:30,c:1},e:{r:30,c:4}},{s:{r:31,c:1},e:{r:31,c:4}},{s:{r:32,c:1},e:{r:32,c:4}}
+  ];
+
+  XLSX.utils.book_append_sheet(wb, wsInstr, 'Instructions & Sample Data');
+
+  /* ─────────────────────────────────────────
+     Write and trigger download
+  ───────────────────────────────────────── */
+  var wbOut = XLSX.write(wb, {bookType:'xlsx', type:'array', cellStyles:true});
+  var blob  = new Blob([wbOut], {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  var a     = document.createElement('a');
+  a.href    = URL.createObjectURL(blob);
+  a.download = 'religion_master_template.xlsx';
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 10000);
+  toast('Template downloaded: religion_master_template.xlsx (2 sheets)','ok');
+}
+
+/* ════════════════════════════════════════
+   IMPORT — trigger file picker
+════════════════════════════════════════ */
+function triggerImport(){
+  var inp = document.getElementById('import-file-inp');
+  inp.value = ''; // reset so same file can be re-picked
+  inp.click();
+}
+
+/* ════════════════════════════════════════
+   IMPORT — parse CSV/Excel and validate
+════════════════════════════════════════ */
+var _pendingImport = []; // valid rows staged for commit
+
+function handleImport(input){
+  var file = input.files[0];
+  if(!file){ return; }
+  var ext = file.name.split('.').pop().toLowerCase();
+
+  if(['xlsx','xls'].indexOf(ext) > -1){
+    /* ── Excel path: read as ArrayBuffer → SheetJS → AOA → validate ── */
+    if(typeof XLSX === 'undefined'){
+      showImportResult(file.name, [], [], ['Excel library not loaded. Please refresh the page and try again.']);
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function(e){
+      try{
+        var wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
+
+        /* Prefer the "Data Entry" sheet; fall back to the first sheet */
+        var sheetName = wb.SheetNames.indexOf('Data Entry') > -1
+          ? 'Data Entry'
+          : wb.SheetNames[0];
+
+        var ws  = wb.Sheets[sheetName];
+        var aoa = XLSX.utils.sheet_to_json(ws, {header:1, defval:''});
+
+        /* strip fully-empty rows */
+        aoa = aoa.filter(function(row){
+          return row.some(function(cell){ return String(cell||'').trim() !== ''; });
+        });
+
+        if(aoa.length < 2){
+          showImportResult(file.name, [], [], [
+            'Sheet "'+sheetName+'" appears to have no data rows. '
+            +'Please fill in the Data Entry sheet and try again.'
+          ]);
+          return;
+        }
+
+        parseAndValidateAOA(aoa, file.name, sheetName);
+
+      } catch(err){
+        showImportResult(file.name, [], [], [
+          'Could not read the Excel file: '+err.message+'. '
+          +'Please make sure the file is a valid .xlsx or .xls workbook.'
+        ]);
+      }
+    };
+    reader.onerror = function(){
+      showImportResult(file.name, [], [], ['Failed to read the file. Please try again.']);
+    };
+    reader.readAsArrayBuffer(file);
+
+  } else if(ext === 'csv'){
+    /* ── CSV path: unchanged ── */
+    var readerCSV = new FileReader();
+    readerCSV.onload = function(e){
+      parseAndValidateCSV(e.target.result, file.name);
+    };
+    readerCSV.onerror = function(){
+      showImportResult(file.name, [], [], ['Failed to read the CSV file. Please try again.']);
+    };
+    readerCSV.readAsText(file);
+
+  } else {
+    showImportResult(file.name, [], [], [
+      'Unsupported file type ".'+ext+'". Please upload an Excel workbook (.xlsx / .xls) or a CSV file (.csv).'
+    ]);
+  }
+}
+
+/* ════════════════════════════════════════
+   IMPORT — validate an AOA from SheetJS
+   (same rules as parseAndValidateCSV but
+    works on a pre-parsed 2D array so no
+    CSV quoting/encoding issues)
+════════════════════════════════════════ */
+function parseAndValidateAOA(aoa, fileName, sheetName){
+  /* Row 0 is headers */
+  var headers = aoa[0].map(function(h){ return String(h||'').trim().toLowerCase(); });
+
+  function col(names){
+    for(var i=0;i<names.length;i++){
+      var idx = headers.indexOf(names[i].toLowerCase());
+      if(idx > -1) return idx;
+    }
+    return -1;
+  }
+  var iName   = col(['religion name','name','religion']);
+  var iStatus = col(['status']);
+  var iOrder  = col(['display order','order','displayorder']);
+  var iDesc   = col(['description','desc','notes']);
+
+  if(iName === -1){
+    showImportResult(fileName, [], [], [
+      'Column "Religion Name" not found in sheet "'+sheetName+'". '
+      +'Please use the downloaded template without renaming column headers.'
+    ]);
+    return;
+  }
+
+  var valid  = [];
+  var errors = [];
+
+  aoa.slice(1).forEach(function(cells, idx){
+    var rowNum = idx + 2;
+    var name   = String(cells[iName]||'').trim();
+
+    if(!name) return; /* skip blank rows silently */
+
+    var rowErrors = [];
+
+    if(name.length > 100) rowErrors.push('Name exceeds 100 characters');
+
+    var dupExisting = RECORDS.find(function(r){ return r.name.toLowerCase()===name.toLowerCase(); });
+    if(dupExisting) rowErrors.push('"'+name+'" already exists in the master');
+
+    var dupInBatch = valid.find(function(v){ return v.name.toLowerCase()===name.toLowerCase(); });
+    if(dupInBatch) rowErrors.push('Duplicate name within import file');
+
+    /* Status — cell value may already be a number (1/0) from Excel */
+    var statusRaw = String(cells[iStatus]||'').trim();
+    var status = 'Active';
+    if(statusRaw){
+      if(['active','1','yes','true'].indexOf(statusRaw.toLowerCase()) > -1)    status = 'Active';
+      else if(['inactive','0','no','false'].indexOf(statusRaw.toLowerCase()) > -1) status = 'Inactive';
+      else rowErrors.push('Status "'+statusRaw+'" not recognised — use Active or Inactive');
+    }
+
+    /* Display Order — may be a numeric cell value already */
+    var orderRaw = cells[iOrder];
+    var order    = 99;
+    if(orderRaw !== '' && orderRaw !== null && orderRaw !== undefined){
+      var parsed = typeof orderRaw === 'number' ? orderRaw : parseInt(orderRaw);
+      if(isNaN(parsed) || parsed < 1 || parsed > 999)
+        rowErrors.push('Display Order must be a number 1–999');
+      else order = parsed;
+    }
+
+    var desc = String(cells[iDesc]||'').trim();
+
+    if(rowErrors.length){
+      errors.push({row:rowNum, name:name, issues:rowErrors});
+    } else {
+      valid.push({
+        id:        'rel'+Date.now()+Math.random().toString(36).slice(2,6),
+        name:      name,
+        code:      genUniqueCode(name, null),
+        icon:      ICONS[0],
+        color:     COLORS[Math.floor(Math.random()*COLORS.length)],
+        order:     order,
+        status:    status,
+        desc:      desc,
+        usage:     0,
+        createdAt: today()
+      });
+    }
+  });
+
+  _pendingImport = valid;
+  showImportResult(fileName, valid, errors, []);
+}
+
+function parseAndValidateCSV(text, fileName){
+  // Normalise line endings
+  var lines = text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(function(l){ return l.trim(); });
+  if(lines.length < 2){
+    showImportResult(fileName, [], [], ['File appears to be empty or has only headers.']);
+    return;
+  }
+
+  // Parse CSV row (handles quoted fields)
+  function parseLine(line){
+    var result = [], current = '', inQ = false;
+    for(var i=0;i<line.length;i++){
+      var c = line[i];
+      if(c==='"'){ if(inQ && line[i+1]==='"'){ current+='"'; i++; } else inQ=!inQ; }
+      else if(c===',' && !inQ){ result.push(current.trim()); current=''; }
+      else current+=c;
+    }
+    result.push(current.trim());
+    return result;
+  }
+
+  var headers = parseLine(lines[0]).map(function(h){ return h.replace(/^"+|"+$/g,'').trim().toLowerCase(); });
+
+  // Find column indices (flexible header matching)
+  function col(names){
+    for(var i=0;i<names.length;i++){
+      var idx = headers.indexOf(names[i].toLowerCase());
+      if(idx > -1) return idx;
+    }
+    return -1;
+  }
+  var iName   = col(['religion name','name','religion']);
+  var iStatus = col(['status']);
+  var iOrder  = col(['display order','order','displayorder']);
+  var iDesc   = col(['description','desc','notes']);
+
+  if(iName === -1){
+    showImportResult(fileName, [], [], ['Column "Religion Name" not found. Please use the downloaded template.']);
+    return;
+  }
+
+  var valid   = [];
+  var errors  = [];
+  var skipped = 0;
+
+  // Skip instruction rows (lines starting with --- )
+  var dataLines = lines.slice(1).filter(function(l){ return l.indexOf('---') === -1 && l.replace(/,/g,'').trim(); });
+
+  dataLines.forEach(function(line, idx){
+    var rowNum = idx + 2; // 1-based, +1 for header
+    var cells  = parseLine(line);
+    var name   = iName > -1 ? (cells[iName]||'').replace(/^"+|"+$/g,'').trim() : '';
+
+    // Skip blank rows silently
+    if(!name){ skipped++; return; }
+
+    var rowErrors = [];
+
+    // --- Validate Name ---
+    if(name.length > 100) rowErrors.push('Name exceeds 100 characters');
+
+    // --- Duplicate name check against existing + already-validated rows ---
+    var dupExisting = RECORDS.find(function(r){ return r.name.toLowerCase()===name.toLowerCase(); });
+    if(dupExisting) rowErrors.push('"'+name+'" already exists in the master (will be skipped)');
+
+    var dupInBatch = valid.find(function(v){ return v.name.toLowerCase()===name.toLowerCase(); });
+    if(dupInBatch) rowErrors.push('Duplicate name within import file');
+
+    // --- Status ---
+    var statusRaw = iStatus > -1 ? (cells[iStatus]||'').replace(/^"+|"+$/g,'').trim() : '';
+    var status = 'Active';
+    if(statusRaw){
+      if(['active','1','yes','true'].indexOf(statusRaw.toLowerCase()) > -1) status = 'Active';
+      else if(['inactive','0','no','false'].indexOf(statusRaw.toLowerCase()) > -1) status = 'Inactive';
+      else rowErrors.push('Status "'+statusRaw+'" not recognised — use Active or Inactive');
+    }
+
+    // --- Display Order ---
+    var orderRaw = iOrder > -1 ? (cells[iOrder]||'').replace(/^"+|"+$/g,'').trim() : '';
+    var order    = 99;
+    if(orderRaw){
+      var parsed = parseInt(orderRaw);
+      if(isNaN(parsed) || parsed < 1 || parsed > 999) rowErrors.push('Display Order must be a number 1–999');
+      else order = parsed;
+    }
+
+    // --- Description ---
+    var desc = iDesc > -1 ? (cells[iDesc]||'').replace(/^"+|"+$/g,'').trim() : '';
+
+    if(rowErrors.length){
+      errors.push({row:rowNum, name:name||'(blank)', issues:rowErrors});
+    } else {
+      valid.push({
+        id:        'rel'+Date.now()+Math.random().toString(36).slice(2,6),
+        name:      name,
+        code:      genUniqueCode(name, null),
+        icon:      ICONS[0],
+        color:     COLORS[Math.floor(Math.random()*COLORS.length)],
+        order:     order,
+        status:    status,
+        desc:      desc,
+        usage:     0,
+        createdAt: today()
+      });
+    }
+  });
+
+  _pendingImport = valid;
+  showImportResult(fileName, valid, errors, []);
+}
+
+/* ════════════════════════════════════════
+   IMPORT — show results modal
+════════════════════════════════════════ */
+function showImportResult(fileName, valid, errors, fatalErrors){
+  var hasValid  = valid.length > 0;
+  var hasErrors = errors.length > 0;
+  var hasFatal  = fatalErrors.length > 0;
+
+  document.getElementById('imp-modal-title').textContent = 'Import Results — '+fileName;
+  document.getElementById('imp-modal-sub').textContent   =
+    hasFatal  ? 'File could not be processed.' :
+    hasValid  ? valid.length+' record(s) ready to import'+(hasErrors?' · '+errors.length+' row(s) with issues':'') :
+                'No valid records found.';
+
+  var html = '';
+
+  // Fatal errors
+  if(hasFatal){
+    html += '<div class="del-box"><i class="ti ti-ban"></i><div>'
+      +'<div class="del-box-title">File could not be processed</div>'
+      +'<div class="del-box-desc">'+fatalErrors.map(esc).join('<br>')+'</div>'
+    +'</div></div>';
+  }
+
+  // Summary strip
+  if(!hasFatal){
+    html += '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px">'
+      +'<div style="background:var(--jade-bg);border:1.5px solid rgba(14,165,113,.2);border-radius:var(--r-lg);padding:14px;text-align:center">'
+        +'<div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--jade)">'+valid.length+'</div>'
+        +'<div style="font-size:11px;color:var(--jade-text);font-weight:600;margin-top:3px">Ready to Import</div>'
+      +'</div>'
+      +'<div style="background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px;text-align:center">'
+        +'<div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--fire)">'+errors.length+'</div>'
+        +'<div style="font-size:11px;color:var(--fire-text);font-weight:600;margin-top:3px">Rows with Errors</div>'
+      +'</div>'
+      +'<div style="background:var(--p-bg);border:1.5px solid var(--p-line);border-radius:var(--r-lg);padding:14px;text-align:center">'
+        +'<div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--p)">'+RECORDS.length+'</div>'
+        +'<div style="font-size:11px;color:var(--p2);font-weight:600;margin-top:3px">Existing Records</div>'
+      +'</div>'
+    +'</div>';
+  }
+
+  // Valid rows preview
+  if(valid.length){
+    html += '<div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:8px">'
+      +'<i class="ti ti-circle-check" style="color:var(--jade);margin-right:5px"></i>Valid Records ('+valid.length+')'
+    +'</div>';
+    html += '<div style="border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:18px">'
+      +'<table style="width:100%;border-collapse:collapse">'
+      +'<thead><tr>'
+        +'<th style="padding:8px 12px;text-align:left;font-size:10.5px;font-weight:700;color:var(--ink4);background:var(--smoke);border-bottom:1px solid var(--line)">Name</th>'
+        +'<th style="padding:8px 12px;font-size:10.5px;font-weight:700;color:var(--ink4);background:var(--smoke);border-bottom:1px solid var(--line)">Code</th>'
+        +'<th style="padding:8px 12px;font-size:10.5px;font-weight:700;color:var(--ink4);background:var(--smoke);border-bottom:1px solid var(--line)">Status</th>'
+        +'<th style="padding:8px 12px;font-size:10.5px;font-weight:700;color:var(--ink4);background:var(--smoke);border-bottom:1px solid var(--line)">Order</th>'
+      +'</tr></thead><tbody>';
+    valid.forEach(function(v,i){
+      html += '<tr style="border-bottom:'+(i<valid.length-1?'1px solid var(--line)':'none')+'">'
+        +'<td style="padding:9px 12px;font-size:12.5px;color:var(--ink);font-weight:500">'+esc(v.name)+'</td>'
+        +'<td style="padding:9px 12px"><span class="code-chip">'+esc(v.code)+'</span></td>'
+        +'<td style="padding:9px 12px"><span class="badge badge-'+(v.status==='Active'?'active':'inactive')+'">'+v.status+'</span></td>'
+        +'<td style="padding:9px 12px;font-family:var(--mono);font-size:12px;color:var(--ink3)">'+v.order+'</td>'
+      +'</tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+
+  // Error rows
+  if(errors.length){
+    html += '<div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:8px">'
+      +'<i class="ti ti-alert-triangle" style="color:var(--fire);margin-right:5px"></i>Rows with Errors ('+errors.length+') — these will not be imported'
+    +'</div>';
+    html += '<div style="display:flex;flex-direction:column;gap:8px">';
+    errors.forEach(function(e){
+      html += '<div style="background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.15);border-radius:var(--r-lg);padding:11px 14px;display:flex;align-items:flex-start;gap:10px">'
+        +'<div style="background:var(--fire);color:#fff;border-radius:5px;font-size:10px;font-weight:700;padding:2px 6px;flex-shrink:0;margin-top:1px">Row '+e.row+'</div>'
+        +'<div>'
+          +'<div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:3px">'+esc(e.name)+'</div>'
+          +'<div style="font-size:11.5px;color:var(--fire-text)">'+e.issues.map(esc).join(' · ')+'</div>'
+        +'</div>'
+      +'</div>';
+    });
+    html += '</div>';
+  }
+
+  if(!hasFatal && !valid.length && !errors.length){
+    html += '<div style="text-align:center;padding:30px;color:var(--ink4);font-size:13px">No data rows found in the file.</div>';
+  }
+
+  document.getElementById('imp-modal-body').innerHTML = html;
+
+  // Show confirm button only if there are valid rows
+  var btn = document.getElementById('imp-confirm-btn');
+  btn.style.display = (!hasFatal && hasValid) ? 'inline-flex' : 'none';
+  btn.innerHTML = '<i class="ti ti-check"></i>Import '+valid.length+' Valid Record'+(valid.length!==1?'s':'');
+
+  showModal('import-modal');
+}
+
+/* ════════════════════════════════════════
+   IMPORT — commit valid rows
+════════════════════════════════════════ */
+function commitImport(){
+  if(!_pendingImport.length) return;
+  // Re-generate codes at commit time to avoid stale collisions
+  _pendingImport.forEach(function(r){
+    r.code = genUniqueCode(r.name, null);
+    RECORDS.push(r);
+  });
+  var count = _pendingImport.length;
+  _pendingImport = [];
+  save();
+  closeModal('import-modal');
+  render();
+  toast(count+' religion record'+(count!==1?'s':'')+' imported successfully.','ok');
+}
+function find(id){ return RECORDS.find(function(r){return r.id===id;}); }
+function hexBg(hex){
+  // Produce a very light tint of the given colour
+  var c=hexToRgb(hex);
+  return 'rgba('+c.r+','+c.g+','+c.b+',.12)';
+}
+function hexToRgb(hex){
+  hex=(hex||'#0f4c75').replace('#','');
+  if(hex.length===3) hex=hex.split('').map(function(c){return c+c;}).join('');
+  var n=parseInt(hex,16);
+  return {r:(n>>16)&255,g:(n>>8)&255,b:n&255};
+}
+function fmtDate(s){
+  if(!s) return '—';
+  var p=s.split('-');
+  var mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return p[2]+' '+mo[parseInt(p[1])-1]+' '+p[0];
+}
+function today(){return new Date().toISOString().slice(0,10);}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function showModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle',warn:'ti-alert-triangle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){
+  var o=e.target.closest('.overlay');
+  if(o&&e.target===o) o.classList.remove('open');
+});
+
+/* ════════════════════════════════════════
+   EXPOSE for admission/profile forms
+   Call window.SIS_Religion.getActive() from
+   any admission or profile form to populate
+   the religion dropdown.
+════════════════════════════════════════ */
+window.SIS_Religion = {
+  getAll: function(){ return JSON.parse(sessionStorage.getItem(STORE_KEY)||'[]'); },
+  getActive: function(){
+    return (JSON.parse(sessionStorage.getItem(STORE_KEY)||'[]'))
+      .filter(function(r){return r.status==='Active';})
+      .sort(function(a,b){return (a.order||99)-(b.order||99);});
+  },
+  populateSelect: function(selectId, selectedValue){
+    var sel = document.getElementById(selectId);
+    if(!sel) return;
+    var active = this.getActive();
+    sel.innerHTML = '<option value="">-- Select Religion --</option>'
+      + active.map(function(r){
+          return '<option value="'+r.id+'"'+(r.id===selectedValue?' selected':'')+'>'+r.name+'</option>';
+        }).join('');
+  }
+};
+
+/* INIT */
+render();
+</script>
+</body>
+</html>

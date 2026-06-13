@@ -1,0 +1,1536 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subjects — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display);cursor:pointer}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .15s;cursor:pointer;white-space:nowrap}
+    .btn i{font-size:16px}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(15,76,117,.25)}
+    .btn-primary:hover{background:var(--p2);box-shadow:0 4px 16px rgba(15,76,117,.32)}
+    .btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--line)}
+    .btn-ghost:hover{border-color:var(--line2);background:var(--smoke)}
+    .btn-danger{background:var(--fire-bg);color:var(--fire);border:1.5px solid rgba(239,68,68,.2)}
+    .btn-danger:hover{background:var(--fire);color:#fff}
+    .btn-sm{padding:6px 11px;font-size:12px}.btn-sm i{font-size:14px}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+
+    /* ── TWO-COL LAYOUT ── */
+    .main-layout{display:flex;gap:0;min-height:calc(100vh - 62px)}
+
+    /* ── DEPT PANEL ── */
+    .dept-panel{width:228px;flex-shrink:0;background:var(--white);border-right:1.5px solid var(--line);padding:12px 0 24px;position:sticky;top:62px;height:calc(100vh - 62px);overflow-y:auto;display:flex;flex-direction:column}
+    .dp-title{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ink4);padding:10px 18px 8px;display:flex;align-items:center;gap:7px}
+    .dp-title i{font-size:13px}
+    .dp-item{display:flex;align-items:center;justify-content:space-between;padding:9px 16px 9px 18px;cursor:pointer;transition:all .14s;font-size:13px;color:var(--ink3);border-left:3px solid transparent;gap:8px}
+    .dp-item:hover{background:var(--smoke);color:var(--ink)}
+    .dp-item.active{background:var(--p-bg);color:var(--p);font-weight:600;border-left-color:var(--p)}
+    .dp-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;background:var(--smoke)}
+    .dp-item.active .dp-ico{background:var(--p-line);color:var(--p)}
+    .dp-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .dp-count{font-family:var(--mono);font-size:10px;font-weight:600;background:var(--line);color:var(--ink4);padding:2px 7px;border-radius:var(--r-pill);flex-shrink:0}
+    .dp-item.active .dp-count{background:var(--p);color:#fff}
+    .dp-divider{height:1px;background:var(--line);margin:10px 0}
+    .dp-footer{margin-top:auto;padding:12px 16px 0;border-top:1px solid var(--line)}
+    .dp-footer-txt{font-size:11px;color:var(--ink4);line-height:1.5}
+
+    /* ── CONTENT ── */
+    .content-area{flex:1;padding:28px 28px 60px;min-width:0;overflow-x:hidden}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+    .page-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+    /* ── STATS ── */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:15px 16px;display:flex;align-items:center;gap:13px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.teal{background:var(--p-bg);color:var(--p)}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* ── FILTER BAR ── */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:13px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .srch-wrap{flex:1;min-width:200px;position:relative}
+    .srch-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .srch-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 37px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .srch-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .srch-inp::placeholder{color:var(--ink4)}
+    .fsel{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:140px}
+    .fsel:focus{border-color:var(--p2)}
+    .fdiv{width:1px;height:24px;background:var(--line);margin:0 2px}
+    .view-toggle{display:flex;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+    .vbtn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink4);background:var(--smoke);cursor:pointer;transition:all .15s;border:none}
+    .vbtn.active{background:var(--p);color:#fff}
+    .vbtn:not(.active):hover{background:var(--line);color:var(--ink)}
+
+    /* ── SUBJECT CARDS ── */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:16px}
+    .subj-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh);transition:box-shadow .2s,transform .2s;display:flex;flex-direction:column}
+    .subj-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+    .card-top-bar{height:5px;width:100%}
+    .card-body{padding:18px 18px 14px;flex:1}
+    .card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:13px}
+    .subj-icon-wrap{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .card-head-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+    .subj-code-chip{font-family:var(--mono);font-size:10.5px;font-weight:700;background:var(--smoke);border:1.5px solid var(--line);border-radius:6px;padding:3px 8px;color:var(--ink2);letter-spacing:.3px}
+    .subj-name{font-family:var(--display);font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.2px;line-height:1.25;margin-bottom:5px}
+    .subj-dept{font-size:11.5px;color:var(--ink4);display:flex;align-items:center;gap:5px}
+    .subj-dept i{font-size:12px}
+    /* TYPE BADGES */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:600}
+    .badge i{font-size:12px}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+    .type-theory{background:#dbeafe;color:#1e40af}
+    .type-practical{background:#d1fae5;color:#065f46}
+    .type-both{background:#f3e8ff;color:#6d28d9}
+    .type-cocurricular{background:#fef3c7;color:#92400e}
+    /* METRICS ROW */
+    .metrics-row{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;gap:0;background:var(--smoke);border:1px solid var(--line);border-radius:var(--r-lg);margin:14px 0;overflow:hidden}
+    .metric-cell{padding:10px 8px;text-align:center}
+    .metric-divider{background:var(--line);width:1px}
+    .metric-val{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--ink);line-height:1}
+    .metric-lbl{font-size:9.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+    /* TEACHER ROW */
+    .teacher-row{display:flex;align-items:center;gap:9px;padding:10px 0 0;border-top:1px solid var(--line)}
+    .tc-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+    .tc-info{flex:1;min-width:0}
+    .tc-name{font-size:12.5px;font-weight:600;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .tc-role{font-size:10.5px;color:var(--ink4)}
+    .card-actions{display:flex;gap:5px;margin-left:auto;flex-shrink:0}
+    .act-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink3);background:transparent;border:1.5px solid var(--line);transition:all .14s;cursor:pointer}
+    .act-btn:hover{background:var(--smoke);border-color:var(--line2)}
+    .act-btn.danger:hover{background:var(--fire-bg);border-color:var(--fire);color:var(--fire)}
+
+    /* ── TABLE ── */
+    .tbl-wrap{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+    .tbl-top{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1.5px solid var(--line)}
+    .tbl-count{font-size:12px;color:var(--ink4)}
+    table{width:100%;border-collapse:collapse}
+    thead th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.7px;background:var(--smoke);border-bottom:1.5px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+    thead th:hover{color:var(--ink2)}
+    thead th i{font-size:12px;vertical-align:middle;margin-left:2px;color:var(--ink4)}
+    tbody td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink2);vertical-align:middle}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:#fafbfd}
+    td .row-acts{display:flex;gap:5px;opacity:0;transition:opacity .15s}
+    tr:hover .row-acts{opacity:1}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink3);background:transparent;border:1.5px solid var(--line);transition:all .14s;cursor:pointer}
+    .row-btn:hover{background:var(--smoke);border-color:var(--line2)}
+    .row-btn.danger:hover{background:var(--fire-bg);border-color:var(--fire);color:var(--fire)}
+    .hide-sm{display:table-cell}
+    @media(max-width:900px){.hide-sm{display:none}}
+    .pg-wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1.5px solid var(--line)}
+    .pg-info{font-size:12px;color:var(--ink4)}
+    .pg-btns{display:flex;gap:4px}
+    .pg-btn{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:500;color:var(--ink3);background:var(--white);border:1.5px solid var(--line);cursor:pointer;transition:all .14s}
+    .pg-btn:hover:not(:disabled){background:var(--smoke);border-color:var(--line2)}
+    .pg-btn.active{background:var(--p);border-color:var(--p);color:#fff}
+    .pg-btn:disabled{opacity:.4;cursor:default}
+
+    /* ── EMPTY STATE ── */
+    .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}
+    .es-ico{width:58px;height:58px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink4);margin-bottom:14px}
+    .es-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+    .es-desc{font-size:12px;color:var(--ink4);max-width:220px;line-height:1.65;margin-bottom:20px}
+
+    /* ── OVERLAY / MODAL ── */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:580px;max-width:96vw;max-height:92vh;overflow-y:auto;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-sm{width:440px}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line);position:sticky;top:0;background:var(--white);z-index:2}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink)}
+    .modal-subtitle{font-size:11.5px;color:var(--ink4);margin-top:2px}
+    .modal-close{width:32px;height:32px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:16px;cursor:pointer;transition:all .15s}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line);position:sticky;bottom:0;background:var(--white)}
+
+    /* ── FORM ── */
+    .msec{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .msec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .msec-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+    .msec-title i{font-size:14px;color:var(--p3)}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .fgrp{margin-bottom:14px}
+    .fgrp:last-child{margin-bottom:0}
+    .flabel{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+    .req{color:var(--fire);margin-left:3px}
+    .flabel-hint{font-size:10.5px;color:var(--ink4);font-weight:400}
+    .finput-wrap{position:relative}
+    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .15s}
+    .finput-wrap:focus-within .ficon{color:var(--p2)}
+    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+    .finput.no-icon{padding-left:13px}
+    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .finput::placeholder{color:var(--ink4)}
+    select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+    textarea.finput{resize:vertical;min-height:78px;padding-top:10px;padding-left:13px;line-height:1.55}
+
+    /* TYPE SELECTOR */
+    .type-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:4px}
+    .type-opt{padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--r-lg);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--ink3);background:var(--white)}
+    .type-opt:hover{border-color:var(--line2);color:var(--ink);background:var(--smoke)}
+    .type-opt.sel{border-color:var(--p);background:var(--p-bg);color:var(--p)}
+    .type-opt i{font-size:18px}
+    .type-opt .type-desc{font-size:10.5px;font-weight:400;color:var(--ink4);margin-top:1px}
+    .type-opt.sel .type-desc{color:var(--p2)}
+    .type-opt-inner{flex:1}
+
+    /* COLOUR SWATCHES */
+    .swatch-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+    .swatch{width:28px;height:28px;border-radius:8px;cursor:pointer;border:2.5px solid transparent;transition:all .15s;position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .swatch.sel{border-color:var(--ink2);transform:scale(1.18);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+    .swatch.sel::after{content:'✓';position:absolute;font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+
+    /* DELETE MODAL */
+    .del-box{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:11px}
+    .del-box i{color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px}
+    .del-box-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+    .del-box-desc{font-size:12px;color:var(--ink3);line-height:1.5}
+
+    /* ── TOAST ── */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:18px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}
+
+    @media(max-width:1024px){.stat-strip{grid-template-columns:1fr 1fr}}
+    @media(max-width:900px){.dept-panel{display:none}}
+    @media(max-width:640px){.content-area{padding:16px 16px 40px}.stat-strip{grid-template-columns:1fr 1fr}}
+
+    /* ── IMPORT RESULT STYLES ── */
+    .imp-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+    .imp-tile{border-radius:var(--r-lg);padding:14px;text-align:center}
+    .imp-tile.ok{background:var(--jade-bg);border:1.5px solid rgba(14,165,113,.2)}
+    .imp-tile.err{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2)}
+    .imp-tile.info{background:var(--p-bg);border:1.5px solid var(--p-line)}
+    .imp-tile-val{font-family:var(--mono);font-size:22px;font-weight:700;line-height:1}
+    .imp-tile.ok .imp-tile-val{color:var(--jade)}.imp-tile.err .imp-tile-val{color:var(--fire)}.imp-tile.info .imp-tile-val{color:var(--p)}
+    .imp-tile-lbl{font-size:11px;font-weight:600;margin-top:3px}
+    .imp-tile.ok .imp-tile-lbl{color:var(--jade-text)}.imp-tile.err .imp-tile-lbl{color:var(--fire-text)}.imp-tile.info .imp-tile-lbl{color:var(--p2)}
+    .imp-section-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+    .imp-preview-tbl{border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-bottom:18px}
+    .imp-preview-tbl table{width:100%;border-collapse:collapse}
+    .imp-preview-tbl thead th{padding:8px 11px;font-size:10.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.6px;background:var(--smoke);border-bottom:1px solid var(--line)}
+    .imp-preview-tbl tbody td{padding:8px 11px;font-size:12.5px;border-bottom:1px solid var(--line)}
+    .imp-preview-tbl tbody tr:last-child td{border-bottom:none}
+    .imp-err-row{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.15);border-radius:var(--r-lg);padding:10px 13px;display:flex;align-items:flex-start;gap:9px;margin-bottom:7px}
+    .imp-err-row:last-child{margin-bottom:0}
+    .imp-row-num{background:var(--fire);color:#fff;border-radius:5px;font-size:10px;font-weight:700;padding:2px 6px;flex-shrink:0;margin-top:1px;font-family:var(--mono)}
+    .imp-err-name{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px}
+    .imp-err-msg{font-size:11.5px;color:var(--fire-text)}
+    .imp-warn-notice{background:var(--sun-bg);border:1.5px solid rgba(245,158,11,.25);border-radius:var(--r-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:9px;margin-top:14px}
+    .imp-warn-notice i{color:var(--sun);font-size:16px;flex-shrink:0;margin-top:1px}
+  </style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<div class="topbar">
+  <a href="dashboard.html" class="tb-brand">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div>
+      <div class="tb-name">Aspire ERP</div>
+      <div class="tb-ver">v3.0 · Academic</div>
+    </div>
+  </a>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="acad-classes.html">Academics</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur" id="breadcrumb-cur">Subjects</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" title="Help"><i class="ti ti-help-circle"></i></button>
+    <div class="tb-av" onclick="location.href='view-profile.html'" title="Profile">PM</div>
+  </div>
+</div>
+
+<div class="main-layout">
+
+  <!-- ── DEPT PANEL ── -->
+  <div class="dept-panel" id="dept-panel">
+    <div class="dp-title"><i class="ti ti-building-community"></i>Departments</div>
+    <div class="dp-item active" data-dept="" onclick="filterDept(this,'')">
+      <div class="dp-ico"><i class="ti ti-books"></i></div>
+      <span class="dp-name">All Subjects</span>
+      <span class="dp-count" id="dp-count-all">0</span>
+    </div>
+    <div class="dp-divider"></div>
+    <div id="dp-list"></div>
+    <div class="dp-footer">
+      <div class="dp-footer-txt">Click a department to filter subjects by faculty area.</div>
+    </div>
+  </div>
+
+  <!-- ── CONTENT AREA ── -->
+  <div class="content-area">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header anim">
+      <div>
+        <div class="page-tag"><i class="ti ti-book-2"></i> Academic Management</div>
+        <div class="page-title" id="page-title">All Subjects</div>
+        <div class="page-sub">Manage subjects, syllabi, assigned teachers and credit hours</div>
+      </div>
+      <div class="page-actions">
+        <button class="btn btn-ghost" onclick="downloadTemplate()"><i class="ti ti-table-import"></i>Download Template</button>
+        <button class="btn btn-ghost" onclick="triggerImport()"><i class="ti ti-upload"></i>Import</button>
+        <input type="file" id="import-file-inp" accept=".csv,.xlsx,.xls" style="display:none" onchange="handleImport(this)">
+        <button class="btn btn-ghost" onclick="exportCSV()"><i class="ti ti-download"></i>Export CSV</button>
+        <button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Subject</button>
+      </div>
+    </div>
+
+    <!-- STAT STRIP -->
+    <div class="stat-strip anim d1">
+      <div class="stat-tile">
+        <div class="st-ico teal"><i class="ti ti-books"></i></div>
+        <div><div class="st-val" id="st-total">0</div><div class="st-lbl">Total Subjects</div></div>
+      </div>
+      <div class="stat-tile">
+        <div class="st-ico green"><i class="ti ti-circle-check"></i></div>
+        <div><div class="st-val" id="st-active">0</div><div class="st-lbl">Active</div></div>
+      </div>
+      <div class="stat-tile">
+        <div class="st-ico blue"><i class="ti ti-chalkboard"></i></div>
+        <div><div class="st-val" id="st-teachers">0</div><div class="st-lbl">Teachers Assigned</div></div>
+      </div>
+      <div class="stat-tile">
+        <div class="st-ico amber"><i class="ti ti-building-community"></i></div>
+        <div><div class="st-val" id="st-depts">0</div><div class="st-lbl">Departments</div></div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar anim d2">
+      <div class="srch-wrap">
+        <i class="ti ti-search"></i>
+        <input class="srch-inp" type="text" id="f-search" placeholder="Search by name or code…" oninput="applyFilters()">
+      </div>
+      <select class="fsel" id="f-type" onchange="applyFilters()">
+        <option value="">All Types</option>
+        <option value="Theory">Theory</option>
+        <option value="Practical">Practical</option>
+        <option value="Theory + Practical">Theory + Practical</option>
+        <option value="Co-Curricular">Co-Curricular</option>
+      </select>
+      <select class="fsel" id="f-status" onchange="applyFilters()">
+        <option value="">All Status</option>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+      <select class="fsel" id="f-sort" onchange="applyFilters()">
+        <option value="name">Name A–Z</option>
+        <option value="code">Code A–Z</option>
+        <option value="periods-desc">Most Periods/Wk</option>
+        <option value="credits-desc">Most Credits</option>
+        <option value="newest">Recently Added</option>
+      </select>
+      <div class="fdiv"></div>
+      <div class="view-toggle">
+        <button class="vbtn active" id="vbtn-card" onclick="setView('card')" title="Card view"><i class="ti ti-layout-grid"></i></button>
+        <button class="vbtn" id="vbtn-table" onclick="setView('table')" title="Table view"><i class="ti ti-list"></i></button>
+      </div>
+    </div>
+
+    <!-- CARD VIEW -->
+    <div id="view-card">
+      <div class="card-grid" id="card-grid"></div>
+    </div>
+
+    <!-- TABLE VIEW -->
+    <div id="view-table" style="display:none">
+      <div class="tbl-wrap">
+        <div class="tbl-top">
+          <div class="tbl-count">Showing <b id="tbl-count">0</b> subjects</div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th onclick="sortBy('name')">Subject <i class="ti ti-arrows-sort"></i></th>
+              <th>Code</th>
+              <th class="hide-sm">Department</th>
+              <th>Type</th>
+              <th class="hide-sm" onclick="sortBy('periods-desc')">Periods/Wk <i class="ti ti-arrows-sort"></i></th>
+              <th class="hide-sm" onclick="sortBy('credits-desc')">Credits <i class="ti ti-arrows-sort"></i></th>
+              <th>Teacher</th>
+              <th>Status</th>
+              <th style="width:90px">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="subj-tbody"></tbody>
+        </table>
+        <div class="pg-wrap" id="pagination"></div>
+      </div>
+    </div>
+
+  </div><!-- /content-area -->
+</div><!-- /main-layout -->
+
+<!-- ══════════════════════════════════════════════
+     ADD / EDIT MODAL
+══════════════════════════════════════════════ -->
+<div class="overlay" id="subj-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title-txt">Add Subject</div>
+        <div class="modal-subtitle" id="modal-subtitle-txt">Fill in the details to create a new subject</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('subj-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- IDENTITY -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-id-badge"></i>Subject Identity</div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Subject Name <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-book ficon"></i>
+              <input class="finput" type="text" id="m-name" placeholder="e.g. Physics">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Subject Code <span class="flabel-hint">Auto-generated</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-hash ficon"></i>
+              <input class="finput" type="text" id="m-code" readonly
+                style="background:var(--smoke);color:var(--ink3);cursor:not-allowed;font-family:var(--mono);letter-spacing:.5px"
+                placeholder="Generated on save…">
+            </div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Department <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-building-community ficon"></i>
+              <select class="finput" id="m-dept">
+                <option value="">Select department</option>
+              </select>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Status</div>
+            <div class="finput-wrap">
+              <i class="ti ti-toggle-left ficon"></i>
+              <select class="finput" id="m-status">
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBJECT TYPE -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-category-2"></i>Subject Type</div>
+        <div class="type-grid" id="type-grid">
+          <div class="type-opt sel" data-type="Theory" onclick="pickType(this)">
+            <i class="ti ti-book-2"></i>
+            <div class="type-opt-inner">
+              <div>Theory</div>
+              <div class="type-desc">Classroom instruction only</div>
+            </div>
+          </div>
+          <div class="type-opt" data-type="Practical" onclick="pickType(this)">
+            <i class="ti ti-flask"></i>
+            <div class="type-opt-inner">
+              <div>Practical</div>
+              <div class="type-desc">Lab / hands-on sessions</div>
+            </div>
+          </div>
+          <div class="type-opt" data-type="Theory + Practical" onclick="pickType(this)">
+            <i class="ti ti-stack-2"></i>
+            <div class="type-opt-inner">
+              <div>Theory + Practical</div>
+              <div class="type-desc">Both components combined</div>
+            </div>
+          </div>
+          <div class="type-opt" data-type="Co-Curricular" onclick="pickType(this)">
+            <i class="ti ti-music"></i>
+            <div class="type-opt-inner">
+              <div>Co-Curricular</div>
+              <div class="type-desc">Arts, sports, activities</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- APPEARANCE -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-palette"></i>Colour &amp; Notes</div>
+        <div class="fgrp">
+          <div class="flabel">Subject Colour <span class="flabel-hint">Used on timetable &amp; cards</span></div>
+          <div class="swatch-grid" id="swatch-grid"></div>
+        </div>
+        <div class="fgrp" style="margin-top:12px">
+          <div class="flabel">Description / Notes</div>
+          <textarea class="finput no-icon" id="m-desc" placeholder="Optional syllabus overview, notes…"></textarea>
+        </div>
+      </div>
+
+    </div><!-- /modal-body -->
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('subj-modal')">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveSubject()">
+        <i class="ti ti-plus"></i>Add Subject
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     DELETE MODAL
+══════════════════════════════════════════════ -->
+<div class="overlay" id="del-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-trash" style="color:var(--fire)"></i>Delete Subject
+      </div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="del-box">
+        <i class="ti ti-alert-triangle"></i>
+        <div>
+          <div class="del-box-title">This cannot be undone</div>
+          <div class="del-box-desc">Deleting <b id="del-name"></b> will remove it from all class timetables and exam schedules.</div>
+        </div>
+      </div>
+      <div class="fgrp">
+        <div class="flabel">Type <b id="del-confirm-txt" style="font-family:var(--mono);color:var(--ink)"></b> to confirm</div>
+        <input class="finput no-icon" type="text" id="del-inp" oninput="chkDel()" placeholder="Type subject name…" autocomplete="off">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-btn" onclick="execDel()" disabled>
+        <i class="ti ti-trash"></i>Delete Subject
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── IMPORT RESULT MODAL ── -->
+<div class="overlay" id="import-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="imp-modal-title">Import Results</div>
+        <div class="modal-subtitle" id="imp-modal-sub">Review before committing</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('import-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="imp-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('import-modal')">Close</button>
+      <button class="btn btn-primary" id="imp-confirm-btn" onclick="commitImport()" style="display:none">
+        <i class="ti ti-check"></i>Import Valid Records
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ══════════════════════════════════════
+   CONSTANTS
+══════════════════════════════════════ */
+var COLORS = [
+  '#0f4c75','#1b6ca8','#2e86c1','#0ea571','#059669',
+  '#ef4444','#dc2626','#f59e0b','#d97706','#3b82f6',
+  '#6366f1','#7c3aed','#8b5cf6','#ec4899','#0891b2'
+];
+var DEPTS = ['Science','Commerce','Arts','Computer Science','Mathematics','Languages','Social Studies','Physical Education'];
+var DEPT_ICONS = {
+  'Science':'ti-flask','Commerce':'ti-chart-bar','Arts':'ti-palette',
+  'Computer Science':'ti-cpu','Mathematics':'ti-math-function',
+  'Languages':'ti-language','Social Studies':'ti-world','Physical Education':'ti-run'
+};
+var TYPE_BADGE = {
+  'Theory':'type-theory','Practical':'type-practical',
+  'Theory + Practical':'type-both','Co-Curricular':'type-cocurricular'
+};
+var TYPE_ICON = {
+  'Theory':'ti-book-2','Practical':'ti-flask',
+  'Theory + Practical':'ti-stack-2','Co-Curricular':'ti-music'
+};
+var TYPE_DESC = {
+  'Theory':'Classroom lecture','Practical':'Lab / hands-on',
+  'Theory + Practical':'Both components','Co-Curricular':'Activity / sport'
+};
+
+/* ══════════════════════════════════════
+   SEED DATA
+══════════════════════════════════════ */
+var SUBJECTS = JSON.parse(sessionStorage.getItem('subjectStore') || 'null') || [
+  {id:'sub1',name:'Physics',code:'PHY101',dept:'Science',type:'Theory + Practical',periods:5,credits:4,marks:100,teacher:'Dr. Anjali Rao',color:'#3b82f6',status:'Active',desc:'Mechanics, optics, electromagnetism and modern physics.'},
+  {id:'sub2',name:'Chemistry',code:'CHE101',dept:'Science',type:'Theory + Practical',periods:5,credits:4,marks:100,teacher:'Meera Iyer',color:'#0891b2',status:'Active',desc:'Organic, inorganic and physical chemistry.'},
+  {id:'sub3',name:'Biology',code:'BIO101',dept:'Science',type:'Theory + Practical',periods:5,credits:4,marks:100,teacher:'Divya Menon',color:'#059669',status:'Active',desc:'Cell biology, genetics, ecology and human physiology.'},
+  {id:'sub4',name:'Mathematics',code:'MAT101',dept:'Mathematics',type:'Theory',periods:6,credits:5,marks:100,teacher:'Suresh Kumar',color:'#0f4c75',status:'Active',desc:'Algebra, calculus, trigonometry and statistics.'},
+  {id:'sub5',name:'English',code:'ENG101',dept:'Languages',type:'Theory',periods:5,credits:4,marks:100,teacher:'Sana Khan',color:'#7c3aed',status:'Active',desc:'Literature, composition, grammar and communication skills.'},
+  {id:'sub6',name:'History',code:'HIS101',dept:'Social Studies',type:'Theory',periods:4,credits:3,marks:80,teacher:'Rohan Gupta',color:'#f59e0b',status:'Active',desc:'Indian history, world history and civics.'},
+  {id:'sub7',name:'Accounts',code:'ACC101',dept:'Commerce',type:'Theory',periods:5,credits:4,marks:100,teacher:'Prof. Vikram Shah',color:'#0ea571',status:'Active',desc:'Financial accounting, bookkeeping and ledger management.'},
+  {id:'sub8',name:'Computer Science',code:'CS101',dept:'Computer Science',type:'Theory + Practical',periods:4,credits:4,marks:100,teacher:'Karthik Nair',color:'#6366f1',status:'Active',desc:'Programming, data structures, algorithms and databases.'},
+  {id:'sub9',name:'Physical Education',code:'PE101',dept:'Physical Education',type:'Co-Curricular',periods:2,credits:1,marks:50,teacher:'Priya Deshpande',color:'#ec4899',status:'Active',desc:'Fitness, sports theory, yoga and outdoor activities.'},
+  {id:'sub10',name:'Economics',code:'ECO101',dept:'Commerce',type:'Theory',periods:5,credits:4,marks:100,teacher:'',color:'#dc2626',status:'Inactive',desc:'Micro and macroeconomics, demand-supply and market structures.'}
+];
+
+function saveSubjects(){ sessionStorage.setItem('subjectStore', JSON.stringify(SUBJECTS)); }
+saveSubjects();
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+var filtered = [], currentPage = 1, PAGE_SZ = 9, currentView = 'card';
+var editId = null, delTarget = null, selectedColor = COLORS[0], selectedType = 'Theory';
+var activeDept = '';
+var _pendingImport = [];
+
+/* ══════════════════════════════════════
+   INIT — populate selects, swatches, dept panel
+══════════════════════════════════════ */
+(function init(){
+  // Dept select in modal
+  var ms = document.getElementById('m-dept');
+  DEPTS.forEach(function(d){ ms.innerHTML += '<option value="'+d+'">'+d+'</option>'; });
+
+  // Colour swatches
+  var sg = document.getElementById('swatch-grid');
+  COLORS.forEach(function(c,i){
+    var s = document.createElement('div');
+    s.className = 'swatch' + (i===0?' sel':'');
+    s.style.background = c;
+    s.dataset.color = c;
+    s.title = c;
+    s.onclick = function(){
+      document.querySelectorAll('.swatch').forEach(function(x){ x.classList.remove('sel'); });
+      s.classList.add('sel');
+      selectedColor = c;
+    };
+    sg.appendChild(s);
+  });
+
+  buildDeptPanel();
+  applyFilters();
+})();
+
+/* ══════════════════════════════════════
+   DEPT PANEL
+══════════════════════════════════════ */
+function buildDeptPanel(){
+  var counts = {};
+  SUBJECTS.forEach(function(s){ counts[s.dept] = (counts[s.dept]||0) + 1; });
+  document.getElementById('dp-count-all').textContent = SUBJECTS.length;
+
+  var list = document.getElementById('dp-list');
+  list.innerHTML = '';
+  DEPTS.forEach(function(d){
+    if(!counts[d]) return;
+    var el = document.createElement('div');
+    el.className = 'dp-item' + (activeDept===d?' active':'');
+    el.dataset.dept = d;
+    var ico = DEPT_ICONS[d] || 'ti-book';
+    el.innerHTML = '<div class="dp-ico"><i class="ti '+ico+'"></i></div>'
+      + '<span class="dp-name">'+esc(d)+'</span>'
+      + '<span class="dp-count">'+counts[d]+'</span>';
+    el.onclick = function(){ filterDept(el,d); };
+    list.appendChild(el);
+  });
+}
+
+function filterDept(el, dept){
+  activeDept = dept;
+  document.querySelectorAll('.dp-item').forEach(function(x){ x.classList.remove('active'); });
+  el.classList.add('active');
+  var title = dept || 'All Subjects';
+  document.getElementById('page-title').textContent = title;
+  document.getElementById('breadcrumb-cur').textContent = dept ? dept + ' Subjects' : 'Subjects';
+  applyFilters();
+}
+
+/* ══════════════════════════════════════
+   STATS
+══════════════════════════════════════ */
+function updateStats(){
+  var src = activeDept ? SUBJECTS.filter(function(s){ return s.dept===activeDept; }) : SUBJECTS;
+  document.getElementById('st-total').textContent   = src.length;
+  document.getElementById('st-active').textContent  = src.filter(function(s){ return s.status==='Active'; }).length;
+  document.getElementById('st-teachers').textContent= src.filter(function(s){ return !!s.teacher; }).length;
+  document.getElementById('st-depts').textContent   = new Set(SUBJECTS.map(function(s){ return s.dept; })).size;
+}
+
+/* ══════════════════════════════════════
+   FILTERS & SORT
+══════════════════════════════════════ */
+function applyFilters(){
+  var q      = document.getElementById('f-search').value.toLowerCase().trim();
+  var type   = document.getElementById('f-type').value;
+  var status = document.getElementById('f-status').value;
+  var sort   = document.getElementById('f-sort').value;
+
+  filtered = SUBJECTS.filter(function(s){
+    if(activeDept && s.dept !== activeDept) return false;
+    if(q && s.name.toLowerCase().indexOf(q)<0 && s.code.toLowerCase().indexOf(q)<0 && (s.teacher||'').toLowerCase().indexOf(q)<0) return false;
+    if(type   && s.type   !== type)   return false;
+    if(status && s.status !== status) return false;
+    return true;
+  });
+
+  switch(sort){
+    case 'name':         filtered.sort(function(a,b){ return a.name.localeCompare(b.name); }); break;
+    case 'code':         filtered.sort(function(a,b){ return a.code.localeCompare(b.code); }); break;
+    case 'periods-desc': filtered.sort(function(a,b){ return b.periods - a.periods; }); break;
+    case 'credits-desc': filtered.sort(function(a,b){ return b.credits - a.credits; }); break;
+    case 'newest':       break; // insertion order = newest first (we unshift on add)
+  }
+
+  currentPage = 1;
+  updateStats();
+  buildDeptPanel();
+  render();
+}
+
+function sortBy(f){ document.getElementById('f-sort').value = f; applyFilters(); }
+
+/* ══════════════════════════════════════
+   VIEW TOGGLE
+══════════════════════════════════════ */
+function setView(v){
+  currentView = v;
+  document.getElementById('view-card').style.display  = v==='card'  ? 'block' : 'none';
+  document.getElementById('view-table').style.display = v==='table' ? 'block' : 'none';
+  document.getElementById('vbtn-card').classList.toggle('active',  v==='card');
+  document.getElementById('vbtn-table').classList.toggle('active', v==='table');
+  PAGE_SZ = v==='card' ? 9 : 12;
+  currentPage = 1;
+  render();
+}
+
+function render(){ if(currentView==='card') renderCards(); else renderTable(); }
+
+/* ══════════════════════════════════════
+   CARD RENDER
+══════════════════════════════════════ */
+function renderCards(){
+  var grid = document.getElementById('card-grid');
+  if(!filtered.length){
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">'
+      + '<div class="es-ico"><i class="ti ti-book-off"></i></div>'
+      + '<div class="es-title">No subjects found</div>'
+      + '<div class="es-desc">Try adjusting your filters or add a new subject to this department.</div>'
+      + '<button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Subject</button>'
+      + '</div>';
+    return;
+  }
+
+  var pages = Math.max(1, Math.ceil(filtered.length / PAGE_SZ));
+  if(currentPage > pages) currentPage = 1;
+  var page = filtered.slice((currentPage-1)*PAGE_SZ, currentPage*PAGE_SZ);
+
+  grid.innerHTML = page.map(function(s){
+    var av = initials(s.teacher || '?');
+    var typeClass = TYPE_BADGE[s.type] || '';
+    var typeIco   = TYPE_ICON[s.type]  || 'ti-book';
+    return '<div class="subj-card anim">'
+      + '<div class="card-top-bar" style="background:'+s.color+'"></div>'
+      + '<div class="card-body">'
+        + '<div class="card-head">'
+          + '<div class="subj-icon-wrap" style="background:'+s.color+'18;color:'+s.color+'"><i class="ti '+typeIco+'"></i></div>'
+          + '<div class="card-head-right">'
+            + '<span class="subj-code-chip">'+esc(s.code)+'</span>'
+            + '<span class="badge badge-'+(s.status==='Active'?'active':'inactive')+'">'
+              + '<i class="ti ti-'+(s.status==='Active'?'circle-check':'circle-x')+'"></i>'+s.status
+            + '</span>'
+          + '</div>'
+        + '</div>'
+        + '<div class="subj-name">'+esc(s.name)+'</div>'
+        + '<div class="subj-dept"><i class="ti '+(DEPT_ICONS[s.dept]||'ti-building-community')+'"></i>'+esc(s.dept)+'</div>'
+        + '<div style="margin:10px 0 0">'
+          + '<span class="badge '+typeClass+'"><i class="ti '+typeIco+'"></i>'+esc(s.type)+'</span>'
+        + '</div>'
+        + '<div class="metrics-row">'
+          + '<div class="metric-cell"><div class="metric-val">'+s.periods+'</div><div class="metric-lbl">Periods/Wk</div></div>'
+          + '<div class="metric-divider"></div>'
+          + '<div class="metric-cell"><div class="metric-val">'+s.credits+'</div><div class="metric-lbl">Credits</div></div>'
+          + '<div class="metric-divider"></div>'
+          + '<div class="metric-cell"><div class="metric-val">'+s.marks+'</div><div class="metric-lbl">Marks</div></div>'
+        + '</div>'
+        + '<div class="teacher-row">'
+          + (s.teacher
+            ? '<div class="tc-av" style="background:'+s.color+'">'+av+'</div>'
+              + '<div class="tc-info"><div class="tc-name">'+esc(s.teacher)+'</div><div class="tc-role">Subject Teacher</div></div>'
+            : '<div class="tc-av" style="background:var(--line);color:var(--ink4)"><i class="ti ti-user-off" style="font-size:12px"></i></div>'
+              + '<div class="tc-info"><div class="tc-name" style="color:var(--ink4)">No teacher assigned</div><div class="tc-role">—</div></div>'
+          )
+          + '<div class="card-actions">'
+            + '<button class="act-btn" title="Edit" onclick="openEdit(\''+s.id+'\')"><i class="ti ti-edit"></i></button>'
+            + '<button class="act-btn danger" title="Delete" onclick="openDel(\''+s.id+'\')"><i class="ti ti-trash"></i></button>'
+          + '</div>'
+        + '</div>'
+      + '</div>'
+    + '</div>';
+  }).join('');
+
+  renderCardPagination(filtered.length, pages);
+}
+
+function renderCardPagination(total, pages){
+  // append pagination below the grid
+  var existing = document.getElementById('card-pg');
+  if(existing) existing.remove();
+  if(pages <= 1) return;
+  var div = document.createElement('div');
+  div.id = 'card-pg';
+  div.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-top:16px;padding:12px 18px;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg)';
+  var start=(currentPage-1)*PAGE_SZ+1, end=Math.min(currentPage*PAGE_SZ,total);
+  var btns='<div class="pg-btns"><button class="pg-btn" onclick="goPage('+(currentPage-1)+')" '+(currentPage<=1?'disabled':'')+'><i class="ti ti-chevron-left"></i></button>';
+  for(var p=Math.max(1,currentPage-2);p<=Math.min(pages,currentPage+2);p++)
+    btns+='<button class="pg-btn'+(p===currentPage?' active':'')+'" onclick="goPage('+p+')">'+p+'</button>';
+  btns+='<button class="pg-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage>=pages?'disabled':'')+'><i class="ti ti-chevron-right"></i></button></div>';
+  div.innerHTML='<div class="pg-info">Showing <b>'+start+'–'+end+'</b> of <b>'+total+'</b></div>'+btns;
+  document.getElementById('view-card').appendChild(div);
+}
+
+/* ══════════════════════════════════════
+   TABLE RENDER
+══════════════════════════════════════ */
+function renderTable(){
+  document.getElementById('tbl-count').textContent = filtered.length;
+  var pages = Math.max(1, Math.ceil(filtered.length/PAGE_SZ));
+  if(currentPage>pages) currentPage=1;
+  var start=(currentPage-1)*PAGE_SZ, page=filtered.slice(start,start+PAGE_SZ);
+
+  if(!page.length){
+    document.getElementById('subj-tbody').innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="es-ico"><i class="ti ti-book-off"></i></div><div class="es-title">No subjects found</div><div class="es-desc">Adjust filters or add a new subject.</div></div></td></tr>';
+    document.getElementById('pagination').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('subj-tbody').innerHTML = page.map(function(s){
+    var typeClass = TYPE_BADGE[s.type] || '';
+    var typeIco   = TYPE_ICON[s.type]  || 'ti-book';
+    return '<tr>'
+      + '<td><div style="display:flex;align-items:center;gap:10px">'
+          + '<div style="width:36px;height:36px;border-radius:10px;background:'+s.color+'18;color:'+s.color+';display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><i class="ti '+typeIco+'"></i></div>'
+          + '<div><div style="font-size:13px;font-weight:600;color:var(--ink)">'+esc(s.name)+'</div>'
+          + '<div style="font-size:10.5px;color:var(--ink4);margin-top:1px">'+esc(s.dept)+'</div></div>'
+        + '</div></td>'
+      + '<td><span class="subj-code-chip">'+esc(s.code)+'</span></td>'
+      + '<td class="hide-sm" style="font-size:12px;color:var(--ink3)">'+esc(s.dept)+'</td>'
+      + '<td><span class="badge '+typeClass+'"><i class="ti '+typeIco+'"></i>'+esc(s.type)+'</span></td>'
+      + '<td class="hide-sm" style="font-family:var(--mono);font-weight:600;color:var(--ink)">'+s.periods+'</td>'
+      + '<td class="hide-sm" style="font-family:var(--mono);color:var(--ink2)">'+s.credits+'</td>'
+      + '<td style="font-size:12px;color:var(--ink3)">'+(s.teacher||'<span style="color:var(--ink4)">—</span>')+'</td>'
+      + '<td><span class="badge badge-'+(s.status==='Active'?'active':'inactive')+'">'+s.status+'</span></td>'
+      + '<td><div class="row-acts">'
+          + '<button class="row-btn" title="Edit" onclick="openEdit(\''+s.id+'\')"><i class="ti ti-edit"></i></button>'
+          + '<button class="row-btn danger" title="Delete" onclick="openDel(\''+s.id+'\')"><i class="ti ti-trash"></i></button>'
+        + '</div></td>'
+    + '</tr>';
+  }).join('');
+
+  var s2=start+1,e=Math.min(start+PAGE_SZ,filtered.length);
+  var btns='<div class="pg-btns"><button class="pg-btn" onclick="goPage('+(currentPage-1)+')" '+(currentPage<=1?'disabled':'')+'><i class="ti ti-chevron-left"></i></button>';
+  for(var p=Math.max(1,currentPage-2);p<=Math.min(pages,currentPage+2);p++)
+    btns+='<button class="pg-btn'+(p===currentPage?' active':'')+'" onclick="goPage('+p+')">'+p+'</button>';
+  btns+='<button class="pg-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage>=pages?'disabled':'')+'><i class="ti ti-chevron-right"></i></button></div>';
+  document.getElementById('pagination').innerHTML='<div class="pg-info">Showing <b>'+s2+'–'+e+'</b> of <b>'+filtered.length+'</b></div>'+btns;
+}
+
+function goPage(p){
+  var pages=Math.max(1,Math.ceil(filtered.length/PAGE_SZ));
+  if(p<1||p>pages) return;
+  currentPage=p;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════
+   MODAL — ADD / EDIT
+══════════════════════════════════════ */
+function openAdd(){
+  editId = null;
+  document.getElementById('modal-title-txt').textContent    = 'Add Subject';
+  document.getElementById('modal-subtitle-txt').textContent = 'Fill in the details to create a new subject';
+  document.getElementById('modal-save-btn').innerHTML = '<i class="ti ti-plus"></i>Add Subject';
+  clearForm();
+  showModal('subj-modal');
+}
+
+function openEdit(id){
+  var s = SUBJECTS.find(function(x){ return x.id===id; });
+  if(!s) return;
+  editId = id;
+  document.getElementById('modal-title-txt').textContent    = 'Edit Subject';
+  document.getElementById('modal-subtitle-txt').textContent = 'Update the details for ' + s.name;
+  document.getElementById('modal-save-btn').innerHTML = '<i class="ti ti-check"></i>Save Changes';
+  document.getElementById('m-name').value    = s.name;
+  document.getElementById('m-code').value    = s.code;
+  document.getElementById('m-dept').value    = s.dept;
+  document.getElementById('m-status').value  = s.status;
+  document.getElementById('m-desc').value    = s.desc||'';
+  setSwatchColor(s.color);
+  setType(s.type);
+  showModal('subj-modal');
+}
+
+function clearForm(){
+  ['m-name','m-desc'].forEach(function(id){
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('m-code').value   = '';
+  document.getElementById('m-dept').value   = '';
+  document.getElementById('m-status').value = 'Active';
+  setSwatchColor(COLORS[0]);
+  setType('Theory');
+}
+
+function setSwatchColor(c){
+  selectedColor = c;
+  document.querySelectorAll('.swatch').forEach(function(s){
+    s.classList.toggle('sel', s.dataset.color===c);
+  });
+}
+
+function pickType(el){
+  selectedType = el.dataset.type;
+  document.querySelectorAll('.type-opt').forEach(function(x){ x.classList.remove('sel'); });
+  el.classList.add('sel');
+}
+
+function setType(t){
+  selectedType = t;
+  document.querySelectorAll('.type-opt').forEach(function(x){
+    x.classList.toggle('sel', x.dataset.type===t);
+  });
+}
+
+function saveSubject(){
+  var name = document.getElementById('m-name').value.trim();
+  var dept = document.getElementById('m-dept').value;
+
+  if(!name){ toast('Subject name is required.','err'); document.getElementById('m-name').focus(); return; }
+  if(!dept){ toast('Please select a department.','err'); document.getElementById('m-dept').focus(); return; }
+
+  // Auto-generate code: first 3 letters of name + 3-digit sequence (add) or keep existing (edit)
+  var code;
+  if(editId){
+    var existing = SUBJECTS.find(function(s){ return s.id===editId; });
+    code = existing ? existing.code : genCode(name);
+  } else {
+    code = genCode(name);
+  }
+  // Show the generated/existing code in the read-only field
+  document.getElementById('m-code').value = code;
+
+  var obj = {
+    id:     editId || 'sub'+Date.now(),
+    name:   name,
+    code:   code,
+    dept:   dept,
+    type:   selectedType,
+    periods: 0,
+    credits: 0,
+    marks:   100,
+    teacher: '',
+    color:   selectedColor,
+    status:  document.getElementById('m-status').value,
+    desc:    document.getElementById('m-desc').value.trim()
+  };
+
+  if(editId){
+    var idx = SUBJECTS.findIndex(function(s){ return s.id===editId; });
+    // Preserve teacher/periods/credits/marks from existing record
+    obj.teacher = SUBJECTS[idx].teacher || '';
+    obj.periods  = SUBJECTS[idx].periods  || 0;
+    obj.credits  = SUBJECTS[idx].credits  || 0;
+    obj.marks    = SUBJECTS[idx].marks    || 100;
+    SUBJECTS[idx] = obj;
+    toast('"'+name+'" updated successfully.','ok');
+  } else {
+    SUBJECTS.unshift(obj);
+    toast('"'+name+'" added. Code: '+code,'ok');
+  }
+
+  saveSubjects();
+  closeModal('subj-modal');
+  applyFilters();
+}
+
+function genCode(name){
+  // Take first 3 consonant-leaning letters of the name, uppercase, + padded sequence
+  var prefix = name.toUpperCase().replace(/[^A-Z]/g,'').substring(0,3);
+  while(prefix.length < 3) prefix += 'X';
+  // Find highest existing sequence for this prefix
+  var maxSeq = 0;
+  SUBJECTS.forEach(function(s){
+    if(s.code && s.code.substring(0,3)===prefix){
+      var seq = parseInt(s.code.substring(3))||0;
+      if(seq > maxSeq) maxSeq = seq;
+    }
+  });
+  var seq = maxSeq + 1;
+  return prefix + (seq < 10 ? '00'+seq : seq < 100 ? '0'+seq : seq);
+}
+
+/* ══════════════════════════════════════
+   DELETE
+══════════════════════════════════════ */
+function openDel(id){
+  delTarget = id;
+  var s = SUBJECTS.find(function(x){ return x.id===id; });
+  if(!s) return;
+  document.getElementById('del-name').textContent        = s.name;
+  document.getElementById('del-confirm-txt').textContent = s.name;
+  document.getElementById('del-inp').value               = '';
+  document.getElementById('del-btn').disabled            = true;
+  showModal('del-modal');
+}
+
+function chkDel(){
+  var s = SUBJECTS.find(function(x){ return x.id===delTarget; });
+  document.getElementById('del-btn').disabled = !s || document.getElementById('del-inp').value.trim() !== s.name;
+}
+
+function execDel(){
+  var s = SUBJECTS.find(function(x){ return x.id===delTarget; });
+  if(!s) return;
+  SUBJECTS.splice(SUBJECTS.indexOf(s),1);
+  saveSubjects();
+  closeModal('del-modal');
+  applyFilters();
+  toast('"'+s.name+'" deleted.','ok');
+  delTarget = null;
+}
+
+/* ══════════════════════════════════════
+   EXPORT CSV
+══════════════════════════════════════ */
+function exportCSV(){
+  var rows = [['Name','Code','Department','Type','Periods/Wk','Credits','Marks','Teacher','Status','Description']];
+  var src  = activeDept ? SUBJECTS.filter(function(s){ return s.dept===activeDept; }) : SUBJECTS;
+  src.forEach(function(s){
+    rows.push([s.name,s.code,s.dept,s.type,s.periods,s.credits,s.marks||'',s.teacher||'',s.status,(s.desc||'').replace(/,/g,' ')]);
+  });
+  var csv  = rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var a    = document.createElement('a');
+  a.href   = URL.createObjectURL(blob);
+  a.download = 'subjects-export.csv';
+  a.click();
+  toast('Subjects exported as CSV.','ok');
+}
+
+/* ══════════════════════════════════════
+   UTILS
+══════════════════════════════════════ */
+function initials(n){
+  var p = String(n||'').trim().split(' ');
+  return ((p[0]||'')[0]||'') + ((p[1]||'')[0]||'');
+}
+function esc(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function showModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle',warn:'ti-alert-triangle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){
+  var o=e.target.closest('.overlay');
+  if(o&&e.target===o) o.classList.remove('open');
+});
+
+/* ══════════════════════════════════════
+   DOWNLOAD TEMPLATE (two-sheet xlsx)
+══════════════════════════════════════ */
+function downloadTemplate(){
+  if(typeof XLSX==='undefined'){toast('Excel library not loaded — please refresh.','warn');return;}
+  var wb=XLSX.utils.book_new();
+
+  /* ── Sheet 1: Data Entry ── */
+  var headers=['Subject Name','Department','Subject Type','Status','Description'];
+  var note='NOTE: Subject Code is auto-generated — do not add a Code column.';
+  var dataRows=[headers];
+  for(var b=0;b<50;b++) dataRows.push(['','','','','']);
+  var wsData=XLSX.utils.aoa_to_sheet(dataRows);
+  wsData['!cols']=[{wch:30},{wch:22},{wch:22},{wch:12},{wch:44}];
+  wsData['!freeze']={xSplit:0,ySplit:1,topLeftCell:'A2',activeCell:'A2',sqref:'A2'};
+  wsData['!rows']=[{hpt:22}];
+  /* Required cols A,B in deeper blue; others standard */
+  var hReq={font:{bold:true,color:{rgb:'FFFFFF'},sz:11},fill:{patternType:'solid',fgColor:{rgb:'1B6CA8'}},alignment:{horizontal:'center',vertical:'center'}};
+  var hStd={font:{bold:true,color:{rgb:'FFFFFF'},sz:11},fill:{patternType:'solid',fgColor:{rgb:'0F4C75'}},alignment:{horizontal:'center',vertical:'center'}};
+  ['A','B','C','D','E'].forEach(function(c,ci){
+    var ref=c+'1';
+    if(!wsData[ref]) wsData[ref]={t:'s',v:headers[ci]};
+    wsData[ref].s=(ci<2)?hReq:hStd;
+  });
+  var evF={patternType:'solid',fgColor:{rgb:'F7F8FC'}};
+  var odF={patternType:'solid',fgColor:{rgb:'FFFFFF'}};
+  for(var row=2;row<=51;row++){
+    ['A','B','C','D','E'].forEach(function(c){
+      var ref=c+row;
+      if(!wsData[ref]) wsData[ref]={t:'s',v:''};
+      wsData[ref].s={fill:row%2===0?evF:odF,alignment:{vertical:'center'},border:{right:{style:'hair',color:{rgb:'E4E8F0'}},bottom:{style:'hair',color:{rgb:'E4E8F0'}}}};
+    });
+  }
+  XLSX.utils.book_append_sheet(wb,wsData,'Data Entry');
+
+  /* ── Sheet 2: Instructions & Sample Data ── */
+  var now=new Date();
+  var stamp=now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  var validDepts=DEPTS.join(' | ');
+  var validTypes='Theory | Practical | Theory + Practical | Co-Curricular';
+  var instrRows=[
+    ['SUBJECT MASTER — BULK UPLOAD TEMPLATE','','','',''],
+    ['Aspire ERP v3.0  ·  Academic Management  ·  Generated: '+stamp,'','','',''],
+    ['','','','',''],
+    ['ABOUT THIS TEMPLATE','','','',''],
+    ['Use the "Data Entry" sheet to enter or paste bulk subject records.','','','',''],
+    ['Columns highlighted in deep blue (Subject Name, Department) are mandatory.','','','',''],
+    ['Subject Code is AUTO-GENERATED by the system — do NOT add a Code column.','','','',''],
+    ['Do not change, reorder, or remove column headers in the Data Entry sheet.','','','',''],
+    ['','','','',''],
+    ['FIELD REFERENCE','','','',''],
+    ['Column','Required?','Accepted Values / Format','Default if blank','Notes'],
+    ['Subject Name',   'YES','Text. Max 100 characters. Must be unique.','—',       'Primary dedup key. Case-insensitive match.'],
+    ['Department',     'YES',validDepts,                                '—',       'Must exactly match one of the listed values.'],
+    ['Subject Type',   'No', validTypes,                                'Theory',  'Defaults to Theory if blank or not recognised.'],
+    ['Status',         'No', 'Active | Inactive',                       'Active',  'Controls visibility in academic screens.'],
+    ['Description',    'No', 'Free text.',                              '(blank)', 'Optional notes. Not shown to students.'],
+    ['','','','',''],
+    ['SUBJECT CODE — AUTO-GENERATION RULES','','','',''],
+    ['The system generates codes automatically. You do NOT need to provide a code.','','','',''],
+    ['Format: First 3 letters of Subject Name (uppercase) + 3-digit sequence.','','','',''],
+    ['Example: "Physics" → PHY, sequence 001 → PHY001. "Computer Science" → COM001.','','','',''],
+    ['If a prefix collision exists (e.g. PHY001 taken), the sequence increments: PHY002.','','','',''],
+    ['','','','',''],
+    ['VALID DEPARTMENT VALUES','','','',''],
+    ['Science','Physics, Chemistry, Biology and related natural sciences','','',''],
+    ['Commerce','Accounts, Economics, Business Studies','','',''],
+    ['Arts','History, Geography, Civics, Fine Arts','','',''],
+    ['Computer Science','Programming, IT, Data Structures','','',''],
+    ['Mathematics','Pure and applied mathematics','','',''],
+    ['Languages','English, Hindi, Marathi and other languages','','',''],
+    ['Social Studies','History, Geography, Civics combined','','',''],
+    ['Physical Education','Sports, Fitness, Yoga','','',''],
+    ['','','','',''],
+    ['VALIDATION RULES','','','',''],
+    ['#','Rule','','',''],
+    ['1','Subject Name and Department are mandatory.','','',''],
+    ['2','Subject Name must be unique — case-insensitive, checked against existing records and within the file.','','',''],
+    ['3','Department must exactly match one of the 8 valid values (case-sensitive).','','',''],
+    ['4','Subject Type must be one of the 4 valid values if provided; defaults to Theory if blank.','','',''],
+    ['5','Status must be Active or Inactive if provided; defaults to Active if blank.','','',''],
+    ['6','Blank rows are silently skipped.','','',''],
+    ['7','Do NOT add a Subject Code column — codes are assigned automatically on import.','','',''],
+    ['','','','',''],
+    ['IMPORT WORKFLOW','','','',''],
+    ['Step 1','Fill the "Data Entry" sheet with your subject records.','','',''],
+    ['Step 2','Save as .xlsx (keep as Excel) or .csv — both are accepted.','','',''],
+    ['Step 3','On the Subjects screen, click Import.','','',''],
+    ['Step 4','Select your .xlsx or .csv file. The system reads "Data Entry" automatically.','','',''],
+    ['Step 5','Review Import Results: Total / Successful / Failed + row-wise error messages.','','',''],
+    ['Step 6','Click "Import Valid Records" to commit. Failed rows are skipped.','','',''],
+    ['','','','',''],
+    ['SAMPLE DATA  (for reference only — do not copy to Data Entry sheet)','','','',''],
+    ['Subject Name','Department','Subject Type','Status','Description'],
+    ['Physics',          'Science',           'Theory + Practical','Active', 'Mechanics, optics, electromagnetism'],
+    ['Chemistry',        'Science',           'Theory + Practical','Active', 'Organic, inorganic and physical chemistry'],
+    ['Biology',          'Science',           'Theory + Practical','Active', 'Cell biology, genetics, ecology'],
+    ['Mathematics',      'Mathematics',       'Theory',            'Active', 'Algebra, calculus, trigonometry'],
+    ['English',          'Languages',         'Theory',            'Active', 'Literature, grammar, communication'],
+    ['History',          'Social Studies',    'Theory',            'Active', 'Indian and world history, civics'],
+    ['Accounts',         'Commerce',          'Theory',            'Active', 'Financial accounting, bookkeeping'],
+    ['Computer Science', 'Computer Science',  'Theory + Practical','Active', 'Programming, data structures, algorithms'],
+    ['Physical Education','Physical Education','Co-Curricular',    'Active', 'Fitness, sports theory, yoga'],
+    ['','','','',''],
+    ['For support contact your Aspire ERP system administrator.','','','','']
+  ];
+  var wsInstr=XLSX.utils.aoa_to_sheet(instrRows);
+  wsInstr['!cols']=[{wch:28},{wch:14},{wch:44},{wch:18},{wch:46}];
+  function cs(ref,style){if(wsInstr[ref])wsInstr[ref].s=style;}
+  var sT  ={font:{bold:true,sz:14,color:{rgb:'0F4C75'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}}};
+  var sSb ={font:{italic:true,sz:10,color:{rgb:'64748B'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}}};
+  var sSH ={font:{bold:true,sz:11,color:{rgb:'0F4C75'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}},border:{bottom:{style:'medium',color:{rgb:'1B6CA8'}}}};
+  var sCH ={font:{bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{patternType:'solid',fgColor:{rgb:'1B6CA8'}},alignment:{horizontal:'center',wrapText:true}};
+  var sSH2={font:{bold:true,sz:10,color:{rgb:'FFFFFF'}},fill:{patternType:'solid',fgColor:{rgb:'0EA571'}},alignment:{horizontal:'center'}};
+  var sRN ={font:{bold:true,sz:10,color:{rgb:'1B6CA8'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}},alignment:{horizontal:'center'}};
+  var sEv ={font:{sz:10},fill:{patternType:'solid',fgColor:{rgb:'F7F8FC'}},alignment:{wrapText:true,vertical:'top'}};
+  var sOd ={font:{sz:10},fill:{patternType:'solid',fgColor:{rgb:'FFFFFF'}},alignment:{wrapText:true,vertical:'top'}};
+  var sRq ={font:{bold:true,sz:10,color:{rgb:'991B1B'}},fill:{patternType:'solid',fgColor:{rgb:'FEF2F2'}},alignment:{horizontal:'center'}};
+  cs('A1',sT);cs('A2',sSb);
+  ['A4','A10','A18','A24','A33','A42','A51'].forEach(function(r){cs(r,sSH);});
+  ['A','B','C','D','E'].forEach(function(c){cs(c+'11',sCH);});
+  [12,13,14,15,16].forEach(function(row,i){
+    cs('B'+row,row<=13?sRq:{font:{sz:10,color:{rgb:'0EA571'}},fill:{patternType:'solid',fgColor:{rgb:'ECFDF5'}}});
+    ['A','C','D','E'].forEach(function(c){cs(c+row,i%2===0?sEv:sOd);});
+  });
+  for(var ri=19;ri<=22;ri++){cs('A'+ri,{font:{sz:10,color:{rgb:'0F4C75'}},fill:{patternType:'solid',fgColor:{rgb:'EBF5FB'}}});['B','C','D','E'].forEach(function(c){cs(c+ri,sEv);});}
+  for(var di=25;di<=32;di++){cs('A'+di,sRN);cs('B'+di,di%2===0?sEv:sOd);}
+  cs('A34',sCH);cs('B34',sCH);
+  for(var vi=35;vi<=41;vi++){cs('A'+vi,sRN);cs('B'+vi,vi%2===0?sEv:sOd);}
+  for(var si2=43;si2<=48;si2++){cs('A'+si2,sRN);cs('B'+si2,si2%2===0?sEv:sOd);}
+  ['A','B','C','D','E'].forEach(function(c){cs(c+'52',sSH2);});
+  for(var dr=53;dr<=61;dr++){['A','B','C','D','E'].forEach(function(c){cs(c+dr,dr%2===0?sEv:sOd);});}
+  wsInstr['!merges']=[
+    {s:{r:0,c:0},e:{r:0,c:4}},{s:{r:1,c:0},e:{r:1,c:4}},
+    {s:{r:3,c:0},e:{r:3,c:4}},{s:{r:4,c:0},e:{r:4,c:4}},{s:{r:5,c:0},e:{r:5,c:4}},{s:{r:6,c:0},e:{r:6,c:4}},{s:{r:7,c:0},e:{r:7,c:4}},
+    {s:{r:9,c:0},e:{r:9,c:4}},{s:{r:17,c:0},e:{r:17,c:4}},
+    {s:{r:18,c:0},e:{r:18,c:4}},{s:{r:19,c:0},e:{r:19,c:4}},{s:{r:20,c:0},e:{r:20,c:4}},{s:{r:21,c:0},e:{r:21,c:4}},
+    {s:{r:23,c:0},e:{r:23,c:4}},{s:{r:32,c:0},e:{r:32,c:4}},{s:{r:33,c:1},e:{r:33,c:4}},
+    {s:{r:41,c:0},e:{r:41,c:4}},{s:{r:50,c:0},e:{r:50,c:4}},
+    {s:{r:24,c:1},e:{r:24,c:4}},{s:{r:25,c:1},e:{r:25,c:4}},{s:{r:26,c:1},e:{r:26,c:4}},{s:{r:27,c:1},e:{r:27,c:4}},
+    {s:{r:28,c:1},e:{r:28,c:4}},{s:{r:29,c:1},e:{r:29,c:4}},{s:{r:30,c:1},e:{r:30,c:4}},{s:{r:31,c:1},e:{r:31,c:4}},
+    {s:{r:34,c:1},e:{r:34,c:4}},{s:{r:35,c:1},e:{r:35,c:4}},{s:{r:36,c:1},e:{r:36,c:4}},{s:{r:37,c:1},e:{r:37,c:4}},
+    {s:{r:38,c:1},e:{r:38,c:4}},{s:{r:39,c:1},e:{r:39,c:4}},{s:{r:40,c:1},e:{r:40,c:4}},
+    {s:{r:42,c:1},e:{r:42,c:4}},{s:{r:43,c:1},e:{r:43,c:4}},{s:{r:44,c:1},e:{r:44,c:4}},
+    {s:{r:45,c:1},e:{r:45,c:4}},{s:{r:46,c:1},e:{r:46,c:4}},{s:{r:47,c:1},e:{r:47,c:4}}
+  ];
+  wsInstr['!rows']=[{hpt:26},{hpt:16}];
+  XLSX.utils.book_append_sheet(wb,wsInstr,'Instructions & Sample Data');
+
+  var wbOut=XLSX.write(wb,{bookType:'xlsx',type:'array',cellStyles:true});
+  var blob=new Blob([wbOut],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob); a.download='subject_master_template.xlsx'; a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);},10000);
+  toast('Template downloaded: subject_master_template.xlsx (2 sheets)','ok');
+}
+
+/* ══════════════════════════════════════
+   IMPORT — trigger, route, validate
+══════════════════════════════════════ */
+function triggerImport(){
+  var inp=document.getElementById('import-file-inp');
+  inp.value=''; inp.click();
+}
+
+function handleImport(input){
+  var file=input.files[0]; if(!file) return;
+  var ext=file.name.split('.').pop().toLowerCase();
+
+  if(['xlsx','xls'].indexOf(ext)>-1){
+    if(typeof XLSX==='undefined'){showImportResult(file.name,[],[],['Excel library not loaded. Please refresh.']);return;}
+    var reader=new FileReader();
+    reader.onload=function(e){
+      try{
+        var wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+        var sn=wb.SheetNames.indexOf('Data Entry')>-1?'Data Entry':wb.SheetNames[0];
+        var ws=wb.Sheets[sn];
+        var aoa=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+        aoa=aoa.filter(function(row){return row.some(function(c){return String(c||'').trim()!=='';});});
+        if(aoa.length<2){showImportResult(file.name,[],[],['Sheet "'+sn+'" has no data rows. Fill in the Data Entry sheet first.']);return;}
+        parseAndValidate(aoa,file.name,sn);
+      }catch(err){showImportResult(file.name,[],[],['Could not read the Excel file: '+err.message]);}
+    };
+    reader.onerror=function(){showImportResult(file.name,[],[],['Failed to read the file. Please try again.']);};
+    reader.readAsArrayBuffer(file);
+
+  } else if(ext==='csv'){
+    var rc=new FileReader();
+    rc.onload=function(e){parseCSV(e.target.result,file.name);};
+    rc.onerror=function(){showImportResult(file.name,[],[],['Failed to read the CSV file.']);};
+    rc.readAsText(file);
+
+  } else {
+    showImportResult(file.name,[],[],['Unsupported file type ".'+ext+'". Please upload .xlsx, .xls or .csv.']);
+  }
+}
+
+function parseCSV(text,fileName){
+  var lines=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(function(l){return l.trim();});
+  if(lines.length<2){showImportResult(fileName,[],[],['File is empty or has only headers.']);return;}
+  function parseLine(line){
+    var result=[],current='',inQ=false;
+    for(var i=0;i<line.length;i++){
+      var c=line[i];
+      if(c==='"'){if(inQ&&line[i+1]==='"'){current+='"';i++;}else inQ=!inQ;}
+      else if(c===','&&!inQ){result.push(current.trim());current='';}
+      else current+=c;
+    }
+    result.push(current.trim()); return result;
+  }
+  var rawHdrs=parseLine(lines[0]);
+  var aoa=[rawHdrs.map(function(h){return h.replace(/^"+|"+$/g,'').trim();})];
+  lines.slice(1).filter(function(l){return l.indexOf('---')===-1&&l.replace(/,/g,'').trim();}).forEach(function(line){
+    aoa.push(parseLine(line).map(function(v){return v.replace(/^"+|"+$/g,'').trim();}));
+  });
+  parseAndValidate(aoa,fileName,'CSV');
+}
+
+/* ── core validator: works on AOA from xlsx or csv ── */
+function parseAndValidate(aoa,fileName,sheetName){
+  var headers=aoa[0].map(function(h){return String(h||'').trim().toLowerCase();});
+  function col(names){
+    for(var i=0;i<names.length;i++){var idx=headers.indexOf(names[i].toLowerCase());if(idx>-1)return idx;}
+    return -1;
+  }
+  var iName=col(['subject name','name','subject']);
+  var iDept=col(['department','dept']);
+  var iType=col(['subject type','type']);
+  var iStat=col(['status']);
+  var iDesc=col(['description','desc','notes']);
+
+  if(iName===-1){showImportResult(fileName,[],[],['Column "Subject Name" not found in sheet "'+sheetName+'". Please use the downloaded template.']);return;}
+  if(iDept===-1){showImportResult(fileName,[],[],['Column "Department" not found in sheet "'+sheetName+'".']);return;}
+
+  var VALID_TYPES=['Theory','Practical','Theory + Practical','Co-Curricular'];
+  var valid=[],errors=[];
+
+  aoa.slice(1).forEach(function(cells,idx){
+    var rowNum=idx+2;
+    var name=String(cells[iName]||'').trim();
+    if(!name) return; /* skip blank rows silently */
+
+    var rowErrors=[];
+
+    /* Subject Name */
+    if(name.length>100) rowErrors.push('Subject Name exceeds 100 characters');
+    var dupExisting=SUBJECTS.find(function(s){return s.name.toLowerCase()===name.toLowerCase();});
+    if(dupExisting) rowErrors.push('"'+name+'" already exists in Subject Master');
+    var dupBatch=valid.find(function(v){return v.name.toLowerCase()===name.toLowerCase();});
+    if(dupBatch) rowErrors.push('Duplicate Subject Name within import file');
+
+    /* Department */
+    var deptRaw=String(cells[iDept]||'').trim();
+    var dept='';
+    if(!deptRaw){
+      rowErrors.push('Department is required');
+    } else {
+      var dm=DEPTS.find(function(d){return d.toLowerCase()===deptRaw.toLowerCase();});
+      if(!dm) rowErrors.push('Department "'+deptRaw+'" not recognised. Valid: '+DEPTS.join(', '));
+      else dept=dm;
+    }
+
+    /* Subject Type — default to Theory if blank or unrecognised */
+    var typeRaw=iType>-1?String(cells[iType]||'').trim():'';
+    var type='Theory';
+    if(typeRaw){
+      var tm=VALID_TYPES.find(function(t){return t.toLowerCase()===typeRaw.toLowerCase();});
+      if(!tm) rowErrors.push('Subject Type "'+typeRaw+'" not recognised. Valid: '+VALID_TYPES.join(', '));
+      else type=tm;
+    }
+
+    /* Status */
+    var statRaw=iStat>-1?String(cells[iStat]||'').trim():'';
+    var status='Active';
+    if(statRaw){
+      if(['active','1','yes','true'].indexOf(statRaw.toLowerCase())>-1) status='Active';
+      else if(['inactive','0','no','false'].indexOf(statRaw.toLowerCase())>-1) status='Inactive';
+      else rowErrors.push('Status "'+statRaw+'" not recognised — use Active or Inactive');
+    }
+
+    var desc=iDesc>-1?String(cells[iDesc]||'').trim():'';
+
+    if(rowErrors.length){
+      errors.push({row:rowNum,name:name,issues:rowErrors});
+    } else {
+      /* Req 9: auto-generate subject code using same genCode() logic */
+      var code=genCode(name);
+      valid.push({
+        id:      'sub'+Date.now()+Math.random().toString(36).slice(2,6),
+        name:    name,
+        code:    code,
+        dept:    dept,
+        type:    type,
+        periods: 0,
+        credits: 0,
+        marks:   100,
+        teacher: '',
+        color:   COLORS[valid.length % COLORS.length],
+        status:  status,
+        desc:    desc
+      });
+    }
+  });
+
+  _pendingImport=valid;
+  showImportResult(fileName,valid,errors,[]);
+}
+
+/* ══════════════════════════════════════
+   SHOW IMPORT RESULTS
+══════════════════════════════════════ */
+function showImportResult(fileName,valid,errors,fatalErrors){
+  var hasFatal=fatalErrors.length>0;
+  var hasValid=valid.length>0;
+  var total=hasFatal?0:(valid.length+errors.length);
+
+  document.getElementById('imp-modal-title').textContent='Import Results — '+fileName;
+  document.getElementById('imp-modal-sub').textContent=hasFatal
+    ?'File could not be processed.'
+    :total+' rows processed: '+valid.length+' ready, '+errors.length+' failed';
+
+  var html='';
+
+  /* Fatal error */
+  if(hasFatal){
+    html+='<div style="background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px 16px;display:flex;align-items:flex-start;gap:10px">'
+      +'<i class="ti ti-ban" style="color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px"></i>'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">File could not be processed</div>'
+        +'<div style="font-size:12.5px;color:var(--ink3)">'+fatalErrors.map(esc).join('<br>')+'</div>'
+      +'</div></div>';
+  }
+
+  /* Summary strip */
+  if(!hasFatal){
+    html+='<div class="imp-summary">'
+      +'<div class="imp-tile info"><div class="imp-tile-val">'+total+'</div><div class="imp-tile-lbl">Total Processed</div></div>'
+      +'<div class="imp-tile ok"><div class="imp-tile-val">'+valid.length+'</div><div class="imp-tile-lbl">Ready to Import</div></div>'
+      +'<div class="imp-tile err"><div class="imp-tile-val">'+errors.length+'</div><div class="imp-tile-lbl">Failed Rows</div></div>'
+    +'</div>';
+  }
+
+  /* Valid records preview */
+  if(valid.length){
+    html+='<div class="imp-section-title"><i class="ti ti-circle-check" style="color:var(--jade)"></i>Valid Records ('+valid.length+')</div>';
+    html+='<div class="imp-preview-tbl"><table><thead><tr>'
+      +'<th>Subject Name</th><th>Code (Auto)</th><th>Department</th><th>Type</th><th>Status</th>'
+    +'</tr></thead><tbody>';
+    valid.forEach(function(v,i){
+      html+='<tr style="border-bottom:'+(i<valid.length-1?'1px solid var(--line)':'none')+'">'
+        +'<td style="font-weight:600;color:var(--ink)">'+esc(v.name)+'</td>'
+        +'<td><span class="subj-code-chip">'+esc(v.code)+'</span></td>'
+        +'<td style="font-size:12px;color:var(--ink3)">'+esc(v.dept)+'</td>'
+        +'<td style="font-size:12px;color:var(--ink3)">'+esc(v.type)+'</td>'
+        +'<td><span class="badge badge-'+(v.status==='Active'?'active':'inactive')+'">'+v.status+'</span></td>'
+      +'</tr>';
+    });
+    html+='</tbody></table></div>';
+  }
+
+  /* Error rows */
+  if(errors.length){
+    html+='<div class="imp-section-title" style="margin-top:4px"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i>Failed Rows ('+errors.length+') — will not be imported</div>';
+    html+='<div>';
+    errors.forEach(function(e){
+      html+='<div class="imp-err-row">'
+        +'<div class="imp-row-num">Row '+e.row+'</div>'
+        +'<div><div class="imp-err-name">'+esc(e.name)+'</div>'
+          +'<div class="imp-err-msg">'+e.issues.map(esc).join(' · ')+'</div>'
+        +'</div></div>';
+    });
+    html+='</div>';
+    if(valid.length){
+      html+='<div class="imp-warn-notice">'
+        +'<i class="ti ti-info-circle"></i>'
+        +'<div style="font-size:12px;color:var(--ink2);line-height:1.5">'+errors.length+' row(s) failed validation and will be skipped. '
+          +'The '+valid.length+' valid record(s) can still be imported. Fix errors in your file and re-import to add the failed rows.</div>'
+      +'</div>';
+    }
+  }
+
+  if(!hasFatal&&!valid.length&&!errors.length){
+    html+='<div style="text-align:center;padding:30px;color:var(--ink4);font-size:13px">No data rows found in the file.</div>';
+  }
+
+  document.getElementById('imp-modal-body').innerHTML=html;
+  var btn=document.getElementById('imp-confirm-btn');
+  btn.style.display=(!hasFatal&&hasValid)?'inline-flex':'none';
+  btn.innerHTML='<i class="ti ti-check"></i>Import '+valid.length+' Valid Record'+(valid.length!==1?'s':'');
+  showModal('import-modal');
+}
+
+/* ══════════════════════════════════════
+   COMMIT IMPORT
+══════════════════════════════════════ */
+function commitImport(){
+  if(!_pendingImport.length) return;
+  /* Re-generate codes at commit time to avoid stale collisions
+     (in case multiple rows share a prefix) */
+  _pendingImport.forEach(function(r){
+    r.code = genCode(r.name);
+    SUBJECTS.unshift(r);
+  });
+  var count=_pendingImport.length;
+  _pendingImport=[];
+  saveSubjects();
+  closeModal('import-modal');
+  buildDeptPanel();  /* refresh sidebar counts */
+  applyFilters();    /* re-render list immediately — req 7 */
+  toast(count+' subject record'+(count!==1?'s':'')+' imported successfully.','ok');
+}
+</script>
+</body>
+</html>

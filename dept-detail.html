@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Department Detail — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* TOPBAR */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display)}
+
+    /* TWO-COL LAYOUT */
+    .page-wrap{max-width:1100px;margin:0 auto;padding:28px 24px 64px;display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
+
+    /* ── LEFT PANEL ── */
+    .left-col{display:flex;flex-direction:column;gap:16px}
+
+    /* Hero card */
+    .hero-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+    .hero-banner{height:80px;position:relative;overflow:hidden}
+    .hero-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border:1.5px solid rgba(255,255,255,.15);border-radius:50%}
+    .hero-banner::after{content:'';position:absolute;bottom:-50px;left:-30px;width:130px;height:130px;border:1px solid rgba(255,255,255,.08);border-radius:50%}
+    .hero-body{padding:0 18px 18px}
+    .hero-ico-wrap{display:flex;align-items:flex-end;justify-content:space-between;margin-top:-28px;margin-bottom:12px}
+    .hero-ico{width:56px;height:56px;border-radius:14px;border:3px solid var(--white);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:var(--sh-md);flex-shrink:0;position:relative}
+    .hero-status{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:var(--r-pill);font-size:10.5px;font-weight:700;margin-top:28px}
+    .hs-active{background:var(--jade-bg);color:var(--jade-text)}
+    .hs-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+    .hero-name{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.3px;margin-bottom:2px;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+    .hero-code{font-size:11px;font-family:var(--mono);background:var(--smoke);border:1px solid var(--line);border-radius:5px;padding:1px 7px;color:var(--ink4)}
+    .hero-faculty{font-size:12px;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:5px}
+    .hero-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+    /* Stat strip in hero */
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--line);margin-top:14px}
+    .hs-stat{padding:10px 0;text-align:center;border-right:1px solid var(--line)}
+    .hs-stat:last-child{border-right:none}
+    .hs-val{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--ink);line-height:1}
+    .hs-lbl{font-size:10px;color:var(--ink4);margin-top:2px;text-transform:uppercase;letter-spacing:.4px}
+
+    /* Info card */
+    .info-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+    .ic-head{padding:12px 16px;border-bottom:1.5px solid var(--line);background:var(--smoke);display:flex;align-items:center;gap:8px}
+    .ic-ico{width:26px;height:26px;border-radius:7px;background:var(--p-bg);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .ic-title{font-size:12.5px;font-weight:700;color:var(--ink)}
+    .ic-rows{padding:4px 0}
+    .ic-row{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
+    .ic-row:last-child{border-bottom:none}
+    .ir-lbl{font-size:11px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;min-width:80px;padding-top:1px;flex-shrink:0}
+    .ir-val{font-size:13px;color:var(--ink2);font-weight:500;flex:1;word-break:break-word}
+    .ir-val.mono{font-family:var(--mono);font-size:12px}
+
+    /* Subject pill list */
+    .subject-pills{display:flex;flex-wrap:wrap;gap:5px;padding:12px 16px}
+    .spill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);background:var(--smoke);border:1px solid var(--line);font-size:11.5px;color:var(--ink2);font-weight:500}
+    .spill i{font-size:11px;color:var(--ink4)}
+
+    /* ── RIGHT PANEL ── */
+    .right-col{display:flex;flex-direction:column;gap:16px}
+
+    /* TAB BAR */
+    .tab-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:4px;display:flex;gap:2px;box-shadow:var(--sh)}
+    .tab-btn{flex:1;padding:9px 10px;border-radius:9px;background:transparent;border:none;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--ink3);display:flex;align-items:center;justify-content:center;gap:6px;transition:all .18s;font-family:var(--font)}
+    .tab-btn i{font-size:15px}
+    .tab-btn:hover{background:var(--smoke);color:var(--ink)}
+    .tab-btn.active{background:var(--p);color:#fff;box-shadow:0 3px 10px rgba(15,76,117,.25)}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block;animation:fadeUp .28s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    /* Content card */
+    .content-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+    .cc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line);background:var(--smoke);flex-wrap:wrap;gap:8px}
+    .cc-title{font-size:13px;font-weight:700;color:var(--ink)}
+    .cc-sub{font-size:11px;color:var(--ink4);margin-top:1px}
+
+    /* Staff table */
+    .staff-row{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);transition:background .12s}
+    .staff-row:last-child{border-bottom:none}
+    .staff-row:hover{background:var(--smoke)}
+    .staff-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+    .staff-info{flex:1;min-width:0}
+    .staff-name{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+    .staff-role{font-size:11px;color:var(--ink4)}
+    .staff-meta{font-size:11.5px;color:var(--ink4);text-align:right;flex-shrink:0}
+
+    /* Performance bars */
+    .perf-row{padding:12px 18px;border-bottom:1px solid var(--line)}
+    .perf-row:last-child{border-bottom:none}
+    .perf-label{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px}
+    .perf-label span:first-child{font-weight:500;color:var(--ink2)}
+    .perf-label span:last-child{font-family:var(--mono);font-weight:600;color:var(--ink)}
+    .perf-track{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+    .perf-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.22,1,.36,1)}
+
+    /* Activity timeline */
+    .tl-row{display:flex;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);transition:background .12s}
+    .tl-row:last-child{border-bottom:none}
+    .tl-row:hover{background:var(--smoke)}
+    .tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
+    .tl-dot.green{background:var(--jade-bg);color:var(--jade)}
+    .tl-dot.blue{background:var(--sky-bg);color:var(--sky)}
+    .tl-dot.amber{background:var(--sun-bg);color:var(--sun)}
+    .tl-dot.neutral{background:var(--smoke);color:var(--ink4);border:1.5px solid var(--line)}
+    .tl-body{flex:1}
+    .tl-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px}
+    .tl-meta{font-size:11px;color:var(--ink4);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+    /* Empty state */
+    .empty-mini{display:flex;flex-direction:column;align-items:center;padding:36px 20px;text-align:center}
+    .em-ico{width:44px;height:44px;border-radius:var(--r);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--ink4);margin-bottom:10px}
+    .em-title{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:4px}
+    .em-desc{font-size:12px;color:var(--ink4);line-height:1.5;max-width:220px}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 16px;border-radius:var(--r);font-size:12.5px;font-weight:500;cursor:pointer;border:none;outline:none;transition:all .18s;white-space:nowrap}
+    .btn i{font-size:14px;flex-shrink:0}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:0 4px 14px rgba(15,76,117,.28)}.btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}.btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .btn-danger{background:transparent;color:var(--fire);border:1.5px solid rgba(239,68,68,.25)}.btn-danger:hover{background:var(--fire-bg);border-color:var(--fire)}
+    .btn-amber{background:var(--sun-bg);color:var(--sun-text);border:1px solid rgba(245,158,11,.2)}.btn-amber:hover{background:#fef3c7}
+    .btn-sm{padding:6px 12px;font-size:12px}
+
+    /* OVERLAY/MODAL */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:480px;max-width:95vw;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;border-bottom:1.5px solid var(--line)}
+    .modal-title{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+    .modal-close{width:28px;height:28px;border-radius:7px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:14px;cursor:pointer;transition:all .14s}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:18px 22px}
+    .modal-foot{padding:12px 22px 18px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line)}
+    .warn-box{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r);font-size:12.5px;color:var(--fire-text);margin-bottom:14px}
+    .warn-box i{font-size:16px;flex-shrink:0;margin-top:1px}
+
+    /* BADGE */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:var(--r-pill);font-size:10.5px;font-weight:600}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+
+    /* ANIM */
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.06s}.d2{animation-delay:.12s}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:12px 18px;font-size:13px;min-width:240px;max-width:320px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:17px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @media(max-width:900px){.page-wrap{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-brand" onclick="location.href='dashboard.html'">
+    <div class="tb-mark"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Admin</div></div>
+  </div>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home" style="font-size:13px;vertical-align:-1px"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="dept-list.html">Departments</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur" id="crumb-name">Department Detail</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" onclick="location.href='dept-list.html'"><i class="ti ti-arrow-left"></i></button>
+    <div class="tb-av">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ══ LEFT PANEL ══ -->
+  <div class="left-col">
+
+    <!-- Hero Card -->
+    <div class="hero-card anim">
+      <div class="hero-banner" id="hero-banner"></div>
+      <div class="hero-body">
+        <div class="hero-ico-wrap">
+          <div class="hero-ico" id="hero-ico"><i class="ti ti-building-community" id="hero-ico-i"></i></div>
+          <span class="hero-status" id="hero-status">Active</span>
+        </div>
+        <div class="hero-name" id="hero-name">Department Name <span class="hero-code" id="hero-code">CODE</span></div>
+        <div class="hero-faculty" id="hero-faculty"><i class="ti ti-folder" style="font-size:12px"></i> Faculty</div>
+        <div class="hero-actions">
+          <button class="btn btn-ghost btn-sm" onclick="editDept()"><i class="ti ti-edit"></i> Edit</button>
+          <button class="btn btn-amber btn-sm" id="toggle-status-btn" onclick="toggleStatus()"><i class="ti ti-circle-off"></i> Deactivate</button>
+          <button class="btn btn-danger btn-sm" onclick="openDel()"><i class="ti ti-trash"></i></button>
+        </div>
+        <div class="hero-stats" id="hero-stats">
+          <div class="hs-stat"><div class="hs-val" id="hs-staff">0</div><div class="hs-lbl">Staff</div></div>
+          <div class="hs-stat"><div class="hs-val" id="hs-students">0</div><div class="hs-lbl">Students</div></div>
+          <div class="hs-stat"><div class="hs-val" id="hs-subjects">0</div><div class="hs-lbl">Subjects</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOD Card -->
+    <div class="info-card anim d1">
+      <div class="ic-head"><div class="ic-ico"><i class="ti ti-award"></i></div><div class="ic-title">Head of Department</div></div>
+      <div class="ic-rows" id="hod-rows">
+        <div class="ic-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+          <div style="display:flex;align-items:center;gap:10px;width:100%">
+            <div id="hod-av" style="width:40px;height:40px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:14px;font-weight:700;color:#fff;flex-shrink:0">PM</div>
+            <div><div style="font-size:13.5px;font-weight:700;color:var(--ink)" id="hod-name">—</div><div style="font-size:11px;color:var(--ink4)">Head of Department</div></div>
+          </div>
+        </div>
+        <div class="ic-row"><div class="ir-lbl">Email</div><div class="ir-val mono" id="hod-email">—</div></div>
+        <div class="ic-row"><div class="ir-lbl">Phone</div><div class="ir-val mono" id="hod-phone">—</div></div>
+      </div>
+    </div>
+
+    <!-- Details card -->
+    <div class="info-card anim d1">
+      <div class="ic-head"><div class="ic-ico" style="background:var(--sky-bg);color:var(--sky)"><i class="ti ti-info-circle"></i></div><div class="ic-title">Details</div></div>
+      <div class="ic-rows">
+        <div class="ic-row"><div class="ir-lbl">Code</div><div class="ir-val mono" id="di-code">—</div></div>
+        <div class="ic-row"><div class="ir-lbl">Faculty</div><div class="ir-val" id="di-faculty">—</div></div>
+        <div class="ic-row"><div class="ir-lbl">Level</div><div class="ir-val" id="di-level">—</div></div>
+        <div class="ic-row"><div class="ir-lbl">Location</div><div class="ir-val" id="di-location">—</div></div>
+        <div class="ic-row"><div class="ir-lbl">Created</div><div class="ir-val" id="di-created">—</div></div>
+        <div class="ic-row"><div class="ir-lbl">Updated</div><div class="ir-val" id="di-updated">—</div></div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-ghost" style="width:100%;justify-content:flex-start" onclick="editDept()"><i class="ti ti-edit"></i> Edit Department</button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:flex-start" onclick="location.href='user-management.html'"><i class="ti ti-users"></i> View Staff Members</button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:flex-start" onclick="toast('Report exported.','ok')"><i class="ti ti-download"></i> Export Report</button>
+      <button class="btn btn-danger" style="width:100%;justify-content:flex-start" onclick="openDel()"><i class="ti ti-trash"></i> Delete Department</button>
+    </div>
+  </div>
+
+  <!-- ══ RIGHT PANEL ══ -->
+  <div class="right-col">
+
+    <div class="tab-bar anim">
+      <button class="tab-btn active" id="tab-overview" onclick="switchTab('overview')"><i class="ti ti-layout-grid"></i> Overview</button>
+      <button class="tab-btn" id="tab-staff" onclick="switchTab('staff')"><i class="ti ti-users"></i> Staff</button>
+      <button class="tab-btn" id="tab-subjects" onclick="switchTab('subjects')"><i class="ti ti-book"></i> Subjects</button>
+      <button class="tab-btn" id="tab-performance" onclick="switchTab('performance')"><i class="ti ti-chart-bar"></i> Performance</button>
+      <button class="tab-btn" id="tab-activity" onclick="switchTab('activity')"><i class="ti ti-history"></i> Activity</button>
+    </div>
+
+    <!-- OVERVIEW TAB -->
+    <div class="tab-panel active" id="panel-overview">
+      <div class="content-card">
+        <div class="cc-head"><div><div class="cc-title">Department Overview</div><div class="cc-sub" id="ov-sub"></div></div></div>
+        <!-- Stat grid -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-bottom:1.5px solid var(--line)">
+          <div style="padding:16px;background:var(--white);text-align:center"><div style="font-family:var(--mono);font-size:24px;font-weight:600;color:var(--p)" id="ov-staff">0</div><div style="font-size:11px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.4px">Teaching Staff</div></div>
+          <div style="padding:16px;background:var(--white);text-align:center"><div style="font-family:var(--mono);font-size:24px;font-weight:600;color:var(--jade)" id="ov-students">0</div><div style="font-size:11px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.4px">Students</div></div>
+          <div style="padding:16px;background:var(--white);text-align:center"><div style="font-family:var(--mono);font-size:24px;font-weight:600;color:var(--sun)" id="ov-subjects">0</div><div style="font-size:11px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.4px">Subjects</div></div>
+        </div>
+        <!-- Description -->
+        <div style="padding:18px;border-bottom:1.5px solid var(--line)">
+          <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:8px">About this Department</div>
+          <p style="font-size:13px;color:var(--ink2);line-height:1.75" id="ov-desc"></p>
+        </div>
+        <!-- Subjects preview in overview -->
+        <div style="padding:18px;border-bottom:1.5px solid var(--line)">
+          <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:10px">Subjects Offered</div>
+          <div id="ov-subjects-pills" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+        </div>
+        <!-- Quick info grid -->
+        <div style="padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:3px">Head of Dept.</div><div style="font-size:13px;font-weight:600;color:var(--ink)" id="ov-hod">—</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:3px">Faculty / Division</div><div style="font-size:13px;font-weight:600;color:var(--ink)" id="ov-faculty">—</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:3px">Location</div><div style="font-size:13px;color:var(--ink2)" id="ov-location">—</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:3px">Status</div><div id="ov-status"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAFF TAB -->
+    <div class="tab-panel" id="panel-staff">
+      <div class="content-card">
+        <div class="cc-head">
+          <div><div class="cc-title">Staff Members</div><div class="cc-sub" id="staff-sub"></div></div>
+          <button class="btn btn-primary btn-sm" onclick="location.href='user-add.html'"><i class="ti ti-user-plus"></i> Add Staff</button>
+        </div>
+        <div id="staff-list"></div>
+      </div>
+    </div>
+
+    <!-- SUBJECTS TAB -->
+    <div class="tab-panel" id="panel-subjects">
+      <div class="content-card">
+        <div class="cc-head">
+          <div><div class="cc-title">Subjects Offered</div></div>
+          <button class="btn btn-ghost btn-sm" onclick="toast('Subject editor — coming soon.','info')"><i class="ti ti-plus"></i> Add Subject</button>
+        </div>
+        <div class="subject-pills" id="subject-pills-tab" style="padding:18px"></div>
+      </div>
+    </div>
+
+    <!-- PERFORMANCE TAB -->
+    <div class="tab-panel" id="panel-performance">
+      <div class="content-card">
+        <div class="cc-head"><div class="cc-title">Academic Performance</div></div>
+        <div id="perf-list"></div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY TAB -->
+    <div class="tab-panel" id="panel-activity">
+      <div class="content-card">
+        <div class="cc-head">
+          <div><div class="cc-title">Activity Log</div></div>
+          <button class="btn btn-ghost btn-sm" onclick="toast('Exporting log…','info')"><i class="ti ti-download"></i> Export</button>
+        </div>
+        <div id="activity-list"></div>
+      </div>
+    </div>
+
+  </div><!-- /right-col -->
+</div><!-- /page-wrap -->
+
+<!-- DELETE MODAL -->
+<div class="overlay" id="del-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i> Delete Department</div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="warn-box"><i class="ti ti-alert-triangle"></i><span>Deleting <b id="del-name"></b> is permanent. All staff assignments will need to be updated manually.</span></div>
+      <p style="font-size:13px;color:var(--ink3);line-height:1.7">Type the department name to confirm.</p>
+      <div style="margin-top:12px">
+        <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px">Type <b id="del-confirm-txt" style="font-family:var(--mono)"></b></div>
+        <input style="width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px;font-size:13px;color:var(--ink);outline:none;background:var(--white)" type="text" id="del-inp" oninput="chkDel()"/>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-btn" disabled onclick="execDel()"><i class="ti ti-trash"></i> Delete</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ── DEMO STAFF DATA ── */
+var DEMO_STAFF = {
+  d1:[{name:'Priya Menon',role:'Administrator',color:'#0F4C75',joined:'10 Jan 2024',status:'Active'},{name:'Kiran Nair',role:'Office Manager',color:'#64748B',joined:'15 Mar 2022',status:'Inactive'}],
+  d2:[{name:'Sneha Patil',role:'HOD · Science',color:'#7C3AED',joined:'02 Jun 2023',status:'Active'},{name:'Rohan Das',role:'Physics Teacher',color:'#0EA571',joined:'30 Apr 2023',status:'Active'},{name:'Amit Verma',role:'Chemistry Teacher',color:'#0EA571',joined:'28 Feb 2022',status:'Active'}],
+  d3:[{name:'Anil Sharma',role:'HOD · Commerce',color:'#0EA571',joined:'18 Jul 2022',status:'Active'},{name:'Ananya Singh',role:'Accountancy Teacher',color:'#F59E0B',joined:'01 Jun 2024',status:'Pending'}],
+  d4:[{name:'Meera Iyer',role:'HOD · Arts',color:'#EF4444',joined:'20 Aug 2021',status:'Active'},{name:'Sana Khan',role:'Music Teacher',color:'#EF4444',joined:'22 Nov 2021',status:'Active'}],
+  d5:[{name:'Vikram Shah',role:'HOD · CS',color:'#3B82F6',joined:'05 Jan 2022',status:'Active'},{name:'Ravi Teja',role:'Programming Teacher',color:'#0F4C75',joined:'10 Jan 2023',status:'Active'}],
+  d6:[{name:'Deepak Joshi',role:'HOD · Management',color:'#F59E0B',joined:'14 Sep 2022',status:'Active'}],
+  d7:[{name:'Ravi Teja',role:'HOD · Mathematics',color:'#06B6D4',joined:'10 Jan 2023',status:'Active'}],
+  d8:[{name:'Sana Khan',role:'PE Coordinator',color:'#64748B',joined:'22 Nov 2021',status:'Active'}]
+};
+
+var DEMO_SUBJECTS = {
+  d2:['Physics','Chemistry','Biology','Environmental Science','Mathematics','Computer Awareness','Life Science','Earth Science'],
+  d3:['Accountancy','Economics','Business Studies','Entrepreneurship','Statistics','Commercial Geography'],
+  d4:['History','Political Science','Sociology','Psychology','Fine Arts','Music','Theatre Studies'],
+  d5:['Computer Science','Programming','Data Structures','DBMS','Networking','Web Development','Algorithms','AI Basics','Cybersecurity'],
+  d6:['Business Administration','Marketing','Human Resources','Finance','Operations Management'],
+  d7:['Calculus','Algebra','Statistics','Discrete Mathematics'],
+  d8:['Physical Education','Health Science'],
+  d1:[]
+};
+
+var DEMO_PERF = [
+  {label:'Average Attendance',val:94,color:'#0EA571'},
+  {label:'Pass Rate',val:89,color:'#0F4C75'},
+  {label:'Faculty Satisfaction',val:82,color:'#3B82F6'},
+  {label:'Student-Staff Ratio Target',val:72,color:'#F59E0B'},
+  {label:'Curriculum Coverage',val:96,color:'#7C3AED'}
+];
+
+var DEMO_ACTIVITY = [
+  {dot:'green',ico:'ti-user-plus',title:'New staff member added — Amit Verma (Teacher)',meta:'Today, 09:30 AM · by Priya Menon'},
+  {dot:'blue',ico:'ti-edit',title:'Department description updated',meta:'Yesterday, 02:15 PM · by Priya Menon'},
+  {dot:'amber',ico:'ti-book',title:'Subject added — Advanced Biology',meta:'3 days ago, 11:00 AM'},
+  {dot:'green',ico:'ti-user-check',title:'HOD assigned — Sneha Patil',meta:'1 week ago'},
+  {dot:'neutral',ico:'ti-settings',title:'Department status changed to Active',meta:'2 weeks ago'},
+  {dot:'blue',ico:'ti-building-community',title:'Department created',meta:'10 Jan 2024 · by System'},
+];
+
+var DEPT = null;
+
+function loadDept(){
+  var params=new URLSearchParams(location.search);
+  var id=params.get('id')||'d2';
+  var store=null; try{store=JSON.parse(sessionStorage.getItem('deptStore'));}catch(e){}
+  var defaults=[
+    {id:'d1',name:'Administration',code:'ADM',faculty:'Administration',hod:'Priya Menon',hodColor:'#0F4C75',desc:'Central administrative hub — manages operations, HR, procurement, and institutional governance.',staff:8,students:0,subjects:0,status:'Active',color:'#0F4C75',icon:'ti-building-skyscraper',created:'10 Jan 2024',updated:'2 days ago'},
+    {id:'d2',name:'Science',code:'SCI',faculty:'Science',hod:'Sneha Patil',hodColor:'#7C3AED',desc:'Covers Physics, Chemistry, Biology — equips students with analytical thinking and laboratory skills.',staff:14,students:312,subjects:8,status:'Active',color:'#7C3AED',icon:'ti-microscope',created:'10 Jan 2024',updated:'3 days ago'},
+    {id:'d3',name:'Commerce',code:'COM',faculty:'Commerce',hod:'Anil Sharma',hodColor:'#0EA571',desc:'Focuses on Accountancy, Economics, Business Studies, and Entrepreneurship.',staff:11,students:268,subjects:6,status:'Active',color:'#0EA571',icon:'ti-coin',created:'10 Jan 2024',updated:'1 week ago'},
+    {id:'d4',name:'Arts',code:'ART',faculty:'Arts',hod:'Meera Iyer',hodColor:'#EF4444',desc:'Humanities and fine arts — History, Political Science, Sociology, Drawing, and Music.',staff:9,students:194,subjects:7,status:'Active',color:'#EF4444',icon:'ti-paint',created:'10 Jan 2024',updated:'4 days ago'},
+    {id:'d5',name:'Computer Science',code:'CS',faculty:'Technology',hod:'Vikram Shah',hodColor:'#3B82F6',desc:'Programming, Data Structures, DBMS, Networks — prepares students for technology careers.',staff:10,students:228,subjects:9,status:'Active',color:'#3B82F6',icon:'ti-cpu',created:'15 Jan 2024',updated:'Yesterday'},
+    {id:'d6',name:'Management',code:'MGT',faculty:'Management',hod:'Deepak Joshi',hodColor:'#F59E0B',desc:'Business Administration, Marketing, HR — bridges theory and industry practice.',staff:7,students:156,subjects:5,status:'Active',color:'#F59E0B',icon:'ti-briefcase',created:'20 Jan 2024',updated:'5 days ago'},
+    {id:'d7',name:'Mathematics',code:'MTH',faculty:'Science',hod:'Ravi Teja',hodColor:'#06B6D4',desc:'Pure and applied mathematics — Calculus, Statistics, Algebra, and Discrete Mathematics.',staff:6,students:0,subjects:4,status:'Active',color:'#06B6D4',icon:'ti-calculator',created:'25 Jan 2024',updated:'6 days ago'},
+    {id:'d8',name:'Physical Education',code:'PE',faculty:'Arts',hod:'Sana Khan',hodColor:'#64748B',desc:'Sports science, health education, and physical fitness programmes for all students.',staff:4,students:0,subjects:2,status:'Inactive',color:'#64748B',icon:'ti-run',created:'01 Feb 2024',updated:'2 weeks ago'}
+  ];
+  var all=store&&store.length?store:defaults;
+  DEPT=all.find(function(d){return d.id===id;})||all[0];
+}
+
+function render(){
+  var d=DEPT;
+  var bg=d.color+'22';
+
+  document.getElementById('crumb-name').textContent=d.name;
+  document.getElementById('hero-banner').style.background='linear-gradient(135deg,'+d.color+' 0%,'+d.color+'bb 100%)';
+  document.getElementById('hero-ico').style.background=bg;
+  document.getElementById('hero-ico').style.color=d.color;
+  document.getElementById('hero-ico-i').className='ti '+d.icon;
+
+  var hs=document.getElementById('hero-status');
+  hs.textContent=d.status; hs.className='hero-status '+(d.status==='Active'?'hs-active':'hs-inactive');
+
+  document.getElementById('hero-name').innerHTML=escHtml(d.name)+' <span class="hero-code">'+d.code+'</span>';
+  document.getElementById('hero-faculty').innerHTML='<i class="ti ti-folder" style="font-size:12px"></i> '+escHtml(d.faculty);
+  document.getElementById('hs-staff').textContent=d.staff;
+  document.getElementById('hs-students').textContent=d.students;
+  document.getElementById('hs-subjects').textContent=d.subjects||(DEMO_SUBJECTS[d.id]||[]).length;
+
+  // Toggle status button
+  var tsb=document.getElementById('toggle-status-btn');
+  if(d.status==='Active'){ tsb.innerHTML='<i class="ti ti-circle-off"></i> Deactivate'; tsb.className='btn btn-amber btn-sm'; }
+  else { tsb.innerHTML='<i class="ti ti-circle-check"></i> Activate'; tsb.style.background='var(--jade-bg)'; tsb.style.color='var(--jade-text)'; tsb.className='btn btn-sm'; }
+
+  // HOD
+  document.getElementById('hod-av').textContent=initials(d.hod);
+  document.getElementById('hod-av').style.background=d.hodColor;
+  document.getElementById('hod-name').textContent=d.hod;
+  document.getElementById('hod-email').textContent=(d.hod.toLowerCase().replace(' ','.')||'')+'@school.edu';
+  document.getElementById('hod-phone').textContent='+91 98765 43XXX';
+
+  // Details
+  document.getElementById('di-code').textContent=d.code;
+  document.getElementById('di-faculty').textContent=d.faculty;
+  document.getElementById('di-level').textContent=d.level||'All Levels';
+  document.getElementById('di-location').textContent=d.location||'Main Campus';
+  document.getElementById('di-created').textContent=d.created;
+  document.getElementById('di-updated').textContent=d.updated;
+
+  // Overview tab
+  document.getElementById('ov-sub').textContent=d.staff+' staff · '+d.students+' students · '+((DEMO_SUBJECTS[d.id]||[]).length)+' subjects';
+  document.getElementById('ov-staff').textContent=d.staff;
+  document.getElementById('ov-students').textContent=d.students;
+  document.getElementById('ov-subjects').textContent=(DEMO_SUBJECTS[d.id]||[]).length;
+  document.getElementById('ov-desc').textContent=d.desc;
+  document.getElementById('ov-hod').textContent=d.hod;
+  document.getElementById('ov-faculty').textContent=d.faculty;
+  document.getElementById('ov-location').textContent=d.location||'Main Campus';
+  document.getElementById('ov-status').innerHTML='<span class="badge '+(d.status==='Active'?'badge-active':'badge-inactive')+'">'+d.status+'</span>';
+
+  // Subjects in overview
+  var subs=DEMO_SUBJECTS[d.id]||d.subjects||[];
+  var subjArr=Array.isArray(subs)?subs:[];
+  document.getElementById('ov-subjects-pills').innerHTML=subjArr.length?subjArr.map(function(s){return '<span class="spill"><i class="ti ti-book-2"></i>'+escHtml(s)+'</span>';}).join(''):'<span style="font-size:12px;color:var(--ink4)">No subjects listed.</span>';
+
+  // Staff tab
+  var staffList=DEMO_STAFF[d.id]||[];
+  document.getElementById('staff-sub').textContent=staffList.length+' members';
+  document.getElementById('staff-list').innerHTML=staffList.length?staffList.map(function(m){
+    return '<div class="staff-row"><div class="staff-av" style="background:'+m.color+'">'+initials(m.name)+'</div>'
+      +'<div class="staff-info"><div class="staff-name">'+escHtml(m.name)+'</div><div class="staff-role">'+escHtml(m.role)+'</div></div>'
+      +'<div class="staff-meta"><span class="badge '+(m.status==='Active'?'badge-active':m.status==='Pending'?'':' badge-inactive')+'">'+m.status+'</span><div style="margin-top:4px">Since '+escHtml(m.joined)+'</div></div>'
+    +'</div>';
+  }).join(''):('<div class="empty-mini"><div class="em-ico"><i class="ti ti-users-off"></i></div><div class="em-title">No staff members</div><div class="em-desc">Add staff members to this department.</div></div>');
+
+  // Subjects tab
+  document.getElementById('subject-pills-tab').innerHTML=subjArr.length?subjArr.map(function(s){return '<span class="spill" style="font-size:12.5px;padding:5px 12px"><i class="ti ti-book-2"></i>'+escHtml(s)+'</span>';}).join(''):'<div class="empty-mini"><div class="em-ico"><i class="ti ti-books"></i></div><div class="em-title">No subjects yet</div><div class="em-desc">Subjects will appear here once added.</div></div>';
+
+  // Performance tab
+  document.getElementById('perf-list').innerHTML=DEMO_PERF.map(function(p){
+    return '<div class="perf-row"><div class="perf-label"><span>'+p.label+'</span><span>'+p.val+'%</span></div>'
+      +'<div class="perf-track"><div class="perf-fill" style="width:0%;background:'+p.color+'" data-w="'+p.val+'"></div></div></div>';
+  }).join('');
+  setTimeout(function(){ document.querySelectorAll('.perf-fill').forEach(function(b){b.style.width=b.getAttribute('data-w')+'%';}); },80);
+
+  // Activity tab
+  document.getElementById('activity-list').innerHTML=DEMO_ACTIVITY.map(function(a){
+    return '<div class="tl-row"><div class="tl-dot '+a.dot+'"><i class="ti '+a.ico+'"></i></div>'
+      +'<div class="tl-body"><div class="tl-title">'+escHtml(a.title)+'</div><div class="tl-meta">'+escHtml(a.meta)+'</div></div></div>';
+  }).join('');
+}
+
+/* ── TABS ── */
+function switchTab(name){
+  ['overview','staff','subjects','performance','activity'].forEach(function(t){
+    document.getElementById('tab-'+t).classList.toggle('active',t===name);
+    document.getElementById('panel-'+t).classList.toggle('active',t===name);
+  });
+}
+
+/* ── ACTIONS ── */
+function editDept(){ location.href='dept-form.html?id='+DEPT.id; }
+
+function toggleStatus(){
+  DEPT.status=DEPT.status==='Active'?'Inactive':'Active';
+  var store=null; try{store=JSON.parse(sessionStorage.getItem('deptStore'));}catch(e){} if(!store)return;
+  var idx=store.findIndex(function(d){return d.id===DEPT.id;}); if(idx>-1){ store[idx].status=DEPT.status; try{sessionStorage.setItem('deptStore',JSON.stringify(store));}catch(e){} }
+  render(); toast('Department status updated to '+DEPT.status+'.', DEPT.status==='Active'?'ok':'info');
+}
+
+function openDel(){
+  document.getElementById('del-name').textContent=DEPT.name;
+  document.getElementById('del-confirm-txt').textContent=DEPT.name;
+  document.getElementById('del-inp').value='';
+  document.getElementById('del-btn').disabled=true;
+  document.getElementById('del-modal').classList.add('open');
+}
+function chkDel(){ document.getElementById('del-btn').disabled=(document.getElementById('del-inp').value.trim()!==DEPT.name); }
+function execDel(){
+  var store=null; try{store=JSON.parse(sessionStorage.getItem('deptStore'));}catch(e){}
+  if(store){ var idx=store.findIndex(function(d){return d.id===DEPT.id;}); if(idx>-1){ store.splice(idx,1); try{sessionStorage.setItem('deptStore',JSON.stringify(store));}catch(e){} } }
+  closeModal('del-modal');
+  toast('"'+DEPT.name+'" deleted.','ok');
+  setTimeout(function(){location.href='dept-list.html';},1200);
+}
+
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function initials(n){ var p=n.trim().split(' '); return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase(); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){var o=e.target.closest('.overlay');if(o&&e.target===o)o.classList.remove('open');});
+
+loadDept(); render();
+</script>
+</body>
+</html>

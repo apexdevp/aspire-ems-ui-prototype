@@ -1,0 +1,1927 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assign Permissions — Aspire ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #0a0e1a;
+        --ink2: #2d3348;
+        --ink3: #64748b;
+        --ink4: #94a3b8;
+        --smoke: #f7f8fc;
+        --white: #ffffff;
+        --line: #e4e8f0;
+        --line2: #cbd5e1;
+        --jade: #0ea571;
+        --jade-bg: #ecfdf5;
+        --jade-text: #065f46;
+        --fire: #ef4444;
+        --fire-bg: #fef2f2;
+        --fire-text: #991b1b;
+        --sun: #f59e0b;
+        --sun-bg: #fffbeb;
+        --sun-text: #92400e;
+        --sky: #3b82f6;
+        --sky-bg: #eff6ff;
+        --sky-text: #1e40af;
+        --p: #0f4c75;
+        --p2: #1b6ca8;
+        --p3: #2e86c1;
+        --p-glow: rgba(15, 76, 117, 0.15);
+        --p-line: rgba(15, 76, 117, 0.25);
+        --p-bg: #ebf5fb;
+        --font: "Plus Jakarta Sans", sans-serif;
+        --display: "Clash Display", sans-serif;
+        --mono: "Fira Code", monospace;
+        --r: 10px;
+        --r-lg: 16px;
+        --r-xl: 24px;
+        --r-pill: 999px;
+        --sh:
+          0 2px 12px rgba(10, 14, 26, 0.08), 0 1px 4px rgba(10, 14, 26, 0.05);
+        --sh-md:
+          0 8px 32px rgba(10, 14, 26, 0.1), 0 2px 8px rgba(10, 14, 26, 0.06);
+        --sh-lg:
+          0 20px 60px rgba(10, 14, 26, 0.14), 0 6px 16px rgba(10, 14, 26, 0.07);
+        --sh-brand:
+          0 8px 32px rgba(15, 76, 117, 0.28), 0 2px 8px rgba(15, 76, 117, 0.18);
+      }
+      html {
+        font-size: 14px;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--smoke);
+        color: var(--ink);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font-family: var(--font);
+        cursor: pointer;
+        border: none;
+        outline: none;
+      }
+      a {
+        text-decoration: none;
+      }
+
+      /* TOPBAR */
+      .topbar {
+        background: var(--white);
+        border-bottom: 1.5px solid var(--line);
+        height: 62px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        box-shadow: 0 1px 0 var(--line);
+      }
+      .tb-brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        cursor: pointer;
+      }
+      .tb-mark {
+        width: 36px;
+        height: 36px;
+        background: var(--p);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(15, 76, 117, 0.3);
+      }
+      .tb-mark svg {
+        width: 18px;
+        height: 18px;
+      }
+      .tb-name {
+        font-family: var(--display);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.3px;
+      }
+      .tb-ver {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--ink4);
+        margin-top: 1px;
+      }
+      .tb-div {
+        width: 1px;
+        height: 24px;
+        background: var(--line);
+        margin: 0 4px;
+      }
+      .tb-bc {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        color: var(--ink4);
+      }
+      .tb-bc a {
+        color: var(--ink4);
+        transition: color 0.15s;
+      }
+      .tb-bc a:hover {
+        color: var(--p2);
+      }
+      .tb-bc i {
+        font-size: 12px;
+      }
+      .tb-bc .cur {
+        color: var(--ink2);
+        font-weight: 600;
+      }
+      .tb-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tb-ico {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--r);
+        background: transparent;
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ink3);
+        font-size: 17px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .tb-ico:hover {
+        background: var(--smoke);
+        border-color: var(--line2);
+        color: var(--ink);
+      }
+      .tb-av {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fff;
+        font-family: var(--display);
+      }
+
+      /* LAYOUT */
+      .page-wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 28px 28px 60px;
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      .page-header-full {
+        grid-column: 1/-1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .page-tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--p2);
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .page-title {
+        font-family: var(--display);
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.6px;
+        margin-bottom: 4px;
+      }
+      .page-sub {
+        font-size: 13px;
+        color: var(--ink3);
+        font-weight: 300;
+      }
+
+      /* LEFT: Role selector panel */
+      .role-selector {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-xl);
+        overflow: hidden;
+        box-shadow: var(--sh);
+        position: sticky;
+        top: 82px;
+      }
+      .rs-head {
+        padding: 16px 18px;
+        border-bottom: 1.5px solid var(--line);
+        background: var(--smoke);
+      }
+      .rs-head-title {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--ink3);
+      }
+      .rs-head-sub {
+        font-size: 11px;
+        color: var(--ink4);
+        margin-top: 2px;
+      }
+      .role-item {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 13px 18px;
+        border-bottom: 1px solid var(--line);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .role-item:last-child {
+        border-bottom: none;
+      }
+      .role-item:hover {
+        background: var(--smoke);
+      }
+      .role-item.active {
+        background: var(--p-bg);
+        border-left: 3px solid var(--p);
+      }
+      .ri-ico {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+        transition: all 0.2s;
+      }
+      .ri-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+        flex: 1;
+      }
+      .role-item.active .ri-name {
+        color: var(--p);
+      }
+      .ri-count {
+        font-size: 10.5px;
+        font-family: var(--mono);
+        color: var(--ink4);
+        background: var(--smoke);
+        border: 1px solid var(--line);
+        border-radius: var(--r-pill);
+        padding: 1px 7px;
+        flex-shrink: 0;
+      }
+      .role-item.active .ri-count {
+        background: var(--p-bg);
+        color: var(--p);
+        border-color: var(--p-line);
+      }
+      .ri-caret {
+        font-size: 14px;
+        color: var(--ink4);
+        flex-shrink: 0;
+        transition: transform 0.15s;
+      }
+      .role-item.active .ri-caret {
+        transform: translateX(3px);
+        color: var(--p);
+      }
+
+      /* RIGHT: Permission matrix */
+      .matrix-area {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .matrix-card {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-xl);
+        overflow: hidden;
+        box-shadow: var(--sh);
+      }
+      .matrix-header {
+        padding: 18px 22px;
+        border-bottom: 1.5px solid var(--line);
+        background: var(--smoke);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .mh-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .mh-ico {
+        width: 40px;
+        height: 40px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        flex-shrink: 0;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+      .mh-title {
+        font-family: var(--display);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .mh-sub {
+        font-size: 12px;
+        color: var(--ink4);
+        margin-top: 2px;
+      }
+      .mh-right {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .role-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 13px;
+        border-radius: var(--r-pill);
+        font-size: 12px;
+        font-weight: 700;
+        border: 1px solid;
+        transition: all 0.2s;
+      }
+
+      /* Quick actions bar */
+      .quick-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 22px;
+        border-bottom: 1.5px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .quick-bar-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--ink4);
+        margin-right: 4px;
+      }
+      .qa-btn {
+        padding: 5px 12px;
+        border-radius: var(--r-pill);
+        border: 1.5px solid var(--line);
+        background: var(--white);
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--ink3);
+        cursor: pointer;
+        transition: all 0.14s;
+        font-family: var(--font);
+      }
+      .qa-btn:hover {
+        border-color: var(--p-line);
+        background: var(--p-bg);
+        color: var(--p);
+      }
+      .perm-summary {
+        margin-left: auto;
+        font-size: 11.5px;
+        color: var(--ink4);
+      }
+      .perm-summary b {
+        color: var(--p2);
+        font-family: var(--mono);
+      }
+
+      /* Permission group */
+      .perm-group {
+        border-bottom: 1.5px solid var(--line);
+      }
+      .perm-group:last-child {
+        border-bottom: none;
+      }
+      .pg-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 22px;
+        background: var(--smoke);
+        border-bottom: 1px solid var(--line);
+        cursor: pointer;
+        user-select: none;
+        transition: background 0.12s;
+      }
+      .pg-head:hover {
+        background: #f0f2f8;
+      }
+      .pg-ico {
+        width: 32px;
+        height: 32px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .pg-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink);
+        flex: 1;
+      }
+      .pg-summary {
+        font-size: 11.5px;
+        color: var(--ink4);
+        margin-right: 8px;
+      }
+      .pg-caret {
+        font-size: 14px;
+        color: var(--ink4);
+        transition: transform 0.2s;
+      }
+      .perm-group.open .pg-caret {
+        transform: rotate(90deg);
+      }
+      .pg-items {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .perm-group.open .pg-items {
+        max-height: 600px;
+      }
+      .perm-group-toggle-all {
+        padding: 3px 10px;
+        border-radius: var(--r-pill);
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        background: transparent;
+        border: 1.5px solid var(--line);
+        color: var(--ink4);
+        transition: all 0.14s;
+        font-family: var(--font);
+      }
+      .perm-group-toggle-all:hover {
+        border-color: var(--p-line);
+        color: var(--p);
+      }
+
+      /* Individual permission row */
+      .pi-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 13px 22px 13px 62px;
+        border-bottom: 1px solid var(--line);
+      }
+      .pi-row:last-child {
+        border-bottom: none;
+      }
+      .pi-row:hover {
+        background: #f9fafc;
+      }
+      .pi-info {
+        flex: 1;
+      }
+      .pi-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        margin-bottom: 2px;
+      }
+      .pi-desc {
+        font-size: 11px;
+        color: var(--ink4);
+        line-height: 1.4;
+      }
+      .pi-badge {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: var(--r-pill);
+        margin-left: 8px;
+      }
+      .pib-sensitive {
+        background: var(--fire-bg);
+        color: var(--fire-text);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+      }
+      .pib-financial {
+        background: var(--jade-bg);
+        color: var(--jade-text);
+        border: 1px solid rgba(14, 165, 113, 0.2);
+      }
+
+      /* Toggle switch */
+      .toggle-sw {
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .toggle-sw input {
+        position: absolute;
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .toggle-track {
+        width: 42px;
+        height: 24px;
+        border-radius: 12px;
+        background: var(--line2);
+        border: 2px solid var(--line2);
+        position: relative;
+        transition:
+          background 0.22s,
+          border-color 0.22s;
+        flex-shrink: 0;
+      }
+      .toggle-sw input:checked + .toggle-track {
+        background: var(--p);
+        border-color: var(--p);
+      }
+      .toggle-thumb {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+        transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .toggle-sw input:checked + .toggle-track .toggle-thumb {
+        transform: translateX(18px);
+      }
+
+      /* Comparison panel */
+      .compare-bar {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        padding: 14px 18px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .compare-label {
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--ink4);
+      }
+      .compare-chip {
+        padding: 5px 12px;
+        border-radius: var(--r-pill);
+        border: 1.5px solid var(--line);
+        background: var(--smoke);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ink3);
+        cursor: pointer;
+        transition: all 0.15s;
+        font-family: var(--font);
+      }
+      .compare-chip:hover {
+        border-color: var(--p-line);
+        background: var(--p-bg);
+        color: var(--p);
+      }
+      .compare-chip.active {
+        background: var(--p);
+        border-color: var(--p);
+        color: #fff;
+      }
+
+      /* LEGEND */
+      .legend-bar {
+        display: flex;
+        gap: 18px;
+        padding: 12px 22px;
+        background: var(--smoke);
+        border-top: 1.5px solid var(--line);
+      }
+      .leg-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px;
+        color: var(--ink3);
+      }
+      .leg-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+      }
+
+      /* Change diff badge */
+      .diff-badge {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 7px;
+        border-radius: var(--r-pill);
+        background: var(--sun-bg);
+        color: var(--sun-text);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+        margin-left: 6px;
+        animation: pulse 1.5s ease infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.6;
+        }
+      }
+
+      /* SAVE FOOTER */
+      .save-footer {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        box-shadow: var(--sh);
+      }
+      .sf-info {
+        font-size: 12.5px;
+        color: var(--ink3);
+      }
+      .sf-info b {
+        color: var(--ink2);
+      }
+
+      /* BUTTONS */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 18px;
+        border-radius: var(--r);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        transition: all 0.18s;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .btn i {
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .btn-primary {
+        background: var(--p);
+        color: #fff;
+        box-shadow: var(--sh-brand);
+      }
+      .btn-primary:hover {
+        background: var(--p2);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink3);
+        border: 1.5px solid var(--line);
+      }
+      .btn-ghost:hover {
+        background: var(--smoke);
+        border-color: var(--line2);
+        color: var(--ink);
+      }
+      .btn-sm {
+        padding: 7px 14px;
+        font-size: 12px;
+      }
+      .btn-loading {
+        pointer-events: none;
+      }
+      .btn-loading .btn-text {
+        opacity: 0;
+      }
+      .btn-loading::before {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ANIM */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .anim {
+        animation: fadeUp 0.35s ease both;
+      }
+      .d1 {
+        animation-delay: 0.07s;
+      }
+      .d2 {
+        animation-delay: 0.14s;
+      }
+
+      /* TOAST */
+      #toast-wrap {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+      }
+      .toast {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--ink);
+        color: var(--smoke);
+        border-radius: var(--r-lg);
+        padding: 12px 18px;
+        font-size: 13px;
+        min-width: 240px;
+        max-width: 340px;
+        box-shadow: var(--sh-lg);
+        transform: translateX(120%);
+        opacity: 0;
+        transition:
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.2s;
+        pointer-events: all;
+      }
+      .toast.in {
+        transform: none;
+        opacity: 1;
+      }
+      .toast i {
+        font-size: 17px;
+        flex-shrink: 0;
+      }
+      .toast.ok i {
+        color: #34d399;
+      }
+      .toast.err i {
+        color: #f87171;
+      }
+      .toast.info i {
+        color: #60a5fa;
+      }
+
+      @media (max-width: 960px) {
+        .page-wrap {
+          grid-template-columns: 1fr;
+        }
+        .role-selector {
+          position: static;
+        }
+        .pi-row {
+          padding-left: 22px;
+        }
+      }
+      @media (max-width: 700px) {
+        .page-header-full {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="tb-brand" onclick="location.href = 'dashboard.html'">
+        <div class="tb-mark">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            width="18"
+            height="18"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div>
+          <div class="tb-name">Aspire ERP</div>
+          <div class="tb-ver">v3.0 · Admin</div>
+        </div>
+      </div>
+      <div class="tb-div"></div>
+      <div class="tb-bc">
+        <a href="dashboard.html"
+          ><i
+            class="ti ti-home"
+            style="font-size: 13px; vertical-align: -1px"
+          ></i
+        ></a>
+        <i class="ti ti-chevron-right"></i>
+        <a href="role-list.html">Role Management</a>
+        <i class="ti ti-chevron-right"></i>
+        <span class="cur">Assign Permissions</span>
+      </div>
+      <div class="tb-right">
+        <button
+          class="tb-ico"
+          onclick="location.href = 'role-list.html'"
+          title="Back to Roles"
+        >
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <button
+          class="tb-ico"
+          onclick="location.href = 'role-form.html'"
+          title="Create Role"
+        >
+          <i class="ti ti-plus"></i>
+        </button>
+        <div class="tb-av">PM</div>
+      </div>
+    </div>
+
+    <div class="page-wrap">
+      <!-- PAGE HEADER -->
+      <div class="page-header-full anim">
+        <div>
+          <div class="page-tag"><i class="ti ti-key"></i> Access Control</div>
+          <div class="page-title">Assign Permissions</div>
+          <div class="page-sub">
+            Select a role on the left, then configure which actions each module
+            permits. Changes apply to all users assigned that role.
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px">
+          <button class="btn btn-ghost" onclick="resetAllToDefaults()">
+            <i class="ti ti-refresh"></i> Reset to Defaults
+          </button>
+          <button class="btn btn-primary" id="save-all-btn" onclick="saveAll()">
+            <span class="btn-text"
+              ><i class="ti ti-check"></i> Save All Changes</span
+            >
+          </button>
+        </div>
+      </div>
+
+      <!-- LEFT: Role selector -->
+      <div class="role-selector anim d1" id="role-selector"></div>
+
+      <!-- RIGHT: Matrix -->
+      <div class="matrix-area">
+        <!-- Matrix card -->
+        <div class="matrix-card anim d2">
+          <div class="matrix-header">
+            <div class="mh-left">
+              <div class="mh-ico" id="mh-ico">
+                <i class="ti ti-shield-lock"></i>
+              </div>
+              <div>
+                <div class="mh-title" id="mh-title">Select a Role</div>
+                <div class="mh-sub" id="mh-sub">
+                  Choose a role from the left panel to configure its permissions
+                </div>
+              </div>
+            </div>
+            <div class="mh-right">
+              <span
+                class="role-pill"
+                id="role-pill"
+                style="
+                  background: var(--p-bg);
+                  color: var(--p);
+                  border-color: var(--p-line);
+                "
+                ><i
+                  class="ti ti-shield-lock"
+                  style="font-size: 12px"
+                  id="pill-ico"
+                ></i>
+                <span id="pill-name">No role selected</span></span
+              >
+              <button
+                class="btn btn-ghost btn-sm"
+                id="edit-role-btn"
+                onclick="editCurrentRole()"
+                style="display: none"
+              >
+                <i class="ti ti-edit"></i> Edit Role
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick actions -->
+          <div class="quick-bar" id="quick-bar">
+            <span class="quick-bar-label">Quick set:</span>
+            <button class="qa-btn" onclick="qaSet('none')">
+              <i class="ti ti-lock" style="font-size: 12px"></i> No Access
+            </button>
+            <button class="qa-btn" onclick="qaSet('view')">
+              <i class="ti ti-eye" style="font-size: 12px"></i> View All
+            </button>
+            <button class="qa-btn" onclick="qaSet('full')">
+              <i class="ti ti-circle-check" style="font-size: 12px"></i> Full
+              Access
+            </button>
+            <button class="qa-btn" onclick="qaSet('readonly')">
+              <i class="ti ti-file-text" style="font-size: 12px"></i> Read-only
+            </button>
+            <div class="perm-summary">
+              <b id="perm-count">—</b> / <b id="perm-total">—</b> permissions
+              enabled
+            </div>
+            <span class="diff-badge" id="unsaved-badge" style="display: none"
+              ><i class="ti ti-pencil" style="font-size: 10px"></i>
+              Unsaved</span
+            >
+          </div>
+
+          <!-- Permission matrix -->
+          <div id="perm-matrix"></div>
+
+          <!-- Legend -->
+          <div class="legend-bar">
+            <div class="leg-item">
+              <div class="leg-dot" style="background: var(--p)"></div>
+              Enabled
+            </div>
+            <div class="leg-item">
+              <div class="leg-dot" style="background: var(--line2)"></div>
+              Disabled
+            </div>
+            <div class="leg-item">
+              <span
+                style="
+                  background: var(--fire-bg);
+                  color: var(--fire-text);
+                  border: 1px solid rgba(239, 68, 68, 0.2);
+                  border-radius: 3px;
+                  padding: 0 5px;
+                  font-size: 10px;
+                  font-weight: 700;
+                "
+                >Sensitive</span
+              >
+              High-impact actions — review before enabling
+            </div>
+            <div class="leg-item">
+              <span
+                style="
+                  background: var(--jade-bg);
+                  color: var(--jade-text);
+                  border: 1px solid rgba(14, 165, 113, 0.2);
+                  border-radius: 3px;
+                  padding: 0 5px;
+                  font-size: 10px;
+                  font-weight: 700;
+                "
+                >Financial</span
+              >
+              Requires Finance clearance
+            </div>
+          </div>
+        </div>
+
+        <!-- Save footer -->
+        <div class="save-footer anim d2" id="save-footer" style="display: none">
+          <div class="sf-info">
+            Unsaved changes for <b id="sf-role-name">—</b>. Changes will apply
+            to <b id="sf-user-count">—</b> immediately.
+          </div>
+          <div style="display: flex; gap: 8px">
+            <button class="btn btn-ghost btn-sm" onclick="discardChanges()">
+              <i class="ti ti-x"></i> Discard
+            </button>
+            <button
+              class="btn btn-primary btn-sm"
+              id="save-role-btn"
+              onclick="saveCurrentRole()"
+            >
+              <span class="btn-text"
+                ><i class="ti ti-check"></i> Save Changes</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast-wrap"></div>
+
+    <script>
+      /* ── DATA ── */
+      var ROLES_ASSIGN = (function () {
+        var stored = null;
+        try {
+          stored = JSON.parse(sessionStorage.getItem("roleStore"));
+        } catch (e) {}
+        if (stored && stored.length) return stored;
+        return [
+          {
+            id: "r1",
+            name: "Admin",
+            ico: "ti-building-skyscraper",
+            color: "#0F4C75",
+            bg: "var(--p-bg)",
+            type: "system",
+            users: 3,
+            perms: {
+              enquiry_view: true,
+              enquiry_manage: true,
+              admission_view: true,
+              admission_approve: true,
+              fee_view: true,
+              fee_collect: true,
+              fee_waiver: true,
+              fin_reports: true,
+              user_view: true,
+              user_create: true,
+              user_edit: true,
+              user_delete: true,
+              user_roles: true,
+              rep_academic: true,
+              rep_attendance: true,
+              rep_financial: true,
+              rep_export: true,
+              set_general: true,
+              set_notif: true,
+              set_security: true,
+              set_audit: true,
+            },
+          },
+          {
+            id: "r2",
+            name: "Trustee",
+            ico: "ti-crown",
+            color: "#7C3AED",
+            bg: "#f3e8ff",
+            type: "system",
+            users: 1,
+            perms: {
+              enquiry_view: true,
+              enquiry_manage: false,
+              admission_view: true,
+              admission_approve: false,
+              fee_view: true,
+              fee_collect: false,
+              fee_waiver: false,
+              fin_reports: true,
+              user_view: true,
+              user_create: false,
+              user_edit: false,
+              user_delete: false,
+              user_roles: false,
+              rep_academic: true,
+              rep_attendance: true,
+              rep_financial: true,
+              rep_export: true,
+              set_general: false,
+              set_notif: false,
+              set_security: false,
+              set_audit: true,
+            },
+          },
+          {
+            id: "r3",
+            name: "Principal",
+            ico: "ti-school",
+            color: "#0EA571",
+            bg: "var(--jade-bg)",
+            type: "system",
+            users: 2,
+            perms: {
+              enquiry_view: true,
+              enquiry_manage: true,
+              admission_view: true,
+              admission_approve: true,
+              fee_view: true,
+              fee_collect: false,
+              fee_waiver: false,
+              fin_reports: true,
+              user_view: true,
+              user_create: true,
+              user_edit: true,
+              user_delete: false,
+              user_roles: false,
+              rep_academic: true,
+              rep_attendance: true,
+              rep_financial: false,
+              rep_export: true,
+              set_general: false,
+              set_notif: true,
+              set_security: false,
+              set_audit: false,
+            },
+          },
+          {
+            id: "r4",
+            name: "HOD",
+            ico: "ti-users-group",
+            color: "#3B82F6",
+            bg: "var(--sky-bg)",
+            type: "system",
+            users: 3,
+            perms: {
+              enquiry_view: true,
+              enquiry_manage: false,
+              admission_view: true,
+              admission_approve: false,
+              fee_view: false,
+              fee_collect: false,
+              fee_waiver: false,
+              fin_reports: false,
+              user_view: true,
+              user_create: false,
+              user_edit: false,
+              user_delete: false,
+              user_roles: false,
+              rep_academic: true,
+              rep_attendance: true,
+              rep_financial: false,
+              rep_export: false,
+              set_general: false,
+              set_notif: false,
+              set_security: false,
+              set_audit: false,
+            },
+          },
+          {
+            id: "r5",
+            name: "Teacher",
+            ico: "ti-chalkboard",
+            color: "#F59E0B",
+            bg: "var(--sun-bg)",
+            type: "system",
+            users: 8,
+            perms: {
+              enquiry_view: false,
+              enquiry_manage: false,
+              admission_view: false,
+              admission_approve: false,
+              fee_view: false,
+              fee_collect: false,
+              fee_waiver: false,
+              fin_reports: false,
+              user_view: false,
+              user_create: false,
+              user_edit: false,
+              user_delete: false,
+              user_roles: false,
+              rep_academic: true,
+              rep_attendance: true,
+              rep_financial: false,
+              rep_export: false,
+              set_general: false,
+              set_notif: false,
+              set_security: false,
+              set_audit: false,
+            },
+          },
+          {
+            id: "r6",
+            name: "Staff",
+            ico: "ti-user-cog",
+            color: "#64748B",
+            bg: "var(--smoke)",
+            type: "system",
+            users: 2,
+            perms: {
+              enquiry_view: true,
+              enquiry_manage: false,
+              admission_view: false,
+              admission_approve: false,
+              fee_view: false,
+              fee_collect: false,
+              fee_waiver: false,
+              fin_reports: false,
+              user_view: false,
+              user_create: false,
+              user_edit: false,
+              user_delete: false,
+              user_roles: false,
+              rep_academic: false,
+              rep_attendance: false,
+              rep_financial: false,
+              rep_export: false,
+              set_general: false,
+              set_notif: false,
+              set_security: false,
+              set_audit: false,
+            },
+          },
+          {
+            id: "r7",
+            name: "Class Teacher",
+            ico: "ti-book-2",
+            color: "#EF4444",
+            bg: "var(--fire-bg)",
+            type: "custom",
+            users: 0,
+            perms: {
+              enquiry_view: true,
+              enquiry_manage: false,
+              admission_view: false,
+              admission_approve: false,
+              fee_view: false,
+              fee_collect: false,
+              fee_waiver: false,
+              fin_reports: false,
+              user_view: false,
+              user_create: false,
+              user_edit: false,
+              user_delete: false,
+              user_roles: false,
+              rep_academic: true,
+              rep_attendance: true,
+              rep_financial: false,
+              rep_export: false,
+              set_general: false,
+              set_notif: false,
+              set_security: false,
+              set_audit: false,
+            },
+          },
+          {
+            id: "r8",
+            name: "Librarian",
+            ico: "ti-books",
+            color: "#06B6D4",
+            bg: "#ecfeff",
+            type: "custom",
+            users: 1,
+            perms: {
+              enquiry_view: false,
+              enquiry_manage: false,
+              admission_view: false,
+              admission_approve: false,
+              fee_view: false,
+              fee_collect: false,
+              fee_waiver: false,
+              fin_reports: false,
+              user_view: false,
+              user_create: false,
+              user_edit: false,
+              user_delete: false,
+              user_roles: false,
+              rep_academic: false,
+              rep_attendance: false,
+              rep_financial: false,
+              rep_export: false,
+              set_general: false,
+              set_notif: false,
+              set_security: false,
+              set_audit: false,
+            },
+          },
+        ];
+      })();
+
+      var MODULES_ASSIGN = [
+        {
+          key: "admissions",
+          label: "Admissions & Enquiries",
+          ico: "ti-user-check",
+          bg: "var(--sky-bg)",
+          color: "var(--sky)",
+          items: [
+            {
+              key: "enquiry_view",
+              name: "View Enquiries",
+              desc: "See all enquiry records, contacts, and history",
+            },
+            {
+              key: "enquiry_manage",
+              name: "Manage Enquiries",
+              desc: "Create, assign, update, and close enquiries",
+              tag: "",
+            },
+            {
+              key: "admission_view",
+              name: "View Applications",
+              desc: "Access admission applications and documents",
+            },
+            {
+              key: "admission_approve",
+              name: "Approve / Reject",
+              desc: "Final authority to approve or reject applications",
+              badge: "sensitive",
+            },
+          ],
+        },
+        {
+          key: "finance",
+          label: "Finance & Fees",
+          ico: "ti-coin",
+          bg: "var(--jade-bg)",
+          color: "var(--jade)",
+          items: [
+            {
+              key: "fee_view",
+              name: "View Fee Records",
+              desc: "See student fee balances, receipts, and history",
+            },
+            {
+              key: "fee_collect",
+              name: "Collect Payments",
+              desc: "Record fee payments and issue receipts",
+              badge: "financial",
+            },
+            {
+              key: "fee_waiver",
+              name: "Grant Waivers / Discounts",
+              desc: "Apply concessions and fee waivers",
+              badge: "financial,sensitive",
+            },
+            {
+              key: "fin_reports",
+              name: "Financial Reports",
+              desc: "Access collection summaries, P&L, outstanding",
+              badge: "financial",
+            },
+          ],
+        },
+        {
+          key: "users",
+          label: "User Management",
+          ico: "ti-users",
+          bg: "var(--p-bg)",
+          color: "var(--p)",
+          items: [
+            {
+              key: "user_view",
+              name: "View Users",
+              desc: "See all user profiles and account details",
+            },
+            {
+              key: "user_create",
+              name: "Create Users",
+              desc: "Add new user accounts to the system",
+              badge: "sensitive",
+            },
+            {
+              key: "user_edit",
+              name: "Edit Users",
+              desc: "Update user information and settings",
+            },
+            {
+              key: "user_delete",
+              name: "Delete / Deactivate",
+              desc: "Remove or suspend user accounts",
+              badge: "sensitive",
+            },
+            {
+              key: "user_roles",
+              name: "Manage Roles",
+              desc: "Assign and change roles for other users",
+              badge: "sensitive",
+            },
+          ],
+        },
+        {
+          key: "reports",
+          label: "Reports & Analytics",
+          ico: "ti-chart-bar",
+          bg: "var(--sun-bg)",
+          color: "var(--sun)",
+          items: [
+            {
+              key: "rep_academic",
+              name: "Academic Reports",
+              desc: "Student performance, grades, and assessment data",
+            },
+            {
+              key: "rep_attendance",
+              name: "Attendance Reports",
+              desc: "Teacher and student attendance summaries",
+            },
+            {
+              key: "rep_financial",
+              name: "Financial Reports",
+              desc: "Fee collection, outstanding, and revenue",
+              badge: "financial",
+            },
+            {
+              key: "rep_export",
+              name: "Export Data",
+              desc: "Download any report as PDF, Excel, or CSV",
+            },
+          ],
+        },
+        {
+          key: "settings",
+          label: "System Settings",
+          ico: "ti-settings",
+          bg: "var(--fire-bg)",
+          color: "var(--fire)",
+          items: [
+            {
+              key: "set_general",
+              name: "General Settings",
+              desc: "School name, logo, academic year, timezone",
+            },
+            {
+              key: "set_notif",
+              name: "Notification Settings",
+              desc: "Configure alerts, templates, and channels",
+            },
+            {
+              key: "set_security",
+              name: "Security Settings",
+              desc: "2FA policy, password rules, session limits",
+              badge: "sensitive",
+            },
+            {
+              key: "set_audit",
+              name: "Audit Logs",
+              desc: "View full system activity and access trail",
+            },
+          ],
+        },
+      ];
+
+      var DEFAULTS_ASSIGN = JSON.parse(
+        JSON.stringify(
+          ROLES_ASSIGN.reduce(function (a, r) {
+            a[r.id] = Object.assign({}, r.perms);
+            return a;
+          }, {}),
+        ),
+      );
+
+      var selectedRoleId = null;
+      var currentPerms = {}; /* working copy — unsaved changes */
+      var savedPerms = {}; /* last-saved state — for diff detection */
+      var unsavedChanges = false;
+
+      /* ── INIT ── */
+      (function () {
+        renderRoleSelector();
+        var params = new URLSearchParams(location.search);
+        var prefillId = params.get("id");
+        var firstId = prefillId || ROLES_ASSIGN[0].id;
+        selectRole(firstId);
+      })();
+
+      function renderRoleSelector() {
+        document.getElementById("role-selector").innerHTML =
+          '<div class="rs-head"><div class="rs-head-title">Select Role</div><div class="rs-head-sub">' +
+          ROLES_ASSIGN.length +
+          " roles configured</div></div>" +
+          ROLES_ASSIGN.map(function (r) {
+            return (
+              '<div class="role-item' +
+              (r.id === selectedRoleId ? " active" : "") +
+              '" id="ri-' +
+              r.id +
+              '" onclick="selectRole(\'' +
+              r.id +
+              "')\">" +
+              '<div class="ri-ico" style="background:' +
+              r.bg +
+              ";color:" +
+              r.color +
+              '"><i class="ti ' +
+              r.ico +
+              '"></i></div>' +
+              '<div class="ri-name">' +
+              r.name +
+              "</div>" +
+              '<span class="ri-count">' +
+              r.users +
+              "</span>" +
+              '<i class="ti ti-chevron-right ri-caret"></i>' +
+              "</div>"
+            );
+          }).join("");
+      }
+
+      function selectRole(id) {
+        if (unsavedChanges) {
+          toast("Save or discard changes before switching roles.", "err");
+          return;
+        }
+        selectedRoleId = id;
+        var r = ROLES_ASSIGN.find(function (x) {
+          return x.id === id;
+        });
+        if (!r) return;
+
+        // Deep copy perms as working set
+        currentPerms = Object.assign({}, r.perms);
+        savedPerms = Object.assign({}, r.perms);
+        unsavedChanges = false;
+
+        renderRoleSelector();
+        renderMatrix(r);
+        updateSaveFooter(r);
+      }
+
+      function renderMatrix(r) {
+        /* Header */
+        document.getElementById("mh-ico").style.background = r.bg;
+        document.getElementById("mh-ico").style.color = r.color;
+        document.getElementById("mh-ico").innerHTML =
+          '<i class="ti ' + r.ico + '"></i>';
+        document.getElementById("mh-title").textContent =
+          r.name + " Permissions";
+        document.getElementById("mh-sub").textContent =
+          r.users +
+          " user" +
+          (r.users !== 1 ? "s" : "") +
+          " assigned · " +
+          (r.type === "system" ? "System role" : "Custom role");
+        document.getElementById("pill-name").textContent = r.name;
+        document.getElementById("pill-ico").className =
+          "ti " + r.ico + " " + "ti-"; // reset
+        document.getElementById("pill-ico").className = "ti " + r.ico;
+        document.getElementById("role-pill").style.background = r.bg;
+        document.getElementById("role-pill").style.color = r.color;
+        document.getElementById("role-pill").style.borderColor =
+          "rgba(0,0,0,0.1)";
+        document.getElementById("edit-role-btn").style.display = "inline-flex";
+        document.getElementById("save-footer").style.display = "flex";
+
+        updatePermCount();
+
+        document.getElementById("perm-matrix").innerHTML = MODULES_ASSIGN.map(
+          function (mod, mi) {
+            var granted = mod.items.filter(function (it) {
+              return currentPerms[it.key];
+            }).length;
+            return (
+              '<div class="perm-group open" id="pmg-' +
+              mi +
+              '">' +
+              '<div class="pg-head" onclick="togglePG(\'pmg-' +
+              mi +
+              "')\">" +
+              '<div class="pg-ico" style="background:' +
+              mod.bg +
+              ";color:" +
+              mod.color +
+              '"><i class="ti ' +
+              mod.ico +
+              '"></i></div>' +
+              '<div class="pg-title">' +
+              mod.label +
+              "</div>" +
+              '<div class="pg-summary">' +
+              granted +
+              " / " +
+              mod.items.length +
+              " enabled</div>" +
+              '<button class="perm-group-toggle-all" onclick="event.stopPropagation();toggleAllGroup(\'' +
+              mod.key +
+              "'," +
+              mi +
+              ')" title="Toggle all in group">All</button>' +
+              '<i class="ti ti-chevron-right pg-caret"></i>' +
+              "</div>" +
+              '<div class="pg-items">' +
+              mod.items
+                .map(function (item) {
+                  var badges = (item.badge || "")
+                    .split(",")
+                    .filter(Boolean)
+                    .map(function (b) {
+                      return (
+                        '<span class="pi-badge pib-' + b + '">' + b + "</span>"
+                      );
+                    })
+                    .join("");
+                  return (
+                    '<div class="pi-row">' +
+                    '<div class="pi-info">' +
+                    '<div class="pi-name">' +
+                    item.name +
+                    badges +
+                    "</div>" +
+                    '<div class="pi-desc">' +
+                    item.desc +
+                    "</div>" +
+                    "</div>" +
+                    '<label class="toggle-sw" title="' +
+                    (currentPerms[item.key]
+                      ? "Enabled — click to disable"
+                      : "Disabled — click to enable") +
+                    '">' +
+                    '<input type="checkbox" ' +
+                    (currentPerms[item.key] ? "checked" : "") +
+                    " onchange=\"togglePerm('" +
+                    item.key +
+                    "',this.checked," +
+                    mi +
+                    ')"/>' +
+                    '<div class="toggle-track"><div class="toggle-thumb"></div></div>' +
+                    "</label>" +
+                    "</div>"
+                  );
+                })
+                .join("") +
+              "</div>" +
+              "</div>"
+            );
+          },
+        ).join("");
+      }
+
+      function togglePG(id) {
+        var g = document.getElementById(id);
+        if (g) g.classList.toggle("open");
+      }
+
+      function toggleAllGroup(modKey, mi) {
+        var mod = MODULES_ASSIGN[mi];
+        var allOn = mod.items.every(function (it) {
+          return currentPerms[it.key];
+        });
+        mod.items.forEach(function (it) {
+          currentPerms[it.key] = !allOn;
+        });
+        markUnsaved();
+        var r = ROLES_ASSIGN.find(function (x) {
+          return x.id === selectedRoleId;
+        });
+        if (r) renderMatrix(r);
+      }
+
+      function togglePerm(key, val, mi) {
+        currentPerms[key] = val;
+        markUnsaved();
+        updatePermCount();
+        // Update group summary
+        var mod = MODULES_ASSIGN[mi];
+        var granted = mod.items.filter(function (it) {
+          return currentPerms[it.key];
+        }).length;
+        var g = document.getElementById("pmg-" + mi);
+        if (g) {
+          var s = g.querySelector(".pg-summary");
+          if (s)
+            s.textContent = granted + " / " + mod.items.length + " enabled";
+        }
+      }
+
+      function updatePermCount() {
+        var all = 0,
+          enabled = 0;
+        MODULES_ASSIGN.forEach(function (m) {
+          m.items.forEach(function (it) {
+            all++;
+            if (currentPerms[it.key]) enabled++;
+          });
+        });
+        document.getElementById("perm-count").textContent = enabled;
+        document.getElementById("perm-total").textContent = all;
+      }
+
+      function markUnsaved() {
+        unsavedChanges = true;
+        document.getElementById("unsaved-badge").style.display = "inline-flex";
+        document.getElementById("save-footer").style.display = "flex";
+        var r = ROLES_ASSIGN.find(function (x) {
+          return x.id === selectedRoleId;
+        });
+        if (r) updateSaveFooter(r);
+      }
+
+      function updateSaveFooter(r) {
+        document.getElementById("sf-role-name").textContent = r.name;
+        document.getElementById("sf-user-count").textContent =
+          r.users + " user" + (r.users !== 1 ? "s" : "");
+      }
+
+      function qaSet(mode) {
+        var maps = {
+          none: {},
+          readonly: {
+            enquiry_view: true,
+            admission_view: true,
+            fee_view: true,
+            user_view: true,
+            rep_academic: true,
+            rep_attendance: true,
+          },
+          view: {
+            enquiry_view: true,
+            admission_view: true,
+            fee_view: true,
+            fin_reports: true,
+            user_view: true,
+            rep_academic: true,
+            rep_attendance: true,
+            rep_financial: true,
+            set_audit: true,
+          },
+          full: {},
+        };
+        MODULES_ASSIGN.forEach(function (mod) {
+          mod.items.forEach(function (it) {
+            if (mode === "full") currentPerms[it.key] = true;
+            else if (mode === "none") currentPerms[it.key] = false;
+            else currentPerms[it.key] = !!(maps[mode] || {})[it.key];
+          });
+        });
+        markUnsaved();
+        var r = ROLES_ASSIGN.find(function (x) {
+          return x.id === selectedRoleId;
+        });
+        if (r) renderMatrix(r);
+      }
+
+      function saveCurrentRole() {
+        var btn = document.getElementById("save-role-btn");
+        btn.classList.add("btn-loading");
+        setTimeout(function () {
+          btn.classList.remove("btn-loading");
+          var r = ROLES_ASSIGN.find(function (x) {
+            return x.id === selectedRoleId;
+          });
+          if (r) {
+            r.perms = Object.assign({}, currentPerms);
+            r.updatedAt = "Just now";
+          }
+          savedPerms = Object.assign({}, currentPerms);
+          unsavedChanges = false;
+          document.getElementById("unsaved-badge").style.display = "none";
+          // Persist
+          try {
+            sessionStorage.setItem("roleStore", JSON.stringify(ROLES_ASSIGN));
+          } catch (e) {}
+          toast(
+            "Permissions saved for " +
+              r.name +
+              ". Changes applied to " +
+              r.users +
+              " user" +
+              (r.users !== 1 ? "s" : "") +
+              ".",
+            "ok",
+          );
+        }, 900);
+      }
+
+      function saveAll() {
+        var btn = document.getElementById("save-all-btn");
+        btn.classList.add("btn-loading");
+        setTimeout(function () {
+          btn.classList.remove("btn-loading");
+          ROLES_ASSIGN.forEach(function (r) {
+            r.updatedAt = "Just now";
+          });
+          unsavedChanges = false;
+          document.getElementById("unsaved-badge").style.display = "none";
+          try {
+            sessionStorage.setItem("roleStore", JSON.stringify(ROLES_ASSIGN));
+          } catch (e) {}
+          toast("All permissions saved successfully.", "ok");
+        }, 1000);
+      }
+
+      function discardChanges() {
+        currentPerms = Object.assign({}, savedPerms);
+        unsavedChanges = false;
+        document.getElementById("unsaved-badge").style.display = "none";
+        var r = ROLES_ASSIGN.find(function (x) {
+          return x.id === selectedRoleId;
+        });
+        if (r) renderMatrix(r);
+        toast("Changes discarded.", "info");
+      }
+
+      function resetAllToDefaults() {
+        ROLES_ASSIGN.forEach(function (r) {
+          r.perms = Object.assign({}, DEFAULTS_ASSIGN[r.id] || {});
+        });
+        currentPerms = Object.assign({}, DEFAULTS_ASSIGN[selectedRoleId] || {});
+        savedPerms = Object.assign({}, currentPerms);
+        unsavedChanges = false;
+        document.getElementById("unsaved-badge").style.display = "none";
+        var r = ROLES_ASSIGN.find(function (x) {
+          return x.id === selectedRoleId;
+        });
+        if (r) renderMatrix(r);
+        toast("All roles reset to default permissions.", "info");
+      }
+
+      function editCurrentRole() {
+        if (selectedRoleId)
+          location.href = "role-form.html?id=" + selectedRoleId;
+      }
+
+      function toast(msg, type) {
+        var icons = {
+          ok: "ti-circle-check",
+          err: "ti-alert-circle",
+          info: "ti-info-circle",
+        };
+        var wrap = document.getElementById("toast-wrap");
+        var el = document.createElement("div");
+        el.className = "toast " + (type || "info");
+        el.innerHTML =
+          '<i class="ti ' +
+          (icons[type] || icons.info) +
+          '"></i><span>' +
+          msg +
+          "</span>";
+        wrap.appendChild(el);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            el.classList.add("in");
+          });
+        });
+        setTimeout(function () {
+          el.classList.remove("in");
+          setTimeout(function () {
+            el.remove();
+          }, 400);
+        }, 3400);
+      }
+    </script>
+  </body>
+</html>

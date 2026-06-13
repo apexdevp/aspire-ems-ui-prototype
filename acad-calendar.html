@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Academic Calendar — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+      /* event type colours */
+      --ev-holiday:#ef4444;   --ev-holiday-bg:#fef2f2;  --ev-holiday-text:#991b1b;
+      --ev-exam:#f59e0b;      --ev-exam-bg:#fffbeb;     --ev-exam-text:#92400e;
+      --ev-event:#3b82f6;     --ev-event-bg:#eff6ff;    --ev-event-text:#1e40af;
+      --ev-term:#0ea571;      --ev-term-bg:#ecfdf5;     --ev-term-text:#065f46;
+      --ev-ptm:#7c3aed;       --ev-ptm-bg:#f3e8ff;      --ev-ptm-text:#6d28d9;
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display);cursor:pointer}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .15s;cursor:pointer;white-space:nowrap}
+    .btn i{font-size:16px}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(15,76,117,.25)}
+    .btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--line)}
+    .btn-ghost:hover{border-color:var(--line2);background:var(--smoke)}
+    .btn-danger{background:var(--fire-bg);color:var(--fire);border:1.5px solid rgba(239,68,68,.2)}
+    .btn-danger:hover{background:var(--fire);color:#fff}
+    .btn-sm{padding:6px 11px;font-size:12px}.btn-sm i{font-size:14px}
+
+    /* ── PAGE WRAPPER ── */
+    .page-wrap{max-width:1400px;margin:0 auto;padding:24px 24px 60px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+    .page-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+    /* ── STAT STRIP ── */
+    .stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;display:flex;align-items:center;gap:12px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .st-ico.red{background:var(--ev-holiday-bg);color:var(--ev-holiday)}
+    .st-ico.amber{background:var(--ev-exam-bg);color:var(--ev-exam)}
+    .st-ico.blue{background:var(--ev-event-bg);color:var(--ev-event)}
+    .st-ico.green{background:var(--ev-term-bg);color:var(--ev-term)}
+    .st-ico.purple{background:var(--ev-ptm-bg);color:var(--ev-ptm)}
+    .st-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:10.5px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* ── TWO-COL LAYOUT ── */
+    .cal-layout{display:grid;grid-template-columns:1fr 296px;gap:18px;align-items:start}
+
+    /* ══════════════════════════════════
+       MAIN CALENDAR
+    ══════════════════════════════════ */
+    .cal-main{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+
+    /* Calendar navigation bar */
+    .cal-nav-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1.5px solid var(--line);gap:12px}
+    .cal-month-info{flex:1}
+    .cal-month-title{font-family:var(--display);font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .cal-year-tag{font-size:11px;color:var(--ink4);margin-top:2px;font-family:var(--mono)}
+    .cal-nav-btns{display:flex;gap:6px;align-items:center}
+    .cal-nav-btn{width:34px;height:34px;border-radius:var(--r);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:16px;cursor:pointer;transition:all .15s}
+    .cal-nav-btn:hover{background:var(--p-bg);border-color:var(--p-line);color:var(--p)}
+    .cal-today-btn{height:34px;padding:0 13px;border-radius:var(--r);background:var(--smoke);border:1.5px solid var(--line);font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;transition:all .15s}
+    .cal-today-btn:hover{background:var(--p-bg);border-color:var(--p-line);color:var(--p)}
+    .cal-view-tabs{display:flex;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+    .cal-view-tab{padding:7px 13px;font-size:12px;font-weight:500;color:var(--ink3);background:var(--smoke);cursor:pointer;transition:all .15s;white-space:nowrap}
+    .cal-view-tab.active{background:var(--p);color:#fff}
+    .cal-view-tab:not(.active):hover{background:var(--line);color:var(--ink)}
+
+    /* Day-of-week header */
+    .cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--line)}
+    .cal-dow{text-align:center;padding:10px 4px;font-size:11px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.6px}
+    .cal-dow.weekend{color:var(--fire)}
+
+    /* Calendar grid */
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
+    .cal-cell{min-height:112px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:6px 6px 4px;cursor:pointer;position:relative;transition:background .12s;overflow:hidden}
+    .cal-cell:nth-child(7n){border-right:none}
+    .cal-cell:hover{background:#f8faff}
+    .cal-cell.today{background:var(--p-bg)}
+    .cal-cell.today .cell-date-num{background:var(--p);color:#fff;border-radius:50%}
+    .cal-cell.other-month{background:#fafbfd}
+    .cal-cell.other-month .cell-date-num{color:var(--ink4)}
+    .cal-cell.has-events{background:#fafeff}
+    .cell-date-num{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink2);border-radius:50%;transition:all .15s;margin-bottom:4px;flex-shrink:0}
+    .cal-cell.today:hover .cell-date-num{background:var(--p2)}
+    .cell-date-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+    .cell-add-btn{width:18px;height:18px;border-radius:4px;background:transparent;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink4);opacity:0;transition:opacity .12s;cursor:pointer;flex-shrink:0}
+    .cal-cell:hover .cell-add-btn{opacity:1}
+    .cell-add-btn:hover{background:var(--p-bg);color:var(--p)}
+
+    /* Event pills */
+    .ev-pill{display:block;font-size:10px;font-weight:600;border-radius:4px;padding:2px 6px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;line-height:1.4;transition:opacity .1s;position:relative}
+    .ev-pill:hover{opacity:.85}
+    .ev-pill.starts{border-radius:4px 0 0 4px;padding-left:7px}
+    .ev-pill.starts.ends{border-radius:4px}
+    .ev-pill.middle{border-radius:0;margin-left:-1px;margin-right:-1px}
+    .ev-pill.ends{border-radius:0 4px 4px 0}
+    .ev-pill.holiday{background:var(--ev-holiday-bg);color:var(--ev-holiday-text)}
+    .ev-pill.exam{background:var(--ev-exam-bg);color:var(--ev-exam-text)}
+    .ev-pill.event{background:var(--ev-event-bg);color:var(--ev-event-text)}
+    .ev-pill.term{background:var(--ev-term-bg);color:var(--ev-term-text)}
+    .ev-pill.ptm{background:var(--ev-ptm-bg);color:var(--ev-ptm-text)}
+    .more-pill{font-size:9.5px;color:var(--ink4);cursor:pointer;padding:1px 4px;border-radius:3px;display:inline-block;margin-top:1px}
+    .more-pill:hover{background:var(--line);color:var(--ink)}
+
+    /* ══════════════════════════════════
+       RIGHT SIDEBAR
+    ══════════════════════════════════ */
+    .cal-sidebar{display:flex;flex-direction:column;gap:14px}
+
+    /* Mini calendar */
+    .mini-cal{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+    .mini-head{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--line)}
+    .mini-month-lbl{font-size:12.5px;font-weight:700;color:var(--ink);font-family:var(--display)}
+    .mini-nav-row{display:flex;gap:4px}
+    .mini-nav{width:24px;height:24px;border-radius:6px;background:var(--smoke);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink4);cursor:pointer;transition:all .12s}
+    .mini-nav:hover{background:var(--p-bg);border-color:var(--p-line);color:var(--p)}
+    .mini-grid-head{display:grid;grid-template-columns:repeat(7,1fr);padding:7px 8px 2px}
+    .mini-dow{text-align:center;font-size:8.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.3px}
+    .mini-grid{display:grid;grid-template-columns:repeat(7,1fr);padding:3px 8px 10px;gap:1px}
+    .mini-cell{width:30px;height:26px;display:flex;align-items:center;justify-content:center;font-size:10.5px;color:var(--ink3);cursor:pointer;border-radius:6px;transition:all .12s;margin:0 auto;font-family:var(--mono)}
+    .mini-cell:hover{background:var(--smoke);color:var(--ink)}
+    .mini-cell.today{background:var(--p);color:#fff;font-weight:700}
+    .mini-cell.selected{background:var(--p-bg);color:var(--p);font-weight:700;border:1px solid var(--p-line)}
+    .mini-cell.today.selected{background:var(--p);color:#fff}
+    .mini-cell.has-ev{font-weight:700;color:var(--p)}
+    .mini-cell.other-month{color:var(--line2)}
+
+    /* Upcoming events */
+    .side-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+    .side-card-head{padding:12px 16px;border-bottom:1.5px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+    .side-card-title{font-size:12.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:7px}
+    .side-card-title i{font-size:15px;color:var(--ink4)}
+    .side-card-action{font-size:11px;color:var(--p2);cursor:pointer;font-weight:600}
+    .side-card-action:hover{color:var(--p)}
+    .ev-list-item{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+    .ev-list-item:last-child{border-bottom:none}
+    .ev-list-item:hover{background:var(--smoke)}
+    .ev-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;margin-top:3px}
+    .ev-item-info{flex:1;min-width:0}
+    .ev-item-title{font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .ev-item-date{font-size:10.5px;color:var(--ink4);margin-top:2px;font-family:var(--mono)}
+    .ev-item-badge{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:var(--r-pill);flex-shrink:0;margin-top:2px}
+    .ev-empty{padding:24px 14px;text-align:center;font-size:12px;color:var(--ink4)}
+
+    /* Legend */
+    .legend-grid{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+    .leg-row{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--ink3);cursor:pointer;border-radius:var(--r);padding:4px 6px;transition:background .12s}
+    .leg-row:hover{background:var(--smoke)}
+    .leg-row.inactive{opacity:.4}
+    .leg-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+    .leg-count{margin-left:auto;font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--ink4)}
+
+    /* ── OVERLAY / MODAL ── */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:540px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-sm{width:440px}
+    .modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line);position:sticky;top:0;background:var(--white);z-index:2}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink)}
+    .modal-subtitle{font-size:11.5px;color:var(--ink4);margin-top:2px}
+    .modal-close{width:32px;height:32px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:16px;cursor:pointer;transition:all .15s;flex-shrink:0}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:space-between;border-top:1.5px solid var(--line);position:sticky;bottom:0;background:var(--white)}
+    .modal-foot-right{display:flex;gap:8px}
+
+    /* FORM */
+    .msec{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .msec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .msec-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+    .msec-title i{font-size:14px;color:var(--p3)}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .fgrp{margin-bottom:14px}
+    .fgrp:last-child{margin-bottom:0}
+    .flabel{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+    .req{color:var(--fire);margin-left:3px}
+    .flabel-hint{font-size:10.5px;color:var(--ink4);font-weight:400}
+    .finput-wrap{position:relative}
+    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .15s}
+    .finput-wrap:focus-within .ficon{color:var(--p2)}
+    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+    .finput.no-icon{padding-left:13px}
+    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .finput::placeholder{color:var(--ink4)}
+    select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+    textarea.finput{resize:vertical;min-height:72px;padding-top:10px;padding-left:13px;line-height:1.55}
+
+    /* Event type selector */
+    .type-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px}
+    .type-opt{padding:10px 6px;border:1.5px solid var(--line);border-radius:var(--r-lg);cursor:pointer;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--ink3);text-align:center;background:var(--white)}
+    .type-opt:hover{border-color:var(--line2);color:var(--ink)}
+    .type-opt.sel{color:#fff;border-color:transparent}
+    .type-opt i{font-size:18px}
+    .type-opt.sel-holiday{background:var(--ev-holiday);border-color:var(--ev-holiday)}
+    .type-opt.sel-exam{background:var(--ev-exam);border-color:var(--ev-exam)}
+    .type-opt.sel-event{background:var(--ev-event);border-color:var(--ev-event)}
+    .type-opt.sel-term{background:var(--ev-term);border-color:var(--ev-term)}
+    .type-opt.sel-ptm{background:var(--ev-ptm);border-color:var(--ev-ptm)}
+
+    /* Working day toggle */
+    .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--smoke);border-radius:var(--r-lg);margin-top:4px}
+    .toggle-label{font-size:13px;font-weight:500;color:var(--ink2)}
+    .toggle-desc{font-size:11px;color:var(--ink4);margin-top:2px}
+    .toggle-switch{width:44px;height:24px;border-radius:12px;background:var(--line2);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+    .toggle-switch.on{background:var(--jade)}
+    .toggle-switch::after{content:'';position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+    .toggle-switch.on::after{transform:translateX(20px)}
+
+    /* delete confirm */
+    .del-box{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:11px}
+    .del-box i{color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px}
+
+    /* event detail modal */
+    .ev-detail-header{display:flex;align-items:center;gap:12px;padding:16px 0 12px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+    .ev-detail-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+    .ev-detail-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+    .ev-detail-row i{font-size:16px;color:var(--ink4);flex-shrink:0;margin-top:1px}
+    .ev-detail-lbl{font-size:10.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px}
+    .ev-detail-val{font-size:13px;color:var(--ink)}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:18px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.07s}.d2{animation-delay:.14s}
+
+    @media(max-width:1100px){.cal-layout{grid-template-columns:1fr}.cal-sidebar{display:grid;grid-template-columns:1fr 1fr;gap:14px}.stat-strip{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:768px){.cal-sidebar{grid-template-columns:1fr}.stat-strip{grid-template-columns:1fr 1fr}.cal-cell{min-height:72px}.page-wrap{padding:14px 14px 40px}}
+    @media(max-width:480px){.stat-strip{grid-template-columns:1fr}.type-grid{grid-template-columns:repeat(3,1fr)}}
+  </style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<div class="topbar">
+  <a href="dashboard.html" class="tb-brand">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Academic</div></div>
+  </a>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="acad-classes.html">Academics</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur">Academic Calendar</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" onclick="exportCSV()" title="Export CSV"><i class="ti ti-download"></i></button>
+    <button class="tb-ico" title="Print" onclick="window.print()"><i class="ti ti-printer"></i></button>
+    <button class="tb-ico" title="Help"><i class="ti ti-help-circle"></i></button>
+    <div class="tb-av" onclick="location.href='view-profile.html'" title="Profile">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag"><i class="ti ti-calendar-event"></i> Academic Management</div>
+      <div class="page-title">Academic Calendar</div>
+      <div class="page-sub" id="page-sub-txt">Academic Year 2025–26 · Horizon International Academy</div>
+    </div>
+    <div class="page-actions">
+      <select id="f-year" class="btn btn-ghost" style="padding:8px 12px;font-size:13px;cursor:pointer" onchange="onYearChange()">
+        <option value="2025-26">2025–26</option>
+        <option value="2024-25">2024–25</option>
+        <option value="2026-27">2026–27</option>
+      </select>
+      <button class="btn btn-ghost" onclick="exportCSV()"><i class="ti ti-download"></i>Export CSV</button>
+      <button class="btn btn-primary" onclick="openAdd(null)"><i class="ti ti-plus"></i>Add Event</button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile"><div class="st-ico red"><i class="ti ti-umbrella"></i></div><div><div class="st-val" id="st-holiday">0</div><div class="st-lbl">Holidays</div></div></div>
+    <div class="stat-tile"><div class="st-ico amber"><i class="ti ti-writing"></i></div><div><div class="st-val" id="st-exam">0</div><div class="st-lbl">Exams / Tests</div></div></div>
+    <div class="stat-tile"><div class="st-ico blue"><i class="ti ti-star"></i></div><div><div class="st-val" id="st-event">0</div><div class="st-lbl">School Events</div></div></div>
+    <div class="stat-tile"><div class="st-ico green"><i class="ti ti-calendar"></i></div><div><div class="st-val" id="st-term">0</div><div class="st-lbl">Terms / Breaks</div></div></div>
+    <div class="stat-tile"><div class="st-ico purple"><i class="ti ti-users"></i></div><div><div class="st-val" id="st-ptm">0</div><div class="st-lbl">PTM Days</div></div></div>
+  </div>
+
+  <!-- MAIN CALENDAR + SIDEBAR -->
+  <div class="cal-layout anim d2">
+
+    <!-- ── MAIN CALENDAR ── -->
+    <div class="cal-main">
+      <div class="cal-nav-bar">
+        <div class="cal-month-info">
+          <div class="cal-month-title" id="cal-month-title">June 2025</div>
+          <div class="cal-year-tag" id="cal-year-tag">AY 2025–26</div>
+        </div>
+        <div class="cal-nav-btns">
+          <button class="cal-nav-btn" onclick="prevMonth()" title="Previous month"><i class="ti ti-chevron-left"></i></button>
+          <button class="cal-today-btn" onclick="goToday()">Today</button>
+          <button class="cal-nav-btn" onclick="nextMonth()" title="Next month"><i class="ti ti-chevron-right"></i></button>
+        </div>
+        <div class="cal-view-tabs">
+          <div class="cal-view-tab active" id="vt-month" onclick="setView('month')">Month</div>
+          <div class="cal-view-tab" id="vt-list" onclick="setView('list')">List</div>
+        </div>
+      </div>
+      <!-- Day of week header -->
+      <div class="cal-dow-row">
+        <div class="cal-dow weekend">Sun</div>
+        <div class="cal-dow">Mon</div><div class="cal-dow">Tue</div>
+        <div class="cal-dow">Wed</div><div class="cal-dow">Thu</div>
+        <div class="cal-dow">Fri</div>
+        <div class="cal-dow weekend">Sat</div>
+      </div>
+      <!-- Calendar grid / list view -->
+      <div id="cal-body"></div>
+    </div>
+
+    <!-- ── RIGHT SIDEBAR ── -->
+    <div class="cal-sidebar">
+
+      <!-- Mini calendar -->
+      <div class="mini-cal">
+        <div class="mini-head">
+          <div class="mini-month-lbl" id="mini-month-lbl">Jun 2025</div>
+          <div class="mini-nav-row">
+            <div class="mini-nav" onclick="prevMonth()"><i class="ti ti-chevron-left"></i></div>
+            <div class="mini-nav" onclick="nextMonth()"><i class="ti ti-chevron-right"></i></div>
+          </div>
+        </div>
+        <div class="mini-grid-head">
+          <div class="mini-dow">S</div><div class="mini-dow">M</div><div class="mini-dow">T</div>
+          <div class="mini-dow">W</div><div class="mini-dow">T</div><div class="mini-dow">F</div>
+          <div class="mini-dow">S</div>
+        </div>
+        <div class="mini-grid" id="mini-grid"></div>
+      </div>
+
+      <!-- Upcoming events -->
+      <div class="side-card">
+        <div class="side-card-head">
+          <div class="side-card-title"><i class="ti ti-calendar-event"></i>Upcoming Events</div>
+          <div class="side-card-action" onclick="setView('list')">View all</div>
+        </div>
+        <div id="upcoming-list"></div>
+      </div>
+
+      <!-- Legend -->
+      <div class="side-card">
+        <div class="side-card-head">
+          <div class="side-card-title"><i class="ti ti-palette"></i>Event Types</div>
+          <div class="side-card-action" onclick="resetFilters()">Reset</div>
+        </div>
+        <div class="legend-grid" id="legend-grid"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     ADD / EDIT MODAL
+════════════════════════════════════ -->
+<div class="overlay" id="ev-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="ev-modal-title">Add Event</div>
+        <div class="modal-subtitle" id="ev-modal-sub">Schedule a new academic event</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('ev-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- EVENT TYPE -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-category-2"></i>Event Type <span class="req">*</span></div>
+        <div class="type-grid" id="type-grid">
+          <div class="type-opt" data-type="holiday" onclick="pickType(this)"><i class="ti ti-umbrella"></i>Holiday</div>
+          <div class="type-opt" data-type="exam"    onclick="pickType(this)"><i class="ti ti-writing"></i>Exam</div>
+          <div class="type-opt" data-type="event"   onclick="pickType(this)"><i class="ti ti-star"></i>Event</div>
+          <div class="type-opt" data-type="term"    onclick="pickType(this)"><i class="ti ti-calendar"></i>Term</div>
+          <div class="type-opt" data-type="ptm"     onclick="pickType(this)"><i class="ti ti-users"></i>PTM</div>
+        </div>
+      </div>
+
+      <!-- EVENT DETAILS -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-info-circle"></i>Event Details</div>
+        <div class="fgrp">
+          <div class="flabel">Title <span class="req">*</span></div>
+          <div class="finput-wrap">
+            <i class="ti ti-calendar-event ficon"></i>
+            <input class="finput" type="text" id="m-title" placeholder="e.g. Diwali Holiday">
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Start Date <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-calendar ficon"></i>
+              <input class="finput" type="date" id="m-start">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">End Date <span class="flabel-hint">leave blank for single day</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-calendar ficon"></i>
+              <input class="finput" type="date" id="m-end">
+            </div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Applies To</div>
+            <div class="finput-wrap">
+              <i class="ti ti-school ficon"></i>
+              <select class="finput" id="m-applies">
+                <option value="All">All Classes</option>
+                <option value="Senior">Senior Secondary (XI–XII)</option>
+                <option value="Secondary">Secondary (IX–X)</option>
+                <option value="Middle">Middle School (VI–VIII)</option>
+                <option value="Primary">Primary (I–V)</option>
+              </select>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Academic Year</div>
+            <div class="finput-wrap">
+              <i class="ti ti-bookmark ficon"></i>
+              <select class="finput" id="m-ev-year">
+                <option value="2025-26">2025–26</option>
+                <option value="2024-25">2024–25</option>
+                <option value="2026-27">2026–27</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Description <span class="flabel-hint">optional</span></div>
+          <textarea class="finput no-icon" id="m-desc" placeholder="Notes about this event…"></textarea>
+        </div>
+      </div>
+
+      <!-- WORKING DAY TOGGLE -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-toggle-left"></i>School Status</div>
+        <div class="toggle-row" onclick="toggleWorking()">
+          <div>
+            <div class="toggle-label">School in session?</div>
+            <div class="toggle-desc" id="working-desc">Students do not attend on this day</div>
+          </div>
+          <div class="toggle-switch" id="working-toggle"></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-danger btn-sm" id="ev-del-btn" style="display:none" onclick="openDelFromEdit()">
+        <i class="ti ti-trash"></i>Delete
+      </button>
+      <div class="modal-foot-right">
+        <button class="btn btn-ghost" onclick="closeModal('ev-modal')">Cancel</button>
+        <button class="btn btn-primary" id="ev-save-btn" onclick="saveEvent()">
+          <i class="ti ti-plus"></i>Add Event
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     EVENT DETAIL MODAL (read-only quick view)
+════════════════════════════════════ -->
+<div class="overlay" id="ev-detail-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" id="detail-title-txt">Event Details</div>
+      <button class="modal-close" onclick="closeModal('ev-detail-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="ev-detail-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-danger btn-sm" id="detail-del-btn" onclick="deleteFromDetail()"><i class="ti ti-trash"></i>Delete</button>
+      <div class="modal-foot-right">
+        <button class="btn btn-ghost" onclick="closeModal('ev-detail-modal')">Close</button>
+        <button class="btn btn-primary btn-sm" onclick="editFromDetail()"><i class="ti ti-edit"></i>Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     DELETE CONFIRM MODAL
+════════════════════════════════════ -->
+<div class="overlay" id="del-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-trash" style="color:var(--fire)"></i>Delete Event
+      </div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="del-box">
+        <i class="ti ti-alert-triangle"></i>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">Cannot be undone</div>
+          <div style="font-size:12px;color:var(--ink3)">Delete <b id="del-ev-name"></b>?</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" onclick="execDel()"><i class="ti ti-trash"></i>Delete Event</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ════════════════════════════════════════
+   CONSTANTS
+════════════════════════════════════════ */
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+var EV_CONFIG = {
+  holiday:{ label:'Holiday',      icon:'ti-umbrella',  color:'#ef4444', bg:'#fef2f2', text:'#991b1b' },
+  exam:   { label:'Exam / Test',  icon:'ti-writing',   color:'#f59e0b', bg:'#fffbeb', text:'#92400e' },
+  event:  { label:'School Event', icon:'ti-star',      color:'#3b82f6', bg:'#eff6ff', text:'#1e40af' },
+  term:   { label:'Term / Break', icon:'ti-calendar',  color:'#0ea571', bg:'#ecfdf5', text:'#065f46' },
+  ptm:    { label:'PTM',          icon:'ti-users',     color:'#7c3aed', bg:'#f3e8ff', text:'#6d28d9' }
+};
+
+/* ════════════════════════════════════════
+   SEED EVENTS — 2025-26 Academic Year
+════════════════════════════════════════ */
+var EVENTS = JSON.parse(sessionStorage.getItem('calStore') || 'null') || [
+  {id:'ev1',  type:'term',    title:'Term 1 Begins',         start:'2025-06-09', end:'2025-06-09', applies:'All',      working:true,  year:'2025-26', desc:'First day of academic year 2025–26'},
+  {id:'ev2',  type:'holiday', title:'Eid al-Adha',           start:'2025-06-07', end:'2025-06-07', applies:'All',      working:false, year:'2025-26', desc:''},
+  {id:'ev3',  type:'holiday', title:'Independence Day',      start:'2025-08-15', end:'2025-08-15', applies:'All',      working:false, year:'2025-26', desc:'National holiday'},
+  {id:'ev4',  type:'holiday', title:'Gandhi Jayanti',        start:'2025-10-02', end:'2025-10-02', applies:'All',      working:false, year:'2025-26', desc:'National holiday'},
+  {id:'ev5',  type:'exam',    title:'Unit Test 1',           start:'2025-07-14', end:'2025-07-18', applies:'All',      working:true,  year:'2025-26', desc:'First unit test of Term 1'},
+  {id:'ev6',  type:'ptm',     title:'PTM – Term 1 Progress', start:'2025-08-02', end:'2025-08-02', applies:'All',      working:true,  year:'2025-26', desc:'Parent-Teacher Meeting for Term 1 progress'},
+  {id:'ev7',  type:'exam',    title:'Half-Yearly Exams',     start:'2025-09-15', end:'2025-09-27', applies:'All',      working:true,  year:'2025-26', desc:'Mid-year examinations'},
+  {id:'ev8',  type:'term',    title:'Dussehra Break',        start:'2025-10-01', end:'2025-10-05', applies:'All',      working:false, year:'2025-26', desc:'Autumn break'},
+  {id:'ev9',  type:'term',    title:'Term 2 Begins',         start:'2025-10-06', end:'2025-10-06', applies:'All',      working:true,  year:'2025-26', desc:''},
+  {id:'ev10', type:'holiday', title:'Diwali Holidays',       start:'2025-10-20', end:'2025-10-24', applies:'All',      working:false, year:'2025-26', desc:'Festival of Lights break'},
+  {id:'ev11', type:'event',   title:'Annual Sports Day',     start:'2025-11-08', end:'2025-11-08', applies:'All',      working:true,  year:'2025-26', desc:'Inter-house sports competition'},
+  {id:'ev12', type:'exam',    title:'Unit Test 2',           start:'2025-11-17', end:'2025-11-21', applies:'All',      working:true,  year:'2025-26', desc:'Second unit test of Term 2'},
+  {id:'ev13', type:'ptm',     title:'PTM – Half-Yearly',     start:'2025-10-15', end:'2025-10-15', applies:'All',      working:true,  year:'2025-26', desc:'Half-yearly report distribution'},
+  {id:'ev14', type:'event',   title:'Annual Day',            start:'2025-12-06', end:'2025-12-06', applies:'All',      working:true,  year:'2025-26', desc:'School annual day celebration'},
+  {id:'ev15', type:'holiday', title:'Christmas Break',       start:'2025-12-22', end:'2026-01-01', applies:'All',      working:false, year:'2025-26', desc:'Winter vacation'},
+  {id:'ev16', type:'term',    title:'Term 3 Begins',         start:'2026-01-02', end:'2026-01-02', applies:'All',      working:true,  year:'2025-26', desc:''},
+  {id:'ev17', type:'holiday', title:'Republic Day',          start:'2026-01-26', end:'2026-01-26', applies:'All',      working:false, year:'2025-26', desc:'National holiday'},
+  {id:'ev18', type:'exam',    title:'Pre-Board Exams',       start:'2026-02-02', end:'2026-02-14', applies:'Senior',   working:true,  year:'2025-26', desc:'Class XI–XII pre-board examinations'},
+  {id:'ev19', type:'exam',    title:'Annual Exams',          start:'2026-03-02', end:'2026-03-28', applies:'All',      working:true,  year:'2025-26', desc:'Final annual examinations'},
+  {id:'ev20', type:'ptm',     title:'PTM – Annual Results',  start:'2026-04-10', end:'2026-04-10', applies:'All',      working:true,  year:'2025-26', desc:'Annual result day & parent meeting'},
+  {id:'ev21', type:'holiday', title:'Holi',                  start:'2026-03-01', end:'2026-03-01', applies:'All',      working:false, year:'2025-26', desc:'Festival of colours'},
+  {id:'ev22', type:'term',    title:'Summer Vacation',       start:'2026-04-18', end:'2026-05-31', applies:'All',      working:false, year:'2025-26', desc:'End of academic year 2025–26'}
+];
+
+function saveEvents(){ sessionStorage.setItem('calStore', JSON.stringify(EVENTS)); }
+saveEvents();
+
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+var today    = new Date();
+var curYear  = today.getFullYear();
+var curMonth = today.getMonth();  // 0-based
+var viewMode = 'month';           // 'month' | 'list'
+var editId   = null;
+var detailId = null;
+var delTarget = null;
+var selType  = null;
+var isWorking = false;
+var activeYear = '2025-26';
+var hiddenTypes = {};  // for legend filtering
+
+/* ════════════════════════════════════════
+   DATE HELPERS
+════════════════════════════════════════ */
+function parseDate(str){ var p=str.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+function fmtDate(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function pad(n){ return n<10?'0'+n:String(n); }
+function fmtDisplay(str){
+  var d=parseDate(str);
+  return DOW[d.getDay()]+', '+d.getDate()+' '+MONTHS_SHORT[d.getMonth()]+' '+d.getFullYear();
+}
+function fmtRange(start,end){
+  if(!end||end===start) return fmtDisplay(start);
+  var s=parseDate(start),e=parseDate(end);
+  if(s.getFullYear()===e.getFullYear()&&s.getMonth()===e.getMonth())
+    return s.getDate()+' – '+e.getDate()+' '+MONTHS_SHORT[s.getMonth()]+' '+s.getFullYear();
+  return fmtDisplay(start)+' – '+fmtDisplay(end);
+}
+function eventSpansDate(ev, dateStr){
+  var d=parseDate(dateStr);
+  var s=parseDate(ev.start);
+  var e=ev.end?parseDate(ev.end):s;
+  return d>=s&&d<=e;
+}
+function eventStartsOnDate(ev, dateStr){ return ev.start===dateStr; }
+function eventEndsOnDate(ev, dateStr){ return (ev.end||ev.start)===dateStr; }
+
+/* ════════════════════════════════════════
+   FILTERED EVENTS
+════════════════════════════════════════ */
+function getEvents(){
+  return EVENTS.filter(function(e){
+    if(e.year && e.year !== activeYear) return false;
+    if(hiddenTypes[e.type]) return false;
+    return true;
+  });
+}
+function getEventsForDate(dateStr){
+  return getEvents().filter(function(e){ return eventSpansDate(e,dateStr); });
+}
+
+/* ════════════════════════════════════════
+   STATS
+════════════════════════════════════════ */
+function updateStats(){
+  var src = getEvents();
+  ['holiday','exam','event','term','ptm'].forEach(function(t){
+    var el = document.getElementById('st-'+t);
+    if(el) el.textContent = src.filter(function(e){ return e.type===t; }).length;
+  });
+}
+
+/* ════════════════════════════════════════
+   RENDER CALENDAR
+════════════════════════════════════════ */
+function render(){
+  updateStats();
+  renderMiniCal();
+  if(viewMode==='month') renderMonth();
+  else renderList();
+  renderUpcoming();
+  renderLegend();
+  // Update month/year labels
+  document.getElementById('cal-month-title').textContent = MONTHS[curMonth]+' '+curYear;
+  document.getElementById('cal-year-tag').textContent    = 'AY '+activeYear;
+  document.getElementById('mini-month-lbl').textContent  = MONTHS_SHORT[curMonth]+' '+curYear;
+}
+
+/* ── MONTH VIEW ── */
+function renderMonth(){
+  var body = document.getElementById('cal-body');
+  var firstDay   = new Date(curYear, curMonth, 1).getDay(); // 0=Sun
+  var daysInMonth = new Date(curYear, curMonth+1, 0).getDate();
+  var daysInPrev  = new Date(curYear, curMonth, 0).getDate();
+  var todayStr    = fmtDate(today);
+
+  var cells = [];
+  // Prev month padding
+  for(var p=firstDay-1; p>=0; p--){
+    var d=daysInPrev-p;
+    var m=curMonth-1<0?11:curMonth-1;
+    var y=curMonth-1<0?curYear-1:curYear;
+    cells.push({date:y+'-'+pad(m+1)+'-'+pad(d), otherMonth:true, day:d});
+  }
+  // Current month
+  for(var d2=1; d2<=daysInMonth; d2++){
+    cells.push({date:curYear+'-'+pad(curMonth+1)+'-'+pad(d2), otherMonth:false, day:d2});
+  }
+  // Next month padding to complete grid (6 rows max)
+  var total = cells.length;
+  var needed = total <= 35 ? 35 : 42;
+  var next=1;
+  while(cells.length < needed){
+    var nm=curMonth+1>11?0:curMonth+1;
+    var ny=curMonth+1>11?curYear+1:curYear;
+    cells.push({date:ny+'-'+pad(nm+1)+'-'+pad(next), otherMonth:true, day:next});
+    next++;
+  }
+
+  var html = '<div class="cal-grid">';
+  cells.forEach(function(cell){
+    var evs      = getEventsForDate(cell.date);
+    var isToday  = cell.date === todayStr;
+    var cls      = 'cal-cell';
+    if(isToday)         cls+=' today';
+    if(cell.otherMonth) cls+=' other-month';
+    if(evs.length)      cls+=' has-events';
+
+    html += '<div class="'+cls+'" onclick="onCellClick(\''+cell.date+'\')">';
+    html += '<div class="cell-date-row">';
+    html += '<span class="cell-date-num">'+cell.day+'</span>';
+    html += '<span class="cell-add-btn" onclick="event.stopPropagation();openAdd(\''+cell.date+'\')"><i class="ti ti-plus"></i></span>';
+    html += '</div>';
+
+    // Show up to 3 events, then +N
+    var MAX_PILLS = 3;
+    evs.slice(0, MAX_PILLS).forEach(function(ev){
+      var isStart = eventStartsOnDate(ev, cell.date);
+      var isEnd   = eventEndsOnDate(ev, cell.date);
+      var pillCls = 'ev-pill '+ev.type;
+      if(isStart && isEnd)  pillCls += ' starts ends';
+      else if(isStart)      pillCls += ' starts';
+      else if(isEnd)        pillCls += ' ends';
+      else                  pillCls += ' middle';
+      var showTitle = isStart || cell.day===1;
+      html += '<div class="'+pillCls+'" onclick="event.stopPropagation();openDetail(\''+ev.id+'\')" title="'+esc(ev.title)+'">'
+        + (showTitle ? esc(ev.title) : '&nbsp;')
+        + '</div>';
+    });
+    if(evs.length > MAX_PILLS){
+      html += '<div class="more-pill" onclick="event.stopPropagation();onCellClick(\''+cell.date+'\')">'
+        + '+'+(evs.length-MAX_PILLS)+' more'
+        + '</div>';
+    }
+
+    html += '</div>';
+  });
+  html += '</div>';
+  body.innerHTML = html;
+}
+
+/* ── LIST VIEW ── */
+function renderList(){
+  var evs = getEvents().slice().sort(function(a,b){ return a.start.localeCompare(b.start); });
+  if(!evs.length){
+    document.getElementById('cal-body').innerHTML =
+      '<div style="padding:60px 20px;text-align:center;color:var(--ink4);font-size:13px">No events for the selected academic year.</div>';
+    return;
+  }
+  var html = '<div style="padding:4px 0">';
+  var lastMonth = '';
+  evs.forEach(function(ev){
+    var d     = parseDate(ev.start);
+    var month = MONTHS[d.getMonth()]+' '+d.getFullYear();
+    var cfg   = EV_CONFIG[ev.type]||EV_CONFIG.event;
+    if(month !== lastMonth){
+      html += '<div style="padding:14px 20px 8px;font-family:var(--display);font-size:13px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;background:var(--smoke);border-bottom:1px solid var(--line);border-top:'+(lastMonth?'1.5':'0')+'px solid var(--line)">'+month+'</div>';
+      lastMonth = month;
+    }
+    html += '<div style="display:flex;align-items:flex-start;gap:14px;padding:13px 20px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s" onclick="openDetail(\''+ev.id+'\')" onmouseenter="this.style.background=\'#fafbfd\'" onmouseleave="this.style.background=\'\'">'
+      + '<div style="width:38px;height:38px;border-radius:10px;background:'+cfg.bg+';color:'+cfg.color+';display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0"><i class="ti '+cfg.icon+'"></i></div>'
+      + '<div style="flex:1;min-width:0">'
+        + '<div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px">'+esc(ev.title)+'</div>'
+        + '<div style="font-size:11px;color:var(--ink4);display:flex;align-items:center;gap:12px;flex-wrap:wrap">'
+          + '<span style="display:flex;align-items:center;gap:4px"><i class="ti ti-calendar" style="font-size:12px"></i>'+fmtRange(ev.start,ev.end)+'</span>'
+          + '<span style="display:flex;align-items:center;gap:4px"><i class="ti ti-school" style="font-size:12px"></i>'+esc(ev.applies||'All')+'</span>'
+          + (ev.desc?'<span style="display:flex;align-items:center;gap:4px"><i class="ti ti-notes" style="font-size:12px"></i>'+esc(ev.desc.substring(0,60))+(ev.desc.length>60?'…':'')+'</span>':'')
+        + '</div>'
+      + '</div>'
+      + '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0">'
+        + '<span style="font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;background:'+cfg.bg+';color:'+cfg.text+'">'+esc(cfg.label)+'</span>'
+        + '<span style="display:flex;gap:4px;opacity:0;transition:opacity .14s" class="list-acts">'
+          + '<button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();openEditById(\''+ev.id+'\')"><i class="ti ti-edit"></i></button>'
+          + '<button class="btn btn-sm btn-danger" onclick="event.stopPropagation();openDelById(\''+ev.id+'\')"><i class="ti ti-trash"></i></button>'
+        + '</span>'
+      + '</div>'
+    + '</div>';
+  });
+  html += '</div>';
+  document.getElementById('cal-body').innerHTML = html;
+  // Show action buttons on hover
+  document.querySelectorAll('#cal-body [onmouseenter]').forEach(function(row){
+    row.addEventListener('mouseenter',function(){ var a=row.querySelector('.list-acts'); if(a)a.style.opacity='1'; });
+    row.addEventListener('mouseleave',function(){ var a=row.querySelector('.list-acts'); if(a)a.style.opacity='0'; });
+  });
+}
+
+/* ── MINI CALENDAR ── */
+function renderMiniCal(){
+  var firstDay   = new Date(curYear, curMonth, 1).getDay();
+  var daysInMonth = new Date(curYear, curMonth+1, 0).getDate();
+  var daysInPrev  = new Date(curYear, curMonth, 0).getDate();
+  var todayStr    = fmtDate(today);
+  var cells = [];
+  for(var p=firstDay-1;p>=0;p--) cells.push({day:daysInPrev-p,other:true,date:null});
+  for(var d=1;d<=daysInMonth;d++){
+    var ds = curYear+'-'+pad(curMonth+1)+'-'+pad(d);
+    cells.push({day:d,other:false,date:ds,hasEv:getEventsForDate(ds).length>0,isToday:ds===todayStr});
+  }
+  while(cells.length%7!==0) cells.push({day:cells.length-firstDay-daysInMonth+1,other:true,date:null});
+  document.getElementById('mini-grid').innerHTML = cells.map(function(c){
+    var cls='mini-cell';
+    if(c.other)  cls+=' other-month';
+    if(c.hasEv)  cls+=' has-ev';
+    if(c.isToday)cls+=' today';
+    return '<div class="'+cls+'"'+(c.date?' onclick="miniCellClick(\''+c.date+'\')"':'')+'>'+c.day+'</div>';
+  }).join('');
+}
+
+function miniCellClick(dateStr){
+  var d=parseDate(dateStr);
+  curYear=d.getFullYear(); curMonth=d.getMonth();
+  render();
+  // Scroll to that date in month view (visual only)
+}
+
+/* ── UPCOMING EVENTS ── */
+function renderUpcoming(){
+  var todayStr = fmtDate(today);
+  var upcoming = getEvents()
+    .filter(function(e){ return e.start >= todayStr; })
+    .sort(function(a,b){ return a.start.localeCompare(b.start); })
+    .slice(0,7);
+  var ul = document.getElementById('upcoming-list');
+  if(!upcoming.length){
+    ul.innerHTML='<div class="ev-empty">No upcoming events in this academic year.</div>';
+    return;
+  }
+  ul.innerHTML = upcoming.map(function(ev){
+    var cfg=EV_CONFIG[ev.type]||EV_CONFIG.event;
+    return '<div class="ev-list-item" onclick="openDetail(\''+ev.id+'\')">'
+      +'<div class="ev-dot" style="background:'+cfg.color+'"></div>'
+      +'<div class="ev-item-info">'
+        +'<div class="ev-item-title">'+esc(ev.title)+'</div>'
+        +'<div class="ev-item-date">'+fmtRange(ev.start,ev.end)+'</div>'
+      +'</div>'
+      +'<div class="ev-item-badge" style="background:'+cfg.bg+';color:'+cfg.text+'">'+esc(cfg.label)+'</div>'
+    +'</div>';
+  }).join('');
+}
+
+/* ── LEGEND ── */
+function renderLegend(){
+  var src = EVENTS.filter(function(e){ return e.year===activeYear; });
+  var counts = {};
+  Object.keys(EV_CONFIG).forEach(function(t){ counts[t]=src.filter(function(e){return e.type===t;}).length; });
+  document.getElementById('legend-grid').innerHTML = Object.keys(EV_CONFIG).map(function(t){
+    var cfg=EV_CONFIG[t];
+    return '<div class="leg-row'+(hiddenTypes[t]?' inactive':'')+'" onclick="toggleType(\''+t+'\')">'
+      +'<div class="leg-dot" style="background:'+cfg.color+'"></div>'
+      +'<span>'+cfg.label+'</span>'
+      +'<span class="leg-count">'+counts[t]+'</span>'
+    +'</div>';
+  }).join('');
+}
+function toggleType(t){ hiddenTypes[t]=!hiddenTypes[t]; render(); }
+function resetFilters(){ hiddenTypes={}; render(); }
+
+/* ── CELL CLICK ── */
+function onCellClick(dateStr){
+  // If multiple events on day, show first in list — or open add if none
+  var evs = getEventsForDate(dateStr);
+  if(evs.length===1) openDetail(evs[0].id);
+  else if(evs.length>1) openDetailList(dateStr, evs);
+  else openAdd(dateStr);
+}
+
+function openDetailList(dateStr, evs){
+  // Show simple list in detail modal
+  var d = parseDate(dateStr);
+  document.getElementById('detail-title-txt').textContent = d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear();
+  document.getElementById('detail-del-btn').style.display='none';
+  document.getElementById('ev-detail-body').innerHTML = evs.map(function(ev){
+    var cfg=EV_CONFIG[ev.type]||EV_CONFIG.event;
+    return '<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer" onclick="closeModal(\'ev-detail-modal\');openDetail(\''+ev.id+'\')">'
+      +'<div style="width:34px;height:34px;border-radius:9px;background:'+cfg.bg+';color:'+cfg.color+';display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0"><i class="ti '+cfg.icon+'"></i></div>'
+      +'<div><div style="font-size:13px;font-weight:600;color:var(--ink)">'+esc(ev.title)+'</div>'
+      +'<div style="font-size:11px;color:var(--ink4);margin-top:2px">'+fmtRange(ev.start,ev.end)+'</div></div>'
+    +'</div>';
+  }).join('');
+  showModal('ev-detail-modal');
+}
+
+/* ════════════════════════════════════════
+   EVENT DETAIL
+════════════════════════════════════════ */
+function openDetail(id){
+  var ev = EVENTS.find(function(e){ return e.id===id; });
+  if(!ev) return;
+  detailId = id;
+  var cfg = EV_CONFIG[ev.type]||EV_CONFIG.event;
+  document.getElementById('detail-title-txt').textContent = ev.title;
+  document.getElementById('detail-del-btn').style.display = 'inline-flex';
+  document.getElementById('ev-detail-body').innerHTML =
+    '<div class="ev-detail-header">'
+      +'<div class="ev-detail-ico" style="background:'+cfg.bg+';color:'+cfg.color+'"><i class="ti '+cfg.icon+'"></i></div>'
+      +'<div>'
+        +'<div style="font-size:16px;font-weight:700;color:var(--ink);font-family:var(--display)">'+esc(ev.title)+'</div>'
+        +'<span style="display:inline-flex;align-items:center;gap:5px;margin-top:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:'+cfg.bg+';color:'+cfg.text+'"><i class="ti '+cfg.icon+'" style="font-size:12px"></i>'+esc(cfg.label)+'</span>'
+      +'</div>'
+    +'</div>'
+    +'<div class="ev-detail-row"><i class="ti ti-calendar"></i><div><div class="ev-detail-lbl">Date</div><div class="ev-detail-val">'+fmtRange(ev.start,ev.end)+'</div></div></div>'
+    +'<div class="ev-detail-row"><i class="ti ti-school"></i><div><div class="ev-detail-lbl">Applies To</div><div class="ev-detail-val">'+esc(ev.applies||'All Classes')+'</div></div></div>'
+    +'<div class="ev-detail-row"><i class="ti ti-'+(ev.working?'check':'x')+'"></i><div><div class="ev-detail-lbl">School Status</div><div class="ev-detail-val">'+(ev.working?'School in session':'School closed / Holiday')+'</div></div></div>'
+    +(ev.desc?'<div class="ev-detail-row"><i class="ti ti-notes"></i><div><div class="ev-detail-lbl">Description</div><div class="ev-detail-val">'+esc(ev.desc)+'</div></div></div>':'');
+  showModal('ev-detail-modal');
+}
+
+function editFromDetail(){
+  var id = detailId;
+  closeModal('ev-detail-modal');
+  openEditById(id);
+}
+
+function deleteFromDetail(){
+  var id = detailId;
+  closeModal('ev-detail-modal');
+  openDelById(id);
+}
+
+/* ════════════════════════════════════════
+   ADD / EDIT
+════════════════════════════════════════ */
+function openAdd(dateStr){
+  editId = null;
+  selType = null;
+  isWorking = false;
+  document.getElementById('ev-modal-title').textContent = 'Add Event';
+  document.getElementById('ev-modal-sub').textContent   = 'Schedule a new academic event';
+  document.getElementById('ev-save-btn').innerHTML      = '<i class="ti ti-plus"></i>Add Event';
+  document.getElementById('ev-del-btn').style.display   = 'none';
+  clearForm();
+  if(dateStr){
+    document.getElementById('m-start').value = dateStr;
+    document.getElementById('m-end').value   = dateStr;
+  }
+  document.getElementById('m-ev-year').value = activeYear;
+  syncWorkingToggle();
+  showModal('ev-modal');
+}
+
+function openEditById(id){
+  var ev = EVENTS.find(function(e){ return e.id===id; });
+  if(!ev) return;
+  editId   = id;
+  selType  = ev.type;
+  isWorking = !!ev.working;
+  document.getElementById('ev-modal-title').textContent = 'Edit Event';
+  document.getElementById('ev-modal-sub').textContent   = 'Update "'+ev.title+'"';
+  document.getElementById('ev-save-btn').innerHTML      = '<i class="ti ti-check"></i>Save Changes';
+  document.getElementById('ev-del-btn').style.display   = 'inline-flex';
+  clearForm();
+  document.getElementById('m-title').value   = ev.title;
+  document.getElementById('m-start').value   = ev.start;
+  document.getElementById('m-end').value     = ev.end||'';
+  document.getElementById('m-applies').value = ev.applies||'All';
+  document.getElementById('m-ev-year').value = ev.year||activeYear;
+  document.getElementById('m-desc').value    = ev.desc||'';
+  pickTypeByValue(ev.type);
+  syncWorkingToggle();
+  showModal('ev-modal');
+}
+
+function clearForm(){
+  ['m-title','m-start','m-end','m-desc'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('m-applies').value = 'All';
+  document.getElementById('m-ev-year').value = activeYear;
+  document.querySelectorAll('.type-opt').forEach(function(o){ o.className='type-opt'; });
+}
+
+function pickType(el){
+  selType = el.dataset.type;
+  document.querySelectorAll('.type-opt').forEach(function(o){ o.className='type-opt'; });
+  el.className = 'type-opt sel sel-'+selType;
+  // Auto-set working day based on type
+  if(selType==='holiday'||selType==='term'){
+    var cfg = EV_CONFIG[selType];
+    // term can be either — leave as is; holiday default non-working
+    if(selType==='holiday') isWorking = false;
+  } else {
+    isWorking = true;
+  }
+  syncWorkingToggle();
+}
+
+function pickTypeByValue(t){
+  selType = t;
+  document.querySelectorAll('.type-opt').forEach(function(o){
+    o.className = o.dataset.type===t ? 'type-opt sel sel-'+t : 'type-opt';
+  });
+}
+
+function toggleWorking(){
+  isWorking = !isWorking;
+  syncWorkingToggle();
+}
+
+function syncWorkingToggle(){
+  var sw = document.getElementById('working-toggle');
+  var desc = document.getElementById('working-desc');
+  if(isWorking){
+    sw.className='toggle-switch on';
+    desc.textContent='Students attend school on this day';
+  } else {
+    sw.className='toggle-switch';
+    desc.textContent='Students do not attend on this day';
+  }
+}
+
+function saveEvent(){
+  var title = document.getElementById('m-title').value.trim();
+  var start = document.getElementById('m-start').value;
+  var end   = document.getElementById('m-end').value;
+  if(!selType){ toast('Please select an event type.','err'); return; }
+  if(!title)  { toast('Event title is required.','err'); document.getElementById('m-title').focus(); return; }
+  if(!start)  { toast('Start date is required.','err'); document.getElementById('m-start').focus(); return; }
+  if(end && end < start){ toast('End date cannot be before start date.','err'); return; }
+
+  var obj = {
+    id:      editId || 'ev'+Date.now(),
+    type:    selType,
+    title:   title,
+    start:   start,
+    end:     end || start,
+    applies: document.getElementById('m-applies').value,
+    working: isWorking,
+    year:    document.getElementById('m-ev-year').value,
+    desc:    document.getElementById('m-desc').value.trim()
+  };
+
+  if(editId){
+    var idx = EVENTS.findIndex(function(e){ return e.id===editId; });
+    EVENTS[idx] = obj;
+    toast('"'+title+'" updated.','ok');
+  } else {
+    EVENTS.push(obj);
+    toast('"'+title+'" added.','ok');
+    // Navigate to the month of the new event
+    var d = parseDate(start);
+    curYear=d.getFullYear(); curMonth=d.getMonth();
+  }
+
+  saveEvents();
+  closeModal('ev-modal');
+  render();
+}
+
+/* ════════════════════════════════════════
+   DELETE
+════════════════════════════════════════ */
+function openDelFromEdit(){
+  closeModal('ev-modal');
+  openDelById(editId);
+}
+
+function openDelById(id){
+  delTarget = id;
+  var ev = EVENTS.find(function(e){ return e.id===id; });
+  if(!ev) return;
+  document.getElementById('del-ev-name').textContent = '"'+ev.title+'"';
+  showModal('del-modal');
+}
+
+function execDel(){
+  var ev = EVENTS.find(function(e){ return e.id===delTarget; });
+  if(!ev) return;
+  EVENTS.splice(EVENTS.indexOf(ev),1);
+  saveEvents();
+  closeModal('del-modal');
+  toast('"'+ev.title+'" deleted.','ok');
+  delTarget=null;
+  render();
+}
+
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+function prevMonth(){ curMonth--; if(curMonth<0){curMonth=11;curYear--;} render(); }
+function nextMonth(){ curMonth++; if(curMonth>11){curMonth=0;curYear++;} render(); }
+function goToday()  { curYear=today.getFullYear(); curMonth=today.getMonth(); render(); }
+function setView(v) {
+  viewMode=v;
+  document.getElementById('vt-month').className='cal-view-tab'+(v==='month'?' active':'');
+  document.getElementById('vt-list').className ='cal-view-tab'+(v==='list'?' active':'');
+  render();
+}
+function onYearChange(){
+  activeYear = document.getElementById('f-year').value;
+  // Navigate to June of the start year
+  var startYear = parseInt(activeYear.split('-')[0]);
+  curYear=startYear; curMonth=5;
+  render();
+}
+
+/* ════════════════════════════════════════
+   EXPORT CSV
+════════════════════════════════════════ */
+function exportCSV(){
+  var rows = [['Title','Type','Start Date','End Date','Applies To','Working Day','Academic Year','Description']];
+  getEvents().sort(function(a,b){return a.start.localeCompare(b.start);}).forEach(function(e){
+    rows.push([e.title, EV_CONFIG[e.type]?EV_CONFIG[e.type].label:e.type, e.start, e.end||e.start, e.applies||'All', e.working?'Yes':'No', e.year||'', (e.desc||'').replace(/,/g,' ')]);
+  });
+  var csv  = rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+  var blob = new Blob([csv],{type:'text/csv'});
+  var a    = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='academic-calendar.csv'; a.click();
+  toast('Calendar exported as CSV.','ok');
+}
+
+/* ════════════════════════════════════════
+   UTILS
+════════════════════════════════════════ */
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){
+  var o=e.target.closest('.overlay');
+  if(o&&e.target===o) o.classList.remove('open');
+});
+
+/* ── INIT ── */
+render();
+</script>
+</body>
+</html>

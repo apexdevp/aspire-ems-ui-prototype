@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Academic Year — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* TOPBAR */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display);cursor:pointer}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .15s;cursor:pointer;white-space:nowrap}
+    .btn i{font-size:16px}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:0 2px 8px rgba(15,76,117,.25)}
+    .btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:var(--white);color:var(--ink2);border:1.5px solid var(--line)}
+    .btn-ghost:hover{border-color:var(--line2);background:var(--smoke)}
+    .btn-danger{background:var(--fire-bg);color:var(--fire);border:1.5px solid rgba(239,68,68,.2)}
+    .btn-danger:hover{background:var(--fire);color:#fff}
+    .btn-success{background:var(--jade-bg);color:var(--jade-text);border:1.5px solid rgba(14,165,113,.2)}
+    .btn-success:hover{background:var(--jade);color:#fff}
+    .btn-sm{padding:6px 11px;font-size:12px}.btn-sm i{font-size:13px}
+    button:disabled{opacity:.45;cursor:not-allowed}
+
+    /* LAYOUT */
+    .page-wrap{max-width:1100px;margin:0 auto;padding:28px 28px 60px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+    .page-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+    /* STAT STRIP */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.teal{background:var(--p-bg);color:var(--p)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* FILTER BAR */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .srch-wrap{flex:1;min-width:220px;position:relative}
+    .srch-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .srch-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 36px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .srch-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .srch-inp::placeholder{color:var(--ink4)}
+    .fsel{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:140px}
+    .fsel:focus{border-color:var(--p2)}
+
+    /* TABLE */
+    .tbl-wrap{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+    .tbl-head-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line)}
+    .tbl-count{font-size:12px;color:var(--ink4)}
+    table{width:100%;border-collapse:collapse}
+    thead th{padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.7px;background:var(--smoke);border-bottom:1.5px solid var(--line);white-space:nowrap}
+    tbody td{padding:14px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink2);vertical-align:middle}
+    tbody tr:last-child td{border-bottom:none}
+    tbody tr:hover td{background:#fafbfd}
+    td .row-acts{display:flex;gap:5px;opacity:0;transition:opacity .15s}
+    tr:hover .row-acts{opacity:1}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink3);background:transparent;border:1.5px solid var(--line);transition:all .14s;cursor:pointer}
+    .row-btn:hover{background:var(--smoke);border-color:var(--line2)}
+    .row-btn.danger:hover{background:var(--fire-bg);border-color:var(--fire);color:var(--fire)}
+    .row-btn.success:hover{background:var(--jade-bg);border-color:var(--jade);color:var(--jade)}
+
+    /* ACTIVE YEAR BANNER */
+    .active-banner{background:linear-gradient(135deg,var(--p),var(--p3));border-radius:var(--r-xl);padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:16px;color:#fff;box-shadow:var(--sh-md)}
+    .ab-ico{width:48px;height:48px;border-radius:14px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .ab-label{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.75;margin-bottom:3px}
+    .ab-year{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.3px}
+    .ab-code{font-family:var(--mono);font-size:11px;opacity:.75;margin-top:2px}
+    .ab-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .ab-stat{text-align:center;background:rgba(255,255,255,.12);border-radius:var(--r-lg);padding:10px 16px}
+    .ab-stat-val{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1}
+    .ab-stat-lbl{font-size:9.5px;opacity:.75;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+    .ab-none{background:var(--smoke);border:1.5px dashed var(--line2);color:var(--ink4);border-radius:var(--r-xl);padding:20px 24px;margin-bottom:24px;display:flex;align-items:center;gap:14px;font-size:13px}
+
+    /* BADGES */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:600}
+    .badge i{font-size:12px}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+    .badge-current{background:var(--p-bg);color:var(--p);border:1px solid var(--p-line)}
+
+    /* YEAR CODE CHIP */
+    .code-chip{font-family:var(--mono);font-size:11px;font-weight:700;background:var(--smoke);border:1.5px solid var(--line);border-radius:6px;padding:3px 9px;color:var(--ink3);letter-spacing:.4px}
+
+    /* EMPTY STATE */
+    .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}
+    .es-ico{width:58px;height:58px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink4);margin-bottom:14px}
+    .es-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+    .es-desc{font-size:12px;color:var(--ink4);max-width:220px;line-height:1.65;margin-bottom:18px}
+
+    /* OVERLAY / MODAL */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:520px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .modal-sm{width:440px}
+    .modal-lg{width:660px}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line);position:sticky;top:0;background:var(--white);z-index:2}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink)}
+    .modal-subtitle{font-size:11.5px;color:var(--ink4);margin-top:2px}
+    .modal-close{width:32px;height:32px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:16px;cursor:pointer;transition:all .15s;flex-shrink:0}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line);position:sticky;bottom:0;background:var(--white)}
+
+    /* FORM */
+    .msec{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+    .msec:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .msec-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--ink4);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+    .msec-title i{font-size:14px;color:var(--p3)}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .fgrp{margin-bottom:14px}.fgrp:last-child{margin-bottom:0}
+    .flabel{font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+    .req{color:var(--fire);margin-left:3px}
+    .flabel-hint{font-size:10.5px;color:var(--ink4);font-weight:400}
+    .finput-wrap{position:relative}
+    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .15s}
+    .finput-wrap:focus-within .ficon{color:var(--p2)}
+    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+    .finput.no-icon{padding-left:13px}
+    .finput.readonly{background:var(--smoke);color:var(--ink3);cursor:not-allowed;font-family:var(--mono);letter-spacing:.4px}
+    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .finput::placeholder{color:var(--ink4)}
+    select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+    textarea.finput{resize:vertical;min-height:72px;padding-top:10px;padding-left:13px;line-height:1.55}
+
+    /* INFO NOTICE */
+    .info-notice{background:var(--p-bg);border:1.5px solid var(--p-line);border-radius:var(--r-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+    .info-notice i{color:var(--p2);font-size:16px;flex-shrink:0;margin-top:1px}
+    .info-notice-txt{font-size:12px;color:var(--ink2);line-height:1.55}
+
+    /* WARNING NOTICE */
+    .warn-notice{background:var(--sun-bg);border:1.5px solid rgba(245,158,11,.25);border-radius:var(--r-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+    .warn-notice i{color:var(--sun);font-size:16px;flex-shrink:0;margin-top:1px}
+
+    /* DELETE BOX */
+    .del-box{background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:16px;display:flex;align-items:flex-start;gap:11px}
+    .del-box i{color:var(--fire);font-size:18px;flex-shrink:0;margin-top:1px}
+    .del-box-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px}
+    .del-box-desc{font-size:12px;color:var(--ink3);line-height:1.5}
+
+    /* DETAIL VIEW */
+    .detail-header{display:flex;align-items:center;gap:16px;padding:20px 24px;background:linear-gradient(135deg,var(--p-bg),var(--white));border-bottom:1.5px solid var(--line)}
+    .detail-yr-badge{width:60px;height:60px;border-radius:16px;background:var(--p);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;flex-shrink:0;box-shadow:0 4px 16px rgba(15,76,117,.25)}
+    .detail-yr-badge .yr-from{font-family:var(--display);font-size:16px;font-weight:700;line-height:1}
+    .detail-yr-badge .yr-to{font-family:var(--mono);font-size:9px;opacity:.8;margin-top:2px}
+    .detail-info-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+    .detail-info-row:last-child{border-bottom:none}
+    .detail-info-ico{width:32px;height:32px;border-radius:8px;background:var(--smoke);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink4);flex-shrink:0}
+    .detail-info-lbl{font-size:10.5px;font-weight:700;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+    .detail-info-val{font-size:13px;color:var(--ink)}
+
+    /* USAGE BREAKDOWN */
+    .usage-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
+    .usage-row:last-child{border-bottom:none}
+    .usage-label{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:8px}
+    .usage-label i{font-size:15px;color:var(--ink4)}
+    .usage-count{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink)}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:18px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}.toast.warn i{color:#fbbf24}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}
+    @media(max-width:900px){.stat-strip{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.page-wrap{padding:16px 16px 40px}.stat-strip{grid-template-columns:1fr 1fr}.frow{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="dashboard.html" class="tb-brand">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Academic</div></div>
+  </a>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="acad-classes.html">Academics</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur">Academic Year</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" onclick="exportCSV()" title="Export CSV"><i class="ti ti-download"></i></button>
+    <button class="tb-ico" title="Help"><i class="ti ti-help-circle"></i></button>
+    <div class="tb-av" onclick="location.href='view-profile.html'" title="Profile">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag"><i class="ti ti-calendar-stats"></i> Academic Management</div>
+      <div class="page-title">Academic Year</div>
+      <div class="page-sub">Manage academic years centrally. The active year drives Classes, Sections and Calendar defaults.</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-ghost" onclick="exportCSV()"><i class="ti ti-download"></i>Export CSV</button>
+      <button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Academic Year</button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile">
+      <div class="st-ico teal"><i class="ti ti-calendar-stats"></i></div>
+      <div><div class="st-val" id="st-total">0</div><div class="st-lbl">Total Years</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico green"><i class="ti ti-circle-check"></i></div>
+      <div><div class="st-val" id="st-active">0</div><div class="st-lbl">Current Year</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico amber"><i class="ti ti-clock"></i></div>
+      <div><div class="st-val" id="st-inactive">0</div><div class="st-lbl">Not Current Year</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico blue"><i class="ti ti-star"></i></div>
+      <div><div class="st-val" id="st-current">—</div><div class="st-lbl">Current Year</div></div>
+    </div>
+  </div>
+
+  <!-- ACTIVE YEAR BANNER -->
+  <div id="active-banner"></div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar anim d2">
+    <div class="srch-wrap">
+      <i class="ti ti-search"></i>
+      <input class="srch-inp" type="text" id="f-search" placeholder="Search academic years…" oninput="render()">
+    </div>
+    <select class="fsel" id="f-status" onchange="render()">
+      <option value="">All Years</option>
+      <option value="Active">Current Year only</option>
+      <option value="Inactive">Not Current Year</option>
+    </select>
+    <select class="fsel" id="f-sort" onchange="render()">
+      <option value="year-desc">Newest First</option>
+      <option value="year-asc">Oldest First</option>
+      <option value="name">Name A–Z</option>
+    </select>
+  </div>
+
+  <!-- TABLE -->
+  <div class="tbl-wrap anim d3">
+    <div class="tbl-head-bar">
+      <div class="tbl-count">Showing <b id="tbl-count">0</b> academic years</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Academic Year</th>
+          <th>Year Code</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Classes</th>
+          <th>Sections</th>
+          <th>Current Year</th>
+          <th style="width:140px">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="year-tbody"></tbody>
+    </table>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- ══════════════════════════════════════
+     ADD / EDIT MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="year-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-title-txt">Add Academic Year</div>
+        <div class="modal-subtitle" id="modal-subtitle-txt">Define a new academic year for your institution</div>
+      </div>
+      <button class="modal-close" onclick="closeModal('year-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+
+      <!-- YEAR IDENTITY -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-calendar-stats"></i>Year Identity</div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Academic Year <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-calendar ficon"></i>
+              <input class="finput" type="text" id="m-name" placeholder="e.g. 2026–2027" oninput="onNameInput()">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">Year Code <span class="flabel-hint">Auto-generated / editable</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-hash ficon"></i>
+              <input class="finput" type="text" id="m-code" placeholder="e.g. AY2627"
+                oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9\-]/g,'')">
+            </div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgrp">
+            <div class="flabel">Start Date <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-calendar-event ficon"></i>
+              <input class="finput" type="date" id="m-start">
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel">End Date <span class="req">*</span></div>
+            <div class="finput-wrap">
+              <i class="ti ti-calendar-event ficon"></i>
+              <input class="finput" type="date" id="m-end">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MARK AS CURRENT YEAR -->
+      <div class="msec">
+        <div class="msec-title"><i class="ti ti-star"></i>Current Year</div>
+        <div class="fgrp">
+          <div class="flabel">Mark as Current Year <span class="req">*</span></div>
+          <div class="finput-wrap">
+            <i class="ti ti-circle-check ficon"></i>
+            <select class="finput" id="m-status" onchange="onStatusChange()">
+              <option value="Active">Yes — Mark as Current Year</option>
+              <option value="Inactive">No — Not the Current Year</option>
+            </select>
+          </div>
+        </div>
+        <div id="active-warning" style="display:none">
+          <div class="warn-notice">
+            <i class="ti ti-alert-triangle"></i>
+            <div style="font-size:12px;color:var(--ink2);line-height:1.55">
+              Marking this as the <b>Current Year</b> will automatically unset the previously selected current year. Only one academic year can be the Current Year at a time.
+            </div>
+          </div>
+        </div>
+        <div class="fgrp" style="margin-top:12px">
+          <div class="flabel">Description / Notes <span class="flabel-hint">optional</span></div>
+          <textarea class="finput no-icon" id="m-desc" placeholder="e.g. Regular academic year. Board exams in March."></textarea>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('year-modal')">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveYear()">
+        <i class="ti ti-plus"></i>Add Academic Year
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     VIEW DETAIL MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="detail-modal">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <div class="modal-title" id="detail-modal-title">Academic Year Details</div>
+      <button class="modal-close" onclick="closeModal('detail-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div id="detail-modal-body" class="modal-body" style="padding:0"></div>
+    <div class="modal-foot">
+      <button class="btn btn-danger btn-sm" id="detail-del-btn" onclick="openDelFromDetail()"><i class="ti ti-trash"></i>Delete</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-ghost" onclick="closeModal('detail-modal')">Close</button>
+        <button class="btn btn-primary btn-sm" id="detail-edit-btn" onclick="editFromDetail()"><i class="ti ti-edit"></i>Edit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     ACTIVATE CONFIRM MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="activate-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-circle-check" style="color:var(--jade)"></i>
+        <span id="act-modal-title">Activate Academic Year</span>
+      </div>
+      <button class="modal-close" onclick="closeModal('activate-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="warn-notice">
+        <i class="ti ti-alert-triangle"></i>
+        <div style="font-size:12px;color:var(--ink2);line-height:1.55" id="act-modal-desc"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('activate-modal')">Cancel</button>
+      <button class="btn btn-success" id="act-confirm-btn" onclick="execActivate()">
+        <i class="ti ti-circle-check"></i>Yes, Activate
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DELETE MODAL
+══════════════════════════════════════ -->
+<div class="overlay" id="del-modal">
+  <div class="modal modal-sm">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-trash" style="color:var(--fire)"></i>Delete Academic Year
+      </div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body" id="del-modal-body"></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-confirm-btn" onclick="execDel()">
+        <i class="ti ti-trash"></i>Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ════════════════════════════════════════
+   SEED DATA
+════════════════════════════════════════ */
+var YEARS = JSON.parse(sessionStorage.getItem('yearStore') || 'null') || [
+  {id:'yr1', name:'2024–2025', code:'AY2425', start:'2024-06-01', end:'2025-03-31', status:'Inactive', desc:'Previous academic year.',        createdAt:'2024-04-01'},
+  {id:'yr2', name:'2025–2026', code:'AY2526', start:'2025-06-01', end:'2026-03-31', status:'Active',   desc:'Current academic year.',         createdAt:'2025-04-01'},
+  {id:'yr3', name:'2026–2027', code:'AY2627', start:'2026-06-01', end:'2027-03-31', status:'Inactive', desc:'Upcoming academic year.',         createdAt:'2025-10-01'}
+];
+
+function saveYears(){ sessionStorage.setItem('yearStore', JSON.stringify(YEARS)); }
+saveYears();
+
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+var editId    = null;
+var detailId  = null;
+var delTarget = null;
+var activateTarget = null;
+
+/* ════════════════════════════════════════
+   USAGE COUNT HELPERS
+   Reads classStore + sectionStore to count usage
+════════════════════════════════════════ */
+function getClasses(){ return JSON.parse(sessionStorage.getItem('classStore')   || '[]'); }
+function getSections(){ return JSON.parse(sessionStorage.getItem('sectionStore') || '[]'); }
+
+function classesForYear(yearName){
+  return getClasses().filter(function(c){
+    return normaliseYear(c.year) === normaliseYear(yearName);
+  }).length;
+}
+function sectionsForYear(yearName){
+  return getSections().filter(function(s){
+    return normaliseYear(s.year) === normaliseYear(yearName);
+  }).length;
+}
+function yearInUse(yearName){
+  return classesForYear(yearName) > 0 || sectionsForYear(yearName) > 0;
+}
+// Normalise "2025–26", "2025-26", "2025–2026" → "2025-26" for comparison
+function normaliseYear(y){
+  if(!y) return '';
+  y = String(y).replace(/\u2013|\u2014/g,'-'); // em-dash → hyphen
+  // If it's "2025-2026" or "2025–2026" → "2025-26"
+  var m = y.match(/^(\d{4})[-–](\d{4})$/);
+  if(m) return m[1]+'-'+m[2].slice(2);
+  return y;
+}
+
+/* ════════════════════════════════════════
+   ACTIVE YEAR BANNER
+════════════════════════════════════════ */
+function renderBanner(){
+  var active = YEARS.find(function(y){ return y.status==='Active'; });
+  var el = document.getElementById('active-banner');
+  if(!active){
+    el.innerHTML = '<div class="ab-none anim"><i class="ti ti-info-circle" style="font-size:20px;flex-shrink:0"></i>'
+      +'<span>No academic year is currently set as <b>Active</b>. Classes and Sections will use the default fallback. <a href="#" onclick="openAdd();return false" style="color:var(--p2);font-weight:600">Add one now</a>.</span></div>';
+    return;
+  }
+  var cls = classesForYear(active.name);
+  var sec = sectionsForYear(active.name);
+  var yr  = active.name.split(/[-–]/).map(function(p){ return p.trim(); });
+  el.innerHTML = '<div class="active-banner anim">'
+    +'<div class="ab-ico"><i class="ti ti-star" style="font-size:22px"></i></div>'
+    +'<div>'
+      +'<div class="ab-label">Current Year</div>'
+      +'<div class="ab-year">'+esc(active.name)+'</div>'
+      +'<div class="ab-code">'+esc(active.code)+'</div>'
+    +'</div>'
+    +'<div class="ab-right">'
+      +'<div class="ab-stat"><div class="ab-stat-val">'+cls+'</div><div class="ab-stat-lbl">Classes</div></div>'
+      +'<div class="ab-stat"><div class="ab-stat-val">'+sec+'</div><div class="ab-stat-lbl">Sections</div></div>'
+      +'<div class="ab-stat"><div class="ab-stat-val">'+(active.start?fmtDate(active.start):'—')+'</div><div class="ab-stat-lbl">Starts</div></div>'
+    +'</div>'
+  +'</div>';
+}
+
+/* ════════════════════════════════════════
+   STATS
+════════════════════════════════════════ */
+function updateStats(){
+  var active = YEARS.find(function(y){ return y.status==='Active'; });
+  document.getElementById('st-total').textContent    = YEARS.length;
+  document.getElementById('st-active').textContent   = YEARS.filter(function(y){ return y.status==='Active'; }).length;
+  document.getElementById('st-inactive').textContent = YEARS.filter(function(y){ return y.status==='Inactive'; }).length;
+  document.getElementById('st-current').textContent  = active ? active.code : '—';
+}
+
+/* ════════════════════════════════════════
+   RENDER TABLE
+════════════════════════════════════════ */
+function render(){
+  updateStats();
+  renderBanner();
+
+  var q      = document.getElementById('f-search').value.toLowerCase().trim();
+  var status = document.getElementById('f-status').value;
+  var sort   = document.getElementById('f-sort').value;
+
+  var filtered = YEARS.filter(function(y){
+    if(q && y.name.toLowerCase().indexOf(q)<0 && y.code.toLowerCase().indexOf(q)<0) return false;
+    if(status && y.status !== status) return false;
+    return true;
+  });
+
+  if(sort==='year-desc')      filtered.sort(function(a,b){ return b.name.localeCompare(a.name); });
+  else if(sort==='year-asc')  filtered.sort(function(a,b){ return a.name.localeCompare(b.name); });
+  else if(sort==='name')      filtered.sort(function(a,b){ return a.name.localeCompare(b.name); });
+
+  document.getElementById('tbl-count').textContent = filtered.length;
+
+  if(!filtered.length){
+    document.getElementById('year-tbody').innerHTML =
+      '<tr><td colspan="8"><div class="empty-state">'
+      +'<div class="es-ico"><i class="ti ti-calendar-off"></i></div>'
+      +'<div class="es-title">No academic years found</div>'
+      +'<div class="es-desc">Add your first academic year to get started.</div>'
+      +'<button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i>Add Academic Year</button>'
+      +'</div></td></tr>';
+    return;
+  }
+
+  document.getElementById('year-tbody').innerHTML = filtered.map(function(y){
+    var isActive = y.status === 'Active';
+    var cls      = classesForYear(y.name);
+    var sec      = sectionsForYear(y.name);
+    return '<tr>'
+      +'<td>'
+        +'<div style="display:flex;align-items:center;gap:11px">'
+          +'<div style="width:40px;height:40px;border-radius:11px;background:'+(isActive?'var(--p)':'var(--smoke)')+';border:1.5px solid '+(isActive?'transparent':'var(--line)')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'
+            +'<i class="ti '+(isActive?'ti-star':'ti-calendar')+'" style="font-size:17px;color:'+(isActive?'#fff':'var(--ink4)')+'"></i>'
+          +'</div>'
+          +'<div>'
+            +'<div style="font-size:13px;font-weight:700;color:var(--ink);font-family:var(--display)">'+esc(y.name)+'</div>'
+            +(y.desc?'<div style="font-size:11px;color:var(--ink4);margin-top:1px">'+esc(y.desc.substring(0,50))+(y.desc.length>50?'…':'')+'</div>':'')
+          +'</div>'
+        +'</div>'
+      +'</td>'
+      +'<td><span class="code-chip">'+esc(y.code)+'</span></td>'
+      +'<td style="font-family:var(--mono);font-size:12px;color:var(--ink3)">'+(y.start?fmtDate(y.start):'—')+'</td>'
+      +'<td style="font-family:var(--mono);font-size:12px;color:var(--ink3)">'+(y.end?fmtDate(y.end):'—')+'</td>'
+      +'<td style="font-family:var(--mono);font-weight:600">'+(cls||'<span style="color:var(--ink4)">0</span>')+'</td>'
+      +'<td style="font-family:var(--mono);font-weight:600">'+(sec||'<span style="color:var(--ink4)">0</span>')+'</td>'
+      +'<td>'
+        +'<span class="badge badge-'+(isActive?'active':'inactive')+'">'
+          +'<i class="ti ti-'+(isActive?'star':'circle-x')+'"></i>'+(isActive?'Current Year':'Not Current Year')
+        +'</span>'
+      +'</td>'
+      +'<td>'
+        +'<div class="row-acts">'
+          +'<button class="row-btn" title="View Details" onclick="openDetail(\''+y.id+'\')"><i class="ti ti-eye"></i></button>'
+          +'<button class="row-btn" title="Edit" onclick="openEdit(\''+y.id+'\')"><i class="ti ti-edit"></i></button>'
+          +(isActive
+            ? '<button class="row-btn" title="Unset as Current Year" onclick="openActivate(\''+y.id+'\',false)" style="color:var(--sun)"><i class="ti ti-circle-minus"></i></button>'
+            : '<button class="row-btn success" title="Set as Current Year" onclick="openActivate(\''+y.id+'\',true)"><i class="ti ti-circle-check"></i></button>'
+          )
+          +'<button class="row-btn danger" title="Delete" onclick="openDel(\''+y.id+'\')"><i class="ti ti-trash"></i></button>'
+        +'</div>'
+      +'</td>'
+    +'</tr>';
+  }).join('');
+}
+
+/* ════════════════════════════════════════
+   ADD / EDIT MODAL
+════════════════════════════════════════ */
+function openAdd(){
+  editId = null;
+  document.getElementById('modal-title-txt').textContent    = 'Add Academic Year';
+  document.getElementById('modal-subtitle-txt').textContent = 'Define a new academic year for your institution';
+  document.getElementById('modal-save-btn').innerHTML       = '<i class="ti ti-plus"></i>Add Academic Year';
+  clearForm();
+  showModal('year-modal');
+}
+
+function openEdit(id){
+  var y = YEARS.find(function(x){ return x.id===id; });
+  if(!y) return;
+  editId = id;
+  document.getElementById('modal-title-txt').textContent    = 'Edit Academic Year';
+  document.getElementById('modal-subtitle-txt').textContent = 'Update '+y.name;
+  document.getElementById('modal-save-btn').innerHTML       = '<i class="ti ti-check"></i>Save Changes';
+  document.getElementById('m-name').value   = y.name;
+  document.getElementById('m-code').value   = y.code;
+  document.getElementById('m-start').value  = y.start  || '';
+  document.getElementById('m-end').value    = y.end    || '';
+  document.getElementById('m-status').value = y.status;
+  document.getElementById('m-desc').value   = y.desc   || '';
+  onStatusChange();
+  showModal('year-modal');
+}
+
+function clearForm(){
+  ['m-name','m-code','m-start','m-end','m-desc'].forEach(function(id){ document.getElementById(id).value=''; });
+  document.getElementById('m-status').value = 'Active';
+  document.getElementById('active-warning').style.display = 'block';
+}
+
+function onNameInput(){
+  var name = document.getElementById('m-name').value.trim();
+  // Auto-generate code from name: "2026–2027" → "AY2627", "2026-27" → "AY2627"
+  var code = genYearCode(name);
+  if(code) document.getElementById('m-code').value = code;
+  // Auto-fill start/end dates from the year
+  autoFillDates(name);
+}
+
+function genYearCode(name){
+  // Match patterns: "2026-2027", "2026–2027", "2026-27", "2026–26"
+  var clean = name.replace(/\u2013|\u2014/g,'-').trim();
+  var m4    = clean.match(/^(\d{4})[-–](\d{4})$/);
+  var m2    = clean.match(/^(\d{4})[-–](\d{2})$/);
+  if(m4) return 'AY'+m4[1].slice(2)+m4[2].slice(2);
+  if(m2) return 'AY'+m2[1].slice(2)+m2[2];
+  return '';
+}
+
+function autoFillDates(name){
+  var clean = name.replace(/\u2013|\u2014/g,'-').trim();
+  var from, to;
+  var m4 = clean.match(/^(\d{4})[-](\d{4})$/);
+  var m2 = clean.match(/^(\d{4})[-](\d{2})$/);
+  if(m4){ from=parseInt(m4[1]); to=parseInt(m4[2]); }
+  else if(m2){ from=parseInt(m2[1]); to=2000+parseInt(m2[2]); }
+  if(!from) return;
+  var sEl = document.getElementById('m-start');
+  var eEl = document.getElementById('m-end');
+  if(!sEl.value) sEl.value = from+'-06-01';
+  if(!eEl.value) eEl.value = to+'-03-31';
+}
+
+function onStatusChange(){
+  var val = document.getElementById('m-status').value;
+  var hasActive = YEARS.some(function(y){ return y.status==='Active' && y.id!==editId; });
+  document.getElementById('active-warning').style.display =
+    (val==='Active' && hasActive) ? 'block' : 'none';
+}
+
+function saveYear(){
+  var name  = document.getElementById('m-name').value.trim();
+  var code  = document.getElementById('m-code').value.trim();
+  var start = document.getElementById('m-start').value;
+  var end   = document.getElementById('m-end').value;
+  var status= document.getElementById('m-status').value;
+
+  if(!name) { toast('Academic year name is required.','err'); document.getElementById('m-name').focus(); return; }
+  if(!code) { toast('Year code is required.','err'); document.getElementById('m-code').focus(); return; }
+  if(!start){ toast('Start date is required.','err'); return; }
+  if(!end)  { toast('End date is required.','err'); return; }
+  if(end <= start){ toast('End date must be after start date.','err'); return; }
+
+  // Duplicate code check
+  var dupCode = YEARS.find(function(y){ return y.code===code && y.id!==editId; });
+  if(dupCode){ toast('Year code "'+code+'" is already used by "'+dupCode.name+'".','err'); return; }
+
+  // Duplicate name check
+  var dupName = YEARS.find(function(y){ return normaliseYear(y.name)===normaliseYear(name) && y.id!==editId; });
+  if(dupName){ toast('"'+name+'" already exists.','err'); return; }
+
+  // If activating, deactivate all others
+  if(status==='Active'){
+    YEARS.forEach(function(y){ if(y.id!==editId) y.status='Inactive'; });
+  }
+
+  var obj = {
+    id:        editId || 'yr'+Date.now(),
+    name:      name,
+    code:      code,
+    start:     start,
+    end:       end,
+    status:    status,
+    desc:      document.getElementById('m-desc').value.trim(),
+    createdAt: editId ? (YEARS.find(function(y){return y.id===editId;})||{}).createdAt : new Date().toISOString().slice(0,10)
+  };
+
+  if(editId){
+    var idx = YEARS.findIndex(function(y){ return y.id===editId; });
+    YEARS[idx] = obj;
+    toast('"'+name+'" updated.','ok');
+  } else {
+    YEARS.push(obj);
+    toast('"'+name+'" added.','ok');
+  }
+
+  saveYears();
+  closeModal('year-modal');
+  render();
+}
+
+/* ════════════════════════════════════════
+   VIEW DETAIL MODAL
+════════════════════════════════════════ */
+function openDetail(id){
+  var y = YEARS.find(function(x){ return x.id===id; });
+  if(!y) return;
+  detailId = id;
+  var cls = classesForYear(y.name);
+  var sec = sectionsForYear(y.name);
+  var isActive = y.status==='Active';
+  var yr  = y.name.split(/[-–]/).map(function(p){ return p.trim(); });
+
+  document.getElementById('detail-modal-title').textContent = y.name;
+  var canDelete = !isActive && !yearInUse(y.name);
+  document.getElementById('detail-del-btn').disabled = !canDelete;
+  document.getElementById('detail-del-btn').title = isActive ? 'Cannot delete — this is the Current Year' : yearInUse(y.name) ? 'Cannot delete — year is in use' : '';
+
+  document.getElementById('detail-modal-body').innerHTML =
+    '<div class="detail-header">'
+      +'<div class="detail-yr-badge" style="background:'+(isActive?'var(--p)':'var(--ink3)')+'">'
+        +'<div class="yr-from">'+(yr[0]||y.name)+'</div>'
+        +'<div class="yr-to">'+(yr[1]?'→ '+yr[1]:'')+'</div>'
+      +'</div>'
+      +'<div style="flex:1">'
+        +'<div style="font-family:var(--display);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:5px">'+esc(y.name)+'</div>'
+        +'<div style="display:flex;gap:8px;flex-wrap:wrap">'
+          +'<span class="code-chip">'+esc(y.code)+'</span>'
+          +'<span class="badge badge-'+(isActive?'active':'inactive')+'">'
+            +'<i class="ti ti-'+(isActive?'star':'circle-x')+'"></i>'+(isActive?'Current Year':'Not Current Year')
+          +'</span>'
+        +'</div>'
+      +'</div>'
+    +'</div>'
+    +'<div style="padding:0 24px 4px">'
+      +'<div class="detail-info-row"><div class="detail-info-ico"><i class="ti ti-calendar-event"></i></div>'
+        +'<div><div class="detail-info-lbl">Start Date</div><div class="detail-info-val">'+(y.start?fmtDate(y.start):'Not set')+'</div></div></div>'
+      +'<div class="detail-info-row"><div class="detail-info-ico"><i class="ti ti-calendar-event"></i></div>'
+        +'<div><div class="detail-info-lbl">End Date</div><div class="detail-info-val">'+(y.end?fmtDate(y.end):'Not set')+'</div></div></div>'
+      +(y.desc?'<div class="detail-info-row"><div class="detail-info-ico"><i class="ti ti-notes"></i></div>'
+        +'<div><div class="detail-info-lbl">Description</div><div class="detail-info-val">'+esc(y.desc)+'</div></div></div>':'')
+      +'<div style="margin-top:16px;margin-bottom:8px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--ink4)">Usage in System</div>'
+      +'<div class="usage-row"><div class="usage-label"><i class="ti ti-school"></i>Classes assigned</div><div class="usage-count">'+cls+'</div></div>'
+      +'<div class="usage-row"><div class="usage-label"><i class="ti ti-layout-grid"></i>Sections assigned</div><div class="usage-count">'+sec+'</div></div>'
+      +(isActive
+        ?'<div class="del-box" style="margin-top:14px"><i class="ti ti-ban"></i><div><div class="del-box-title">Cannot be deleted</div><div class="del-box-desc">This is the <b>Current Year</b>. Unset it as Current Year before deleting.</div></div></div>'
+        :yearInUse(y.name)
+          ?'<div class="info-notice" style="margin-top:14px"><i class="ti ti-info-circle"></i><div class="info-notice-txt">This year is in use and <b>cannot be deleted</b> until all associated classes and sections are removed or reassigned.</div></div>'
+          :''
+      )
+    +'</div>';
+
+  showModal('detail-modal');
+}
+
+function editFromDetail(){
+  var id = detailId;
+  closeModal('detail-modal');
+  openEdit(id);
+}
+
+function openDelFromDetail(){
+  var id = detailId;
+  closeModal('detail-modal');
+  openDel(id);
+}
+
+/* ════════════════════════════════════════
+   ACTIVATE / DEACTIVATE
+════════════════════════════════════════ */
+function openActivate(id, activate){
+  activateTarget = {id:id, activate:activate};
+  var y = YEARS.find(function(x){ return x.id===id; });
+  if(!y) return;
+
+  document.getElementById('act-modal-title').textContent = activate ? 'Set as Current Year' : 'Unset as Current Year';
+  var hasActive = YEARS.find(function(x){ return x.status==='Active' && x.id!==id; });
+
+  var desc = activate
+    ? (hasActive
+        ? 'Setting <b>'+esc(y.name)+'</b> as the Current Year will automatically unset <b>'+esc(hasActive.name)+'</b>. Only one year can be the Current Year at a time.'
+        : 'Mark <b>'+esc(y.name)+'</b> as the Current Year? It will become the default for Classes, Sections and Calendar.')
+    : 'Unset <b>'+esc(y.name)+'</b> as the Current Year? No year will be marked as Current Year until you set another one.';
+  document.getElementById('act-modal-desc').innerHTML = desc;
+
+  var btn = document.getElementById('act-confirm-btn');
+  btn.innerHTML = activate
+    ? '<i class="ti ti-circle-check"></i>Yes, Set as Current Year'
+    : '<i class="ti ti-circle-minus"></i>Yes, Unset';
+  btn.className = activate ? 'btn btn-success' : 'btn btn-danger';
+
+  showModal('activate-modal');
+}
+
+function execActivate(){
+  if(!activateTarget) return;
+  var y = YEARS.find(function(x){ return x.id===activateTarget.id; });
+  if(!y) return;
+  if(activateTarget.activate){
+    YEARS.forEach(function(x){ x.status='Inactive'; });
+    y.status = 'Active';
+    toast('"'+y.name+'" is now the Current Year.','ok');
+  } else {
+    y.status = 'Inactive';
+    toast('"'+y.name+'" is no longer the Current Year.','info');
+  }
+  saveYears();
+  closeModal('activate-modal');
+  activateTarget = null;
+  render();
+}
+
+/* ════════════════════════════════════════
+   DELETE
+════════════════════════════════════════ */
+function openDel(id){
+  var y = YEARS.find(function(x){ return x.id===id; });
+  if(!y) return;
+  delTarget = id;
+  var isCurrentYear = y.status === 'Active';
+  var inUse = yearInUse(y.name);
+  var cls   = classesForYear(y.name);
+  var sec   = sectionsForYear(y.name);
+
+  // Block deletion if it is the Current Year — takes priority over usage check
+  if(isCurrentYear){
+    document.getElementById('del-confirm-btn').disabled = true;
+    document.getElementById('del-modal-body').innerHTML =
+      '<div class="del-box"><i class="ti ti-ban"></i><div>'
+        +'<div class="del-box-title">Cannot delete — this is the Current Year</div>'
+        +'<div class="del-box-desc"><b>'+esc(y.name)+'</b> is currently marked as the <b>Current Year</b>. '
+          +'You must first unset it as the Current Year before it can be deleted. '
+          +'Use the <b>Unset as Current Year</b> action, then try again.</div>'
+      +'</div></div>';
+  } else if(inUse){
+    document.getElementById('del-confirm-btn').disabled = true;
+    document.getElementById('del-modal-body').innerHTML =
+      '<div class="del-box"><i class="ti ti-ban"></i><div>'
+        +'<div class="del-box-title">Cannot delete — year is in use</div>'
+        +'<div class="del-box-desc"><b>'+esc(y.name)+'</b> is assigned to <b>'+cls+' class(es)</b> and <b>'+sec+' section(s)</b>. Reassign or delete those records first.</div>'
+      +'</div></div>';
+  } else {
+    document.getElementById('del-confirm-btn').disabled = false;
+    document.getElementById('del-modal-body').innerHTML =
+      '<div class="del-box"><i class="ti ti-alert-triangle"></i><div>'
+        +'<div class="del-box-title">This cannot be undone</div>'
+        +'<div class="del-box-desc">Delete academic year <b>'+esc(y.name)+'</b> ('+esc(y.code)+')?</div>'
+      +'</div></div>';
+  }
+
+  showModal('del-modal');
+}
+
+function execDel(){
+  var y = YEARS.find(function(x){ return x.id===delTarget; });
+  // Double-guard: never delete Current Year or in-use year
+  if(!y || y.status==='Active' || yearInUse(y.name)) return;
+  YEARS.splice(YEARS.indexOf(y),1);
+  saveYears();
+  closeModal('del-modal');
+  toast('"'+y.name+'" deleted.','ok');
+  delTarget = null;
+  render();
+}
+
+/* ════════════════════════════════════════
+   EXPORT CSV
+════════════════════════════════════════ */
+function exportCSV(){
+  var rows=[['Academic Year','Year Code','Start Date','End Date','Current Year','Classes','Sections','Description']];
+  YEARS.forEach(function(y){
+    rows.push([y.name,y.code,y.start||'',y.end||'',y.status==='Active'?'Current Year':'Not Current Year',classesForYear(y.name),sectionsForYear(y.name),(y.desc||'').replace(/,/g,' ')]);
+  });
+  var csv  = rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+  var blob = new Blob([csv],{type:'text/csv'});
+  var a    = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='academic-years.csv'; a.click();
+  toast('Academic years exported as CSV.','ok');
+}
+
+/* ════════════════════════════════════════
+   UTILS
+════════════════════════════════════════ */
+function fmtDate(s){
+  if(!s) return '—';
+  var p=s.split('-');
+  var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return p[2]+' '+months[parseInt(p[1])-1]+' '+p[0];
+}
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function showModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle',warn:'ti-alert-triangle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){
+  var o=e.target.closest('.overlay');
+  if(o&&e.target===o) o.classList.remove('open');
+});
+
+/* INIT */
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Campus — Aspire ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <style>
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      :root{
+        --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+        --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+        --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+        --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+        --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+        --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+        --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+        --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+        --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+        --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+        --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+        --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+        --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+        --sh-brand:0 8px 32px rgba(15,76,117,.28),0 2px 8px rgba(15,76,117,.18);
+      }
+      html{font-size:14px;scroll-behavior:smooth}
+      body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+      button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+      input,select,textarea{font-family:var(--font)}
+      a{text-decoration:none}
+      .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 var(--line)}
+      .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer;text-decoration:none}
+      .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3);flex-shrink:0;position:relative}
+      .tb-mark svg{width:18px;height:18px}
+      .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+      .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px;letter-spacing:.3px}
+      .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+      .tb-avatar{width:30px;height:30px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;font-family:var(--display);flex-shrink:0}
+      .tb-uname{font-size:13px;font-weight:500;color:var(--ink);line-height:1.2}
+      .tb-urole{font-size:10px;color:var(--ink4);line-height:1.2}
+      .tb-user-pill{display:flex;align-items:center;gap:9px;padding:7px 12px 7px 8px;border-radius:var(--r);border:1.5px solid var(--line);background:var(--white)}
+      .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .18s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;cursor:pointer;border:none;white-space:nowrap}
+      .btn::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .15s}
+      .btn:hover::after{background:rgba(255,255,255,.08)}
+      .btn:active{transform:scale(.98)}
+      .btn-primary{background:var(--p);color:#fff;box-shadow:var(--sh-brand)}
+      .btn-primary:hover{background:var(--p2)}
+      .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}
+      .btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+      .btn i{font-size:15px;flex-shrink:0}
+      .btn-sm{padding:7px 14px;font-size:12px}
+      .btn-loading{pointer-events:none}
+      .btn-loading .btn-text{opacity:0}
+      .btn-loading::before{content:"";position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite}
+      @keyframes spin{to{transform:rotate(360deg)}}
+      .page-wrap{max-width:960px;margin:0 auto;padding:32px 24px 64px}
+      .breadcrumb{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink4);margin-bottom:22px;flex-wrap:wrap}
+      .breadcrumb a{color:var(--ink4);transition:color .15s}
+      .breadcrumb a:hover{color:var(--p2)}
+      .breadcrumb i{font-size:12px;color:var(--line2)}
+      .breadcrumb .current{color:var(--ink2);font-weight:500}
+      .page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:12px;flex-wrap:wrap}
+      .page-title{font-family:var(--display);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.5px;margin-bottom:3px}
+      .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+      .page-head-actions{display:flex;gap:8px;align-items:center}
+      .card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);margin-bottom:16px;overflow:hidden;box-shadow:var(--sh);animation:fadeUp .4s ease both}
+      .card-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1.5px solid var(--line)}
+      .card-title{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink)}
+      .card-title-ico{width:28px;height:28px;border-radius:8px;background:var(--p-bg);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+      .card-body{padding:20px}
+      .frow{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+      @media(max-width:640px){.frow{grid-template-columns:1fr}}
+      .fgrp{margin-bottom:16px;position:relative}
+      .flabel{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+      .flabel span{font-size:12px;font-weight:500;color:var(--ink2)}
+      .flabel .req{color:var(--fire);font-size:11px;margin-left:3px}
+      .finput-wrap{position:relative}
+      .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:11px 14px 11px 40px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+      .finput.no-icon{padding-left:14px}
+      .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+      .finput.error{border-color:var(--fire);background:var(--fire-bg)}
+      .finput::placeholder{color:var(--ink4)}
+      .ficon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;color:var(--ink4);pointer-events:none;transition:color .2s}
+      .finput-wrap:focus-within .ficon{color:var(--p2)}
+      select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+      textarea.finput{font-family:var(--font);line-height:1.5;padding-left:14px;resize:vertical}
+      .ferror{font-size:11px;color:var(--fire);margin-top:5px;display:none;align-items:center;gap:4px}
+      .ferror.show{display:flex}
+      .ferror i{font-size:12px}
+      .form-actions{display:flex;gap:10px;margin-top:4px}
+      .table-wrap{overflow-x:auto}
+      table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+      table.tbl th{background:var(--smoke);padding:11px 16px;text-align:left;font-size:10.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+      table.tbl td{padding:12px 16px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:middle}
+      table.tbl tr:last-child td{border-bottom:none}
+      table.tbl tbody tr:hover td{background:var(--smoke)}
+      .t-name{font-weight:600;color:var(--ink)}
+      .t-code{font-family:var(--mono);font-size:12px;color:var(--ink4)}
+      .t-av{width:30px;height:30px;border-radius:8px;background:var(--p);color:#fff;font-family:var(--display);font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-right:9px;vertical-align:middle}
+      .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:500}
+      .bg-green{background:var(--jade-bg);color:var(--jade-text)}
+      .bg-gray{background:var(--smoke);color:var(--ink3);border:1px solid var(--line)}
+      .bg-blue{background:var(--sky-bg);color:var(--sky-text)}
+      .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;text-align:center}
+      .es-icon{width:56px;height:56px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink4);margin-bottom:12px}
+      .es-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+      .es-desc{font-size:12.5px;color:var(--ink4);line-height:1.6;max-width:280px;margin-bottom:16px}
+      .warn-box{background:var(--sun-bg);border:1.5px solid rgba(245,158,11,.22);border-radius:var(--r);padding:12px 14px;font-size:12.5px;color:var(--sun-text);display:flex;gap:10px;align-items:flex-start;margin-bottom:18px;line-height:1.6}
+      .warn-box i{font-size:16px;flex-shrink:0;margin-top:1px}
+      .info-box{background:var(--sky-bg);border:1.5px solid rgba(59,130,246,.2);border-radius:var(--r);padding:12px 14px;font-size:12px;color:var(--sky-text);display:flex;gap:10px;align-items:flex-start;margin-bottom:18px;line-height:1.65}
+      .info-box i{font-size:15px;flex-shrink:0;margin-top:1px}
+      #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+      .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+      .toast.in{transform:none;opacity:1}
+      .toast i{font-size:18px;flex-shrink:0}
+      .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+      @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+      @media(max-width:640px){.page-wrap{padding:20px 16px 48px}.topbar{padding:0 16px}}
+    </style>
+    <script>
+      /* Shared data + helpers — defined early so every page-load script can use them.
+         Uses localStorage so records persist across pages. Works when files are
+         served or opened locally; a sandboxed preview may block storage. */
+      window.ErpData = (function () {
+        var CK = "aspireCampuses", IK = "aspireInstitutes";
+        function read(k){try{var s=localStorage.getItem(k);return s?JSON.parse(s):[];}catch(e){return[];}}
+        function write(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){return false;}}
+        function uid(p){return p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);}
+        return {
+          campuses:function(){return read(CK);},
+          institutes:function(){return read(IK);},
+          hasCampus:function(){return read(CK).length>0;},
+          addCampus:function(rec){var l=read(CK);rec.id=uid("CMP");rec.createdAt=new Date().toISOString();l.push(rec);write(CK,l);return rec;},
+          addInstitute:function(rec){var l=read(IK);rec.id=uid("INS");rec.createdAt=new Date().toISOString();l.push(rec);write(IK,l);return rec;}
+        };
+      })();
+      function getParam(n){var m=new RegExp("[?&]"+n+"=([^&]*)").exec(window.location.search);return m?decodeURIComponent(m[1].replace(/\+/g," ")):"";}
+      function qs(){return "?role="+encodeURIComponent(getParam("role")||"Admin")+"&u="+encodeURIComponent(getParam("u")||"");}
+      function goDash(){window.location.href="dashboard.html"+qs();}
+      function toast(msg,type){type=type||"info";var ic={ok:"ti-circle-check",err:"ti-alert-circle",info:"ti-info-circle"};var w=document.getElementById("toast-wrap");if(!w)return;var el=document.createElement("div");el.className="toast "+type;el.innerHTML='<i class="ti '+(ic[type]||ic.info)+'"></i><span>'+msg+"</span>";w.appendChild(el);requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add("in");});});setTimeout(function(){el.classList.remove("in");setTimeout(function(){el.remove();},400);},3400);}
+    </script>
+  </head>
+  <body>
+    <div id="toast-wrap"></div>
+    <div class="topbar">
+      <a class="tb-brand" href="dashboard.html" id="back-link">
+        <div class="tb-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div>
+          <div class="tb-name">Aspire ERP</div>
+          <div class="tb-ver">v3.0 · Add Campus</div>
+        </div>
+      </a>
+      <div class="tb-right">
+        <button class="btn btn-ghost btn-sm" onclick="goDash()">
+          <i class="ti ti-arrow-left"></i> Back to Dashboard
+        </button>
+        <div class="tb-user-pill">
+          <div class="tb-avatar" id="tb-avatar">PM</div>
+          <div>
+            <div class="tb-uname" id="tb-uname">Priya Menon</div>
+            <div class="tb-urole" id="tb-urole">Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-wrap">
+      <div class="breadcrumb">
+        <a href="dashboard.html" id="bc-dash"><i class="ti ti-home" style="font-size:13px;vertical-align:-2px"></i> Dashboard</a>
+        <i class="ti ti-chevron-right"></i>
+        <span style="color:var(--ink4)">Campus</span>
+        <i class="ti ti-chevron-right"></i>
+        <span class="current">Add Campus</span>
+      </div>
+
+      <div class="page-head">
+        <div>
+          <div class="page-title">Add Campus</div>
+          <div class="page-sub">Create a campus. At least one campus is required before adding institutes.</div>
+        </div>
+        <div class="page-head-actions">
+          <button class="btn btn-ghost" id="import-btn-top" onclick="location.href='bulk-upload-campus.html?module=campus'">
+            <i class="ti ti-file-upload"></i> Import Campuses
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">
+            <div class="card-title-ico"><i class="ti ti-map-pin"></i></div>
+            Campus Details
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="frow">
+            <div class="fgrp">
+              <div class="flabel"><span>Campus Name<span class="req">*</span></span></div>
+              <div class="finput-wrap"><i class="ti ti-map-pin ficon"></i>
+                <input class="finput" id="f-name" maxlength="60" placeholder="e.g. Mumbai Main Campus" /></div>
+              <div class="ferror" id="e-name"><i class="ti ti-alert-circle"></i> Campus name is required.</div>
+            </div>
+            <div class="fgrp">
+              <div class="flabel"><span>City<span class="req">*</span></span></div>
+              <div class="finput-wrap"><i class="ti ti-building ficon"></i>
+                <input class="finput" id="f-city" maxlength="40" placeholder="e.g. Mumbai" /></div>
+              <div class="ferror" id="e-city"><i class="ti ti-alert-circle"></i> City is required.</div>
+            </div>
+            <div class="fgrp">
+              <div class="flabel"><span>State</span></div>
+              <div class="finput-wrap"><i class="ti ti-map ficon"></i>
+                <input class="finput" id="f-state" maxlength="40" placeholder="e.g. Maharashtra" /></div>
+              <div class="ferror" id="e-state"><i class="ti ti-alert-circle"></i> Invalid state.</div>
+            </div>
+            <div class="fgrp">
+              <div class="flabel"><span>Contact Number</span></div>
+              <div class="finput-wrap"><i class="ti ti-phone ficon"></i>
+                <input class="finput" id="f-phone" maxlength="15" inputmode="numeric" placeholder="e.g. 02240128800" /></div>
+              <div class="ferror" id="e-phone"><i class="ti ti-alert-circle"></i> Contact number must be digits only.</div>
+            </div>
+            <div class="fgrp">
+              <div class="flabel"><span>Email</span></div>
+              <div class="finput-wrap"><i class="ti ti-mail ficon"></i>
+                <input class="finput" id="f-email" type="email" maxlength="80" placeholder="campus@org.edu" /></div>
+              <div class="ferror" id="e-email"><i class="ti ti-alert-circle"></i> Enter a valid email address.</div>
+            </div>
+          </div>
+          <div class="fgrp">
+            <div class="flabel"><span>Address</span></div>
+            <textarea class="finput no-icon" id="f-addr" rows="2" maxlength="200" placeholder="Full address"></textarea>
+            <div class="ferror" id="e-addr"><i class="ti ti-alert-circle"></i> Address is too long.</div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-ghost" onclick="location.href='campus-list.html'+qs()"><i class="ti ti-arrow-left"></i> Cancel</button>
+            <button class="btn btn-primary" id="save-btn" onclick="saveCampus()"><span class="btn-text"><i class="ti ti-check"></i> Save Campus</span></button>
+          </div>
+        </div>
+      </div>
+
+    <script>
+      /* ── validation helpers ── */
+      function val(id){var el=document.getElementById(id);return el?el.value.trim():"";}
+      function setErr(fid,eid,msg){var f=document.getElementById(fid),e=document.getElementById(eid);if(f)f.classList.add("error");if(e){e.innerHTML="<i class='ti ti-alert-circle'></i> "+msg;e.classList.add("show");}}
+      function clearErr(fid,eid){var f=document.getElementById(fid),e=document.getElementById(eid);if(f)f.classList.remove("error");if(e)e.classList.remove("show");}
+      var RE = {
+        name:  /^[A-Za-z0-9 .,&'\/()-]{2,60}$/,
+        place: /^[A-Za-z .'-]{2,40}$/,
+        email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        phoneDigits: /^\d{7,15}$/
+      };
+      function validateCampus(){
+        var ok = true;
+        function fail(f,e,m){setErr(f,e,m);ok=false;}
+
+        var name=val("f-name");
+        if(!name) fail("f-name","e-name","Campus name is required.");
+        else if(name.length<2) fail("f-name","e-name","Name must be at least 2 characters.");
+        else if(!RE.name.test(name)) fail("f-name","e-name","Only letters, numbers and . , & ' / - ( ) are allowed.");
+
+        var city=val("f-city");
+        if(!city) fail("f-city","e-city","City is required.");
+        else if(!RE.place.test(city)) fail("f-city","e-city","Enter a valid city name (2–40 letters).");
+
+        var state=val("f-state");
+        if(state && !RE.place.test(state)) fail("f-state","e-state","Enter a valid state name (2–40 letters).");
+
+        var phone=val("f-phone");
+        if(phone && !RE.phoneDigits.test(phone))
+          fail("f-phone","e-phone","Contact number must be 7–15 digits only.");
+
+        var email=val("f-email");
+        if(email && !RE.email.test(email)) fail("f-email","e-email","Enter a valid email address.");
+
+        if(val("f-addr").length>200) fail("f-addr","e-addr","Address must be 200 characters or fewer.");
+
+        return ok;
+      }
+
+      function saveCampus(){
+        if(!validateCampus()){
+          toast("Please correct the highlighted fields.","err");
+          var first=document.querySelector(".finput.error");
+          if(first) first.focus();
+          return;
+        }
+        var btn=document.getElementById("save-btn");btn.classList.add("btn-loading");
+        var saved=ErpData.addCampus({
+          name:val("f-name"),
+          city:val("f-city"),
+          state:val("f-state"),
+          phone:val("f-phone"),
+          email:val("f-email"),
+          address:val("f-addr")
+        });
+        setTimeout(function(){
+          btn.classList.remove("btn-loading");
+          if(!ErpData.campuses().some(function(c){return c.id===saved.id;})){
+            toast("Could not save — storage is blocked in this preview. Run the files locally.","err");
+            return;
+          }
+          toast("Campus created successfully.","ok");
+          setTimeout(function(){
+            var rt=getParam("returnTo");
+            window.location.href=(rt==="institute"?"add-institute.html":"campus-list.html")+qs();
+          },700);
+        },600);
+      }
+
+      /* live: clear a field's error as soon as the user edits it */
+      document.addEventListener("DOMContentLoaded", function(){
+        var ph=document.getElementById("f-phone");
+        if(ph) ph.addEventListener("input",function(){this.value=this.value.replace(/\D/g,"");});
+        [["f-name","e-name"],["f-city","e-city"],
+         ["f-state","e-state"],["f-phone","e-phone"],["f-email","e-email"],
+         ["f-addr","e-addr"]].forEach(function(p){
+          var el=document.getElementById(p[0]);
+          if(el) el.addEventListener("input",function(){clearErr(p[0],p[1]);});
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var role=getParam("role")||"Admin",user=getParam("u")||"",el;
+        if((el=document.getElementById("tb-urole"))) el.textContent=role;
+        if(user){var b=user.split("@")[0].split(".")[0]||"priya";var fn=b.charAt(0).toUpperCase()+b.slice(1);
+          if((el=document.getElementById("tb-uname"))) el.textContent=fn;
+          if((el=document.getElementById("tb-avatar"))) el.textContent=(fn[0]||"P").toUpperCase()+"U";}
+        ["back-link","bc-dash"].forEach(function(id){var a=document.getElementById(id);if(a)a.href="dashboard.html"+qs();});
+        /* keep role/user on the Import link */
+        var ib=document.getElementById("import-btn-top");
+        if(ib) ib.setAttribute("onclick","location.href='bulk-upload-campus.html?module=campus'+qs().replace('?','&')");
+      });
+    </script>
+  </body>
+</html>

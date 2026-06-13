@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Detail — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#ffffff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200}
+    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-divider{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-breadcrumb{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-breadcrumb a{color:var(--ink4);transition:color .15s}.tb-breadcrumb a:hover{color:var(--p2)}
+    .tb-breadcrumb i{font-size:12px}.tb-breadcrumb .current{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-icon-btn{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-icon-btn:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-avatar-sm{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display)}
+
+    .page-wrap{max-width:1100px;margin:0 auto;padding:28px 24px 64px;display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+    
+    /* Left panel */
+    .user-panel{display:flex;flex-direction:column;gap:16px}
+    .user-hero{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh)}
+    .hero-banner{height:90px;background:linear-gradient(135deg,var(--p) 0%,var(--p3) 100%);position:relative;overflow:hidden}
+    .hero-banner::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border:1.5px solid rgba(255,255,255,.1);border-radius:50%}
+    .hero-banner::after{content:'';position:absolute;bottom:-50px;left:-30px;width:140px;height:140px;border:1px solid rgba(255,255,255,.07);border-radius:50%}
+    .hero-body{padding:0 20px 20px}
+    .hero-av-wrap{display:flex;align-items:flex-end;justify-content:space-between;margin-top:-36px;margin-bottom:12px}
+    .hero-av{width:72px;height:72px;border-radius:50%;background:var(--p);border:4px solid var(--white);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:22px;font-weight:700;color:#fff;box-shadow:var(--sh-md);flex-shrink:0;position:relative}
+    .av-online{position:absolute;bottom:4px;right:4px;width:13px;height:13px;border-radius:50%;background:var(--jade);border:2.5px solid var(--white)}
+    .hero-actions{display:flex;gap:6px;padding-top:38px}
+    .hero-name{font-family:var(--display);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.4px;margin-bottom:3px}
+    .hero-email{font-size:12px;color:var(--ink4);font-family:var(--mono);margin-bottom:10px}
+    .hero-chips{display:flex;gap:6px;flex-wrap:wrap}
+    .hchip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:600}
+    .hchip-role{background:var(--p-bg);color:var(--p);border:1px solid var(--p-line)}
+    .hchip-active{background:var(--jade-bg);color:var(--jade-text)}
+    .hchip-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+
+    .info-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+    .info-card-head{padding:14px 16px;border-bottom:1.5px solid var(--line);background:var(--smoke);display:flex;align-items:center;gap:8px}
+    .info-card-ico{width:26px;height:26px;border-radius:7px;background:var(--p-bg);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+    .info-card-title{font-size:12.5px;font-weight:700;color:var(--ink)}
+    .info-rows{padding:4px 0}
+    .info-row{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
+    .info-row:last-child{border-bottom:none}
+    .ir-lbl{font-size:11px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;min-width:90px;padding-top:1px}
+    .ir-val{font-size:13px;color:var(--ink2);font-weight:500;flex:1;word-break:break-word}
+    .ir-val.mono{font-family:var(--mono);font-size:12px}
+
+    /* Right panel */
+    .detail-panel{display:flex;flex-direction:column;gap:16px}
+    
+    /* Tab bar */
+    .tab-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:4px;display:flex;gap:2px;box-shadow:var(--sh)}
+    .tab-btn{flex:1;padding:9px 12px;border-radius:9px;background:transparent;border:none;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--ink3);display:flex;align-items:center;justify-content:center;gap:6px;transition:all .18s;font-family:var(--font)}
+    .tab-btn i{font-size:15px}
+    .tab-btn:hover{background:var(--smoke);color:var(--ink)}
+    .tab-btn.active{background:var(--p);color:#fff;box-shadow:0 3px 10px rgba(15,76,117,.25)}
+    .tab-btn.active i{color:#fff}
+    .tab-panel{display:none}
+    .tab-panel.active{display:block;animation:fadeUp .28s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+    /* Activity timeline */
+    .tl-item{display:flex;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);transition:background .12s}
+    .tl-item:last-child{border-bottom:none}
+    .tl-item:hover{background:var(--smoke)}
+    .tl-dot{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;margin-top:2px}
+    .tl-dot.login{background:var(--jade-bg);color:var(--jade)}
+    .tl-dot.edit{background:var(--sky-bg);color:var(--sky)}
+    .tl-dot.pwd{background:var(--sun-bg);color:var(--sun)}
+    .tl-dot.logout{background:var(--smoke);color:var(--ink4);border:1.5px solid var(--line)}
+    .tl-body{flex:1}
+    .tl-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:3px}
+    .tl-meta{font-size:11px;color:var(--ink4);display:flex;align-items:center;gap:8px}
+    .tl-meta i{font-size:11px}
+
+    /* Sessions */
+    .session-row{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+    .session-row:last-child{border-bottom:none}
+    .sess-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+    .sess-ico.desktop{background:var(--sky-bg);color:var(--sky)}
+    .sess-ico.mobile{background:var(--jade-bg);color:var(--jade)}
+    .sess-info{flex:1}
+    .sess-device{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px;display:flex;align-items:center;gap:7px}
+    .sess-meta{font-size:11px;color:var(--ink4)}
+    .current-sess{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;background:var(--jade-bg);color:var(--jade-text);border:1px solid rgba(14,165,113,.2);border-radius:var(--r-pill);padding:2px 8px}
+
+    /* Permissions display */
+    .perm-display-row{display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid var(--line)}
+    .perm-display-row:last-child{border-bottom:none}
+    .pd-ico{width:30px;height:30px;border-radius:8px;background:var(--smoke);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink4)}
+    .pd-name{flex:1;font-size:13px;font-weight:500;color:var(--ink2)}
+    .pd-chip{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:var(--r-pill);letter-spacing:.3px}
+    .pdc-full{background:var(--p-bg);color:var(--p);border:1px solid var(--p-line)}
+    .pdc-view{background:var(--jade-bg);color:var(--jade-text);border:1px solid rgba(14,165,113,.2)}
+    .pdc-none{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+
+    /* Stat row */
+    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 18px;border-bottom:1.5px solid var(--line)}
+    .stat-mini{text-align:center}
+    .sm-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--ink);letter-spacing:-.5px}
+    .sm-lbl{font-size:10.5px;color:var(--ink4);margin-top:3px}
+
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 16px;border-radius:var(--r);font-size:12.5px;font-weight:500;cursor:pointer;border:none;outline:none;transition:all .18s;white-space:nowrap}
+    .btn i{font-size:14px;flex-shrink:0}
+    .btn-primary{background:var(--p);color:#fff}
+    .btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}
+    .btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .btn-danger{background:transparent;color:var(--fire);border:1.5px solid rgba(239,68,68,.25)}
+    .btn-danger:hover{background:var(--fire-bg);border-color:var(--fire)}
+    .btn-amber{background:var(--sun-bg);color:var(--sun-text);border:1px solid rgba(245,158,11,.2)}
+    .btn-amber:hover{background:#fef3c7}
+
+    /* Overlay */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:480px;max-width:95vw;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px 14px;border-bottom:1.5px solid var(--line)}
+    .modal-title{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink)}
+    .modal-close{width:28px;height:28px;border-radius:7px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:14px;cursor:pointer}
+    .modal-close:hover{background:var(--smoke)}
+    .modal-body{padding:18px 22px}
+    .modal-foot{padding:12px 22px 18px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line)}
+
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:12px 18px;font-size:13px;min-width:240px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:16px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @media(max-width:900px){.page-wrap{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-brand" onclick="location.href='dashboard.html'">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Admin</div></div>
+  </div>
+  <div class="tb-divider"></div>
+  <div class="tb-breadcrumb">
+    <a href="dashboard.html"><i class="ti ti-home" style="font-size:13px;vertical-align:-1px"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="user-management.html">User Management</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="current" id="crumb-name">User Detail</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-icon-btn" onclick="location.href='user-management.html'"><i class="ti ti-arrow-left"></i></button>
+    <div class="tb-avatar-sm">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <!-- LEFT: User card -->
+  <div class="user-panel">
+    <div class="user-hero">
+      <div class="hero-banner"></div>
+      <div class="hero-body">
+        <div class="hero-av-wrap">
+          <div class="hero-av" id="detail-av">
+            PM
+            <div class="av-online" id="detail-online"></div>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-ghost" style="padding:7px 12px" onclick="editUser()"><i class="ti ti-edit"></i></button>
+            <button class="btn btn-amber" style="padding:7px 12px" id="status-btn" onclick="toggleStatus()"><i class="ti ti-user-pause"></i></button>
+            <button class="btn btn-danger" style="padding:7px 12px" onclick="openDeleteModal()"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+        <div class="hero-name" id="detail-name">Priya Menon</div>
+        <div class="hero-email" id="detail-email">priya.menon@school.edu</div>
+        <div class="hero-chips">
+          <span class="hchip hchip-role" id="detail-role-chip">Admin</span>
+          <span class="hchip" id="detail-status-chip">Active</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-head"><div class="info-card-ico"><i class="ti ti-id-badge-2"></i></div><div class="info-card-title">Personal Details</div></div>
+      <div class="info-rows">
+        <div class="info-row"><div class="ir-lbl">Emp. ID</div><div class="ir-val mono" id="di-empid">EMP001</div></div>
+        <div class="info-row"><div class="ir-lbl">Department</div><div class="ir-val" id="di-dept">Administration</div></div>
+        <div class="info-row"><div class="ir-lbl">Phone</div><div class="ir-val mono" id="di-phone">+91 98765 43210</div></div>
+        <div class="info-row"><div class="ir-lbl">Joined</div><div class="ir-val" id="di-joined">10 Jan 2024</div></div>
+        <div class="info-row"><div class="ir-lbl">Last Login</div><div class="ir-val" id="di-last">Today, 09:14 AM</div></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-card-head"><div class="info-card-ico" style="background:var(--jade-bg);color:var(--jade)"><i class="ti ti-shield-check"></i></div><div class="info-card-title">Security</div></div>
+      <div class="info-rows">
+        <div class="info-row"><div class="ir-lbl">2FA</div><div class="ir-val"><span style="color:var(--jade);font-weight:700;font-size:12px"><i class="ti ti-check" style="font-size:12px"></i> Enabled</span></div></div>
+        <div class="info-row"><div class="ir-lbl">OTP Method</div><div class="ir-val">Email</div></div>
+        <div class="info-row"><div class="ir-lbl">Sessions</div><div class="ir-val">2 active</div></div>
+        <div class="info-row"><div class="ir-lbl">Last Pwd</div><div class="ir-val">3 days ago</div></div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="btn btn-ghost" style="width:100%;justify-content:flex-start" onclick="editUser()"><i class="ti ti-edit"></i> Edit Profile</button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:flex-start" onclick="toast('Password reset link sent.','ok')"><i class="ti ti-key"></i> Send Password Reset</button>
+      <button class="btn btn-ghost" style="width:100%;justify-content:flex-start" onclick="toast('Sessions revoked.','ok')"><i class="ti ti-logout"></i> Revoke All Sessions</button>
+      <button class="btn btn-danger" style="width:100%;justify-content:flex-start" onclick="openDeleteModal()"><i class="ti ti-trash"></i> Delete User</button>
+    </div>
+  </div>
+
+  <!-- RIGHT: Detail tabs -->
+  <div class="detail-panel">
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-overview" onclick="switchTab('overview')"><i class="ti ti-layout-grid"></i> Overview</button>
+      <button class="tab-btn" id="tab-activity" onclick="switchTab('activity')"><i class="ti ti-history"></i> Activity</button>
+      <button class="tab-btn" id="tab-sessions" onclick="switchTab('sessions')"><i class="ti ti-devices"></i> Sessions</button>
+      <button class="tab-btn" id="tab-perms" onclick="switchTab('perms')"><i class="ti ti-key"></i> Permissions</button>
+    </div>
+
+    <!-- Overview -->
+    <div class="tab-panel active info-card" id="panel-overview">
+      <div class="stat-row">
+        <div class="stat-mini"><div class="sm-val">248</div><div class="sm-lbl">Actions Logged</div></div>
+        <div class="stat-mini"><div class="sm-val">34</div><div class="sm-lbl">Days Active</div></div>
+        <div class="stat-mini"><div class="sm-val">2</div><div class="sm-lbl">Active Sessions</div></div>
+      </div>
+      <div style="padding:18px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Full Name</div><div style="font-size:14px;font-weight:700;color:var(--ink);font-family:var(--display)" id="ov-name">Priya Menon</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Email</div><div style="font-size:12px;font-family:var(--mono);color:var(--ink2)" id="ov-email">priya.menon@school.edu</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Role</div><div style="font-size:13px;font-weight:600;color:var(--p)" id="ov-role">Admin</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Department</div><div style="font-size:13px;font-weight:600;color:var(--ink)" id="ov-dept">Administration</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Status</div><div id="ov-status"></div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Employee ID</div><div style="font-size:13px;font-family:var(--mono);color:var(--ink2)" id="ov-empid">EMP001</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Phone</div><div style="font-size:12px;font-family:var(--mono);color:var(--ink2)" id="ov-phone">+91 98765 43210</div></div>
+          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Joined</div><div style="font-size:13px;color:var(--ink2)" id="ov-joined">10 Jan 2024</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity -->
+    <div class="tab-panel info-card" id="panel-activity">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line);background:var(--smoke)">
+        <div style="font-size:13px;font-weight:700;color:var(--ink)">Recent Activity</div>
+        <button class="btn btn-ghost" style="padding:5px 12px;font-size:11.5px"><i class="ti ti-download"></i> Export</button>
+      </div>
+      <div id="activity-list">
+        <div class="tl-item"><div class="tl-dot login"><i class="ti ti-login-2"></i></div><div class="tl-body"><div class="tl-title">Signed in successfully</div><div class="tl-meta"><i class="ti ti-clock"></i>Today, 09:14 AM <i class="ti ti-device-laptop"></i> Chrome · Mumbai</div></div></div>
+        <div class="tl-item"><div class="tl-dot edit"><i class="ti ti-file-check"></i></div><div class="tl-body"><div class="tl-title">Updated admission record — Rahul Sharma (ADM-2024-00482)</div><div class="tl-meta"><i class="ti ti-clock"></i>Today, 08:51 AM</div></div></div>
+        <div class="tl-item"><div class="tl-dot edit"><i class="ti ti-coin"></i></div><div class="tl-body"><div class="tl-title">Collected fee — ₹42,000 · Receipt #REC-9821</div><div class="tl-meta"><i class="ti ti-clock"></i>Yesterday, 04:22 PM</div></div></div>
+        <div class="tl-item"><div class="tl-dot edit"><i class="ti ti-user-plus"></i></div><div class="tl-body"><div class="tl-title">Added new staff user — Sneha Patil (HOD · Science)</div><div class="tl-meta"><i class="ti ti-clock"></i>Yesterday, 02:10 PM</div></div></div>
+        <div class="tl-item"><div class="tl-dot pwd"><i class="ti ti-lock"></i></div><div class="tl-body"><div class="tl-title">Password changed successfully</div><div class="tl-meta"><i class="ti ti-clock"></i>3 days ago · 11:05 AM</div></div></div>
+        <div class="tl-item"><div class="tl-dot logout"><i class="ti ti-logout"></i></div><div class="tl-body"><div class="tl-title">Signed out</div><div class="tl-meta"><i class="ti ti-clock"></i>4 days ago · 06:48 PM</div></div></div>
+      </div>
+    </div>
+
+    <!-- Sessions -->
+    <div class="tab-panel info-card" id="panel-sessions">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line);background:var(--smoke)">
+        <div style="font-size:13px;font-weight:700;color:var(--ink)">Active Sessions</div>
+        <button class="btn btn-ghost" style="padding:5px 12px;font-size:11.5px;color:var(--fire);border-color:rgba(239,68,68,.2)" onclick="toast('All other sessions revoked.','ok')"><i class="ti ti-logout"></i> Revoke Others</button>
+      </div>
+      <div class="session-row">
+        <div class="sess-ico desktop"><i class="ti ti-device-laptop"></i></div>
+        <div class="sess-info">
+          <div class="sess-device">Chrome 124 on Windows 11 <span class="current-sess">Current</span></div>
+          <div class="sess-meta"><i class="ti ti-map-pin"></i> Mumbai, MH &nbsp;·&nbsp; <i class="ti ti-network"></i> 103.26.41.18 &nbsp;·&nbsp; <i class="ti ti-clock"></i> Active now</div>
+        </div>
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11.5px">This device</button>
+      </div>
+      <div class="session-row">
+        <div class="sess-ico mobile"><i class="ti ti-device-mobile"></i></div>
+        <div class="sess-info">
+          <div class="sess-device">Safari 17 on iOS 17</div>
+          <div class="sess-meta"><i class="ti ti-map-pin"></i> Mumbai, MH &nbsp;·&nbsp; <i class="ti ti-network"></i> 49.207.52.100 &nbsp;·&nbsp; <i class="ti ti-clock"></i> 2 hours ago</div>
+        </div>
+        <button class="btn btn-ghost" style="padding:5px 10px;font-size:11.5px;color:var(--fire)" onclick="toast('Session revoked.','ok')"><i class="ti ti-logout"></i> Revoke</button>
+      </div>
+    </div>
+
+    <!-- Permissions -->
+    <div class="tab-panel info-card" id="panel-perms">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line);background:var(--smoke)">
+        <div style="font-size:13px;font-weight:700;color:var(--ink)">Module Permissions</div>
+        <button class="btn btn-ghost" style="padding:5px 12px;font-size:11.5px" onclick="editUser()"><i class="ti ti-edit"></i> Edit Permissions</button>
+      </div>
+      <div class="perm-display-row"><div class="pd-ico"><i class="ti ti-user-check"></i></div><div class="pd-name">Admissions &amp; Enquiries</div><span class="pd-chip pdc-full">Full Access</span></div>
+      <div class="perm-display-row"><div class="pd-ico"><i class="ti ti-coin"></i></div><div class="pd-name">Finance &amp; Fees</div><span class="pd-chip pdc-full">Full Access</span></div>
+      <div class="perm-display-row"><div class="pd-ico"><i class="ti ti-users"></i></div><div class="pd-name">User Management</div><span class="pd-chip pdc-full">Full Access</span></div>
+      <div class="perm-display-row"><div class="pd-ico"><i class="ti ti-chart-bar"></i></div><div class="pd-name">Reports &amp; Analytics</div><span class="pd-chip pdc-view">View Only</span></div>
+      <div class="perm-display-row"><div class="pd-ico"><i class="ti ti-settings"></i></div><div class="pd-name">System Settings</div><span class="pd-chip pdc-full">Full Access</span></div>
+      <div class="perm-display-row"><div class="pd-ico"><i class="ti ti-building-skyscraper"></i></div><div class="pd-name">Company Management</div><span class="pd-chip pdc-none">No Access</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete modal -->
+<div class="overlay" id="delete-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i> Delete User</div>
+      <button class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13.5px;color:var(--ink2);line-height:1.7">Are you sure you want to delete <b id="del-name">this user</b>? This action cannot be undone and all associated data will be permanently removed.</p>
+      <div style="margin-top:12px;padding:10px 12px;background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r);font-size:12px;color:var(--fire-text)"><i class="ti ti-alert-circle"></i> Active sessions will be immediately terminated.</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger" onclick="doDelete()"><i class="ti ti-trash"></i> Delete Permanently</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+var USERS_DATA = {
+  USR001:{id:'USR001',name:'Priya Menon',email:'priya.menon@school.edu',role:'Admin',dept:'Administration',status:'Active',last:'Today, 09:14 AM',joined:'10 Jan 2024',phone:'+91 98765 43210',empId:'EMP001',color:'#0F4C75'},
+  USR002:{id:'USR002',name:'Rajesh Kumar',email:'rajesh.kumar@school.edu',role:'Principal',dept:'Administration',status:'Active',last:'Today, 08:30 AM',joined:'15 Mar 2023',phone:'+91 87654 32109',empId:'EMP002',color:'#0EA571'},
+  USR003:{id:'USR003',name:'Sneha Patil',email:'sneha.patil@school.edu',role:'HOD',dept:'Science',status:'Active',last:'Yesterday, 04:45 PM',joined:'02 Jun 2023',phone:'+91 76543 21098',empId:'EMP003',color:'#7C3AED'},
+};
+var currentUser = null;
+
+function init(){
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id')||'USR001';
+  var u = USERS_DATA[id]||USERS_DATA['USR001'];
+  currentUser = u;
+  document.getElementById('crumb-name').textContent=u.name;
+  document.getElementById('detail-av').childNodes[0].textContent=initials(u.name);
+  document.getElementById('detail-av').style.background=u.color;
+  document.getElementById('detail-online').style.display=u.status==='Active'?'block':'none';
+  document.getElementById('detail-name').textContent=u.name;
+  document.getElementById('detail-email').textContent=u.email;
+  document.getElementById('detail-role-chip').textContent=u.role;
+  var sc=document.getElementById('detail-status-chip');
+  sc.textContent=u.status;
+  sc.className='hchip '+(u.status==='Active'?'hchip-active':'hchip-inactive');
+  document.getElementById('di-empid').textContent=u.empId;
+  document.getElementById('di-dept').textContent=u.dept;
+  document.getElementById('di-phone').textContent=u.phone;
+  document.getElementById('di-joined').textContent=u.joined;
+  document.getElementById('di-last').textContent=u.last;
+  ['ov-name','ov-email','ov-role','ov-dept','ov-empid','ov-phone','ov-joined'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el) return;
+    if(id==='ov-name') el.textContent=u.name;
+    else if(id==='ov-email') el.textContent=u.email;
+    else if(id==='ov-role') el.textContent=u.role;
+    else if(id==='ov-dept') el.textContent=u.dept;
+    else if(id==='ov-empid') el.textContent=u.empId;
+    else if(id==='ov-phone') el.textContent=u.phone;
+    else if(id==='ov-joined') el.textContent=u.joined;
+  });
+  var ovs=document.getElementById('ov-status');
+  if(ovs) ovs.innerHTML='<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:'+(u.status==='Active'?'var(--jade-bg)':'var(--smoke)')+';color:'+(u.status==='Active'?'var(--jade-text)':'var(--ink4)')+'">'+u.status+'</span>';
+  document.getElementById('del-name').textContent=u.name;
+  var sb=document.getElementById('status-btn');
+  sb.innerHTML=u.status==='Active'?'<i class="ti ti-user-pause"></i>':'<i class="ti ti-user-check"></i>';
+  sb.title=u.status==='Active'?'Suspend User':'Activate User';
+}
+
+function initials(n){ var p=n.trim().split(' '); return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase(); }
+
+function switchTab(name){
+  ['overview','activity','sessions','perms'].forEach(function(t){
+    document.getElementById('tab-'+t).classList.toggle('active',t===name);
+    document.getElementById('panel-'+t).classList.toggle('active',t===name);
+  });
+}
+
+function editUser(){ if(currentUser) location.href='user-add.html?id='+currentUser.id; }
+
+function toggleStatus(){
+  if(!currentUser) return;
+  var wasActive = currentUser.status==='Active';
+  currentUser.status = wasActive?'Suspended':'Active';
+  toast('User '+(wasActive?'suspended':'activated')+' successfully.',wasActive?'info':'ok');
+  setTimeout(init,300);
+}
+
+function openDeleteModal(){ document.getElementById('delete-modal').classList.add('open'); }
+function closeModal(){ document.getElementById('delete-modal').classList.remove('open'); }
+function doDelete(){ closeModal(); toast('User deleted.','ok'); setTimeout(function(){location.href='user-management.html';},1200); }
+
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
+  var wrap=document.getElementById('toast-wrap');
+  var el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+
+document.addEventListener('click',function(e){var o=e.target.closest('.overlay');if(o&&e.target===o)o.classList.remove('open');});
+init();
+</script>
+</body>
+</html>

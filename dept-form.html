@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Department — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+      --sh-brand:0 8px 32px rgba(15,76,117,.28),0 2px 8px rgba(15,76,117,.18);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font-family:var(--font)}
+    button{cursor:pointer;border:none;outline:none}
+    a{text-decoration:none}
+
+    /* TOPBAR */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display)}
+
+    /* LAYOUT */
+    .page-wrap{max-width:960px;margin:0 auto;padding:28px 24px 64px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+
+    /* LIVE PREVIEW CARD */
+    .preview-card{background:var(--white);border:1.5px solid var(--p-line);border-radius:var(--r-xl);padding:0;overflow:hidden;box-shadow:var(--sh-md);margin-bottom:20px}
+    .pv-accent{height:6px;transition:background .3s}
+    .pv-body{display:flex;align-items:center;gap:16px;padding:20px 22px}
+    .pv-ico{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;transition:background .3s,color .3s}
+    .pv-info{flex:1;min-width:0}
+    .pv-name{font-family:var(--display);font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-.4px;margin-bottom:2px;display:flex;align-items:center;gap:8px}
+    .pv-code-badge{font-size:11px;font-family:var(--mono);background:var(--smoke);border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--ink4);font-weight:500}
+    .pv-desc{font-size:12px;color:var(--ink4);line-height:1.55;margin-bottom:8px}
+    .pv-chips{display:flex;gap:6px;flex-wrap:wrap}
+    .pv-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:600;border:1px solid;transition:all .2s}
+    .pv-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--line);padding:0}
+    .pv-stat{padding:11px 0;text-align:center;border-right:1px solid var(--line)}
+    .pv-stat:last-child{border-right:none}
+    .pv-stat-val{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--ink);line-height:1}
+    .pv-stat-lbl{font-size:10px;color:var(--ink4);margin-top:2px;text-transform:uppercase;letter-spacing:.4px}
+
+    /* FORM SECTIONS */
+    .form-section{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);margin-bottom:16px;overflow:hidden;box-shadow:var(--sh)}
+    .section-head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1.5px solid var(--line);background:var(--smoke)}
+    .section-ico{width:30px;height:30px;border-radius:8px;background:var(--p-bg);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+    .section-title{font-size:13.5px;font-weight:700;color:var(--ink);font-family:var(--display)}
+    .section-desc{font-size:11.5px;color:var(--ink4);margin-left:auto}
+    .section-body{padding:20px}
+
+    /* FORM FIELDS — exact match to project */
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .frow-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+    .fgrp{margin-bottom:16px}
+    .fgrp:last-child{margin-bottom:0}
+    .flabel{font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+    .req{color:var(--fire)}
+    .hint{font-size:10.5px;color:var(--ink4);font-weight:400}
+    .finput-wrap{position:relative}
+    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+    .finput.no-icon{padding-left:13px}
+    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+    .finput.error{border-color:var(--fire);background:var(--fire-bg)}
+    .finput.valid{border-color:var(--jade)}
+    .finput::placeholder{color:var(--ink4)}
+    .finput:disabled,.finput[readonly]{background:var(--smoke);color:var(--ink4);cursor:not-allowed}
+    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .2s}
+    .finput-wrap:focus-within .ficon{color:var(--p2)}
+    select.finput{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+    textarea.finput{resize:vertical;min-height:80px;padding-top:10px;padding-left:13px}
+    .ferror{font-size:11px;color:var(--fire);margin-top:4px;display:flex;align-items:center;gap:4px;max-height:0;overflow:hidden;transition:max-height .25s,opacity .2s;opacity:0}
+    .ferror.show{max-height:24px;opacity:1}
+    .field-note{font-size:11px;color:var(--ink4);margin-top:4px;display:flex;align-items:center;gap:4px}
+    .char-count{font-size:10.5px;color:var(--ink4)}
+
+    /* COLOR SWATCHES */
+    .swatch-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .swatch{width:34px;height:34px;border-radius:9px;cursor:pointer;border:2.5px solid transparent;transition:all .18s;position:relative;flex-shrink:0}
+    .swatch:hover{transform:scale(1.12)}
+    .swatch.sel{border-color:var(--ink);box-shadow:0 0 0 3px rgba(10,14,26,.12)}
+    .swatch.sel::after{content:'';position:absolute;inset:0;border-radius:7px;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 8l3 3 7-7' stroke='white' stroke-width='2.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") center/12px no-repeat}
+
+    /* ICON PICKER */
+    .icon-grid{display:flex;flex-wrap:wrap;gap:6px}
+    .ico-opt{width:38px;height:38px;border-radius:9px;border:1.5px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--ink4);cursor:pointer;transition:all .14s;flex-shrink:0}
+    .ico-opt:hover{border-color:var(--p-line);background:var(--p-bg);color:var(--p)}
+    .ico-opt.sel{border-color:var(--p);background:var(--p);color:#fff;box-shadow:0 0 0 3px var(--p-glow)}
+
+    /* CONTACT/HOD CARDS in staffing section */
+    .contact-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+    .contact-row:last-child{border-bottom:none}
+    .contact-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:12px;font-weight:700;color:#fff;flex-shrink:0;background:var(--p)}
+    .contact-info{flex:1}
+    .contact-name{font-size:13px;font-weight:600;color:var(--ink)}
+    .contact-role{font-size:11px;color:var(--ink4)}
+
+    /* SUBJECT TAGS */
+    .subject-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+    .subject-tag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:var(--r-pill);background:var(--smoke);border:1.5px solid var(--line);font-size:12px;color:var(--ink2);font-weight:500}
+    .subject-tag .stx{cursor:pointer;font-size:13px;color:var(--ink4);transition:color .12s}
+    .subject-tag .stx:hover{color:var(--fire)}
+    .subject-add-row{display:flex;gap:8px;margin-top:8px}
+    .subject-inp{flex:1;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 13px;font-size:13px;color:var(--ink);outline:none;background:var(--white)}
+    .subject-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+
+    /* FORM FOOTER */
+    .form-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:20px;flex-wrap:wrap}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;outline:none;transition:all .18s;position:relative;overflow:hidden;white-space:nowrap}
+    .btn i{font-size:15px;flex-shrink:0}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:var(--sh-brand)}.btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}.btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .btn-outline{background:transparent;color:var(--p);border:1.5px solid var(--p-line)}.btn-outline:hover{background:var(--p-bg)}
+    .btn-loading{pointer-events:none}
+    .btn-loading .btn-text{opacity:0}
+    .btn-loading::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ANIM */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.07s}.d2{animation-delay:.14s}.d3{animation-delay:.21s}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:12px 18px;font-size:13px;min-width:240px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:17px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @media(max-width:700px){.frow,.frow-3{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-brand" onclick="location.href='dashboard.html'">
+    <div class="tb-mark"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Admin</div></div>
+  </div>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home" style="font-size:13px;vertical-align:-1px"></i></a>
+    <i class="ti ti-chevron-right"></i>
+    <a href="dept-list.html">Departments</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur" id="page-crumb">Add Department</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" onclick="location.href='dept-list.html'"><i class="ti ti-arrow-left"></i></button>
+    <div class="tb-av">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag" id="form-tag"><i class="ti ti-plus"></i> Add Department</div>
+      <div class="page-title" id="form-title">Create New Department</div>
+      <div class="page-sub" id="form-sub">Define the department's identity, assign a head, and configure its academic scope.</div>
+    </div>
+    <button class="btn btn-ghost" onclick="location.href='dept-list.html'"><i class="ti ti-x"></i> Cancel</button>
+  </div>
+
+  <!-- LIVE PREVIEW -->
+  <div class="preview-card anim">
+    <div class="pv-accent" id="pv-accent"></div>
+    <div class="pv-body">
+      <div class="pv-ico" id="pv-ico"><i class="ti ti-building-community" id="pv-ico-i"></i></div>
+      <div class="pv-info">
+        <div class="pv-name" id="pv-name">Department Name <span class="pv-code-badge" id="pv-code">CODE</span></div>
+        <div class="pv-desc" id="pv-desc">Description will appear here as you type…</div>
+        <div class="pv-chips" id="pv-chips"></div>
+      </div>
+    </div>
+    <div class="pv-stats">
+      <div class="pv-stat"><div class="pv-stat-val" id="pv-staff">0</div><div class="pv-stat-lbl">Staff</div></div>
+      <div class="pv-stat"><div class="pv-stat-val" id="pv-subjects">0</div><div class="pv-stat-lbl">Subjects</div></div>
+      <div class="pv-stat"><div class="pv-stat-val" id="pv-capacity">—</div><div class="pv-stat-lbl">Capacity</div></div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 1: Identity ── -->
+  <div class="form-section anim d1">
+    <div class="section-head">
+      <div class="section-ico"><i class="ti ti-id-badge-2"></i></div>
+      <div><div class="section-title">Department Identity</div></div>
+      <span class="section-desc">Name, code &amp; description</span>
+    </div>
+    <div class="section-body">
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">Department Name <span class="req">*</span></div>
+          <div class="finput-wrap"><i class="ti ti-building-community ficon"></i>
+            <input class="finput" type="text" id="dept-name" placeholder="e.g. Computer Science" maxlength="60" oninput="onInput()"/>
+          </div>
+          <div class="ferror" id="name-err"><i class="ti ti-alert-circle"></i><span></span></div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Department Code <span class="req">*</span> <span class="hint">Short unique identifier</span></div>
+          <div class="finput-wrap"><i class="ti ti-tag ficon"></i>
+            <input class="finput" type="text" id="dept-code" placeholder="e.g. CS" maxlength="8" oninput="onCodeInput()" style="text-transform:uppercase"/>
+          </div>
+          <div class="ferror" id="code-err"><i class="ti ti-alert-circle"></i><span></span></div>
+        </div>
+      </div>
+
+      <div class="fgrp">
+        <div class="flabel">Description <span class="req">*</span> <span class="char-count"><span id="desc-len">0</span>/200</span></div>
+        <div class="finput-wrap">
+          <textarea class="finput" id="dept-desc" placeholder="What does this department cover? Include academic scope, programmes offered, and key responsibilities…" maxlength="200" oninput="onInput()"></textarea>
+        </div>
+        <div class="ferror" id="desc-err"><i class="ti ti-alert-circle"></i><span></span></div>
+      </div>
+
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">Parent Faculty / Division <span class="req">*</span></div>
+          <div class="finput-wrap"><i class="ti ti-folder ficon"></i>
+            <select class="finput" id="dept-faculty" onchange="onInput()">
+              <option value="">Select faculty…</option>
+              <option>Science</option><option>Commerce</option><option>Arts</option>
+              <option>Technology</option><option>Administration</option><option>Management</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="ferror" id="faculty-err"><i class="ti ti-alert-circle"></i><span></span></div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Status</div>
+          <div class="finput-wrap"><i class="ti ti-circle-check ficon"></i>
+            <select class="finput" id="dept-status">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">Established Year</div>
+          <div class="finput-wrap"><i class="ti ti-calendar ficon"></i>
+            <input class="finput" type="number" id="dept-year" placeholder="e.g. 2010" min="1900" max="2030"/>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Student Capacity <span class="hint">Max intake per year</span></div>
+          <div class="finput-wrap"><i class="ti ti-users ficon"></i>
+            <input class="finput" type="number" id="dept-capacity" placeholder="e.g. 120" min="0" oninput="onInput()"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="fgrp">
+        <div class="flabel">Location / Room / Block</div>
+        <div class="finput-wrap"><i class="ti ti-map-pin ficon"></i>
+          <input class="finput" type="text" id="dept-location" placeholder="e.g. Block B, 2nd Floor, Room 201"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: Visual Identity ── -->
+  <div class="form-section anim d1">
+    <div class="section-head">
+      <div class="section-ico" style="background:var(--sun-bg);color:var(--sun)"><i class="ti ti-palette"></i></div>
+      <div><div class="section-title">Visual Identity</div></div>
+      <span class="section-desc">Colour &amp; icon for department card</span>
+    </div>
+    <div class="section-body">
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">Department Colour</div>
+          <div class="swatch-grid" id="swatch-grid"></div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Department Icon</div>
+          <div class="icon-grid" id="icon-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: Head of Department ── -->
+  <div class="form-section anim d2">
+    <div class="section-head">
+      <div class="section-ico" style="background:var(--jade-bg);color:var(--jade)"><i class="ti ti-award"></i></div>
+      <div><div class="section-title">Head of Department (HOD)</div></div>
+      <span class="section-desc">Assign the department lead</span>
+    </div>
+    <div class="section-body">
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">HOD Name <span class="req">*</span></div>
+          <div class="finput-wrap"><i class="ti ti-user ficon"></i>
+            <input class="finput" type="text" id="dept-hod" placeholder="Search or enter HOD name" oninput="onHodInput()" list="hod-list"/>
+            <datalist id="hod-list">
+              <option>Priya Menon</option><option>Rajesh Kumar</option><option>Sneha Patil</option>
+              <option>Anil Sharma</option><option>Meera Iyer</option><option>Vikram Shah</option>
+              <option>Deepak Joshi</option><option>Ravi Teja</option><option>Sana Khan</option>
+            </datalist>
+          </div>
+          <div class="ferror" id="hod-err"><i class="ti ti-alert-circle"></i><span></span></div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">HOD Email</div>
+          <div class="finput-wrap"><i class="ti ti-mail ficon"></i>
+            <input class="finput" type="email" id="dept-hod-email" placeholder="hod@school.edu"/>
+          </div>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">HOD Phone</div>
+          <div class="finput-wrap"><i class="ti ti-phone ficon"></i>
+            <input class="finput" type="tel" id="dept-hod-phone" placeholder="+91 98765 43210"/>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Deputy HOD <span class="hint">Optional</span></div>
+          <div class="finput-wrap"><i class="ti ti-user ficon"></i>
+            <input class="finput" type="text" id="dept-deputy" placeholder="Deputy head name" list="hod-list"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: Academic Scope ── -->
+  <div class="form-section anim d2">
+    <div class="section-head">
+      <div class="section-ico" style="background:var(--sky-bg);color:var(--sky)"><i class="ti ti-book"></i></div>
+      <div><div class="section-title">Academic Scope</div></div>
+      <span class="section-desc">Subjects &amp; staffing targets</span>
+    </div>
+    <div class="section-body">
+      <div class="fgrp">
+        <div class="flabel">Subjects Offered <span class="hint">Press Enter or comma to add</span></div>
+        <div class="subject-tags" id="subject-tags"></div>
+        <div class="subject-add-row">
+          <input class="subject-inp" type="text" id="subject-inp" placeholder="Add a subject name…" onkeydown="subjectKeydown(event)"/>
+          <button class="btn btn-ghost" style="padding:9px 14px;font-size:12.5px" type="button" onclick="addSubject()"><i class="ti ti-plus"></i> Add</button>
+        </div>
+      </div>
+
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">Target Staff Count</div>
+          <div class="finput-wrap"><i class="ti ti-users ficon"></i>
+            <input class="finput" type="number" id="dept-target-staff" placeholder="e.g. 12" min="0" oninput="onInput()"/>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Academic Level</div>
+          <div class="finput-wrap"><i class="ti ti-school ficon"></i>
+            <select class="finput" id="dept-level">
+              <option value="">Select level…</option>
+              <option>Primary (I–V)</option>
+              <option>Middle (VI–VIII)</option>
+              <option>Secondary (IX–X)</option>
+              <option>Senior Secondary (XI–XII)</option>
+              <option>All Levels</option>
+              <option>Undergraduate</option>
+              <option>Postgraduate</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="fgrp">
+        <div class="flabel">Special Notes / Remarks</div>
+        <div class="finput-wrap">
+          <textarea class="finput" id="dept-notes" placeholder="Any special instructions, accreditation details, or important notes about this department…" style="padding-left:13px;min-height:72px"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 5: Contact & Links ── -->
+  <div class="form-section anim d3">
+    <div class="section-head">
+      <div class="section-ico" style="background:#f3e8ff;color:#7c3aed"><i class="ti ti-link"></i></div>
+      <div><div class="section-title">Contact &amp; Online Presence</div></div>
+      <span class="section-desc">Optional</span>
+    </div>
+    <div class="section-body">
+      <div class="frow">
+        <div class="fgrp">
+          <div class="flabel">Department Email</div>
+          <div class="finput-wrap"><i class="ti ti-mail ficon"></i>
+            <input class="finput" type="email" id="dept-email" placeholder="dept@school.edu"/>
+          </div>
+        </div>
+        <div class="fgrp">
+          <div class="flabel">Department Phone</div>
+          <div class="finput-wrap"><i class="ti ti-phone ficon"></i>
+            <input class="finput" type="tel" id="dept-phone" placeholder="+91 22 1234 5678"/>
+          </div>
+        </div>
+      </div>
+      <div class="fgrp">
+        <div class="flabel">Website / Portal URL</div>
+        <div class="finput-wrap"><i class="ti ti-world ficon"></i>
+          <input class="finput" type="url" id="dept-url" placeholder="https://school.edu/science-dept"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-ghost" onclick="location.href='dept-list.html'"><i class="ti ti-arrow-left"></i> Back to Departments</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-outline" onclick="saveDraft()"><i class="ti ti-device-floppy"></i> Save Draft</button>
+      <button class="btn btn-primary" id="submit-btn" onclick="submitDept()">
+        <span class="btn-text" id="submit-label"><i class="ti ti-check"></i> Create Department</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ── STATE ── */
+var isEdit=false, editId=null, editData=null;
+var selColor='#0F4C75', selIcon='ti-building-community';
+var subjects=[];
+
+var COLORS=['#0F4C75','#1B6CA8','#0EA571','#7C3AED','#3B82F6','#F59E0B','#EF4444','#64748B','#06B6D4','#D97706','#16A34A','#EC4899','#DC2626','#6366F1','#0891B2'];
+var ICONS=['ti-building-community','ti-microscope','ti-coin','ti-paint','ti-cpu','ti-briefcase','ti-calculator','ti-language','ti-run','ti-books','ti-flask','ti-atom','ti-drone','ti-robot','ti-heartbeat','ti-music','ti-camera','ti-palette','ti-chart-bar','ti-globe','ti-certificate','ti-award','ti-school','ti-book-2','ti-pencil'];
+
+var FACULTY_COLORS={Science:'#7C3AED',Commerce:'#0EA571',Arts:'#EF4444',Technology:'#3B82F6',Administration:'#0F4C75',Management:'#F59E0B',Other:'#64748B'};
+
+function init(){
+  renderSwatches(); renderIcons(); renderSubjectTags();
+
+  var params=new URLSearchParams(location.search);
+  editId=params.get('id');
+  if(editId){
+    isEdit=true;
+    var store=null; try{store=JSON.parse(sessionStorage.getItem('deptStore'));}catch(e){}
+    if(store) editData=store.find(function(d){return d.id===editId;});
+    if(editData) prefillEdit();
+  }
+  updatePreview();
+}
+
+function prefillEdit(){
+  document.getElementById('page-crumb').textContent='Edit Department';
+  document.getElementById('form-tag').innerHTML='<i class="ti ti-edit"></i> Edit Department';
+  document.getElementById('form-title').textContent='Edit Department';
+  document.getElementById('form-sub').textContent='Update this department\'s details.';
+  document.getElementById('submit-label').innerHTML='<i class="ti ti-check"></i> Save Changes';
+
+  var d=editData;
+  document.getElementById('dept-name').value    = d.name||'';
+  document.getElementById('dept-code').value    = d.code||'';
+  document.getElementById('dept-desc').value    = d.desc||'';
+  document.getElementById('dept-faculty').value = d.faculty||'';
+  document.getElementById('dept-status').value  = d.status||'Active';
+  document.getElementById('dept-hod').value     = d.hod||'';
+  document.getElementById('desc-len').textContent=(d.desc||'').length;
+
+  if(d.subjects) subjects=d.subjects.slice();
+  if(d.color) selColor=d.color;
+  if(d.icon)  selIcon=d.icon;
+
+  renderSwatches(); renderIcons(); renderSubjectTags();
+  updatePreview();
+}
+
+/* ── SWATCHES / ICONS ── */
+function renderSwatches(){
+  document.getElementById('swatch-grid').innerHTML=COLORS.map(function(c){
+    return '<div class="swatch'+(c===selColor?' sel':'')+'" style="background:'+c+'" onclick="pickColor(\''+c+'\')" title="'+c+'"></div>';
+  }).join('');
+}
+function pickColor(c){ selColor=c; renderSwatches(); updatePreview(); }
+
+function renderIcons(){
+  document.getElementById('icon-grid').innerHTML=ICONS.map(function(ico){
+    return '<div class="ico-opt'+(ico===selIcon?' sel':'')+'" onclick="pickIcon(\''+ico+'\')" title="'+ico+'"><i class="ti '+ico+'"></i></div>';
+  }).join('');
+}
+function pickIcon(ico){ selIcon=ico; renderIcons(); updatePreview(); }
+
+/* ── SUBJECTS ── */
+function subjectKeydown(e){ if(e.key==='Enter'||e.key===','){ e.preventDefault(); addSubject(); } }
+function addSubject(){
+  var val=(document.getElementById('subject-inp').value||'').trim().replace(',','');
+  if(!val) return;
+  if(subjects.indexOf(val)>-1){ toast('Subject already added.','info'); return; }
+  subjects.push(val);
+  document.getElementById('subject-inp').value='';
+  renderSubjectTags(); onInput();
+}
+function removeSubject(i){ subjects.splice(i,1); renderSubjectTags(); onInput(); }
+function renderSubjectTags(){
+  var el=document.getElementById('subject-tags');
+  el.innerHTML=subjects.map(function(s,i){
+    return '<span class="subject-tag">'+escHtml(s)+'<span class="stx" onclick="removeSubject('+i+')"><i class="ti ti-x" style="font-size:10px"></i></span></span>';
+  }).join('');
+  document.getElementById('pv-subjects').textContent=subjects.length;
+}
+
+/* ── LIVE PREVIEW ── */
+function onInput(){
+  document.getElementById('desc-len').textContent=(document.getElementById('dept-desc').value||'').length;
+  updatePreview();
+}
+function onCodeInput(){
+  var el=document.getElementById('dept-code'); el.value=el.value.toUpperCase().replace(/[^A-Z0-9]/g,''); onInput();
+}
+function onHodInput(){ /* validate on submit */ }
+
+function updatePreview(){
+  var name=(document.getElementById('dept-name').value||'').trim()||'Department Name';
+  var code=(document.getElementById('dept-code').value||'').trim()||'CODE';
+  var desc=(document.getElementById('dept-desc').value||'').trim()||'Description will appear here as you type…';
+  var faculty=document.getElementById('dept-faculty').value;
+  var capacity=(document.getElementById('dept-capacity').value||'—');
+  var staffTarget=(document.getElementById('dept-target-staff').value||'0');
+
+  document.getElementById('pv-accent').style.background=selColor;
+  var bg=selColor+'18';
+  document.getElementById('pv-ico').style.background=bg;
+  document.getElementById('pv-ico').style.color=selColor;
+  document.getElementById('pv-ico-i').className='ti '+selIcon;
+  document.getElementById('pv-name').innerHTML=escHtml(name)+' <span class="pv-code-badge">'+escHtml(code)+'</span>';
+  document.getElementById('pv-desc').textContent=desc;
+  document.getElementById('pv-staff').textContent=staffTarget||'0';
+  document.getElementById('pv-capacity').textContent=capacity||'—';
+
+  var chips=[];
+  if(faculty) chips.push('<span class="pv-chip" style="background:'+selColor+'18;color:'+selColor+';border-color:'+selColor+'44"><i class="ti ti-folder" style="font-size:11px"></i>'+escHtml(faculty)+'</span>');
+  document.getElementById('pv-chips').innerHTML=chips.join('')||'<span style="font-size:11.5px;color:var(--ink4)">Fill in details below…</span>';
+}
+
+/* ── VALIDATION & SUBMIT ── */
+function showErr(id,msg){ var e=document.getElementById(id); if(e){e.querySelector('span').textContent=msg;e.classList.add('show');} var inp=document.getElementById(id.replace('-err','')); if(inp)inp.classList.add('error'); }
+function clearErr(id){ var e=document.getElementById(id); if(e)e.classList.remove('show'); var inp=document.getElementById(id.replace('-err','')); if(inp)inp.classList.remove('error'); }
+
+function validateForm(){
+  var ok=true;
+  ['name-err','code-err','desc-err','faculty-err','hod-err'].forEach(clearErr);
+  var name=(document.getElementById('dept-name').value||'').trim();
+  var code=(document.getElementById('dept-code').value||'').trim();
+  var desc=(document.getElementById('dept-desc').value||'').trim();
+  var faculty=document.getElementById('dept-faculty').value;
+  var hod=(document.getElementById('dept-hod').value||'').trim();
+  if(name.length<2){ showErr('name-err','Department name must be at least 2 characters.'); ok=false; }
+  if(!code){ showErr('code-err','Department code is required.'); ok=false; }
+  else if(code.length<2){ showErr('code-err','Code must be at least 2 characters.'); ok=false; }
+  if(desc.length<10){ showErr('desc-err','Please provide a meaningful description (min 10 chars).'); ok=false; }
+  if(!faculty){ showErr('faculty-err','Please select a parent faculty.'); ok=false; }
+  if(!hod){ showErr('hod-err','Please assign a Head of Department.'); ok=false; }
+  return ok;
+}
+
+function submitDept(){
+  if(!validateForm()) return;
+  var btn=document.getElementById('submit-btn'); btn.classList.add('btn-loading');
+  setTimeout(function(){
+    btn.classList.remove('btn-loading');
+    var store=null; try{store=JSON.parse(sessionStorage.getItem('deptStore'));}catch(e){} if(!store)store=[];
+
+    var name=(document.getElementById('dept-name').value||'').trim();
+    var rec={
+      id: isEdit ? editId : 'd'+Date.now(),
+      name: name,
+      code: document.getElementById('dept-code').value.trim(),
+      faculty: document.getElementById('dept-faculty').value,
+      hod: document.getElementById('dept-hod').value.trim(),
+      hodColor: FACULTY_COLORS[document.getElementById('dept-faculty').value]||'#64748B',
+      desc: document.getElementById('dept-desc').value.trim(),
+      status: document.getElementById('dept-status').value,
+      color: selColor,
+      icon: selIcon,
+      subjects: subjects.slice(),
+      staff: isEdit&&editData ? editData.staff : 0,
+      students: isEdit&&editData ? editData.students : 0,
+      created: isEdit&&editData ? editData.created : new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),
+      updated: 'Just now'
+    };
+
+    if(isEdit){
+      var idx=store.findIndex(function(d){return d.id===editId;}); if(idx>-1)store[idx]=rec; else store.push(rec);
+    } else { store.push(rec); }
+    try{sessionStorage.setItem('deptStore',JSON.stringify(store));}catch(e){}
+    toast((isEdit?'Department updated':'Department "'+name+'" created')+' successfully!','ok');
+    setTimeout(function(){ location.href='dept-list.html'; },1200);
+  },1000);
+}
+
+function saveDraft(){ toast('Draft saved successfully.','info'); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
+  var wrap=document.getElementById('toast-wrap'),el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+
+init();
+</script>
+</body>
+</html>

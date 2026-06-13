@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Company — Aspire ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="screen active" id="screen-register" style="min-height: 100vh">
+      <div class="auth-wrap">
+        <!-- Left panel -->
+        <div class="auth-panel">
+          <div class="panel-grid"></div>
+          <div class="panel-gradient"></div>
+          <div class="panel-ring2"></div>
+          <div class="panel-ring3"></div>
+          <div class="auth-panel-inner">
+            <div class="brand-logo anim">
+              <div class="brand-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+              </div>
+              <div class="brand-text">
+                <div class="brand-name">Aspire ERP</div>
+                <div class="brand-sub">SaaS Foundation v3.0</div>
+              </div>
+            </div>
+            <div class="panel-headline anim d1">
+              <h1>Built for<br /><em>Education.</em><br />Built to scale.</h1>
+              <p>
+                One platform for every school process — admissions, fees,
+                attendance, exams, HR and more. Multi-tenant, role-aware,
+                enterprise-grade.
+              </p>
+            </div>
+            <div class="panel-stats anim d2">
+              <div class="p-stat">
+                <div class="p-stat-n">22</div>
+                <div class="p-stat-l">Modules</div>
+              </div>
+              <div class="p-stat">
+                <div class="p-stat-n">637</div>
+                <div class="p-stat-l">Features</div>
+              </div>
+              <div class="p-stat">
+                <div class="p-stat-n">17</div>
+                <div class="p-stat-l">Roles</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="auth-form-area">
+          <div class="form-card anim">
+            <!-- Step bar -->
+            <div class="step-bar" id="reg-stepbar">
+              <div class="step-item active" id="si-1">
+                <div class="step-node active" id="sn-1">
+                  <i class="ti ti-building"></i>
+                </div>
+                <span class="step-lbl">Company</span>
+              </div>
+              <div class="step-item" id="si-2">
+                <div class="step-node" id="sn-2">2</div>
+                <span class="step-lbl">Admin</span>
+              </div>
+              <div class="step-item" id="si-3">
+                <div class="step-node" id="sn-3">3</div>
+                <span class="step-lbl">Confirm</span>
+              </div>
+            </div>
+
+            <!-- ── STEP 1 ── -->
+            <div id="reg-s1">
+              <div class="form-head">
+                <div class="form-title">Register your company</div>
+                <div class="form-subtitle">
+                  Already registered?
+                  <a href="#" onclick="goTo('login')">Sign in here</a>
+                </div>
+              </div>
+
+              <div class="fgrp">
+                <div class="flabel">
+                  <span>School / Company Name<span class="req">*</span></span>
+                </div>
+                <div class="finput-wrap">
+                  <i class="ti ti-building ficon"></i>
+                  <input
+                    class="finput"
+                    type="text"
+                    id="r-company"
+                    placeholder="e.g. Horizon International Academy"
+                    oninput="live(this, 'r-company-err', validateCompany)"
+                  />
+                  <i class="ti ti-check finput-status" id="r-company-ok"></i>
+                </div>
+                <div class="ferror" id="r-company-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+              </div>
+
+              <div class="frow">
+                <div class="fgrp">
+                  <div class="flabel">
+                    <span>Organisation Type<span class="req">*</span></span>
+                  </div>
+                  <div class="finput-wrap">
+                    <i class="ti ti-category ficon"></i>
+                    <select
+                      class="finput"
+                      id="r-type"
+                      onchange="liveSelect(this, 'r-type-err')"
+                    >
+                      <option value="">Select type</option>
+                      <option>K-12 School</option>
+                      <option>Junior College</option>
+                      <option>Degree College</option>
+                      <option>University</option>
+                      <option>Coaching Institute</option>
+                      <option>Ed-Tech Platform</option>
+                    </select>
+                  </div>
+                  <div class="ferror" id="r-type-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+                <div class="fgrp">
+                  <div class="flabel">
+                    <span>Branches<span class="req">*</span></span
+                    ><span class="hint-tag">Numbers only</span>
+                  </div>
+                  <div class="finput-wrap">
+                    <i class="ti ti-git-branch ficon"></i>
+                    <input
+                      class="finput"
+                      type="text"
+                      inputmode="numeric"
+                      id="r-branches"
+                      placeholder="e.g. 4"
+                      maxlength="3"
+                      oninput="
+                        this.value = this.value.replace(/[^0-9]/g, '');
+                        live(this, 'r-branches-err', validateBranches);
+                      "
+                    />
+                    <i class="ti ti-check finput-status" id="r-branches-ok"></i>
+                  </div>
+                  <div class="ferror" id="r-branches-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="frow">
+                <div class="fgrp">
+                  <div class="flabel">
+                    <span>City<span class="req">*</span></span>
+                  </div>
+                  <div class="finput-wrap">
+                    <i class="ti ti-map-pin ficon"></i>
+                    <input
+                      class="finput"
+                      type="text"
+                      id="r-city"
+                      placeholder="Mumbai"
+                      oninput="live(this, 'r-city-err', validateCity)"
+                    />
+                    <i class="ti ti-check finput-status" id="r-city-ok"></i>
+                  </div>
+                  <div class="ferror" id="r-city-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+                <div class="fgrp">
+                  <div class="flabel">
+                    <span>State<span class="req">*</span></span
+                    ><span class="hint-tag">Type to search</span>
+                  </div>
+                  <div class="finput-wrap combo-wrap">
+                    <i class="ti ti-map ficon"></i>
+                    <input
+                      class="finput"
+                      type="text"
+                      id="r-state"
+                      autocomplete="off"
+                      placeholder="Start typing… e.g. Ma"
+                      oninput="filterStates(this.value)"
+                      onfocus="filterStates(this.value)"
+                      onkeydown="stateKeyNav(event)"
+                    />
+                    <i class="ti ti-check finput-status" id="r-state-ok"></i>
+                    <div class="combo-list" id="state-list"></div>
+                  </div>
+                  <div class="ferror" id="r-state-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                class="btn btn-primary btn-full btn-xl"
+                style="margin-top: 4px"
+                onclick="step1Next()"
+              >
+                <span class="btn-text"
+                  >Continue <i class="ti ti-arrow-right"></i
+                ></span>
+              </button>
+            </div>
+
+            <!-- ── STEP 2 ── -->
+            <div id="reg-s2" style="display: none">
+              <div class="form-head">
+                <div class="form-title">Admin account</div>
+                <div class="form-subtitle">
+                  This account gets the
+                  <b style="color: var(--p)">ADMIN</b> role — full access to
+                  your company workspace.
+                </div>
+              </div>
+
+              <div class="frow">
+                <div class="fgrp">
+                  <div class="flabel">
+                    <span>First Name<span class="req">*</span></span>
+                  </div>
+                  <div class="finput-wrap">
+                    <i class="ti ti-user ficon"></i>
+                    <input
+                      class="finput"
+                      type="text"
+                      id="r-fname"
+                      placeholder="Priya"
+                      oninput="live(this, 'r-fname-err', validateName)"
+                    />
+                    <i class="ti ti-check finput-status" id="r-fname-ok"></i>
+                  </div>
+                  <div class="ferror" id="r-fname-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+                <div class="fgrp">
+                  <div class="flabel">
+                    <span>Last Name<span class="req">*</span></span>
+                  </div>
+                  <div class="finput-wrap">
+                    <i class="ti ti-user ficon"></i>
+                    <input
+                      class="finput"
+                      type="text"
+                      id="r-lname"
+                      placeholder="Menon"
+                      oninput="live(this, 'r-lname-err', validateName)"
+                    />
+                    <i class="ti ti-check finput-status" id="r-lname-ok"></i>
+                  </div>
+                  <div class="ferror" id="r-lname-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- EMAIL + VERIFY -->
+              <div class="fgrp" id="email-grp">
+                <div class="flabel">
+                  <span>Work Email<span class="req">*</span></span>
+                </div>
+                <div class="finput-wrap">
+                  <i class="ti ti-mail ficon"></i>
+                  <input
+                    class="finput"
+                    type="email"
+                    id="r-email"
+                    placeholder="admin@school.edu"
+                    oninput="onEmailInput()"
+                  />
+                  <i class="ti ti-check finput-status" id="r-email-ok"></i>
+                </div>
+                <div class="ferror" id="r-email-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+
+                <!-- Verify button (shown once email is valid, before verification) -->
+                <button
+                  type="button"
+                  class="verify-btn"
+                  id="verify-email-btn"
+                  style="display: none"
+                  onclick="sendEmailOtp()"
+                >
+                  <i class="ti ti-shield-lock"></i> Verify Email
+                </button>
+
+                <!-- Verified badge -->
+                <div
+                  class="verify-badge"
+                  id="email-verified-badge"
+                  style="display: none"
+                >
+                  <i class="ti ti-circle-check-filled"></i> Email verified — you
+                  can finish setting up your account.
+                </div>
+              </div>
+
+              <!-- OTP PANEL (hidden until Verify Email clicked) -->
+              <div class="otp-panel" id="reg-otp-panel" style="display: none">
+                <div class="otp-panel-label">
+                  Enter the 6-digit code sent to<br /><b id="otp-target-email"
+                    >admin@school.edu</b
+                  >
+                </div>
+                <div class="otp-row" id="reg-otp-row">
+                  <input
+                    class="otp-box"
+                    maxlength="1"
+                    inputmode="numeric"
+                    data-i="0"
+                  />
+                  <input
+                    class="otp-box"
+                    maxlength="1"
+                    inputmode="numeric"
+                    data-i="1"
+                  />
+                  <input
+                    class="otp-box"
+                    maxlength="1"
+                    inputmode="numeric"
+                    data-i="2"
+                  />
+                  <input
+                    class="otp-box"
+                    maxlength="1"
+                    inputmode="numeric"
+                    data-i="3"
+                  />
+                  <input
+                    class="otp-box"
+                    maxlength="1"
+                    inputmode="numeric"
+                    data-i="4"
+                  />
+                  <input
+                    class="otp-box"
+                    maxlength="1"
+                    inputmode="numeric"
+                    data-i="5"
+                  />
+                </div>
+                <div
+                  class="ferror"
+                  id="reg-otp-err"
+                  style="justify-content: center"
+                >
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary btn-full"
+                  id="confirm-otp-btn"
+                  style="margin-top: 6px"
+                  onclick="confirmEmailOtp()"
+                >
+                  <span class="btn-text"
+                    ><i class="ti ti-check"></i> Confirm Code</span
+                  >
+                </button>
+                <div class="otp-resend">
+                  Didn't get it?
+                  <a href="#" onclick="resendEmailOtp(event)">Resend code</a> ·
+                  <span id="otp-hint" style="font-family: var(--mono)"></span>
+                </div>
+              </div>
+
+              <!-- PASSWORD FIELDS (hidden until email verified) -->
+              <div id="reg-secure-fields" style="display: none">
+                <div class="fgrp">
+                  <div class="flabel">
+                    <span>Password<span class="req">*</span></span>
+                  </div>
+                  <div class="finput-wrap">
+                    <i class="ti ti-lock ficon"></i>
+                    <input
+                      class="finput"
+                      type="password"
+                      id="r-pw"
+                      placeholder="Min. 8 chars, 1 uppercase, 1 number"
+                      oninput="
+                        live(this, 'r-pw-err', validatePw);
+                        updatePwStrength(this.value);
+                      "
+                    />
+                    <button
+                      class="eye-btn"
+                      onclick="toggleEye('r-pw', this)"
+                      type="button"
+                    >
+                      <i class="ti ti-eye-off"></i>
+                    </button>
+                  </div>
+                  <div class="pw-bars" id="pw-bars">
+                    <div class="pw-bar" id="pb0"></div>
+                    <div class="pw-bar" id="pb1"></div>
+                    <div class="pw-bar" id="pb2"></div>
+                    <div class="pw-bar" id="pb3"></div>
+                  </div>
+                  <div class="pw-str-label" id="pw-str-lbl">
+                    Enter a password
+                  </div>
+                  <div class="ferror" id="r-pw-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+
+                <div class="fgrp" style="margin-bottom: 20px">
+                  <div class="flabel">
+                    <span>Confirm Password<span class="req">*</span></span>
+                  </div>
+                  <div class="finput-wrap">
+                    <i class="ti ti-lock ficon"></i>
+                    <input
+                      class="finput"
+                      type="password"
+                      id="r-cpw"
+                      placeholder="Re-enter password"
+                      oninput="live(this, 'r-cpw-err', validateCpw)"
+                    />
+                    <button
+                      class="eye-btn"
+                      onclick="toggleEye('r-cpw', this)"
+                      type="button"
+                    >
+                      <i class="ti ti-eye-off"></i>
+                    </button>
+                  </div>
+                  <div class="ferror" id="r-cpw-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+
+                <div class="fgrp" style="margin-bottom: 22px">
+                  <label class="check-row" id="terms-check-row">
+                    <input type="checkbox" id="r-terms" />
+                    <span
+                      >I agree to the <a href="#">Terms of Service</a> and
+                      <a href="#">Privacy Policy</a> of Aspire ERP.</span
+                    >
+                  </label>
+                  <div class="ferror" id="r-terms-err">
+                    <i class="ti ti-alert-circle"></i><span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Locked note shown before verification -->
+              <div class="locked-note" id="reg-locked-note">
+                <i class="ti ti-lock"></i>
+                <span
+                  >Verify your email to unlock the password and account-creation
+                  step.</span
+                >
+              </div>
+
+              <div style="display: flex; gap: 10px">
+                <button
+                  class="btn btn-ghost"
+                  onclick="s2Back()"
+                  style="flex: 1"
+                >
+                  <i class="ti ti-arrow-left"></i> Back
+                </button>
+                <button
+                  class="btn btn-primary"
+                  id="step2-next-btn"
+                  onclick="step2Next()"
+                  style="flex: 2.2"
+                  disabled
+                >
+                  Review &amp; Confirm <i class="ti ti-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- ── STEP 3 ── -->
+            <div id="reg-s3" style="display: none">
+              <div class="form-head">
+                <div class="form-title">Review & confirm</div>
+                <div class="form-subtitle">
+                  Please verify your details before creating the tenant.
+                </div>
+              </div>
+
+              <div class="confirm-card">
+                <div class="confirm-header">
+                  <div class="confirm-logo" id="cf-initials">HIA</div>
+                  <div>
+                    <div class="confirm-company" id="cf-company">
+                      Horizon International Academy
+                    </div>
+                    <div
+                      style="
+                        font-size: 11px;
+                        color: var(--ink4);
+                        margin-top: 3px;
+                      "
+                      id="cf-type-city"
+                    >
+                      K-12 School · Mumbai, Maharashtra
+                    </div>
+                  </div>
+                </div>
+                <div class="confirm-grid">
+                  <div class="confirm-item">
+                    <div class="confirm-item-lbl">Admin</div>
+                    <div class="confirm-item-val" id="cf-admin">
+                      Priya Menon
+                    </div>
+                  </div>
+                  <div class="confirm-item">
+                    <div class="confirm-item-lbl">Email</div>
+                    <div
+                      class="confirm-item-val"
+                      id="cf-email"
+                      style="font-size: 11px"
+                    >
+                      admin@school.edu
+                    </div>
+                  </div>
+                  <div class="confirm-item">
+                    <div class="confirm-item-lbl">Role assigned</div>
+                    <div
+                      class="confirm-item-val"
+                      style="font-family: var(--mono); font-size: 11px"
+                    >
+                      ADMIN
+                    </div>
+                  </div>
+                  <div class="confirm-item">
+                    <div class="confirm-item-lbl">Branches</div>
+                    <div class="confirm-item-val" id="cf-branches">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-box">
+                <i class="ti ti-info-circle"></i>
+                <span
+                  >Your email is verified. Clicking
+                  <b>Register Company</b> creates your company workspace and
+                  assigns you the <b>Admin</b> role with full company-level
+                  access.</span
+                >
+              </div>
+
+              <div style="display: flex; gap: 10px">
+                <button
+                  class="btn btn-ghost"
+                  onclick="s3Back()"
+                  style="flex: 1"
+                >
+                  <i class="ti ti-arrow-left"></i> Back
+                </button>
+                <button
+                  class="btn btn-primary btn-xl"
+                  onclick="submitRegister()"
+                  id="reg-submit-btn"
+                  style="flex: 2"
+                >
+                  <span class="btn-text"
+                    ><i class="ti ti-building-plus"></i> Register Company</span
+                  >
+                </button>
+              </div>
+            </div>
+
+            <!-- ── STEP 4: SUCCESS ── -->
+            <div id="reg-s4" style="display: none">
+              <div class="success-screen">
+                <div class="success-icon"><i class="ti ti-check"></i></div>
+                <div class="success-title">Company Registered Successfully</div>
+                <div class="success-sub" style="margin-bottom: 24px">
+                  You can now sign in with your verified email and password.
+                </div>
+                <button
+                  class="btn btn-primary btn-full btn-xl"
+                  onclick="goTo('login')"
+                >
+                  <i class="ti ti-login"></i> Proceed to Login
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- /form-card -->
+        </div>
+        <!-- /auth-form-area -->
+      </div>
+    </div>
+
+    <div id="toast-wrap"></div>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/register.js"></script>
+  </body>
+</html>

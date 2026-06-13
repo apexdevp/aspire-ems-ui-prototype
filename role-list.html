@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Role Management — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#ffffff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+      --sh-brand:0 8px 32px rgba(15,76,117,.28),0 2px 8px rgba(15,76,117,.18);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+    button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+    input,select,textarea{font-family:var(--font)}
+    a{text-decoration:none}
+
+    /* TOPBAR */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-div{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-bc{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-bc a{color:var(--ink4);transition:color .15s}.tb-bc a:hover{color:var(--p2)}
+    .tb-bc i{font-size:12px}.tb-bc .cur{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-ico{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-ico:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-av{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display)}
+
+    /* LAYOUT */
+    .page-wrap{max-width:1280px;margin:0 auto;padding:28px 28px 60px}
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+
+    /* STAT STRIP */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.purple{background:#f3e8ff;color:#7c3aed}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* FILTER BAR */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .search-wrap{flex:1;min-width:220px;position:relative}
+    .search-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .search-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 36px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .search-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .search-inp::placeholder{color:var(--ink4)}
+    .filter-sel{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:140px}
+    .filter-sel:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+
+    /* ROLE CARDS GRID */
+    .roles-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;margin-bottom:24px}
+    .role-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh);transition:box-shadow .2s,transform .2s;cursor:pointer}
+    .role-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+    .role-card.system-role .rc-header{position:relative}
+    .role-card.system-role .rc-header::after{content:'System';position:absolute;top:12px;right:12px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;background:rgba(255,255,255,.18);color:rgba(255,255,255,.9);border-radius:var(--r-pill);padding:2px 8px;border:1px solid rgba(255,255,255,.2)}
+    .rc-header{padding:20px;display:flex;align-items:flex-start;gap:14px}
+    .rc-ico{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .rc-meta{flex:1;min-width:0}
+    .rc-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+    .rc-desc{font-size:12px;color:var(--ink4);line-height:1.5}
+    .rc-status{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:10.5px;font-weight:700;flex-shrink:0}
+    .rcs-active{background:var(--jade-bg);color:var(--jade-text)}
+    .rcs-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+    .rc-stats{display:flex;gap:0;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+    .rc-stat{flex:1;padding:11px 14px;text-align:center;border-right:1px solid var(--line)}
+    .rc-stat:last-child{border-right:none}
+    .rc-stat-val{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--ink);line-height:1}
+    .rc-stat-lbl{font-size:10px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+    .rc-perm-row{padding:12px 16px;display:flex;flex-wrap:wrap;gap:4px}
+    .perm-pip{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:var(--r-pill);font-size:10px;font-weight:600;border:1px solid}
+    .pip-full{background:var(--p-bg);color:var(--p);border-color:var(--p-line)}
+    .pip-view{background:var(--jade-bg);color:var(--jade-text);border-color:rgba(14,165,113,.2)}
+    .pip-none{background:var(--smoke);color:var(--ink4);border-color:var(--line)}
+    .rc-footer{display:flex;align-items:center;gap:6px;padding:12px 16px;background:var(--smoke);border-top:1px solid var(--line)}
+    .rc-footer-tag{font-size:10.5px;color:var(--ink4);margin-right:auto;display:flex;align-items:center;gap:4px}
+
+    /* TABLE view */
+    .table-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);display:none}
+    .table-head-row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1.5px solid var(--line)}
+    .tbl-count{font-size:12px;color:var(--ink4)}
+    .tbl-count b{color:var(--ink2);font-weight:600}
+    table{width:100%;border-collapse:collapse}
+    thead th{background:var(--smoke);padding:11px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1.5px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+    thead th:hover{background:#eef0f6}
+    .th-inner{display:flex;align-items:center;gap:5px}
+    tbody tr{border-bottom:1px solid var(--line);transition:background .12s}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:#f9fafc}
+    td{padding:12px 16px;font-size:13px;color:var(--ink2);vertical-align:middle}
+    .row-actions{display:flex;justify-content:flex-end;gap:4px;opacity:0;transition:opacity .15s}
+    tbody tr:hover .row-actions{opacity:1}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;border:none;background:transparent;color:var(--ink4);transition:all .14s}
+    .row-btn:hover{background:var(--smoke);color:var(--ink)}
+    .row-btn.danger:hover{background:var(--fire-bg);color:var(--fire)}
+
+    /* VIEW TOGGLE */
+    .view-toggle{display:flex;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+    .view-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink4);background:var(--smoke);cursor:pointer;transition:all .15s;border:none}
+    .view-btn.active{background:var(--p);color:#fff}
+    .view-btn:not(.active):hover{background:var(--line);color:var(--ink)}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;outline:none;transition:all .18s;position:relative;overflow:hidden;white-space:nowrap}
+    .btn i{font-size:15px;flex-shrink:0}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:var(--sh-brand)}
+    .btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}
+    .btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .btn-danger{background:transparent;color:var(--fire);border:1.5px solid rgba(239,68,68,.25)}
+    .btn-danger:hover{background:var(--fire-bg);border-color:var(--fire)}
+    .btn-sm{padding:7px 13px;font-size:12px}
+    .btn-loading{pointer-events:none}
+    .btn-loading::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* MODAL */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:500px;max-width:95vw;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line)}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+    .modal-close{width:30px;height:30px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:15px;cursor:pointer;transition:all .15s}
+    .modal-close:hover{background:var(--smoke);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line)}
+    .warn-box{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r);font-size:12.5px;color:var(--fire-text);margin-bottom:14px}
+    .warn-box i{font-size:16px;flex-shrink:0;margin-top:1px}
+
+    /* EMPTY */
+    .empty-state{display:flex;flex-direction:column;align-items:center;padding:64px 20px;text-align:center}
+    .es-ico{width:64px;height:64px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--ink4);margin-bottom:16px}
+    .es-title{font-size:15px;font-weight:700;color:var(--ink);font-family:var(--display);margin-bottom:6px}
+    .es-desc{font-size:13px;color:var(--ink4);line-height:1.6;max-width:280px;margin-bottom:18px}
+
+    /* ANIMATIONS */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}.d4{animation-delay:.22s}
+
+    /* TOAST */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:12px 18px;font-size:13px;min-width:240px;max-width:320px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:17px;flex-shrink:0}
+    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+    @media(max-width:1100px){.stat-strip{grid-template-columns:1fr 1fr}}
+    @media(max-width:700px){.roles-grid{grid-template-columns:1fr};.stat-strip{grid-template-columns:1fr 1fr};.page-header{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-brand" onclick="location.href='dashboard.html'">
+    <div class="tb-mark"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Admin</div></div>
+  </div>
+  <div class="tb-div"></div>
+  <div class="tb-bc">
+    <a href="dashboard.html"><i class="ti ti-home" style="font-size:13px;vertical-align:-1px"></i> Dashboard</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="cur">Role Management</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-ico" title="Assign Permissions" onclick="location.href='role-assign.html'"><i class="ti ti-key"></i></button>
+    <button class="tb-ico" title="Back to Dashboard" onclick="location.href='dashboard.html'"><i class="ti ti-layout-dashboard"></i></button>
+    <div class="tb-av">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div>
+      <div class="page-tag"><i class="ti ti-shield-lock"></i> Roles</div>
+      <div class="page-title">Role Management</div>
+      <div class="page-sub">Define, configure, and manage system roles. Each role controls what users can see and do across modules.</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <button class="btn btn-ghost" onclick="location.href='role-assign.html'"><i class="ti ti-key"></i> Assign Permissions</button>
+      <button class="btn btn-primary" onclick="location.href='role-form.html'"><i class="ti ti-plus"></i> Create Role</button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile">
+      <div class="st-ico blue"><i class="ti ti-shield-lock"></i></div>
+      <div><div class="st-val" id="stat-total">8</div><div class="st-lbl">Total Roles</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico green"><i class="ti ti-circle-check"></i></div>
+      <div><div class="st-val" id="stat-active">7</div><div class="st-lbl">Active Roles</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico purple"><i class="ti ti-users"></i></div>
+      <div><div class="st-val" id="stat-users">218</div><div class="st-lbl">Users Assigned</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico amber"><i class="ti ti-lock"></i></div>
+      <div><div class="st-val" id="stat-system">6</div><div class="st-lbl">System Roles</div></div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar anim d2">
+    <div class="search-wrap">
+      <i class="ti ti-search"></i>
+      <input class="search-inp" type="text" id="search-inp" placeholder="Search roles by name or description…" oninput="applyFilters()"/>
+    </div>
+    <select class="filter-sel" id="filter-type" onchange="applyFilters()">
+      <option value="">All Types</option>
+      <option value="system">System Roles</option>
+      <option value="custom">Custom Roles</option>
+    </select>
+    <select class="filter-sel" id="filter-status" onchange="applyFilters()">
+      <option value="">All Status</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+    <div style="width:1px;height:24px;background:var(--line);margin:0 2px"></div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="vb-card" onclick="setView('card')" title="Card view"><i class="ti ti-layout-grid"></i></button>
+      <button class="view-btn" id="vb-table" onclick="setView('table')" title="Table view"><i class="ti ti-list"></i></button>
+    </div>
+  </div>
+
+  <!-- CARD VIEW -->
+  <div id="card-view" class="roles-grid"></div>
+
+  <!-- TABLE VIEW -->
+  <div class="table-card anim d3" id="table-view">
+    <div class="table-head-row">
+      <div class="tbl-count"><b id="tbl-count">0</b> roles</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:220px"><div class="th-inner">Role Name <i class="ti ti-arrows-sort"></i></div></th>
+            <th style="width:100px">Type</th>
+            <th>Description</th>
+            <th style="width:100px">Users</th>
+            <th style="width:90px">Permissions</th>
+            <th style="width:100px">Status</th>
+            <th style="width:80px"></th>
+          </tr>
+        </thead>
+        <tbody id="role-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- DELETE MODAL -->
+<div class="overlay" id="del-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i> Delete Role</div>
+      <button class="modal-close" onclick="closeModal('del-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="warn-box"><i class="ti ti-alert-triangle"></i><span>Deleting a role is irreversible. All users currently assigned to <b id="del-role-name">this role</b> will be moved to <b>Staff</b> (default fallback) and will lose associated permissions immediately.</span></div>
+      <p style="font-size:13px;color:var(--ink3);line-height:1.7">Only custom roles can be deleted. System roles cannot be removed. Type the role name below to confirm deletion.</p>
+      <div style="margin-top:14px">
+        <div style="font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px">Type <b id="del-confirm-name" style="font-family:var(--mono)"></b> to confirm</div>
+        <input class="search-inp" type="text" id="del-confirm-input" placeholder="Enter role name…" oninput="onDelTypeCheck()" style="background:var(--white)"/>
+        <div style="font-size:11px;color:var(--ink4);margin-top:4px;display:flex;align-items:center;gap:4px" id="del-type-hint"><i class="ti ti-info-circle"></i> Name must match exactly.</div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
+      <button class="btn btn-danger" id="del-confirm-btn" disabled onclick="execDelete()"><i class="ti ti-trash"></i> Delete Role</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEACTIVATE MODAL -->
+<div class="overlay" id="deact-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title"><i class="ti ti-circle-off" style="color:var(--sun)"></i> Deactivate Role</div>
+      <button class="modal-close" onclick="closeModal('deact-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13.5px;color:var(--ink2);line-height:1.7">Deactivating <b id="deact-role-name"></b> will prevent it from being assigned to new users. Existing users with this role will keep their current access until manually reassigned.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('deact-modal')">Cancel</button>
+      <button class="btn" style="background:var(--sun);color:var(--white)" id="deact-btn" onclick="execDeactivate()"><i class="ti ti-circle-off"></i> Deactivate</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ── SHARED DATA (single source of truth across Role screens) ──
+   In production this is fetched from GET /api/roles
+   Pages communicate through sessionStorage('roleStore') so edits
+   made in role-form.html or role-assign.html are reflected here. */
+var ROLE_COLORS = {
+  Admin:'#0F4C75',Trustee:'#7C3AED',Principal:'#0EA571',
+  HOD:'#3B82F6',Teacher:'#F59E0B',Staff:'#64748B',
+  'Class Teacher':'#EF4444','Librarian':'#06B6D4'
+};
+var ROLE_BG = {
+  Admin:'var(--p-bg)',Trustee:'#f3e8ff',Principal:'var(--jade-bg)',
+  HOD:'var(--sky-bg)',Teacher:'var(--sun-bg)',Staff:'var(--smoke)',
+  'Class Teacher':'var(--fire-bg)','Librarian':'#ecfeff'
+};
+var ROLE_ICO = {
+  Admin:'ti-building-skyscraper',Trustee:'ti-crown',Principal:'ti-school',
+  HOD:'ti-users-group',Teacher:'ti-chalkboard',Staff:'ti-user-cog',
+  'Class Teacher':'ti-book-2',Librarian:'ti-books'
+};
+
+var ROLES_DATA = (function(){
+  var stored = null;
+  try{ stored = JSON.parse(sessionStorage.getItem('roleStore')); }catch(e){}
+  if(stored && stored.length) return stored;
+  return [
+    {id:'r1',name:'Admin',    desc:'Full company-level access — manages users, admissions, finance, settings, and all reports.',        type:'system',users:3,  status:'Active', perms:{admissions:'full',finance:'full',users:'full',reports:'full',settings:'full'}, createdAt:'10 Jan 2024',updatedAt:'2 days ago',createdBy:'System'},
+    {id:'r2',name:'Trustee',  desc:'Cross-company access — views all institutes, consolidated reports, and manages company structure.', type:'system',users:1,  status:'Active', perms:{admissions:'view',finance:'view',users:'view',reports:'full',settings:'view'}, createdAt:'10 Jan 2024',updatedAt:'2 days ago',createdBy:'System'},
+    {id:'r3',name:'Principal', desc:'Institute-level access — manages academic operations, faculty, attendance, and admissions.',        type:'system',users:2,  status:'Active', perms:{admissions:'full',finance:'view',users:'view',reports:'full',settings:'none'}, createdAt:'10 Jan 2024',updatedAt:'2 days ago',createdBy:'System'},
+    {id:'r4',name:'HOD',       desc:'Department-level access — manages department faculty, attendance, and academic scheduling.',         type:'system',users:3,  status:'Active', perms:{admissions:'view',finance:'none',users:'none',reports:'view',settings:'none'}, createdAt:'10 Jan 2024',updatedAt:'2 days ago',createdBy:'System'},
+    {id:'r5',name:'Teacher',   desc:'Class-level access — marks attendance, manages grades, timetable, and student records.',            type:'system',users:8,  status:'Active', perms:{admissions:'none',finance:'none',users:'none',reports:'view',settings:'none'}, createdAt:'10 Jan 2024',updatedAt:'2 days ago',createdBy:'System'},
+    {id:'r6',name:'Staff',     desc:'Limited access — views assigned modules and performs designated administrative tasks.',              type:'system',users:2,  status:'Active', perms:{admissions:'view',finance:'none',users:'none',reports:'none',settings:'none'}, createdAt:'10 Jan 2024',updatedAt:'2 days ago',createdBy:'System'},
+    {id:'r7',name:'Class Teacher',desc:'Handles class-specific administration, parent communication, and student welfare.',             type:'custom',users:0,  status:'Active', perms:{admissions:'view',finance:'none',users:'none',reports:'view',settings:'none'}, createdAt:'15 Feb 2024',updatedAt:'5 days ago',createdBy:'Priya Menon'},
+    {id:'r8',name:'Librarian', desc:'Manages library resources, issue/return records, and student reading reports.',                     type:'custom',users:1,  status:'Inactive',perms:{admissions:'none',finance:'none',users:'none',reports:'view',settings:'none'}, createdAt:'20 Mar 2024',updatedAt:'1 week ago',createdBy:'Priya Menon'},
+  ];
+})();
+
+function saveStore(){ try{sessionStorage.setItem('roleStore',JSON.stringify(ROLES_DATA));}catch(e){} }
+
+var filteredRoles = [];
+var currentView = 'card';
+var delTargetId = null;
+var deactTargetId = null;
+
+/* ── INIT ── */
+(function(){
+  applyFilters();
+  updateStats();
+})();
+
+function updateStats(){
+  var active = ROLES_DATA.filter(function(r){return r.status==='Active';}).length;
+  var totalUsers = ROLES_DATA.reduce(function(a,r){return a+r.users;},0);
+  var sys = ROLES_DATA.filter(function(r){return r.type==='system';}).length;
+  document.getElementById('stat-total').textContent = ROLES_DATA.length;
+  document.getElementById('stat-active').textContent = active;
+  document.getElementById('stat-users').textContent = totalUsers;
+  document.getElementById('stat-system').textContent = sys;
+}
+
+function applyFilters(){
+  var q = (document.getElementById('search-inp').value||'').toLowerCase().trim();
+  var type = document.getElementById('filter-type').value;
+  var status = document.getElementById('filter-status').value;
+  filteredRoles = ROLES_DATA.filter(function(r){
+    if(q && r.name.toLowerCase().indexOf(q)===-1 && r.desc.toLowerCase().indexOf(q)===-1) return false;
+    if(type && r.type!==type) return false;
+    if(status && r.status!==status) return false;
+    return true;
+  });
+  renderView();
+}
+
+function setView(v){
+  currentView=v;
+  document.getElementById('vb-card').classList.toggle('active',v==='card');
+  document.getElementById('vb-table').classList.toggle('active',v==='table');
+  document.getElementById('card-view').style.display = v==='card'?'grid':'none';
+  document.getElementById('table-view').style.display = v==='table'?'block':'none';
+  renderView();
+}
+
+function renderView(){
+  if(currentView==='card') renderCards(); else renderTable();
+}
+
+/* ── CARD RENDER ── */
+function renderCards(){
+  var cv = document.getElementById('card-view');
+  if(!filteredRoles.length){
+    cv.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="es-ico"><i class="ti ti-shield-off"></i></div><div class="es-title">No roles found</div><div class="es-desc">Try adjusting your search or filter criteria.</div><button class="btn btn-primary" onclick="location.href=\'role-form.html\'"><i class="ti ti-plus"></i> Create Role</button></div>';
+    return;
+  }
+  cv.innerHTML = filteredRoles.map(function(r){
+    var color = ROLE_COLORS[r.name]||'#64748B';
+    var bg    = ROLE_BG[r.name]||'var(--smoke)';
+    var ico   = ROLE_ICO[r.name]||'ti-shield-lock';
+    var pips  = Object.keys(r.perms).map(function(k){
+      var v=r.perms[k];
+      var labels={admissions:'Admissions',finance:'Finance',users:'Users',reports:'Reports',settings:'Settings'};
+      var cls=v==='full'?'pip-full':v==='view'?'pip-view':'pip-none';
+      return '<span class="perm-pip '+cls+'">'+labels[k]+'</span>';
+    }).join('');
+    return '<div class="role-card'+(r.type==='system'?' system-role':'')+'" onclick="location.href=\'role-form.html?id='+r.id+'\'">'
+      +'<div class="rc-header"><div class="rc-ico" style="background:'+bg+';color:'+color+'"><i class="ti '+ico+'"></i></div>'
+      +'<div class="rc-meta"><div class="rc-name">'+escHtml(r.name)+'<span class="rc-status '+(r.status==='Active'?'rcs-active':'rcs-inactive')+'">'+r.status+'</span></div><div class="rc-desc">'+escHtml(r.desc)+'</div></div></div>'
+      +'<div class="rc-stats"><div class="rc-stat"><div class="rc-stat-val">'+r.users+'</div><div class="rc-stat-lbl">Users</div></div>'
+      +'<div class="rc-stat"><div class="rc-stat-val">'+(Object.values(r.perms).filter(function(v){return v!=='none';}).length)+'</div><div class="rc-stat-lbl">Modules</div></div>'
+      +'<div class="rc-stat"><div class="rc-stat-val" style="font-size:11px;font-family:var(--font);color:var(--ink3)">'+(r.type==='system'?'System':'Custom')+'</div><div class="rc-stat-lbl">Type</div></div></div>'
+      +'<div class="rc-perm-row">'+pips+'</div>'
+      +'<div class="rc-footer" onclick="event.stopPropagation()">'
+      +'<span class="rc-footer-tag"><i class="ti ti-clock" style="font-size:11px"></i> Updated '+escHtml(r.updatedAt)+'</span>'
+      +(r.type==='system'?'<button class="btn btn-ghost btn-sm" onclick="location.href=\'role-assign.html?id='+r.id+'\'"><i class="ti ti-key"></i> Permissions</button>'
+        :'<button class="btn btn-ghost btn-sm" onclick="cloneRole(\''+r.id+'\')" title="Clone role"><i class="ti ti-copy"></i></button>'
+        +'<button class="btn btn-ghost btn-sm" onclick="location.href=\'role-assign.html?id='+r.id+'\'"><i class="ti ti-key"></i> Perms</button>'
+        +'<button class="btn btn-ghost btn-sm" onclick="location.href=\'role-form.html?id='+r.id+'\'"><i class="ti ti-edit"></i></button>'
+        +'<button class="btn btn-ghost btn-sm" style="color:var(--fire)" onclick="openDelete(\''+r.id+'\')"><i class="ti ti-trash"></i></button>'
+      )
+      +'</div></div>';
+  }).join('');
+}
+
+/* ── TABLE RENDER ── */
+function renderTable(){
+  document.getElementById('tbl-count').textContent = filteredRoles.length;
+  if(!filteredRoles.length){
+    document.getElementById('role-tbody').innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="es-ico"><i class="ti ti-shield-off"></i></div><div class="es-title">No roles found</div><div class="es-desc">Adjust your filters or create a new role.</div></div></td></tr>';
+    return;
+  }
+  document.getElementById('role-tbody').innerHTML = filteredRoles.map(function(r){
+    var color=ROLE_COLORS[r.name]||'#64748B';
+    var bg=ROLE_BG[r.name]||'var(--smoke)';
+    var ico=ROLE_ICO[r.name]||'ti-shield-lock';
+    var modCount=Object.values(r.perms).filter(function(v){return v!=='none';}).length;
+    var badge=r.status==='Active'?'<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:var(--jade-bg);color:var(--jade-text)">Active</span>'
+      :'<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:var(--smoke);color:var(--ink4);border:1px solid var(--line)">Inactive</span>';
+    return '<tr>'
+      +'<td><div style="display:flex;align-items:center;gap:10px"><div style="width:32px;height:32px;border-radius:9px;background:'+bg+';color:'+color+';display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0"><i class="ti '+ico+'"></i></div><div><div style="font-size:13px;font-weight:600;color:var(--ink)">'+escHtml(r.name)+'</div><div style="font-size:11px;color:var(--ink4)">'+r.createdAt+'</div></div></div></td>'
+      +'<td><span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:var(--r-pill);background:'+(r.type==='system'?'var(--sky-bg);color:var(--sky-text)':'var(--sun-bg);color:var(--sun-text)')+'">'+r.type+'</span></td>'
+      +'<td style="font-size:12px;color:var(--ink3);max-width:260px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+escHtml(r.desc)+'</div></td>'
+      +'<td style="font-family:var(--mono);font-size:13px;font-weight:600;color:var(--ink)">'+r.users+'</td>'
+      +'<td style="font-size:12px;color:var(--ink3)">'+modCount+' / 5</td>'
+      +'<td>'+badge+'</td>'
+      +'<td><div class="row-actions">'
+        +'<button class="row-btn" title="Permissions" onclick="location.href=\'role-assign.html?id='+r.id+'\'"><i class="ti ti-key"></i></button>'
+        +'<button class="row-btn" title="Edit" onclick="location.href=\'role-form.html?id='+r.id+'\'"><i class="ti ti-edit"></i></button>'
+        +(r.type!=='system'?'<button class="row-btn danger" title="Delete" onclick="openDelete(\''+r.id+'\')"><i class="ti ti-trash"></i></button>':'')
+      +'</div></td>'
+    +'</tr>';
+  }).join('');
+}
+
+/* ── ACTIONS ── */
+function cloneRole(id){
+  var r = ROLES_DATA.find(function(x){return x.id===id;});
+  if(!r) return;
+  var clone = Object.assign({},r);
+  clone.id = 'r'+Date.now();
+  clone.name = 'Copy of '+r.name;
+  clone.type = 'custom';
+  clone.users = 0;
+  clone.updatedAt = 'Just now';
+  clone.createdAt = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  ROLES_DATA.push(clone);
+  saveStore();
+  applyFilters(); updateStats();
+  toast('Role cloned as "'+clone.name+'". Click Edit to customise.','ok');
+}
+
+function openDelete(id){
+  var r = ROLES_DATA.find(function(x){return x.id===id;});
+  if(!r || r.type==='system'){ toast('System roles cannot be deleted.','err'); return; }
+  delTargetId = id;
+  document.getElementById('del-role-name').textContent = r.name;
+  document.getElementById('del-confirm-name').textContent = r.name;
+  document.getElementById('del-confirm-input').value = '';
+  document.getElementById('del-confirm-btn').disabled = true;
+  showModal('del-modal');
+}
+
+function onDelTypeCheck(){
+  var r = ROLES_DATA.find(function(x){return x.id===delTargetId;});
+  var val = (document.getElementById('del-confirm-input').value||'').trim();
+  var match = r && val === r.name;
+  document.getElementById('del-confirm-btn').disabled = !match;
+  document.getElementById('del-type-hint').style.color = match ? 'var(--jade)' : 'var(--ink4)';
+}
+
+function execDelete(){
+  if(!delTargetId) return;
+  var r = ROLES_DATA.find(function(x){return x.id===delTargetId;});
+  ROLES_DATA.splice(ROLES_DATA.indexOf(r),1);
+  saveStore();
+  closeModal('del-modal');
+  applyFilters(); updateStats();
+  toast('Role "'+r.name+'" deleted. Affected users moved to Staff.','ok');
+  delTargetId=null;
+}
+
+function execDeactivate(){
+  var r = ROLES_DATA.find(function(x){return x.id===deactTargetId;});
+  if(r){ r.status = r.status==='Active'?'Inactive':'Active'; saveStore(); }
+  closeModal('deact-modal');
+  applyFilters(); updateStats();
+  toast('Role status updated.','ok');
+}
+
+function showModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
+  var wrap=document.getElementById('toast-wrap');
+  var el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+document.addEventListener('click',function(e){var o=e.target.closest('.overlay');if(o&&e.target===o)o.classList.remove('open');});
+</script>
+</body>
+</html>

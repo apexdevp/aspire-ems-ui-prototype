@@ -1,0 +1,1881 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Profile — Aspire ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #0a0e1a;
+        --ink2: #2d3348;
+        --ink3: #64748b;
+        --ink4: #94a3b8;
+        --smoke: #f7f8fc;
+        --white: #ffffff;
+        --line: #e4e8f0;
+        --line2: #cbd5e1;
+        --jade: #0ea571;
+        --jade-bg: #ecfdf5;
+        --jade-text: #065f46;
+        --fire: #ef4444;
+        --fire-bg: #fef2f2;
+        --fire-text: #991b1b;
+        --sun: #f59e0b;
+        --sun-bg: #fffbeb;
+        --sun-text: #92400e;
+        --sky: #3b82f6;
+        --sky-bg: #eff6ff;
+        --sky-text: #1e40af;
+        --p: #0f4c75;
+        --p2: #1b6ca8;
+        --p3: #2e86c1;
+        --p-glow: rgba(15, 76, 117, 0.15);
+        --p-line: rgba(15, 76, 117, 0.25);
+        --p-bg: #ebf5fb;
+        --font: "Plus Jakarta Sans", sans-serif;
+        --display: "Clash Display", sans-serif;
+        --mono: "Fira Code", monospace;
+        --r: 10px;
+        --r-lg: 16px;
+        --r-xl: 24px;
+        --r-pill: 999px;
+        --sh:
+          0 2px 12px rgba(10, 14, 26, 0.08), 0 1px 4px rgba(10, 14, 26, 0.05);
+        --sh-md:
+          0 8px 32px rgba(10, 14, 26, 0.1), 0 2px 8px rgba(10, 14, 26, 0.06);
+        --sh-lg:
+          0 20px 60px rgba(10, 14, 26, 0.14), 0 6px 16px rgba(10, 14, 26, 0.07);
+        --sh-brand:
+          0 8px 32px rgba(15, 76, 117, 0.28), 0 2px 8px rgba(15, 76, 117, 0.18);
+      }
+      html {
+        font-size: 14px;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--smoke);
+        color: var(--ink);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font-family: var(--font);
+        cursor: pointer;
+        border: none;
+        outline: none;
+      }
+      input,
+      select,
+      textarea {
+        font-family: var(--font);
+      }
+      a {
+        text-decoration: none;
+      }
+
+      /* ── TOPBAR ── */
+      .topbar {
+        background: var(--white);
+        border-bottom: 1.5px solid var(--line);
+        height: 62px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 1px 0 var(--line);
+      }
+      .tb-brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .tb-mark {
+        width: 36px;
+        height: 36px;
+        background: var(--p);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(15, 76, 117, 0.3);
+        flex-shrink: 0;
+      }
+      .tb-mark svg {
+        width: 18px;
+        height: 18px;
+      }
+      .tb-name {
+        font-family: var(--display);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.3px;
+      }
+      .tb-ver {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--ink4);
+        font-weight: 400;
+        margin-top: 1px;
+        letter-spacing: 0.3px;
+      }
+      .tb-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tb-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        font-family: var(--display);
+        flex-shrink: 0;
+      }
+      .tb-uname {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .tb-urole {
+        font-size: 10px;
+        color: var(--ink4);
+        line-height: 1.2;
+      }
+      .tb-user-pill {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 12px 7px 8px;
+        border-radius: var(--r);
+        border: 1.5px solid var(--line);
+        background: var(--white);
+      }
+
+      /* ── BUTTONS ── */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: var(--r);
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        white-space: nowrap;
+      }
+      .btn::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0);
+        transition: background 0.15s;
+      }
+      .btn:hover::after {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn-primary {
+        background: var(--p);
+        color: #fff;
+        box-shadow: var(--sh-brand);
+      }
+      .btn-primary:hover {
+        background: var(--p2);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink3);
+        border: 1.5px solid var(--line);
+      }
+      .btn-ghost:hover {
+        background: var(--smoke);
+        border-color: var(--line2);
+        color: var(--ink);
+      }
+      .btn i {
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .btn-sm {
+        padding: 7px 14px;
+        font-size: 12px;
+      }
+      .btn-loading {
+        pointer-events: none;
+      }
+      .btn-loading .btn-text {
+        opacity: 0;
+      }
+      .btn-loading::before {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── PAGE LAYOUT ── */
+      .page-wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 32px 24px 64px;
+      }
+
+      /* ── BREADCRUMB ── */
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px;
+        color: var(--ink4);
+        margin-bottom: 22px;
+        flex-wrap: wrap;
+      }
+      .breadcrumb a {
+        color: var(--ink4);
+        transition: color 0.15s;
+      }
+      .breadcrumb a:hover {
+        color: var(--p2);
+      }
+      .breadcrumb i {
+        font-size: 12px;
+        color: var(--line2);
+      }
+      .breadcrumb .current {
+        color: var(--ink2);
+        font-weight: 500;
+      }
+
+      /* ── HERO CARD ── */
+      .profile-hero {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-xl);
+        overflow: hidden;
+        margin-bottom: 20px;
+        box-shadow: var(--sh);
+        animation: fadeUp 0.4s ease both;
+      }
+      .hero-banner {
+        height: 120px;
+        background: linear-gradient(
+          135deg,
+          var(--p) 0%,
+          var(--p3) 60%,
+          #4fa8d6 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-banner::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+      .hero-banner::after {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 220px;
+        height: 220px;
+        border: 1.5px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+      }
+      .hero-ring2 {
+        position: absolute;
+        bottom: -80px;
+        left: -40px;
+        width: 200px;
+        height: 200px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+      .hero-body {
+        padding: 0 28px 24px;
+        position: relative;
+      }
+      .hero-av-wrap {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-top: -40px;
+        margin-bottom: 14px;
+      }
+      .hero-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 22px;
+        background: var(--p);
+        border: 4px solid var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--display);
+        font-size: 24px;
+        font-weight: 700;
+        color: #fff;
+        box-shadow: var(--sh-md);
+        flex-shrink: 0;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 18px;
+        position: absolute;
+        inset: 0;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding-top: 44px;
+      }
+      .hero-name {
+        font-family: var(--display);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.5px;
+        margin-bottom: 4px;
+      }
+      .hero-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .hero-role {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: var(--p-bg);
+        color: var(--p);
+        border: 1px solid var(--p-line);
+        border-radius: var(--r-pill);
+        padding: 3px 10px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+      }
+      .hero-role i {
+        font-size: 11px;
+      }
+      .hero-company {
+        font-size: 12px;
+        color: var(--ink3);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .hero-company i {
+        font-size: 13px;
+        color: var(--ink4);
+      }
+      .hero-since {
+        font-size: 11px;
+        color: var(--ink4);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .hero-since i {
+        font-size: 12px;
+      }
+
+      /* ── TAB BAR ── */
+      .tab-bar {
+        display: flex;
+        gap: 2px;
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        padding: 5px;
+        margin-bottom: 20px;
+        animation: fadeUp 0.4s 0.07s ease both;
+      }
+      .tab-btn {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 10px 14px;
+        border-radius: 9px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--ink3);
+        transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+        font-family: var(--font);
+      }
+      .tab-btn i {
+        font-size: 15px;
+      }
+      .tab-btn:hover {
+        color: var(--ink);
+        background: var(--smoke);
+      }
+      .tab-btn.active {
+        background: var(--p);
+        color: #fff;
+        box-shadow: 0 3px 12px rgba(15, 76, 117, 0.25);
+      }
+      .tab-btn.active i {
+        color: #fff;
+      }
+
+      /* ── TAB PANELS ── */
+      .tab-panel {
+        display: none;
+        animation: fadeUp 0.28s ease both;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      /* ── SECTION CARDS ── */
+      .card {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        margin-bottom: 16px;
+        overflow: hidden;
+        box-shadow: var(--sh);
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 20px;
+        border-bottom: 1.5px solid var(--line);
+      }
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .card-title-ico {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: var(--p-bg);
+        color: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+      .card-body {
+        padding: 20px;
+      }
+
+      /* ── INFO GRID ── */
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .info-item {
+        padding: 14px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .info-item:nth-last-child(-n + 2) {
+        border-bottom: none;
+      }
+      .info-item:nth-child(odd) {
+        padding-right: 24px;
+        border-right: 1px solid var(--line);
+      }
+      .info-item:nth-child(even) {
+        padding-left: 24px;
+      }
+      .info-item.full {
+        grid-column: 1 / -1;
+        border-right: none !important;
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+      }
+      .info-lbl {
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--ink4);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .info-lbl i {
+        font-size: 13px;
+      }
+      .info-val {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.5;
+      }
+      .info-val.mono {
+        font-family: var(--mono);
+        font-size: 12px;
+      }
+      .info-val.muted {
+        color: var(--ink4);
+        font-weight: 400;
+      }
+      .info-val a {
+        color: var(--p2);
+        font-weight: 500;
+      }
+      .info-val a:hover {
+        color: var(--p);
+      }
+
+      /* ── BADGE ── */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 9px;
+        border-radius: var(--r-pill);
+        font-size: 11px;
+        font-weight: 500;
+      }
+      .bg-green {
+        background: var(--jade-bg);
+        color: var(--jade-text);
+      }
+      .bg-amber {
+        background: var(--sun-bg);
+        color: var(--sun-text);
+      }
+      .bg-blue {
+        background: var(--sky-bg);
+        color: var(--sky-text);
+      }
+      .bg-gray {
+        background: var(--smoke);
+        color: var(--ink3);
+        border: 1px solid var(--line);
+      }
+
+      /* ── BRAND ASSETS DISPLAY ── */
+      .brand-assets {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+      }
+      .asset-tile {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo-box {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        border: 1.5px solid var(--line);
+        background: var(--smoke);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .fav-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        border: 1.5px solid var(--line);
+        background: var(--smoke);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .asset-meta .asset-name {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .asset-meta .asset-sub {
+        font-size: 11px;
+        color: var(--ink4);
+        margin-top: 2px;
+        line-height: 1.5;
+      }
+
+      /* ── COLOR SWATCHES (display) ── */
+      .swatch-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .swatch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1.5px solid var(--line);
+        border-radius: var(--r);
+        padding: 8px 12px;
+      }
+      .sw-chip {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        border: 1px solid rgba(10, 14, 26, 0.08);
+        flex-shrink: 0;
+      }
+      .sw-name {
+        font-weight: 600;
+        color: var(--ink);
+        font-size: 12px;
+        line-height: 1.1;
+      }
+      .sw-hex {
+        font-family: var(--mono);
+        color: var(--ink4);
+        font-size: 10.5px;
+        margin-top: 2px;
+      }
+
+      /* ── PREF / TOGGLE DISPLAY ROWS ── */
+      .pref-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 13px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .pref-row:last-child {
+        border-bottom: none;
+      }
+      .pref-ico {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: var(--smoke);
+        color: var(--ink3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+      .pref-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .pref-name {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.25;
+      }
+      .pref-sub {
+        font-size: 11px;
+        color: var(--ink4);
+        margin-top: 1px;
+      }
+      .pref-state {
+        flex-shrink: 0;
+      }
+      .state-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: var(--r-pill);
+      }
+      .state-on {
+        background: var(--jade-bg);
+        color: var(--jade-text);
+      }
+      .state-off {
+        background: var(--smoke);
+        color: var(--ink4);
+        border: 1px solid var(--line);
+      }
+
+      /* ── INFO BOX ── */
+      .info-box {
+        background: var(--sky-bg);
+        border: 1.5px solid rgba(59, 130, 246, 0.2);
+        border-radius: var(--r);
+        padding: 12px 14px;
+        font-size: 12px;
+        color: var(--sky-text);
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        line-height: 1.65;
+      }
+      .info-box i {
+        font-size: 15px;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      /* ── TOAST ── */
+      #toast-wrap {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+      }
+      .toast {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        background: var(--ink);
+        color: var(--smoke);
+        border-radius: var(--r-lg);
+        padding: 13px 18px;
+        font-size: 13px;
+        min-width: 260px;
+        max-width: 340px;
+        box-shadow: var(--sh-lg);
+        transform: translateX(120%);
+        opacity: 0;
+        transition:
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.2s;
+        pointer-events: all;
+      }
+      .toast.in {
+        transform: none;
+        opacity: 1;
+      }
+      .toast i {
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+      .toast.ok i {
+        color: #34d399;
+      }
+      .toast.err i {
+        color: #f87171;
+      }
+      .toast.info i {
+        color: #60a5fa;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .anim {
+        animation: fadeUp 0.38s ease both;
+      }
+      .d1 {
+        animation-delay: 0.07s;
+      }
+      .d2 {
+        animation-delay: 0.14s;
+      }
+      .d3 {
+        animation-delay: 0.21s;
+      }
+
+      /* ── EDITABLE BRANDING CONTROLS ── */
+      .brand-edit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 4px;
+      }
+      .upload-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo-box.editable,
+      .fav-box.editable {
+        position: relative;
+      }
+      .upload-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+      }
+      .upload-actions small {
+        font-size: 10.5px;
+        color: var(--ink4);
+        line-height: 1.5;
+      }
+      .color-field {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1.5px solid var(--line);
+        border-radius: var(--r);
+        padding: 8px 12px;
+      }
+      .color-field input[type="color"] {
+        width: 36px;
+        height: 36px;
+        border: none;
+        background: none;
+        border-radius: 8px;
+        cursor: pointer;
+        padding: 0;
+        flex-shrink: 0;
+      }
+      .color-field input[type="color"]::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+      .color-field input[type="color"]::-webkit-color-swatch {
+        border: 1px solid var(--line2);
+        border-radius: 8px;
+      }
+      .cf-name {
+        font-weight: 600;
+        color: var(--ink);
+        font-size: 12px;
+        line-height: 1.1;
+      }
+      .cf-hex {
+        font-family: var(--mono);
+        color: var(--ink4);
+        font-size: 10.5px;
+        margin-top: 2px;
+        text-transform: uppercase;
+      }
+      .brand-save-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1.5px solid var(--line);
+        flex-wrap: wrap;
+      }
+      .brand-save-note {
+        font-size: 11px;
+        color: var(--ink4);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 700px) {
+        .brand-edit-grid {
+          grid-template-columns: 1fr;
+        }
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
+        .info-item:nth-child(odd) {
+          padding-right: 0;
+          border-right: none;
+        }
+        .info-item:nth-child(even) {
+          padding-left: 0;
+        }
+        .info-item:nth-last-child(-n + 2) {
+          border-bottom: 1px solid var(--line);
+        }
+        .info-item:last-child {
+          border-bottom: none;
+        }
+        .tab-btn span {
+          display: none;
+        }
+        .tab-btn {
+          flex: none;
+          width: 48px;
+        }
+        .tab-bar {
+          gap: 4px;
+          justify-content: center;
+        }
+        .hero-actions {
+          flex-direction: column;
+          align-items: flex-start;
+          padding-top: 48px;
+          gap: 6px;
+        }
+        .brand-assets {
+          flex-direction: column;
+          gap: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ═══════════ TOPBAR ═══════════ -->
+    <div class="topbar">
+      <a class="tb-brand" href="dashboard.html" id="back-link">
+        <div class="tb-mark">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div>
+          <div class="tb-name">Aspire ERP</div>
+          <div class="tb-ver">v3.0 · Company Profile</div>
+        </div>
+      </a>
+      <div class="tb-right">
+        <button class="btn btn-ghost btn-sm" onclick="goBack()">
+          <i class="ti ti-arrow-left"></i> Back to Dashboard
+        </button>
+        <div class="tb-user-pill">
+          <div class="tb-avatar" id="tb-avatar">PM</div>
+          <div>
+            <div class="tb-uname" id="tb-uname">Priya Menon</div>
+            <div class="tb-urole" id="tb-urole">Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ PAGE ═══════════ -->
+    <div class="page-wrap">
+      <div class="breadcrumb anim">
+        <a href="dashboard.html" id="bc-dash"
+          ><i
+            class="ti ti-home"
+            style="font-size: 13px; vertical-align: -2px"
+          ></i>
+          Dashboard</a
+        >
+        <i class="ti ti-chevron-right"></i>
+        <span class="current">Company Profile</span>
+      </div>
+
+      <!-- HERO -->
+      <div class="profile-hero">
+        <div class="hero-banner"><div class="hero-ring2"></div></div>
+        <div class="hero-body">
+          <div class="hero-av-wrap">
+            <div class="hero-avatar" id="hero-avatar" data-brand="logo">
+              <span id="hero-avatar-initials">HIA</span>
+              <img id="hero-avatar-img" src="" alt="" style="display: none" />
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-ghost btn-sm" onclick="switchTab('brand')">
+                <i class="ti ti-palette"></i> Branding
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="saveAll()">
+                <i class="ti ti-device-floppy"></i> Save Changes
+              </button>
+            </div>
+          </div>
+          <div class="hero-name" id="hero-name">
+            Horizon International Academy
+          </div>
+          <div class="hero-meta">
+            <span class="hero-role"
+              ><i class="ti ti-building-skyscraper"></i> International School
+              (K-12)</span
+            >
+            <span class="hero-company"
+              ><i class="ti ti-hash"></i>
+              <span id="hero-code">HIA-2021-0042</span></span
+            >
+            <span class="hero-since"
+              ><i class="ti ti-calendar-plus"></i> Established 2009</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB BAR -->
+      <div class="tab-bar anim d1">
+        <button
+          class="tab-btn active"
+          id="tab-info"
+          onclick="switchTab('info')"
+        >
+          <i class="ti ti-building"></i><span>Company Information</span>
+        </button>
+        <button class="tab-btn" id="tab-org" onclick="switchTab('org')">
+          <i class="ti ti-sitemap"></i><span>Organization Details</span>
+        </button>
+        <button class="tab-btn" id="tab-brand" onclick="switchTab('brand')">
+          <i class="ti ti-palette"></i><span>Branding &amp; Configuration</span>
+        </button>
+      </div>
+
+      <!-- ═══ TAB 1: COMPANY INFORMATION ═══ -->
+      <div class="tab-panel active" id="panel-info">
+        <div class="card anim d2">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico"><i class="ti ti-building"></i></div>
+              Company Information
+            </div>
+            <span class="badge bg-green"
+              ><i class="ti ti-check" style="font-size: 10px"></i> Active</span
+            >
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-building-skyscraper"></i> Company Name
+                </div>
+                <div class="info-val" id="ci-name">
+                  Horizon International Academy
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-hash"></i> Company Code
+                </div>
+                <div class="info-val mono">HIA-2021-0042</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-certificate"></i> Registration Number
+                </div>
+                <div class="info-val mono">REG/MH/2021/884217</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-receipt-tax"></i> Tax / GST ID
+                </div>
+                <div class="info-val mono">27AABCH1234M1Z5</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-phone"></i> Contact Number
+                </div>
+                <div class="info-val mono">+91 22 4012 8800</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-phone-plus"></i> Alternate Contact
+                </div>
+                <div class="info-val mono">+91 98200 11223</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-mail"></i> Email Address
+                </div>
+                <div class="info-val mono">info@horizonacademy.edu</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl"><i class="ti ti-world"></i> Website</div>
+                <div class="info-val">
+                  <a href="https://www.horizonacademy.edu" target="_blank"
+                    >www.horizonacademy.edu</a
+                  >
+                </div>
+              </div>
+              <div class="info-item full">
+                <div class="info-lbl">
+                  <i class="ti ti-map-pin"></i> Company Address
+                </div>
+                <div class="info-val">
+                  14 Marine Drive, Nariman Point, Mumbai, Maharashtra 400021,
+                  India
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ TAB 2: ORGANIZATION DETAILS ═══ -->
+      <div class="tab-panel" id="panel-org">
+        <div class="card anim d2">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico"><i class="ti ti-sitemap"></i></div>
+              Organization Overview
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-category"></i> Organization Type
+                </div>
+                <div class="info-val">International School (K-12)</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-briefcase"></i> Business Category
+                </div>
+                <div class="info-val">Education — Private</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-git-branch"></i> Branches / Campuses
+                </div>
+                <div class="info-val">4</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-calendar-event"></i> Establishment Year
+                </div>
+                <div class="info-val">2009</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card anim d3">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico">
+                <i class="ti ti-user-shield"></i>
+              </div>
+              Authorized Representative
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-user"></i> Representative Name
+                </div>
+                <div class="info-val">Priya Menon</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-badge"></i> Designation
+                </div>
+                <div class="info-val">Company Administrator</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-mail"></i> Representative Email
+                </div>
+                <div class="info-val mono">priya.menon@horizonacademy.edu</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-phone"></i> Representative Phone
+                </div>
+                <div class="info-val mono">+91 98765 43210</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card anim d3">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico">
+                <i class="ti ti-clock-hour-4"></i>
+              </div>
+              Operational Information
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-clock"></i> Operating Hours
+                </div>
+                <div class="info-val">08:00 AM – 04:30 PM</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-calendar-week"></i> Working Days
+                </div>
+                <div class="info-val">Monday – Saturday</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-activity"></i> Operational Status
+                </div>
+                <div class="info-val">
+                  <span class="badge bg-green"
+                    ><i class="ti ti-check" style="font-size: 10px"></i>
+                    Active</span
+                  >
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-users"></i> Total Capacity
+                </div>
+                <div class="info-val">5,000 students</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ TAB 3: BRANDING & CONFIGURATION ═══ -->
+      <div class="tab-panel" id="panel-brand">
+        <div class="card anim d2">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico"><i class="ti ti-photo"></i></div>
+              Brand Assets
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="brand-edit-grid">
+              <div class="upload-row">
+                <div class="logo-box editable" id="logo-box" data-brand="logo">
+                  <i
+                    class="ti ti-building-skyscraper"
+                    style="font-size: 28px; color: var(--p)"
+                  ></i>
+                </div>
+                <div class="upload-actions">
+                  <div class="asset-name">Company Logo</div>
+                  <button
+                    class="btn btn-ghost btn-sm"
+                    type="button"
+                    onclick="document.getElementById('logo-file').click()"
+                  >
+                    <i class="ti ti-upload"></i> Upload Logo
+                  </button>
+                  <small>PNG, JPG, SVG or WebP · shown across all pages</small>
+                  <input
+                    type="file"
+                    id="logo-file"
+                    accept="image/png,image/jpeg,image/svg+xml,image/webp"
+                    hidden
+                    onchange="onLogoFile(this)"
+                  />
+                </div>
+              </div>
+              <div class="upload-row">
+                <div class="fav-box editable" id="fav-box" data-brand="favicon">
+                  <i
+                    class="ti ti-school"
+                    style="font-size: 18px; color: var(--p)"
+                  ></i>
+                </div>
+                <div class="upload-actions">
+                  <div class="asset-name">Favicon</div>
+                  <button
+                    class="btn btn-ghost btn-sm"
+                    type="button"
+                    onclick="document.getElementById('fav-file').click()"
+                  >
+                    <i class="ti ti-upload"></i> Upload Favicon
+                  </button>
+                  <small>PNG, ICO or SVG · used in the browser tab</small>
+                  <input
+                    type="file"
+                    id="fav-file"
+                    accept="image/png,image/x-icon,image/vnd.microsoft.icon,image/svg+xml"
+                    hidden
+                    onchange="onFavFile(this)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card anim d3">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico"><i class="ti ti-palette"></i></div>
+              Brand Colors
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="swatch-row">
+              <label class="color-field">
+                <input
+                  type="color"
+                  id="bc-primary"
+                  value="#0F4C75"
+                  data-key="primary"
+                  oninput="syncColor(this)"
+                />
+                <div>
+                  <div class="cf-name">Primary</div>
+                  <div class="cf-hex">#0F4C75</div>
+                </div>
+              </label>
+              <label class="color-field">
+                <input
+                  type="color"
+                  id="bc-secondary"
+                  value="#1B6CA8"
+                  data-key="secondary"
+                  oninput="syncColor(this)"
+                />
+                <div>
+                  <div class="cf-name">Secondary</div>
+                  <div class="cf-hex">#1B6CA8</div>
+                </div>
+              </label>
+              <label class="color-field">
+                <input
+                  type="color"
+                  id="bc-accent"
+                  value="#2E86C1"
+                  data-key="accent"
+                  oninput="syncColor(this)"
+                />
+                <div>
+                  <div class="cf-name">Accent</div>
+                  <div class="cf-hex">#2E86C1</div>
+                </div>
+              </label>
+            </div>
+            <div class="brand-save-row">
+              <button class="btn btn-primary btn-sm" onclick="applyBranding()">
+                <i class="ti ti-check"></i> Apply &amp; Save Branding
+              </button>
+              <button class="btn btn-ghost btn-sm" onclick="resetBranding()">
+                <i class="ti ti-refresh"></i> Reset to Default
+              </button>
+              <span class="brand-save-note"
+                ><i class="ti ti-info-circle"></i> Applies the logo, favicon and
+                theme color across the whole application.</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="card anim d3">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico">
+                <i class="ti ti-adjustments"></i>
+              </div>
+              System Preferences
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-world-pin"></i> Timezone
+                </div>
+                <div class="info-val">IST (GMT +5:30)</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-calendar"></i> Date Format
+                </div>
+                <div class="info-val mono">DD/MM/YYYY</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl"><i class="ti ti-coin"></i> Currency</div>
+                <div class="info-val">INR (₹)</div>
+              </div>
+              <div class="info-item">
+                <div class="info-lbl">
+                  <i class="ti ti-language"></i> Default Language
+                </div>
+                <div class="info-val">English</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card anim d3">
+          <div class="card-head">
+            <div class="card-title">
+              <div class="card-title-ico"><i class="ti ti-bell-cog"></i></div>
+              Notification Settings
+            </div>
+          </div>
+          <div class="card-body" style="padding-top: 6px">
+            <div class="pref-row">
+              <div class="pref-ico"><i class="ti ti-mail"></i></div>
+              <div class="pref-info">
+                <div class="pref-name">Email Notifications</div>
+                <div class="pref-sub">Account and activity alerts by email</div>
+              </div>
+              <div class="pref-state">
+                <span class="state-pill state-on"
+                  ><i class="ti ti-check" style="font-size: 10px"></i> On</span
+                >
+              </div>
+            </div>
+            <div class="pref-row">
+              <div class="pref-ico"><i class="ti ti-message"></i></div>
+              <div class="pref-info">
+                <div class="pref-name">SMS Alerts</div>
+                <div class="pref-sub">Critical alerts via text message</div>
+              </div>
+              <div class="pref-state">
+                <span class="state-pill state-on"
+                  ><i class="ti ti-check" style="font-size: 10px"></i> On</span
+                >
+              </div>
+            </div>
+            <div class="pref-row">
+              <div class="pref-ico"><i class="ti ti-device-mobile"></i></div>
+              <div class="pref-info">
+                <div class="pref-name">Push Notifications</div>
+                <div class="pref-sub">In-app and mobile push alerts</div>
+              </div>
+              <div class="pref-state">
+                <span class="state-pill state-off"
+                  ><i class="ti ti-x" style="font-size: 10px"></i> Off</span
+                >
+              </div>
+            </div>
+            <div class="pref-row">
+              <div class="pref-ico"><i class="ti ti-report"></i></div>
+              <div class="pref-info">
+                <div class="pref-name">Weekly Digest</div>
+                <div class="pref-sub">Summary report every Monday</div>
+              </div>
+              <div class="pref-state">
+                <span class="state-pill state-on"
+                  ><i class="ti ti-check" style="font-size: 10px"></i> On</span
+                >
+              </div>
+            </div>
+            <div class="pref-row">
+              <div class="pref-ico"><i class="ti ti-alert-triangle"></i></div>
+              <div class="pref-info">
+                <div class="pref-name">Fee Due Reminders</div>
+                <div class="pref-sub">Automated reminders for pending fees</div>
+              </div>
+              <div class="pref-state">
+                <span class="state-pill state-on"
+                  ><i class="ti ti-check" style="font-size: 10px"></i> On</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /page-wrap -->
+
+    <div id="toast-wrap"></div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         Branding module (inlined — no separate file needed)
+         Persists the logo, favicon, and theme colors and applies them
+         on load. To reflect branding on OTHER pages, paste this whole
+         block (the surrounding script element) into those pages too.
+    ════════════════════════════════════════════════════════════ -->
+    <script>
+      (function () {
+        var KEY = "aspireBranding";
+        var DEFAULTS = {
+          primary: "#0F4C75",
+          secondary: "#1B6CA8",
+          accent: "#2E86C1",
+          logo: null,
+          favicon: null,
+        };
+        function hexToRgb(hex) {
+          hex = String(hex || "").replace("#", "");
+          if (hex.length === 3)
+            hex = hex
+              .split("")
+              .map(function (c) {
+                return c + c;
+              })
+              .join("");
+          var n = parseInt(hex, 16);
+          if (isNaN(n)) return { r: 15, g: 76, b: 117 };
+          return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+        }
+        function mixWhite(hex, ratio) {
+          var c = hexToRgb(hex);
+          return (
+            "rgb(" +
+            Math.round(c.r + (255 - c.r) * ratio) +
+            "," +
+            Math.round(c.g + (255 - c.g) * ratio) +
+            "," +
+            Math.round(c.b + (255 - c.b) * ratio) +
+            ")"
+          );
+        }
+        function rgba(hex, a) {
+          var c = hexToRgb(hex);
+          return "rgba(" + c.r + "," + c.g + "," + c.b + "," + a + ")";
+        }
+        function load() {
+          try {
+            var s = localStorage.getItem(KEY);
+            return s ? JSON.parse(s) : null;
+          } catch (e) {
+            return null;
+          }
+        }
+        function save(b) {
+          try {
+            localStorage.setItem(KEY, JSON.stringify(b));
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }
+        function applyColors(b) {
+          var root = document.documentElement.style;
+          if (b.primary) {
+            root.setProperty("--p", b.primary);
+            root.setProperty("--p-bg", mixWhite(b.primary, 0.9));
+            root.setProperty("--p-glow", rgba(b.primary, 0.15));
+            root.setProperty("--p-line", rgba(b.primary, 0.25));
+            root.setProperty(
+              "--sh-brand",
+              "0 8px 32px " +
+                rgba(b.primary, 0.28) +
+                ", 0 2px 8px " +
+                rgba(b.primary, 0.18),
+            );
+          }
+          if (b.secondary) root.setProperty("--p2", b.secondary);
+          if (b.accent) root.setProperty("--p3", b.accent);
+        }
+        function setFavicon(url) {
+          if (!url) return;
+          var link = document.querySelector("link[rel~='icon']");
+          if (!link) {
+            link = document.createElement("link");
+            link.rel = "icon";
+            document.head.appendChild(link);
+          }
+          link.href = url;
+        }
+        function injectImg(el, url) {
+          if (!el || !url) return;
+          if (getComputedStyle(el).position === "static")
+            el.style.position = "relative";
+          var img = el.querySelector("img.brand-img");
+          if (!img) {
+            img = document.createElement("img");
+            img.className = "brand-img";
+            img.alt = "";
+            img.style.cssText =
+              "width:100%;height:100%;object-fit:cover;border-radius:inherit;position:absolute;inset:0;z-index:1;";
+            el.appendChild(img);
+          }
+          img.src = url;
+        }
+        function applyLogo(b) {
+          if (!b.logo) return;
+          document
+            .querySelectorAll('.tb-mark, [data-brand="logo"]')
+            .forEach(function (el) {
+              injectImg(el, b.logo);
+            });
+        }
+        function applyFaviconPreview(b) {
+          if (!b.favicon) return;
+          document
+            .querySelectorAll('[data-brand="favicon"]')
+            .forEach(function (el) {
+              injectImg(el, b.favicon);
+            });
+        }
+        function apply(b) {
+          b = b || load();
+          if (!b) return;
+          applyColors(b);
+          applyLogo(b);
+          applyFaviconPreview(b);
+          setFavicon(b.favicon);
+        }
+        window.AspireBranding = {
+          KEY: KEY,
+          defaults: function () {
+            return JSON.parse(JSON.stringify(DEFAULTS));
+          },
+          load: load,
+          save: save,
+          apply: apply,
+          update: function (patch) {
+            var b = load() || this.defaults();
+            patch = patch || {};
+            for (var k in patch)
+              if (patch.hasOwnProperty(k) && patch[k] != null) b[k] = patch[k];
+            save(b);
+            apply(b);
+            return b;
+          },
+        };
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", function () {
+            apply();
+          });
+        } else {
+          apply();
+        }
+      })();
+    </script>
+
+    <script>
+      var SESSION = { role: "Admin", user: "" };
+      var pendingBrand = AspireBranding.defaults();
+
+      function sT(id, v) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = v;
+      }
+      function getParam(name) {
+        var m = new RegExp("[?&]" + name + "=([^&]*)").exec(
+          window.location.search,
+        );
+        return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "";
+      }
+
+      function toast(msg, type) {
+        type = type || "info";
+        var icons = {
+          ok: "ti-circle-check",
+          err: "ti-alert-circle",
+          info: "ti-info-circle",
+        };
+        var wrap = document.getElementById("toast-wrap");
+        if (!wrap) return;
+        var el = document.createElement("div");
+        el.className = "toast " + type;
+        el.innerHTML =
+          '<i class="ti ' +
+          (icons[type] || icons.info) +
+          '"></i><span>' +
+          msg +
+          "</span>";
+        wrap.appendChild(el);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            el.classList.add("in");
+          });
+        });
+        setTimeout(function () {
+          el.classList.remove("in");
+          setTimeout(function () {
+            el.remove();
+          }, 400);
+        }, 3400);
+      }
+
+      /* ── TAB SWITCHING (same pattern as View Profile) ── */
+      function switchTab(name) {
+        ["info", "org", "brand"].forEach(function (t) {
+          var btn = document.getElementById("tab-" + t);
+          var panel = document.getElementById("panel-" + t);
+          if (btn) btn.classList.toggle("active", t === name);
+          if (panel) {
+            panel.classList.remove("active");
+            if (t === name) {
+              panel.style.animation = "none";
+              requestAnimationFrame(function () {
+                panel.style.animation = "";
+                panel.classList.add("active");
+              });
+            }
+          }
+        });
+        var u = new URL(window.location.href);
+        u.searchParams.set("tab", name);
+        history.replaceState({}, "", u.toString());
+      }
+
+      function goBack() {
+        window.location.href =
+          "dashboard.html?role=" +
+          encodeURIComponent(SESSION.role) +
+          "&u=" +
+          encodeURIComponent(SESSION.user);
+      }
+
+      /* ── BRANDING EDIT HANDLERS ── */
+      function readImageFile(input, cb) {
+        var f = input.files && input.files[0];
+        if (!f) return;
+        var r = new FileReader();
+        r.onload = function (e) {
+          cb(e.target.result);
+        };
+        r.readAsDataURL(f);
+        input.value = "";
+      }
+      function onLogoFile(input) {
+        readImageFile(input, function (url) {
+          pendingBrand.logo = url;
+          AspireBranding.apply(pendingBrand); /* live preview on this page */
+        });
+      }
+      function onFavFile(input) {
+        readImageFile(input, function (url) {
+          pendingBrand.favicon = url;
+          AspireBranding.apply(pendingBrand);
+        });
+      }
+      function syncColor(input) {
+        var hex = (input.value || "").toUpperCase();
+        pendingBrand[input.dataset.key] = hex;
+        var lbl = input.closest(".color-field").querySelector(".cf-hex");
+        if (lbl) lbl.textContent = hex;
+        AspireBranding.apply(pendingBrand); /* live theme preview */
+      }
+      function applyBranding() {
+        AspireBranding.update(pendingBrand);
+        toast("Branding applied across the application.", "ok");
+      }
+      function resetBranding() {
+        pendingBrand = AspireBranding.defaults();
+        AspireBranding.save(pendingBrand);
+        setColorInputs(pendingBrand);
+        /* clear logo/favicon previews back to icons */
+        location.reload();
+      }
+      function setColorInputs(b) {
+        [
+          ["bc-primary", b.primary],
+          ["bc-secondary", b.secondary],
+          ["bc-accent", b.accent],
+        ].forEach(function (pair) {
+          var el = document.getElementById(pair[0]);
+          if (el && pair[1]) {
+            el.value = pair[1];
+            var lbl = el.closest(".color-field").querySelector(".cf-hex");
+            if (lbl) lbl.textContent = pair[1].toUpperCase();
+          }
+        });
+      }
+
+      function saveAll() {
+        AspireBranding.update(pendingBrand);
+        toast("Company profile saved successfully.", "ok");
+      }
+
+      /* Map legacy section hashes from the dashboard to the new tabs */
+      var HASH_TO_TAB = {
+        "sec-company": "info",
+        "sec-org": "org",
+        "sec-brand": "brand",
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var role = getParam("role") || "Admin";
+        var user = getParam("u") || "";
+        SESSION = { role: role, user: user };
+
+        /* Sync the branding editor with whatever is saved */
+        var saved = AspireBranding.load() || AspireBranding.defaults();
+        pendingBrand = {
+          primary: saved.primary,
+          secondary: saved.secondary,
+          accent: saved.accent,
+          logo: saved.logo || null,
+          favicon: saved.favicon || null,
+        };
+        setColorInputs(pendingBrand);
+        /* branding.js already applied logo/favicon/theme on load */
+
+        sT("tb-urole", role);
+        if (user) {
+          var base = user.split("@")[0].split(".")[0] || "priya";
+          var fn = base.charAt(0).toUpperCase() + base.slice(1);
+          sT("tb-uname", fn);
+          sT("tb-avatar", (fn[0] || "P").toUpperCase() + "U");
+        }
+
+        /* Carry session params back to the dashboard */
+        var dashUrl =
+          "dashboard.html?role=" +
+          encodeURIComponent(role) +
+          "&u=" +
+          encodeURIComponent(user);
+        var bl = document.getElementById("back-link");
+        if (bl) bl.href = dashUrl;
+        var bc = document.getElementById("bc-dash");
+        if (bc) bc.href = dashUrl;
+
+        /* Choose initial tab: ?tab= wins, else legacy #hash, else default */
+        var tab = getParam("tab");
+        if (!tab && location.hash) {
+          tab = HASH_TO_TAB[location.hash.slice(1)] || "";
+        }
+        switchTab(tab || "info");
+      });
+    </script>
+  </body>
+</html>

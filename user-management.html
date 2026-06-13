@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Management — Aspire ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+      --smoke:#f7f8fc;--white:#ffffff;--line:#e4e8f0;--line2:#cbd5e1;
+      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+      --sh-brand:0 8px 32px rgba(15,76,117,.28),0 2px 8px rgba(15,76,117,.18);
+    }
+    html{font-size:14px;scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+    input,select,textarea{font-family:var(--font)}
+    a{text-decoration:none}
+
+    /* ── TOPBAR ── */
+    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
+    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
+    .tb-mark svg{width:18px;height:18px}
+    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
+    .tb-divider{width:1px;height:24px;background:var(--line);margin:0 4px}
+    .tb-breadcrumb{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
+    .tb-breadcrumb a{color:var(--ink4);transition:color .15s}
+    .tb-breadcrumb a:hover{color:var(--p2)}
+    .tb-breadcrumb i{font-size:12px}
+    .tb-breadcrumb .current{color:var(--ink2);font-weight:600}
+    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .tb-icon-btn{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
+    .tb-icon-btn:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .tb-avatar{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display)}
+
+    /* ── PAGE WRAPPER ── */
+    .page-wrap{max-width:1280px;margin:0 auto;padding:28px 28px 60px}
+
+    /* ── PAGE HEADER ── */
+    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+    .page-header-left .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+    .page-header-right{display:flex;gap:8px;align-items:center;flex-shrink:0}
+
+    /* ── STAT CARDS ── */
+    .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .stat-tile{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,transform .2s}
+    .stat-tile:hover{box-shadow:var(--sh-md);transform:translateY(-1px)}
+    .st-ico{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .st-ico.blue{background:var(--sky-bg);color:var(--sky)}
+    .st-ico.green{background:var(--jade-bg);color:var(--jade)}
+    .st-ico.amber{background:var(--sun-bg);color:var(--sun)}
+    .st-ico.red{background:var(--fire-bg);color:var(--fire)}
+    .st-body{flex:1}
+    .st-val{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:-.5px;line-height:1}
+    .st-lbl{font-size:11px;color:var(--ink4);margin-top:3px;font-weight:500}
+
+    /* ── FILTER BAR ── */
+    .filter-bar{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    .search-wrap{flex:1;min-width:220px;position:relative}
+    .search-wrap i{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none}
+    .search-inp{width:100%;border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 36px;font-size:13px;color:var(--ink);outline:none;background:var(--smoke);transition:border-color .2s,box-shadow .2s}
+    .search-inp:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .search-inp::placeholder{color:var(--ink4)}
+    .filter-select{height:38px;border:1.5px solid var(--line);border-radius:var(--r);padding:0 30px 0 11px;font-size:12.5px;color:var(--ink);background:var(--smoke);outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;min-width:130px}
+    .filter-select:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow);background:var(--white)}
+    .filter-divider{width:1px;height:24px;background:var(--line);margin:0 2px}
+    .view-toggle{display:flex;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden}
+    .view-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink4);background:var(--smoke);cursor:pointer;transition:all .15s;border:none}
+    .view-btn.active{background:var(--p);color:#fff}
+    .view-btn:not(.active):hover{background:var(--line);color:var(--ink)}
+
+    /* ── TABLE ── */
+    .table-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh)}
+    .table-head-row{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1.5px solid var(--line)}
+    .table-count{font-size:12px;color:var(--ink4)}
+    .table-count b{color:var(--ink2);font-weight:600}
+    .bulk-actions{display:flex;align-items:center;gap:8px}
+    .bulk-label{font-size:12px;color:var(--p);font-weight:600}
+    table{width:100%;border-collapse:collapse}
+    thead th{background:var(--smoke);padding:11px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;border-bottom:1.5px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none;transition:background .12s}
+    thead th:hover{background:#eef0f6}
+    thead th .th-inner{display:flex;align-items:center;gap:5px}
+    thead th i{font-size:13px;opacity:.5}
+    thead th.sort-asc i,thead th.sort-desc i{opacity:1;color:var(--p)}
+    tbody tr{border-bottom:1px solid var(--line);transition:background .12s}
+    tbody tr:last-child{border-bottom:none}
+    tbody tr:hover{background:#f9fafc}
+    tbody tr.selected{background:var(--p-bg)}
+    td{padding:12px 16px;font-size:13px;color:var(--ink2);vertical-align:middle}
+    .td-check{width:40px;text-align:center}
+    .td-user{min-width:220px}
+    .td-role{width:140px}
+    .td-dept{width:140px}
+    .td-status{width:110px}
+    .td-last{width:150px}
+    .td-actions{width:100px;text-align:right}
+
+    /* checkbox */
+    input[type=checkbox]{width:15px;height:15px;accent-color:var(--p);cursor:pointer}
+
+    /* user cell */
+    .user-cell{display:flex;align-items:center;gap:11px}
+    .user-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+    .user-name{font-size:13px;font-weight:600;color:var(--ink);line-height:1.2}
+    .user-email{font-size:11px;color:var(--ink4);margin-top:1px;font-family:var(--mono)}
+
+    /* badges */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--r-pill);font-size:11px;font-weight:600}
+    .badge-active{background:var(--jade-bg);color:var(--jade-text)}
+    .badge-inactive{background:var(--smoke);color:var(--ink4);border:1px solid var(--line)}
+    .badge-pending{background:var(--sun-bg);color:var(--sun-text)}
+    .badge-suspended{background:var(--fire-bg);color:var(--fire-text)}
+    .role-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:600;border:1px solid}
+    .rc-admin{background:var(--p-bg);color:var(--p);border-color:var(--p-line)}
+    .rc-trustee{background:#f3e8ff;color:#7c3aed;border-color:rgba(124,58,237,.2)}
+    .rc-principal{background:var(--jade-bg);color:var(--jade-text);border-color:rgba(14,165,113,.2)}
+    .rc-hod{background:var(--sky-bg);color:var(--sky-text);border-color:rgba(59,130,246,.2)}
+    .rc-teacher{background:var(--sun-bg);color:var(--sun-text);border-color:rgba(245,158,11,.2)}
+    .rc-staff{background:var(--smoke);color:var(--ink3);border-color:var(--line)}
+
+    /* row action buttons */
+    .row-actions{display:flex;justify-content:flex-end;gap:4px;opacity:0;transition:opacity .15s}
+    tbody tr:hover .row-actions{opacity:1}
+    .row-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;border:none;background:transparent;color:var(--ink4);transition:all .14s}
+    .row-btn:hover{background:var(--smoke);color:var(--ink)}
+    .row-btn.danger:hover{background:var(--fire-bg);color:var(--fire)}
+
+    /* ── CARD GRID VIEW ── */
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;display:none}
+    .user-card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:20px;transition:box-shadow .2s,transform .2s;cursor:pointer;position:relative}
+    .user-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+    .uc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px}
+    .uc-av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:16px;font-weight:700;color:#fff}
+    .uc-info{flex:1;margin-left:12px}
+    .uc-name{font-size:14px;font-weight:700;color:var(--ink);font-family:var(--display);letter-spacing:-.2px}
+    .uc-email{font-size:11px;color:var(--ink4);margin-top:2px;font-family:var(--mono)}
+    .uc-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+    .uc-meta-item{font-size:11px;color:var(--ink4);display:flex;align-items:center;gap:4px}
+    .uc-meta-item i{font-size:12px}
+    .uc-actions{display:flex;gap:6px;margin-top:12px}
+
+    /* ── PAGINATION ── */
+    .pagination{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-top:1.5px solid var(--line);background:var(--smoke)}
+    .pag-info{font-size:12px;color:var(--ink4)}
+    .pag-info b{color:var(--ink2);font-weight:600}
+    .pag-btns{display:flex;gap:4px}
+    .pag-btn{width:32px;height:32px;border-radius:var(--r);border:1.5px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--ink3);cursor:pointer;transition:all .14s;font-family:var(--font)}
+    .pag-btn:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .pag-btn.active{background:var(--p);border-color:var(--p);color:#fff}
+    .pag-btn:disabled{opacity:.35;cursor:not-allowed}
+
+    /* ── BUTTONS ── */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 18px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;outline:none;transition:all .18s;position:relative;overflow:hidden;white-space:nowrap}
+    .btn i{font-size:15px;flex-shrink:0}
+    .btn-primary{background:var(--p);color:#fff;box-shadow:var(--sh-brand)}
+    .btn-primary:hover{background:var(--p2)}
+    .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}
+    .btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .btn-danger{background:transparent;color:var(--fire);border:1.5px solid rgba(239,68,68,.25)}
+    .btn-danger:hover{background:var(--fire-bg);border-color:var(--fire)}
+    .btn-sm{padding:7px 13px;font-size:12px}
+    .btn-loading{pointer-events:none}
+    .btn-loading::after{content:'';position:absolute;width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── OVERLAY / MODAL ── */
+    .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+    .overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--white);border-radius:var(--r-xl);width:520px;max-width:95vw;box-shadow:var(--sh-lg);transform:scale(.96) translateY(8px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+    .overlay.open .modal{transform:none}
+    .modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1.5px solid var(--line)}
+    .modal-title{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink)}
+    .modal-close{width:30px;height:30px;border-radius:8px;background:none;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink4);font-size:15px;cursor:pointer;transition:all .15s}
+    .modal-close:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+    .modal-body{padding:20px 24px}
+    .modal-foot{padding:14px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1.5px solid var(--line)}
+
+    /* ── TOAST ── */
+    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:12px 18px;font-size:13px;min-width:240px;max-width:320px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+    .toast.in{transform:none;opacity:1}
+    .toast i{font-size:17px;flex-shrink:0}
+    .toast.ok i{color:#34d399}
+    .toast.err i{color:#f87171}
+    .toast.info i{color:#60a5fa}
+
+    /* ── EMPTY STATE ── */
+    .empty-state{display:flex;flex-direction:column;align-items:center;padding:60px 20px;text-align:center}
+    .es-ico{width:60px;height:60px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--ink4);margin-bottom:14px}
+    .es-title{font-size:15px;font-weight:700;color:var(--ink);font-family:var(--display);margin-bottom:6px}
+    .es-desc{font-size:13px;color:var(--ink4);line-height:1.6;max-width:260px}
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .anim{animation:fadeUp .35s ease both}
+    .d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
+
+    @media(max-width:1100px){.stat-strip{grid-template-columns:1fr 1fr}}
+    @media(max-width:700px){.stat-strip{grid-template-columns:1fr 1fr};.page-header{flex-direction:column;align-items:flex-start};td.td-dept,td.td-last{display:none};thead th.td-dept,thead th.td-last{display:none}}
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand" onclick="location.href='dashboard.html'">
+    <div class="tb-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    </div>
+    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Admin</div></div>
+  </div>
+  <div class="tb-divider"></div>
+  <div class="tb-breadcrumb">
+    <a href="dashboard.html"><i class="ti ti-home" style="font-size:13px;vertical-align:-1px"></i> Dashboard</a>
+    <i class="ti ti-chevron-right"></i>
+    <span class="current">User Management</span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-icon-btn" title="Notifications"><i class="ti ti-bell"></i></button>
+    <button class="tb-icon-btn" title="Back to Dashboard" onclick="location.href='dashboard.html'"><i class="ti ti-layout-dashboard"></i></button>
+    <div class="tb-avatar">PM</div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header anim">
+    <div class="page-header-left">
+      <div class="page-tag"><i class="ti ti-users"></i> User Management</div>
+      <div class="page-title">All Users</div>
+      <div class="page-sub">Manage system users, roles, and access permissions for your organisation.</div>
+    </div>
+    <div class="page-header-right">
+      <button class="btn btn-ghost" onclick="exportUsers()"><i class="ti ti-download"></i> Export</button>
+      <button class="btn btn-ghost" onclick="location.href='user-roles.html'"><i class="ti ti-shield-lock"></i> Roles &amp; Permissions</button>
+      <button class="btn btn-primary" onclick="location.href='user-add.html'"><i class="ti ti-user-plus"></i> Add User</button>
+    </div>
+  </div>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip anim d1">
+    <div class="stat-tile">
+      <div class="st-ico blue"><i class="ti ti-users"></i></div>
+      <div class="st-body"><div class="st-val" id="stat-total">218</div><div class="st-lbl">Total Users</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico green"><i class="ti ti-user-check"></i></div>
+      <div class="st-body"><div class="st-val" id="stat-active">196</div><div class="st-lbl">Active</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico amber"><i class="ti ti-user-exclamation"></i></div>
+      <div class="st-body"><div class="st-val" id="stat-pending">14</div><div class="st-lbl">Pending Activation</div></div>
+    </div>
+    <div class="stat-tile">
+      <div class="st-ico red"><i class="ti ti-user-off"></i></div>
+      <div class="st-body"><div class="st-val" id="stat-inactive">8</div><div class="st-lbl">Inactive / Suspended</div></div>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar anim d2">
+    <div class="search-wrap">
+      <i class="ti ti-search"></i>
+      <input class="search-inp" type="text" id="search-inp" placeholder="Search by name, email, or employee ID…" oninput="applyFilters()"/>
+    </div>
+    <select class="filter-select" id="filter-role" onchange="applyFilters()">
+      <option value="">All Roles</option>
+      <option>Admin</option>
+      <option>Trustee</option>
+      <option>Principal</option>
+      <option>HOD</option>
+      <option>Teacher</option>
+      <option>Staff</option>
+    </select>
+    <select class="filter-select" id="filter-dept" onchange="applyFilters()">
+      <option value="">All Departments</option>
+      <option>Administration</option>
+      <option>Science</option>
+      <option>Commerce</option>
+      <option>Arts</option>
+      <option>Computer Science</option>
+      <option>Management</option>
+    </select>
+    <select class="filter-select" id="filter-status" onchange="applyFilters()">
+      <option value="">All Status</option>
+      <option>Active</option>
+      <option>Inactive</option>
+      <option>Pending</option>
+      <option>Suspended</option>
+    </select>
+    <div class="filter-divider"></div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="view-table-btn" onclick="setView('table')" title="Table view"><i class="ti ti-list"></i></button>
+      <button class="view-btn" id="view-card-btn" onclick="setView('card')" title="Card view"><i class="ti ti-layout-grid"></i></button>
+    </div>
+  </div>
+
+  <!-- TABLE CARD -->
+  <div class="table-card anim d3" id="table-view">
+    <div class="table-head-row">
+      <div class="table-count"><b id="showing-count">0</b> users found</div>
+      <div class="bulk-actions" id="bulk-actions" style="display:none">
+        <span class="bulk-label" id="bulk-label">0 selected</span>
+        <button class="btn btn-ghost btn-sm" onclick="bulkDeactivate()"><i class="ti ti-user-off"></i> Deactivate</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmBulkDelete()"><i class="ti ti-trash"></i> Delete</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th class="td-check"><input type="checkbox" id="select-all" onchange="toggleSelectAll(this)"/></th>
+            <th class="td-user" onclick="sortBy('name')"><div class="th-inner">User <i class="ti ti-arrows-sort" id="sort-name-ico"></i></div></th>
+            <th class="td-role" onclick="sortBy('role')"><div class="th-inner">Role <i class="ti ti-arrows-sort" id="sort-role-ico"></i></div></th>
+            <th class="td-dept" onclick="sortBy('dept')"><div class="th-inner">Department <i class="ti ti-arrows-sort" id="sort-dept-ico"></i></div></th>
+            <th class="td-status" onclick="sortBy('status')"><div class="th-inner">Status <i class="ti ti-arrows-sort" id="sort-status-ico"></i></div></th>
+            <th class="td-last" onclick="sortBy('last')"><div class="th-inner">Last Login <i class="ti ti-arrows-sort" id="sort-last-ico"></i></div></th>
+            <th class="td-actions"></th>
+          </tr>
+        </thead>
+        <tbody id="user-tbody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- CARD GRID VIEW -->
+  <div class="card-grid" id="card-view"></div>
+
+</div><!-- /page-wrap -->
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="overlay" id="delete-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" style="display:flex;align-items:center;gap:8px"><i class="ti ti-alert-triangle" style="color:var(--fire)"></i> Confirm Delete</div>
+      <button class="modal-close" onclick="closeModal('delete-modal')"><i class="ti ti-x"></i></button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13.5px;color:var(--ink2);line-height:1.7">Are you sure you want to delete <b id="delete-name">this user</b>? This action cannot be undone. All data associated with this account will be permanently removed.</p>
+      <div style="margin-top:14px;padding:12px 14px;background:var(--fire-bg);border:1.5px solid rgba(239,68,68,.2);border-radius:var(--r);font-size:12px;color:var(--fire-text)">
+        <i class="ti ti-alert-circle"></i> This will revoke all active sessions and cannot be recovered.
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeModal('delete-modal')">Cancel</button>
+      <button class="btn btn-danger" id="delete-confirm-btn" onclick="executeDelete()"><i class="ti ti-trash"></i> Delete User</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-wrap"></div>
+
+<script>
+/* ── DATA MODEL ── */
+var USERS = [
+  {id:'USR001',name:'Priya Menon',email:'priya.menon@school.edu',role:'Admin',dept:'Administration',status:'Active',last:'Today, 09:14 AM',joined:'10 Jan 2024',phone:'+91 98765 43210',empId:'EMP001',color:'#0F4C75'},
+  {id:'USR002',name:'Rajesh Kumar',email:'rajesh.kumar@school.edu',role:'Principal',dept:'Administration',status:'Active',last:'Today, 08:30 AM',joined:'15 Mar 2023',phone:'+91 87654 32109',empId:'EMP002',color:'#0EA571'},
+  {id:'USR003',name:'Sneha Patil',email:'sneha.patil@school.edu',role:'HOD',dept:'Science',status:'Active',last:'Yesterday, 04:45 PM',joined:'02 Jun 2023',phone:'+91 76543 21098',empId:'EMP003',color:'#7C3AED'},
+  {id:'USR004',name:'Anil Sharma',email:'anil.sharma@school.edu',role:'Teacher',dept:'Commerce',status:'Active',last:'Yesterday, 11:20 AM',joined:'18 Jul 2022',phone:'+91 65432 10987',empId:'EMP004',color:'#F59E0B'},
+  {id:'USR005',name:'Meera Iyer',email:'meera.iyer@school.edu',role:'Teacher',dept:'Arts',status:'Active',last:'Today, 07:55 AM',joined:'20 Aug 2021',phone:'+91 54321 09876',empId:'EMP005',color:'#EF4444'},
+  {id:'USR006',name:'Vikram Shah',email:'vikram.shah@school.edu',role:'HOD',dept:'Computer Science',status:'Active',last:'2 days ago',joined:'05 Jan 2022',phone:'+91 43210 98765',empId:'EMP006',color:'#3B82F6'},
+  {id:'USR007',name:'Kavita Nair',email:'kavita.nair@school.edu',role:'Staff',dept:'Administration',status:'Inactive',last:'2 weeks ago',joined:'12 Feb 2020',phone:'+91 32109 87654',empId:'EMP007',color:'#64748B'},
+  {id:'USR008',name:'Rohan Das',email:'rohan.das@school.edu',role:'Teacher',dept:'Science',status:'Active',last:'Today, 10:00 AM',joined:'30 Apr 2023',phone:'+91 21098 76543',empId:'EMP008',color:'#0EA571'},
+  {id:'USR009',name:'Ananya Singh',email:'ananya.singh@school.edu',role:'Teacher',dept:'Commerce',status:'Pending',last:'Never',joined:'01 Jun 2024',phone:'+91 10987 65432',empId:'EMP009',color:'#F59E0B'},
+  {id:'USR010',name:'Deepak Joshi',email:'deepak.joshi@school.edu',role:'HOD',dept:'Management',status:'Active',last:'3 days ago',joined:'14 Sep 2022',phone:'+91 09876 54321',empId:'EMP010',color:'#7C3AED'},
+  {id:'USR011',name:'Sana Khan',email:'sana.khan@school.edu',role:'Teacher',dept:'Arts',status:'Active',last:'Today, 09:45 AM',joined:'22 Nov 2021',phone:'+91 98760 43211',empId:'EMP011',color:'#EF4444'},
+  {id:'USR012',name:'Kiran Nair',email:'kiran.nair@school.edu',role:'Principal',dept:'Administration',status:'Suspended',last:'1 month ago',joined:'05 Mar 2020',phone:'+91 87651 32102',empId:'EMP012',color:'#64748B'},
+  {id:'USR013',name:'Ravi Teja',email:'ravi.teja@school.edu',role:'Teacher',dept:'Computer Science',status:'Active',last:'Yesterday, 06:30 PM',joined:'10 Jan 2023',phone:'+91 76542 21093',empId:'EMP013',color:'#0F4C75'},
+  {id:'USR014',name:'Pooja Reddy',email:'pooja.reddy@school.edu',role:'Staff',dept:'Administration',status:'Pending',last:'Never',joined:'15 May 2024',phone:'+91 65433 10984',empId:'EMP014',color:'#3B82F6'},
+  {id:'USR015',name:'Amit Verma',email:'amit.verma@school.edu',role:'Teacher',dept:'Science',status:'Active',last:'Today, 08:00 AM',joined:'28 Feb 2022',phone:'+91 54322 09875',empId:'EMP015',color:'#0EA571'},
+];
+
+var PAGE_SIZE = 8;
+var currentPage = 1;
+var sortField = 'name';
+var sortDir = 'asc';
+var filteredUsers = [];
+var selectedIds = new Set();
+var deleteTargetId = null;
+var currentView = 'table';
+
+function applyFilters(){
+  var q = (document.getElementById('search-inp').value||'').toLowerCase().trim();
+  var role = document.getElementById('filter-role').value;
+  var dept = document.getElementById('filter-dept').value;
+  var status = document.getElementById('filter-status').value;
+  filteredUsers = USERS.filter(function(u){
+    if(q && u.name.toLowerCase().indexOf(q)===-1 && u.email.toLowerCase().indexOf(q)===-1 && u.empId.toLowerCase().indexOf(q)===-1) return false;
+    if(role && u.role!==role) return false;
+    if(dept && u.dept!==dept) return false;
+    if(status && u.status!==status) return false;
+    return true;
+  });
+  sortUsers();
+  currentPage = 1;
+  renderView();
+}
+
+function sortBy(field){
+  if(sortField===field) sortDir = sortDir==='asc'?'desc':'asc';
+  else { sortField=field; sortDir='asc'; }
+  ['name','role','dept','status','last'].forEach(function(f){
+    var ico=document.getElementById('sort-'+f+'-ico');
+    if(ico){ ico.className='ti ti-arrows-sort'; }
+  });
+  var ico=document.getElementById('sort-'+field+'-ico');
+  if(ico) ico.className='ti ti-arrow-'+(sortDir==='asc'?'up':'down');
+  sortUsers();
+  renderView();
+}
+
+function sortUsers(){
+  filteredUsers.sort(function(a,b){
+    var av = a[sortField==='name'?'name':sortField==='role'?'role':sortField==='dept'?'dept':sortField==='status'?'status':'last']||'';
+    var bv = b[sortField==='name'?'name':sortField==='role'?'role':sortField==='dept'?'dept':sortField==='status'?'status':'last']||'';
+    return sortDir==='asc'?av.localeCompare(bv):bv.localeCompare(av);
+  });
+}
+
+function setView(v){
+  currentView = v;
+  document.getElementById('view-table-btn').classList.toggle('active', v==='table');
+  document.getElementById('view-card-btn').classList.toggle('active', v==='card');
+  document.getElementById('table-view').style.display = v==='table'?'block':'none';
+  document.getElementById('card-view').style.display  = v==='card'?'grid':'none';
+  renderView();
+}
+
+function renderView(){
+  if(currentView==='table') renderTable();
+  else renderCards();
+}
+
+function renderTable(){
+  var total = filteredUsers.length;
+  var pages = Math.max(1,Math.ceil(total/PAGE_SIZE));
+  if(currentPage>pages) currentPage=1;
+  var start=(currentPage-1)*PAGE_SIZE, end=Math.min(start+PAGE_SIZE,total);
+  var page = filteredUsers.slice(start,end);
+  document.getElementById('showing-count').textContent=total;
+  var tbody = document.getElementById('user-tbody');
+  if(!page.length){
+    tbody.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="es-ico"><i class="ti ti-user-search"></i></div><div class="es-title">No users found</div><div class="es-desc">Try adjusting your search or filter criteria.</div></div></td></tr>';
+    document.getElementById('pagination').innerHTML='';
+    return;
+  }
+  tbody.innerHTML = page.map(function(u){
+    var checked = selectedIds.has(u.id);
+    return '<tr class="'+(checked?'selected':'')+'" data-id="'+u.id+'">'
+      +'<td class="td-check"><input type="checkbox" '+(checked?'checked':'')+' onchange="toggleRow(this,\''+u.id+'\')" onclick="e=>e.stopPropagation()"/></td>'
+      +'<td class="td-user" onclick="location.href=\'user-detail.html?id='+u.id+'\'" style="cursor:pointer"><div class="user-cell"><div class="user-av" style="background:'+u.color+'">'+initials(u.name)+'</div><div><div class="user-name">'+u.name+'</div><div class="user-email">'+u.email+'</div></div></div></td>'
+      +'<td class="td-role"><span class="role-chip '+roleClass(u.role)+'">'+u.role+'</span></td>'
+      +'<td class="td-dept" style="color:var(--ink3)">'+u.dept+'</td>'
+      +'<td class="td-status">'+statusBadge(u.status)+'</td>'
+      +'<td class="td-last" style="color:var(--ink4);font-size:12px">'+u.last+'</td>'
+      +'<td class="td-actions"><div class="row-actions">'
+        +'<button class="row-btn" title="View" onclick="location.href=\'user-detail.html?id='+u.id+'\'"><i class="ti ti-eye"></i></button>'
+        +'<button class="row-btn" title="Edit" onclick="location.href=\'user-add.html?id='+u.id+'\'"><i class="ti ti-edit"></i></button>'
+        +'<button class="row-btn danger" title="Delete" onclick="openDelete(\''+u.id+'\',\''+u.name+'\')"><i class="ti ti-trash"></i></button>'
+      +'</div></td>'
+    +'</tr>';
+  }).join('');
+  renderPagination(total,pages);
+}
+
+function renderCards(){
+  var total = filteredUsers.length;
+  document.getElementById('showing-count').textContent=total;
+  if(!total){
+    document.getElementById('card-view').innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="es-ico"><i class="ti ti-user-search"></i></div><div class="es-title">No users found</div><div class="es-desc">Try adjusting your search or filter criteria.</div></div>';
+    return;
+  }
+  document.getElementById('card-view').innerHTML = filteredUsers.map(function(u){
+    return '<div class="user-card" onclick="location.href=\'user-detail.html?id='+u.id+'\'">'
+      +'<div class="uc-top">'
+        +'<div class="uc-av" style="background:'+u.color+'">'+initials(u.name)+'</div>'
+        +'<div class="uc-info"><div class="uc-name">'+u.name+'</div><div class="uc-email">'+u.email+'</div></div>'
+        +statusBadge(u.status)
+      +'</div>'
+      +'<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="role-chip '+roleClass(u.role)+'">'+u.role+'</span></div>'
+      +'<div class="uc-meta">'
+        +'<div class="uc-meta-item"><i class="ti ti-building-community"></i>'+u.dept+'</div>'
+        +'<div class="uc-meta-item"><i class="ti ti-clock"></i>'+u.last+'</div>'
+      +'</div>'
+      +'<div class="uc-actions" onclick="event.stopPropagation()">'
+        +'<button class="btn btn-ghost btn-sm" style="flex:1" onclick="location.href=\'user-detail.html?id='+u.id+'\'"><i class="ti ti-eye"></i> View</button>'
+        +'<button class="btn btn-ghost btn-sm" onclick="location.href=\'user-add.html?id='+u.id+'\'"><i class="ti ti-edit"></i></button>'
+        +'<button class="btn btn-ghost btn-sm" style="color:var(--fire)" onclick="openDelete(\''+u.id+'\',\''+u.name+'\')"><i class="ti ti-trash"></i></button>'
+      +'</div>'
+    +'</div>';
+  }).join('');
+}
+
+function renderPagination(total,pages){
+  var el=document.getElementById('pagination');
+  var start=(currentPage-1)*PAGE_SIZE+1, end=Math.min(currentPage*PAGE_SIZE,total);
+  var html='<div class="pag-info">Showing <b>'+start+'–'+end+'</b> of <b>'+total+'</b> users</div>';
+  html+='<div class="pag-btns">';
+  html+='<button class="pag-btn" onclick="goPage('+(currentPage-1)+')" '+(currentPage<=1?'disabled':'')+'><i class="ti ti-chevron-left"></i></button>';
+  for(var p=Math.max(1,currentPage-2);p<=Math.min(pages,currentPage+2);p++){
+    html+='<button class="pag-btn'+(p===currentPage?' active':'')+'" onclick="goPage('+p+')">'+p+'</button>';
+  }
+  html+='<button class="pag-btn" onclick="goPage('+(currentPage+1)+')" '+(currentPage>=pages?'disabled':'')+'><i class="ti ti-chevron-right"></i></button>';
+  html+='</div>';
+  el.innerHTML=html;
+}
+
+function goPage(p){
+  var pages=Math.max(1,Math.ceil(filteredUsers.length/PAGE_SIZE));
+  if(p<1||p>pages) return;
+  currentPage=p; renderTable();
+}
+
+/* ── Selection ── */
+function toggleRow(cb,id){
+  if(cb.checked) selectedIds.add(id); else selectedIds.delete(id);
+  var tr=cb.closest('tr');
+  if(tr) tr.classList.toggle('selected',cb.checked);
+  updateBulk();
+}
+function toggleSelectAll(cb){
+  var start=(currentPage-1)*PAGE_SIZE, end=Math.min(start+PAGE_SIZE,filteredUsers.length);
+  var page=filteredUsers.slice(start,end);
+  page.forEach(function(u){ if(cb.checked) selectedIds.add(u.id); else selectedIds.delete(u.id); });
+  renderTable(); updateBulk();
+}
+function updateBulk(){
+  var bulk=document.getElementById('bulk-actions');
+  var lbl=document.getElementById('bulk-label');
+  var n=selectedIds.size;
+  bulk.style.display=n>0?'flex':'none';
+  if(lbl) lbl.textContent=n+' selected';
+}
+
+/* ── Delete ── */
+function openDelete(id,name){
+  deleteTargetId=id;
+  document.getElementById('delete-name').textContent=name;
+  document.getElementById('delete-modal').classList.add('open');
+}
+function executeDelete(){
+  if(!deleteTargetId) return;
+  var btn=document.getElementById('delete-confirm-btn');
+  btn.classList.add('btn-loading'); btn.textContent='';
+  setTimeout(function(){
+    USERS=USERS.filter(function(u){return u.id!==deleteTargetId;});
+    closeModal('delete-modal');
+    btn.classList.remove('btn-loading');
+    btn.innerHTML='<i class="ti ti-trash"></i> Delete User';
+    applyFilters();
+    toast('User deleted successfully.','ok');
+    deleteTargetId=null;
+  },800);
+}
+function confirmBulkDelete(){ toast(selectedIds.size+' users would be deleted. (Demo)','info'); }
+function bulkDeactivate(){
+  selectedIds.forEach(function(id){ var u=USERS.find(function(x){return x.id===id;}); if(u) u.status='Inactive'; });
+  selectedIds.clear(); applyFilters(); toast('Selected users deactivated.','ok');
+}
+
+/* ── Helpers ── */
+function initials(name){ var p=name.trim().split(' '); return (p[0][0]+(p[1]?p[1][0]:'')).toUpperCase(); }
+function roleClass(r){ return {Admin:'rc-admin',Trustee:'rc-trustee',Principal:'rc-principal',HOD:'rc-hod',Teacher:'rc-teacher',Staff:'rc-staff'}[r]||'rc-staff'; }
+function statusBadge(s){ var m={Active:'badge-active',Inactive:'badge-inactive',Pending:'badge-pending',Suspended:'badge-suspended'}; return '<span class="badge '+(m[s]||'badge-inactive')+'">'+s+'</span>'; }
+function exportUsers(){ toast('Exporting users as CSV…','info'); }
+function closeModal(id){ var m=document.getElementById(id); if(m) m.classList.remove('open'); }
+function toast(msg,type){
+  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
+  var wrap=document.getElementById('toast-wrap');
+  var el=document.createElement('div');
+  el.className='toast '+(type||'info');
+  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
+  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
+}
+
+document.addEventListener('click',function(e){ var o=e.target.closest('.overlay'); if(o&&e.target===o) o.classList.remove('open'); });
+
+/* ── INIT ── */
+applyFilters();
+</script>
+</body>
+</html>

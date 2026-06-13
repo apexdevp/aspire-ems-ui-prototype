@@ -1,0 +1,1429 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Reports — Aspire ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #0a0e1a;
+        --ink2: #2d3348;
+        --ink3: #64748b;
+        --ink4: #94a3b8;
+        --smoke: #f7f8fc;
+        --white: #fff;
+        --line: #e4e8f0;
+        --line2: #cbd5e1;
+        --jade: #0ea571;
+        --jade-bg: #ecfdf5;
+        --jade-text: #065f46;
+        --fire: #ef4444;
+        --fire-bg: #fef2f2;
+        --fire-text: #991b1b;
+        --sun: #f59e0b;
+        --sun-bg: #fffbeb;
+        --sun-text: #92400e;
+        --sky: #3b82f6;
+        --sky-bg: #eff6ff;
+        --sky-text: #1e40af;
+        --violet: #7c3aed;
+        --violet-bg: #f3e8ff;
+        --violet-text: #5b21b6;
+        --teal: #0891b2;
+        --teal-bg: #ecfeff;
+        --teal-text: #155e75;
+        --p: #0f4c75;
+        --p2: #1b6ca8;
+        --p3: #2e86c1;
+        --p-glow: rgba(15, 76, 117, 0.15);
+        --p-line: rgba(15, 76, 117, 0.25);
+        --p-bg: #ebf5fb;
+        --font: "Plus Jakarta Sans", sans-serif;
+        --display: "Clash Display", sans-serif;
+        --mono: "Fira Code", monospace;
+        --r: 10px;
+        --r-lg: 16px;
+        --r-xl: 24px;
+        --r-pill: 999px;
+        --sh:
+          0 2px 12px rgba(10, 14, 26, 0.08), 0 1px 4px rgba(10, 14, 26, 0.05);
+        --sh-md:
+          0 8px 32px rgba(10, 14, 26, 0.1), 0 2px 8px rgba(10, 14, 26, 0.06);
+        --sh-lg:
+          0 20px 60px rgba(10, 14, 26, 0.14), 0 6px 16px rgba(10, 14, 26, 0.07);
+        --sh-brand:
+          0 8px 32px rgba(15, 76, 117, 0.28), 0 2px 8px rgba(15, 76, 117, 0.18);
+      }
+      html {
+        font-size: 14px;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--smoke);
+        color: var(--ink);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      button {
+        font-family: var(--font);
+        cursor: pointer;
+        border: none;
+        outline: none;
+      }
+      input,
+      select {
+        font-family: var(--font);
+      }
+      a {
+        text-decoration: none;
+      }
+
+      /* TOPBAR */
+      .topbar {
+        background: var(--white);
+        border-bottom: 1.5px solid var(--line);
+        height: 62px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 1px 0 var(--line);
+      }
+      .tb-brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .tb-mark {
+        width: 36px;
+        height: 36px;
+        background: var(--p);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(15, 76, 117, 0.3);
+        flex-shrink: 0;
+      }
+      .tb-mark svg {
+        width: 18px;
+        height: 18px;
+      }
+      .tb-name {
+        font-family: var(--display);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.3px;
+      }
+      .tb-ver {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--ink4);
+        margin-top: 1px;
+        letter-spacing: 0.3px;
+      }
+      .tb-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tb-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        font-family: var(--display);
+        flex-shrink: 0;
+      }
+      .tb-uname {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ink);
+        line-height: 1.2;
+      }
+      .tb-urole {
+        font-size: 10px;
+        color: var(--ink4);
+        line-height: 1.2;
+      }
+      .tb-user-pill {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 12px 7px 8px;
+        border-radius: var(--r);
+        border: 1.5px solid var(--line);
+        background: var(--white);
+      }
+
+      /* BUTTONS */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: var(--r);
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border: none;
+        white-space: nowrap;
+      }
+      .btn::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0);
+        transition: background 0.15s;
+      }
+      .btn:hover::after {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn:focus-visible {
+        box-shadow: 0 0 0 3px var(--p-glow);
+      }
+      .btn-primary {
+        background: var(--p);
+        color: #fff;
+        box-shadow: var(--sh-brand);
+      }
+      .btn-primary:hover {
+        background: var(--p2);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink3);
+        border: 1.5px solid var(--line);
+      }
+      .btn-ghost:hover {
+        background: var(--smoke);
+        border-color: var(--line2);
+        color: var(--ink);
+      }
+      .btn i {
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .btn-sm {
+        padding: 7px 14px;
+        font-size: 12px;
+      }
+
+      /* LAYOUT */
+      .page-wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 28px 24px 64px;
+      }
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11.5px;
+        color: var(--ink4);
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+      .breadcrumb a {
+        color: var(--ink4);
+        transition: color 0.15s;
+      }
+      .breadcrumb a:hover {
+        color: var(--p2);
+      }
+      .breadcrumb i {
+        font-size: 12px;
+        color: var(--line2);
+      }
+      .breadcrumb .current {
+        color: var(--ink2);
+        font-weight: 500;
+      }
+      .page-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 22px;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .page-tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--p2);
+        margin-bottom: 5px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .page-title {
+        font-family: var(--display);
+        font-size: 25px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.5px;
+        margin-bottom: 3px;
+      }
+      .page-sub {
+        font-size: 13px;
+        color: var(--ink3);
+        font-weight: 300;
+      }
+      .page-head-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      /* KPI STATS */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .kpi {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        padding: 16px 18px;
+        box-shadow: var(--sh);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        animation: fadeUp 0.4s ease both;
+      }
+      .kpi-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .kpi-ico {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+      .kpi-delta {
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 3px 8px;
+        border-radius: var(--r-pill);
+      }
+      .kpi-delta.up {
+        background: var(--jade-bg);
+        color: var(--jade-text);
+      }
+      .kpi-delta.down {
+        background: var(--fire-bg);
+        color: var(--fire-text);
+      }
+      .kpi-delta.flat {
+        background: var(--smoke);
+        color: var(--ink3);
+        border: 1px solid var(--line);
+      }
+      .kpi-val {
+        font-family: var(--display);
+        font-size: 25px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.5px;
+        line-height: 1;
+      }
+      .kpi-label {
+        font-size: 12px;
+        color: var(--ink3);
+        font-weight: 500;
+      }
+
+      /* FILTER BAR */
+      .filter-card {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        box-shadow: var(--sh);
+        margin-bottom: 18px;
+        overflow: hidden;
+        animation: fadeUp 0.4s ease both;
+      }
+      .filter-head {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 13px 18px;
+        border-bottom: 1.5px solid var(--line);
+        background: var(--smoke);
+      }
+      .filter-head .ico {
+        width: 26px;
+        height: 26px;
+        border-radius: 7px;
+        background: var(--p-bg);
+        color: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
+      .filter-head .ttl {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .filter-head .hint {
+        margin-left: auto;
+        font-size: 11px;
+        color: var(--ink4);
+      }
+      .filter-body {
+        padding: 16px 18px;
+      }
+      .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+      .fgrp {
+        display: flex;
+        flex-direction: column;
+      }
+      .flabel {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-bottom: 6px;
+      }
+      .finput-wrap {
+        position: relative;
+      }
+      .finput {
+        width: 100%;
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r);
+        padding: 10px 13px 10px 36px;
+        font-size: 13px;
+        color: var(--ink);
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        -webkit-appearance: none;
+      }
+      .finput:focus {
+        border-color: var(--p2);
+        box-shadow: 0 0 0 3px var(--p-glow);
+      }
+      .ficon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 15px;
+        color: var(--ink4);
+        pointer-events: none;
+      }
+      select.finput {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 30px;
+      }
+      .filter-foot {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+        flex-wrap: wrap;
+      }
+      .filter-foot .spacer {
+        margin-left: auto;
+      }
+
+      /* CATEGORY CHIPS + SEARCH */
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+      .chips {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        padding: 7px 14px;
+        border-radius: var(--r-pill);
+        border: 1.5px solid var(--line);
+        background: var(--white);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink3);
+        cursor: pointer;
+        transition: all 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .chip:hover {
+        border-color: var(--p-line);
+        background: var(--p-bg);
+        color: var(--p);
+      }
+      .chip.active {
+        background: var(--p);
+        border-color: var(--p);
+        color: #fff;
+      }
+      .chip .cnt {
+        font-family: var(--mono);
+        font-size: 10px;
+        opacity: 0.8;
+      }
+      .tb-search {
+        position: relative;
+        margin-left: auto;
+        min-width: 240px;
+        flex: 1;
+        max-width: 340px;
+      }
+      .tb-search .finput {
+        padding-left: 38px;
+      }
+
+      /* REPORT TILES */
+      .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 16px;
+      }
+      .report-tile {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        box-shadow: var(--sh);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition:
+          transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.2s,
+          border-color 0.2s;
+        animation: fadeUp 0.4s ease both;
+      }
+      .report-tile:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--sh-md);
+        border-color: var(--line2);
+      }
+      .rt-body {
+        padding: 18px 18px 14px;
+        flex: 1;
+      }
+      .rt-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        margin-bottom: 12px;
+      }
+      .rt-ico {
+        width: 46px;
+        height: 46px;
+        border-radius: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+      }
+      .rt-cat {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 3px 9px;
+        border-radius: var(--r-pill);
+        background: var(--smoke);
+        color: var(--ink3);
+        border: 1px solid var(--line);
+        white-space: nowrap;
+      }
+      .rt-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--ink);
+        font-family: var(--display);
+        letter-spacing: -0.2px;
+        margin-bottom: 5px;
+        line-height: 1.25;
+      }
+      .rt-desc {
+        font-size: 12.5px;
+        color: var(--ink3);
+        line-height: 1.6;
+      }
+      .rt-meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 12px;
+        font-size: 11px;
+        color: var(--ink4);
+      }
+      .rt-meta i {
+        font-size: 13px;
+      }
+      .rt-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        border-top: 1.5px solid var(--line);
+        background: var(--smoke);
+      }
+      .rt-view {
+        flex: 1;
+        justify-content: center;
+      }
+      .icon-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--r);
+        border: 1.5px solid var(--line);
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.15s;
+        flex-shrink: 0;
+      }
+      .icon-btn:hover {
+        border-color: var(--line2);
+        background: var(--smoke);
+      }
+      .icon-btn.pdf:hover {
+        border-color: rgba(239, 68, 68, 0.3);
+        background: var(--fire-bg);
+        color: var(--fire);
+      }
+      .icon-btn.xls:hover {
+        border-color: rgba(14, 165, 113, 0.3);
+        background: var(--jade-bg);
+        color: var(--jade);
+      }
+      .icon-btn:focus-visible {
+        box-shadow: 0 0 0 3px var(--p-glow);
+      }
+
+      .empty-state {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 52px 20px;
+        text-align: center;
+        background: var(--white);
+        border: 1.5px dashed var(--line2);
+        border-radius: var(--r-lg);
+      }
+      .empty-state.show {
+        display: flex;
+      }
+      .es-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--r-lg);
+        background: var(--smoke);
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: var(--ink4);
+        margin-bottom: 12px;
+      }
+      .es-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 5px;
+      }
+      .es-desc {
+        font-size: 12.5px;
+        color: var(--ink4);
+        line-height: 1.6;
+        max-width: 320px;
+      }
+
+      .section-row {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 14px;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .section-row .lbl {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--ink);
+        font-family: var(--display);
+      }
+      .section-row .sub {
+        font-size: 11.5px;
+        color: var(--ink4);
+      }
+
+      /* TOAST */
+      #toast-wrap {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+      }
+      .toast {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        background: var(--ink);
+        color: var(--smoke);
+        border-radius: var(--r-lg);
+        padding: 13px 18px;
+        font-size: 13px;
+        min-width: 260px;
+        max-width: 340px;
+        box-shadow: var(--sh-lg);
+        transform: translateX(120%);
+        opacity: 0;
+        transition:
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.2s;
+        pointer-events: all;
+      }
+      .toast.in {
+        transform: none;
+        opacity: 1;
+      }
+      .toast i {
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+      .toast.ok i {
+        color: #34d399;
+      }
+      .toast.err i {
+        color: #f87171;
+      }
+      .toast.info i {
+        color: #60a5fa;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 980px) {
+        .kpi-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .filter-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .page-wrap {
+          padding: 20px 16px 48px;
+        }
+        .topbar {
+          padding: 0 16px;
+        }
+        .kpi-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .filter-grid {
+          grid-template-columns: 1fr;
+        }
+        .report-grid {
+          grid-template-columns: 1fr;
+        }
+        .tb-search {
+          max-width: none;
+          margin-left: 0;
+          width: 100%;
+        }
+        .tb-user-pill .tb-uname,
+        .tb-user-pill .tb-urole {
+          display: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+    <script>
+      function getParam(n) {
+        var m = new RegExp("[?&]" + n + "=([^&]*)").exec(
+          window.location.search,
+        );
+        return m ? decodeURIComponent(m[1].replace(/\+/g, " ")) : "";
+      }
+      function qs() {
+        return (
+          "?role=" +
+          encodeURIComponent(getParam("role") || "Admin") +
+          "&u=" +
+          encodeURIComponent(getParam("u") || "")
+        );
+      }
+      function goDash() {
+        window.location.href = "dashboard.html" + qs();
+      }
+      function toast(msg, type) {
+        type = type || "info";
+        var ic = {
+          ok: "ti-circle-check",
+          err: "ti-alert-circle",
+          info: "ti-info-circle",
+        };
+        var w = document.getElementById("toast-wrap");
+        if (!w) return;
+        var el = document.createElement("div");
+        el.className = "toast " + type;
+        el.innerHTML =
+          '<i class="ti ' +
+          (ic[type] || ic.info) +
+          '"></i><span>' +
+          msg +
+          "</span>";
+        w.appendChild(el);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            el.classList.add("in");
+          });
+        });
+        setTimeout(function () {
+          el.classList.remove("in");
+          setTimeout(function () {
+            el.remove();
+          }, 400);
+        }, 3200);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="toast-wrap"></div>
+
+    <div class="topbar">
+      <a class="tb-brand" href="dashboard.html" id="back-link">
+        <div class="tb-mark">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div>
+          <div class="tb-name">Aspire ERP</div>
+          <div class="tb-ver">v3.0 · Academic Reports</div>
+        </div>
+      </a>
+      <div class="tb-right">
+        <button class="btn btn-ghost btn-sm" onclick="goDash()">
+          <i class="ti ti-arrow-left"></i> Back to Dashboard
+        </button>
+        <div class="tb-user-pill">
+          <div class="tb-avatar" id="tb-avatar">PM</div>
+          <div>
+            <div class="tb-uname" id="tb-uname">Priya Menon</div>
+            <div class="tb-urole" id="tb-urole">Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-wrap">
+      <div class="breadcrumb">
+        <a href="dashboard.html" id="bc-dash"
+          ><i
+            class="ti ti-home"
+            style="font-size: 13px; vertical-align: -2px"
+          ></i>
+          Dashboard</a
+        >
+        <i class="ti ti-chevron-right"></i>
+        <span style="color: var(--ink4)">Reports</span>
+        <i class="ti ti-chevron-right"></i>
+        <span class="current">Academic Reports</span>
+      </div>
+
+      <div class="page-head">
+        <div>
+          <div class="page-tag">
+            <i class="ti ti-chart-histogram"></i> Reporting &amp; Analytics
+          </div>
+          <div class="page-title">Academic Reports</div>
+          <div class="page-sub">
+            Generate, view, and export academic reports across enrolment,
+            attendance, examinations, and performance.
+          </div>
+        </div>
+        <div class="page-head-actions">
+          <button class="btn btn-ghost" onclick="scheduleReport()">
+            <i class="ti ti-clock-plus"></i> Schedule Report
+          </button>
+          <button class="btn btn-primary" onclick="exportSummary()">
+            <i class="ti ti-download"></i> Export Summary
+          </button>
+        </div>
+      </div>
+
+      <!-- EXECUTIVE KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-top">
+            <div
+              class="kpi-ico"
+              style="background: var(--p-bg); color: var(--p)"
+            >
+              <i class="ti ti-users-group"></i>
+            </div>
+            <span class="kpi-delta up"
+              ><i class="ti ti-arrow-up-right" style="font-size: 12px"></i>
+              3.2%</span
+            >
+          </div>
+          <div>
+            <div class="kpi-val">4,820</div>
+            <div class="kpi-label">Total Students</div>
+          </div>
+        </div>
+        <div class="kpi" style="animation-delay: 0.05s">
+          <div class="kpi-top">
+            <div
+              class="kpi-ico"
+              style="background: var(--jade-bg); color: var(--jade)"
+            >
+              <i class="ti ti-calendar-check"></i>
+            </div>
+            <span class="kpi-delta up"
+              ><i class="ti ti-arrow-up-right" style="font-size: 12px"></i>
+              1.1%</span
+            >
+          </div>
+          <div>
+            <div class="kpi-val">92.4%</div>
+            <div class="kpi-label">Average Attendance</div>
+          </div>
+        </div>
+        <div class="kpi" style="animation-delay: 0.1s">
+          <div class="kpi-top">
+            <div
+              class="kpi-ico"
+              style="background: var(--sun-bg); color: var(--sun)"
+            >
+              <i class="ti ti-award"></i>
+            </div>
+            <span class="kpi-delta flat">Term 2</span>
+          </div>
+          <div>
+            <div class="kpi-val">88.7%</div>
+            <div class="kpi-label">Overall Pass Rate</div>
+          </div>
+        </div>
+        <div class="kpi" style="animation-delay: 0.15s">
+          <div class="kpi-top">
+            <div
+              class="kpi-ico"
+              style="background: var(--violet-bg); color: var(--violet)"
+            >
+              <i class="ti ti-chalkboard"></i>
+            </div>
+            <span class="kpi-delta down"
+              ><i class="ti ti-arrow-down-right" style="font-size: 12px"></i>
+              0.4%</span
+            >
+          </div>
+          <div>
+            <div class="kpi-val">218</div>
+            <div class="kpi-label">Active Faculty</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-card">
+        <div class="filter-head">
+          <div class="ico"><i class="ti ti-adjustments-horizontal"></i></div>
+          <div class="ttl">Report Filters</div>
+          <div class="hint">Set the scope applied to every report below</div>
+        </div>
+        <div class="filter-body">
+          <div class="filter-grid">
+            <div class="fgrp">
+              <label class="flabel" for="f-year">Academic Year</label>
+              <div class="finput-wrap">
+                <i class="ti ti-calendar ficon"></i>
+                <select class="finput" id="f-year">
+                  <option>2025–26</option>
+                  <option>2024–25</option>
+                  <option>2023–24</option>
+                </select>
+              </div>
+            </div>
+            <div class="fgrp">
+              <label class="flabel" for="f-institute">Institute</label>
+              <div class="finput-wrap">
+                <i class="ti ti-building-skyscraper ficon"></i>
+                <select class="finput" id="f-institute">
+                  <option>All Institutes</option>
+                </select>
+              </div>
+            </div>
+            <div class="fgrp">
+              <label class="flabel" for="f-dept">Department</label>
+              <div class="finput-wrap">
+                <i class="ti ti-building-community ficon"></i>
+                <select class="finput" id="f-dept">
+                  <option>All Departments</option>
+                  <option>Science</option>
+                  <option>Commerce</option>
+                  <option>Arts</option>
+                  <option>Computer Science</option>
+                  <option>Management</option>
+                </select>
+              </div>
+            </div>
+            <div class="fgrp">
+              <label class="flabel" for="f-class">Class / Year</label>
+              <div class="finput-wrap">
+                <i class="ti ti-list-numbers ficon"></i>
+                <select class="finput" id="f-class">
+                  <option>All Classes</option>
+                  <option>Class XI</option>
+                  <option>Class XII</option>
+                  <option>First Year</option>
+                  <option>Second Year</option>
+                  <option>Third Year</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="filter-foot">
+            <span style="font-size: 11.5px; color: var(--ink4)"
+              ><i
+                class="ti ti-info-circle"
+                style="font-size: 13px; vertical-align: -2px"
+              ></i>
+              Filters scope the data used when a report is viewed or
+              exported.</span
+            >
+            <div class="spacer"></div>
+            <button class="btn btn-ghost btn-sm" onclick="resetFilters()">
+              <i class="ti ti-refresh"></i> Reset
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="applyFilters()">
+              <i class="ti ti-filter-check"></i> Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATEGORY CHIPS + SEARCH -->
+      <div class="toolbar">
+        <div class="chips" id="chips">
+          <button class="chip active" data-cat="all" onclick="setCat(this)">
+            All Reports <span class="cnt" id="cnt-all">10</span>
+          </button>
+          <button class="chip" data-cat="enrolment" onclick="setCat(this)">
+            Enrolment
+          </button>
+          <button class="chip" data-cat="attendance" onclick="setCat(this)">
+            Attendance
+          </button>
+          <button class="chip" data-cat="examination" onclick="setCat(this)">
+            Examination
+          </button>
+          <button class="chip" data-cat="academics" onclick="setCat(this)">
+            Academics
+          </button>
+          <button class="chip" data-cat="faculty" onclick="setCat(this)">
+            Faculty
+          </button>
+          <button class="chip" data-cat="structure" onclick="setCat(this)">
+            Structure
+          </button>
+        </div>
+        <div class="tb-search">
+          <i class="ti ti-search ficon"></i>
+          <input
+            class="finput"
+            id="report-search"
+            placeholder="Search reports…"
+            oninput="filterReports()"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <div class="section-row">
+        <div class="lbl">Available Reports</div>
+        <div class="sub">
+          <span id="visible-count">10</span> of 10 reports shown
+        </div>
+      </div>
+
+      <!-- REPORT TILES -->
+      <div class="report-grid" id="report-grid"></div>
+
+      <div class="empty-state" id="empty">
+        <div class="es-icon"><i class="ti ti-file-search"></i></div>
+        <div class="es-title">No reports match your search</div>
+        <div class="es-desc">
+          Try a different keyword or switch to “All Reports” to see every
+          available academic report.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* Report catalogue. Each report maps to a category used by the filter chips.
+         In production, View/Export call the reporting service with the current filters. */
+      var REPORTS = [
+        {
+          id: "admission",
+          cat: "enrolment",
+          icon: "ti-door-enter",
+          color: "sky",
+          title: "Student Admission Reports",
+          desc: "Admissions by period, source, and status, with the enquiry-to-enrolment conversion funnel.",
+        },
+        {
+          id: "strength",
+          cat: "enrolment",
+          icon: "ti-users-group",
+          color: "p",
+          title: "Student Strength Reports",
+          desc: "Enrolment headcount by class, course, gender, and category, with year-on-year comparison.",
+        },
+        {
+          id: "attendance",
+          cat: "attendance",
+          icon: "ti-calendar-check",
+          color: "jade",
+          title: "Attendance Reports",
+          desc: "Daily and monthly attendance percentages, defaulter lists, and attendance trends.",
+        },
+        {
+          id: "examination",
+          cat: "examination",
+          icon: "ti-writing",
+          color: "violet",
+          title: "Examination Reports",
+          desc: "Exam schedules, hall-ticket status, and appeared-versus-absent summaries per exam.",
+        },
+        {
+          id: "result",
+          cat: "examination",
+          icon: "ti-chart-line",
+          color: "sun",
+          title: "Result & Performance Reports",
+          desc: "Pass percentage, grade distribution, subject-wise analysis, and topper lists.",
+        },
+        {
+          id: "course",
+          cat: "academics",
+          icon: "ti-book",
+          color: "teal",
+          title: "Course & Subject Reports",
+          desc: "Course catalogue, subject mapping, credit allocation, and elective enrolment.",
+        },
+        {
+          id: "faculty",
+          cat: "faculty",
+          icon: "ti-chalkboard",
+          color: "fire",
+          title: "Faculty Workload Reports",
+          desc: "Teaching load, periods per week, and subject allocation across faculty members.",
+        },
+        {
+          id: "classwise",
+          cat: "structure",
+          icon: "ti-list-numbers",
+          color: "sky",
+          title: "Class-wise Reports",
+          desc: "Consolidated metrics per class and section — strength, attendance, and results.",
+        },
+        {
+          id: "deptwise",
+          cat: "structure",
+          icon: "ti-building-community",
+          color: "p",
+          title: "Department-wise Reports",
+          desc: "Department rollups across student strength, results, and faculty distribution.",
+        },
+        {
+          id: "progress",
+          cat: "academics",
+          icon: "ti-trending-up",
+          color: "jade",
+          title: "Academic Progress Reports",
+          desc: "Term-over-term progress, learning-outcome attainment, and consolidated remarks.",
+        },
+      ];
+      var COLORS = {
+        sky: ["var(--sky-bg)", "var(--sky)"],
+        p: ["var(--p-bg)", "var(--p)"],
+        jade: ["var(--jade-bg)", "var(--jade)"],
+        violet: ["var(--violet-bg)", "var(--violet)"],
+        sun: ["var(--sun-bg)", "var(--sun)"],
+        teal: ["var(--teal-bg)", "var(--teal)"],
+        fire: ["var(--fire-bg)", "var(--fire)"],
+      };
+      var CAT_LABEL = {
+        enrolment: "Enrolment",
+        attendance: "Attendance",
+        examination: "Examination",
+        academics: "Academics",
+        faculty: "Faculty",
+        structure: "Structure",
+      };
+      var activeCat = "all";
+
+      function tileHtml(r, i) {
+        var c = COLORS[r.color] || COLORS.p;
+        return (
+          "<div class='report-tile' data-cat='" +
+          r.cat +
+          "' data-text='" +
+          (r.title + " " + r.desc).toLowerCase().replace(/'/g, "") +
+          "' style='animation-delay:" +
+          i * 0.03 +
+          "s'>" +
+          "<div class='rt-body'>" +
+          "<div class='rt-top'>" +
+          "<div class='rt-ico' style='background:" +
+          c[0] +
+          ";color:" +
+          c[1] +
+          "'><i class='ti " +
+          r.icon +
+          "'></i></div>" +
+          "<span class='rt-cat' style='margin-left:auto'>" +
+          CAT_LABEL[r.cat] +
+          "</span>" +
+          "</div>" +
+          "<div class='rt-title'>" +
+          r.title +
+          "</div>" +
+          "<div class='rt-desc'>" +
+          r.desc +
+          "</div>" +
+          "<div class='rt-meta'><i class='ti ti-file-export'></i> PDF &amp; Excel &nbsp;·&nbsp; <i class='ti ti-clock'></i> Updated daily</div>" +
+          "</div>" +
+          "<div class='rt-actions'>" +
+          "<button class='btn btn-primary btn-sm rt-view' onclick=\"viewReport('" +
+          r.id +
+          "')\"><i class='ti ti-eye'></i> View Report</button>" +
+          "<button class='icon-btn pdf' title='Export as PDF' onclick=\"exportReport('" +
+          r.id +
+          "','PDF')\"><i class='ti ti-file-type-pdf'></i></button>" +
+          "<button class='icon-btn xls' title='Export as Excel' onclick=\"exportReport('" +
+          r.id +
+          "','Excel')\"><i class='ti ti-file-type-xls'></i></button>" +
+          "</div>" +
+          "</div>"
+        );
+      }
+
+      function renderReports() {
+        document.getElementById("report-grid").innerHTML =
+          REPORTS.map(tileHtml).join("");
+        document.getElementById("cnt-all").textContent = REPORTS.length;
+        filterReports();
+      }
+
+      function setCat(el) {
+        activeCat = el.getAttribute("data-cat");
+        Array.prototype.forEach.call(
+          document.querySelectorAll(".chip"),
+          function (c) {
+            c.classList.toggle("active", c === el);
+          },
+        );
+        filterReports();
+      }
+
+      function filterReports() {
+        var q = (document.getElementById("report-search").value || "")
+          .trim()
+          .toLowerCase();
+        var tiles = document.querySelectorAll(".report-tile");
+        var shown = 0;
+        Array.prototype.forEach.call(tiles, function (t) {
+          var okCat =
+            activeCat === "all" || t.getAttribute("data-cat") === activeCat;
+          var okText = !q || t.getAttribute("data-text").indexOf(q) > -1;
+          var vis = okCat && okText;
+          t.style.display = vis ? "flex" : "none";
+          if (vis) shown++;
+        });
+        document.getElementById("visible-count").textContent = shown;
+        document.getElementById("empty").classList.toggle("show", shown === 0);
+        document.getElementById("report-grid").style.display =
+          shown === 0 ? "none" : "grid";
+      }
+
+      function reportName(id) {
+        for (var i = 0; i < REPORTS.length; i++)
+          if (REPORTS[i].id === id) return REPORTS[i].title;
+        return "Report";
+      }
+
+      function viewReport(id) {
+        if (id === "admission") {
+          window.location.href = "student-admission-report.html" + qs();
+          return;
+        }
+        toast("Opening " + reportName(id) + "…", "info");
+      }
+      function exportReport(id, fmt) {
+        toast("Exporting " + reportName(id) + " as " + fmt + "…", "ok");
+      }
+      function exportSummary() {
+        toast("Exporting reports summary as PDF…", "ok");
+      }
+      function scheduleReport() {
+        toast("Report scheduling opens here.", "info");
+      }
+      function applyFilters() {
+        var y = document.getElementById("f-year").value;
+        toast(
+          "Filters applied for " + y + ". Reports will use this scope.",
+          "ok",
+        );
+      }
+      function resetFilters() {
+        document.getElementById("f-year").selectedIndex = 0;
+        document.getElementById("f-institute").selectedIndex = 0;
+        document.getElementById("f-dept").selectedIndex = 0;
+        document.getElementById("f-class").selectedIndex = 0;
+        toast("Filters reset to defaults.", "info");
+      }
+
+      /* Populate the Institute filter from the shared institute store, when present. */
+      function loadInstituteFilter() {
+        try {
+          var list = JSON.parse(
+            localStorage.getItem("aspireInstitutes") || "[]",
+          );
+          if (!list.length) return;
+          var sel = document.getElementById("f-institute");
+          list.forEach(function (it) {
+            var o = document.createElement("option");
+            o.textContent = it.name || "Institute";
+            sel.appendChild(o);
+          });
+        } catch (e) {}
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        renderReports();
+        loadInstituteFilter();
+        /* topbar identity + dashboard links carry role/u */
+        var role = getParam("role") || "Admin",
+          user = getParam("u") || "",
+          el;
+        if ((el = document.getElementById("tb-urole"))) el.textContent = role;
+        if (user) {
+          var b = user.split("@")[0].split(".")[0] || "priya";
+          var fn = b.charAt(0).toUpperCase() + b.slice(1);
+          if ((el = document.getElementById("tb-uname"))) el.textContent = fn;
+          if ((el = document.getElementById("tb-avatar")))
+            el.textContent = (fn[0] || "P").toUpperCase() + "U";
+        }
+        ["back-link", "bc-dash"].forEach(function (id) {
+          var a = document.getElementById(id);
+          if (a) a.href = "dashboard.html" + qs();
+        });
+      });
+    </script>
+  </body>
+</html>
+git branch

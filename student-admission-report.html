@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Admission Report — Aspire ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <style>
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      :root{
+        --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
+        --smoke:#f7f8fc;--white:#fff;--line:#e4e8f0;--line2:#cbd5e1;
+        --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
+        --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
+        --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
+        --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
+        --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
+        --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
+        --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
+        --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
+        --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
+        --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
+        --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
+        --sh-brand:0 8px 32px rgba(15,76,117,.28),0 2px 8px rgba(15,76,117,.18);
+      }
+      html{font-size:14px;scroll-behavior:smooth}
+      body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+      button{font-family:var(--font);cursor:pointer;border:none;outline:none}
+      input,select{font-family:var(--font)}
+      a{text-decoration:none}
+
+      .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 var(--line)}
+      .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
+      .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3);flex-shrink:0}
+      .tb-mark svg{width:18px;height:18px}
+      .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+      .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px;letter-spacing:.3px}
+      .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+      .tb-avatar{width:30px;height:30px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;font-family:var(--display);flex-shrink:0}
+      .tb-uname{font-size:13px;font-weight:500;color:var(--ink);line-height:1.2}
+      .tb-urole{font-size:10px;color:var(--ink4);line-height:1.2}
+      .tb-user-pill{display:flex;align-items:center;gap:9px;padding:7px 12px 7px 8px;border-radius:var(--r);border:1.5px solid var(--line);background:var(--white)}
+
+      .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:var(--r);font-size:13px;font-weight:500;transition:all .18s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;cursor:pointer;border:none;white-space:nowrap}
+      .btn::after{content:"";position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .15s}
+      .btn:hover::after{background:rgba(255,255,255,.08)}
+      .btn:active{transform:scale(.98)}
+      .btn:focus-visible{box-shadow:0 0 0 3px var(--p-glow)}
+      .btn-primary{background:var(--p);color:#fff;box-shadow:var(--sh-brand)}
+      .btn-primary:hover{background:var(--p2)}
+      .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}
+      .btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
+      .btn i{font-size:15px;flex-shrink:0}
+      .btn-sm{padding:7px 14px;font-size:12px}
+
+      .page-wrap{max-width:1180px;margin:0 auto;padding:28px 24px 64px}
+      .breadcrumb{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink4);margin-bottom:20px;flex-wrap:wrap}
+      .breadcrumb a{color:var(--ink4);transition:color .15s}
+      .breadcrumb a:hover{color:var(--p2)}
+      .breadcrumb i{font-size:12px;color:var(--line2)}
+      .breadcrumb .current{color:var(--ink2);font-weight:500}
+      .page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;gap:14px;flex-wrap:wrap}
+      .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+      .page-title{font-family:var(--display);font-size:24px;font-weight:700;color:var(--ink);letter-spacing:-.5px;margin-bottom:3px}
+      .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+      .page-head-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+
+      /* KPI strip */
+      .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+      .kpi{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;box-shadow:var(--sh);display:flex;align-items:center;gap:12px}
+      .kpi-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+      .kpi-val{font-family:var(--display);font-size:21px;font-weight:700;color:var(--ink);line-height:1}
+      .kpi-label{font-size:11.5px;color:var(--ink3);font-weight:500;margin-top:3px}
+      .i-blue{background:var(--sky-bg);color:var(--sky)}.i-green{background:var(--jade-bg);color:var(--jade)}
+      .i-amber{background:var(--sun-bg);color:var(--sun)}.i-teal{background:var(--p-bg);color:var(--p)}
+
+      /* Card + filters */
+      .card{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh);overflow:hidden;margin-bottom:16px}
+      .card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1.5px solid var(--line);gap:12px;flex-wrap:wrap}
+      .card-title{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink)}
+      .card-title-ico{width:28px;height:28px;border-radius:8px;background:var(--p-bg);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:14px}
+      .count-badge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:var(--r-pill);background:var(--smoke);color:var(--ink3);border:1px solid var(--line)}
+      .filters{display:flex;gap:10px;padding:14px 18px;border-bottom:1.5px solid var(--line);background:var(--smoke);flex-wrap:wrap;align-items:center}
+      .finput-wrap{position:relative}
+      .finput{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:9px 12px 9px 34px;font-size:12.5px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+      .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
+      .ficon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--ink4);pointer-events:none}
+      select.finput{cursor:pointer;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+      .filters .search{flex:1;min-width:200px}
+      .filters .search .finput{width:100%}
+
+      /* Table */
+      .table-wrap{overflow-x:auto}
+      table.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+      table.tbl th{background:var(--smoke);padding:11px 16px;text-align:left;font-size:10.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;border-bottom:1.5px solid var(--line);white-space:nowrap}
+      table.tbl td{padding:12px 16px;border-bottom:1px solid var(--line);color:var(--ink2);vertical-align:middle}
+      table.tbl tr:last-child td{border-bottom:none}
+      table.tbl tbody tr:hover td{background:var(--smoke)}
+      .t-av{width:34px;height:34px;border-radius:9px;background:var(--p);color:#fff;font-family:var(--display);font-size:12px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-right:10px;vertical-align:middle;flex-shrink:0}
+      .t-name{font-weight:600;color:var(--ink)}
+      .t-sub{font-size:11px;color:var(--ink4);font-family:var(--mono)}
+      .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:var(--r-pill);font-size:11px;font-weight:500;white-space:nowrap}
+      .bg-green{background:var(--jade-bg);color:var(--jade-text)}
+      .bg-amber{background:var(--sun-bg);color:var(--sun-text)}
+      .bg-blue{background:var(--sky-bg);color:var(--sky-text)}
+      .bg-red{background:var(--fire-bg);color:var(--fire-text)}
+      .bg-gray{background:var(--smoke);color:var(--ink3);border:1px solid var(--line)}
+
+      .empty-state{display:none;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;text-align:center}
+      .empty-state.show{display:flex}
+      .es-icon{width:56px;height:56px;border-radius:var(--r-lg);background:var(--smoke);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--ink4);margin-bottom:12px}
+      .es-title{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:5px}
+      .es-desc{font-size:12.5px;color:var(--ink4);line-height:1.6;max-width:300px}
+
+      /* Report overlay / modal */
+      .overlay{position:fixed;inset:0;background:rgba(10,14,26,.55);backdrop-filter:blur(4px);z-index:600;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .25s}
+      .overlay.open{opacity:1;pointer-events:all}
+      .report-modal{background:var(--white);border-radius:var(--r-lg);width:840px;max-width:100%;box-shadow:var(--sh-lg);transform:translateY(10px) scale(.99);transition:transform .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden;margin:auto}
+      .overlay.open .report-modal{transform:none}
+      .rm-bar{display:flex;align-items:center;gap:10px;padding:13px 18px;border-bottom:1.5px solid var(--line);background:var(--smoke);position:sticky;top:0;z-index:2}
+      .rm-bar .rm-title{font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+      .rm-bar .rm-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+      .icon-x{width:34px;height:34px;border-radius:var(--r);border:1.5px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink4);cursor:pointer;transition:all .15s}
+      .icon-x:hover{background:var(--white);border-color:var(--line2);color:var(--ink)}
+
+      /* Printable report sheet */
+      .rpt-scroll{max-height:none}
+      .rpt{padding:30px 34px 26px;background:var(--white)}
+      .rpt-head{display:flex;align-items:flex-start;gap:14px;padding-bottom:18px;border-bottom:2px solid var(--p)}
+      .rpt-logo{width:46px;height:46px;border-radius:11px;background:var(--p);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+      .rpt-logo svg{width:24px;height:24px}
+      .rpt-org{flex:1}
+      .rpt-org-name{font-family:var(--display);font-size:18px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
+      .rpt-org-sub{font-size:11.5px;color:var(--ink3);margin-top:2px}
+      .rpt-doc{text-align:right}
+      .rpt-doc-title{font-family:var(--display);font-size:13px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:.5px}
+      .rpt-doc-meta{font-size:10.5px;color:var(--ink4);font-family:var(--mono);margin-top:3px;line-height:1.6}
+
+      .rpt-banner{display:flex;align-items:center;gap:12px;margin:18px 0;padding:13px 16px;border-radius:var(--r);border:1.5px solid}
+      .rpt-banner .b-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:rgba(255,255,255,.6)}
+      .rpt-banner .b-text{font-size:12.5px}
+      .rpt-banner .b-status{font-weight:700;font-size:13px}
+
+      .rpt-id-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+      .rpt-id{flex:1;min-width:150px;background:var(--smoke);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px}
+      .rpt-id .l{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4)}
+      .rpt-id .v{font-size:13px;font-weight:600;color:var(--ink);font-family:var(--mono);margin-top:3px}
+
+      .rpt-sec{margin-top:20px}
+      .rpt-sec-head{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:.6px;padding-bottom:8px;border-bottom:1.5px solid var(--line);margin-bottom:13px}
+      .rpt-sec-head i{font-size:15px}
+      .rpt-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px 22px}
+      .rpt-field .l{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);margin-bottom:3px}
+      .rpt-field .v{font-size:13px;font-weight:500;color:var(--ink);line-height:1.45}
+      .rpt-field.full{grid-column:1/-1}
+
+      .pay-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:2px}
+      .pay-table td{padding:8px 0;border-bottom:1px dashed var(--line);color:var(--ink2)}
+      .pay-table tr:last-child td{border-bottom:none}
+      .pay-table .amt{text-align:right;font-family:var(--mono);font-weight:600;color:var(--ink)}
+      .pay-table .tot td{padding-top:11px;font-weight:700;font-size:13.5px;border-top:1.5px solid var(--line);border-bottom:none}
+
+      .rpt-foot{margin-top:26px;padding-top:16px;border-top:1.5px solid var(--line);display:flex;justify-content:space-between;align-items:flex-end;gap:16px}
+      .sign-box{text-align:center;min-width:170px}
+      .sign-line{border-top:1.5px solid var(--ink3);margin-bottom:6px}
+      .sign-lbl{font-size:11px;color:var(--ink3);font-weight:500}
+      .rpt-note{font-size:10px;color:var(--ink4);line-height:1.5;max-width:340px}
+
+      #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+      .toast{display:flex;align-items:center;gap:11px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:13px 18px;font-size:13px;min-width:260px;max-width:340px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
+      .toast.in{transform:none;opacity:1}
+      .toast i{font-size:18px;flex-shrink:0}
+      .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+
+      @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+      .card,.kpi{animation:fadeUp .4s ease both}
+
+      @media(max-width:900px){.kpi-grid{grid-template-columns:1fr 1fr}}
+      @media(max-width:640px){
+        .page-wrap{padding:20px 16px 48px}.topbar{padding:0 16px}
+        .rpt{padding:22px 18px}.rpt-grid{grid-template-columns:1fr}
+        .tb-user-pill .tb-uname,.tb-user-pill .tb-urole{display:none}
+      }
+      @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+      /* PRINT — only the report sheet */
+      @media print{
+        .topbar,.page-wrap,#toast-wrap,.rm-bar,.no-print{display:none!important}
+        .overlay{position:static;inset:auto;background:none!important;backdrop-filter:none;opacity:1!important;pointer-events:auto;padding:0;overflow:visible;display:block!important}
+        .report-modal{box-shadow:none;width:100%;max-width:none;border-radius:0;transform:none!important}
+        .rpt{padding:0}
+        body{background:#fff}
+      }
+    </style>
+    <script>
+      function getParam(n){var m=new RegExp("[?&]"+n+"=([^&]*)").exec(window.location.search);return m?decodeURIComponent(m[1].replace(/\+/g," ")):"";}
+      function qs(){return "?role="+encodeURIComponent(getParam("role")||"Admin")+"&u="+encodeURIComponent(getParam("u")||"");}
+      function goDash(){window.location.href="dashboard.html"+qs();}
+      function goReports(){window.location.href="academic-reports.html"+qs();}
+      function toast(msg,type){type=type||"info";var ic={ok:"ti-circle-check",err:"ti-alert-circle",info:"ti-info-circle"};var w=document.getElementById("toast-wrap");if(!w)return;var el=document.createElement("div");el.className="toast "+type;el.innerHTML='<i class="ti '+(ic[type]||ic.info)+'"></i><span>'+msg+"</span>";w.appendChild(el);requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add("in");});});setTimeout(function(){el.classList.remove("in");setTimeout(function(){el.remove();},400);},3200);}
+    </script>
+  </head>
+  <body>
+    <div id="toast-wrap"></div>
+
+    <div class="topbar">
+      <a class="tb-brand" href="dashboard.html" id="back-link">
+        <div class="tb-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </div>
+        <div>
+          <div class="tb-name">Aspire ERP</div>
+          <div class="tb-ver">v3.0 · Student Admission Report</div>
+        </div>
+      </a>
+      <div class="tb-right">
+        <button class="btn btn-ghost btn-sm" onclick="goReports()">
+          <i class="ti ti-arrow-left"></i> Back to Reports
+        </button>
+        <div class="tb-user-pill">
+          <div class="tb-avatar" id="tb-avatar">PM</div>
+          <div>
+            <div class="tb-uname" id="tb-uname">Priya Menon</div>
+            <div class="tb-urole" id="tb-urole">Admin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-wrap">
+      <div class="breadcrumb">
+        <a href="dashboard.html" id="bc-dash"><i class="ti ti-home" style="font-size:13px;vertical-align:-2px"></i> Dashboard</a>
+        <i class="ti ti-chevron-right"></i>
+        <a href="academic-reports.html" id="bc-rep">Academic Reports</a>
+        <i class="ti ti-chevron-right"></i>
+        <span class="current">Student Admission Report</span>
+      </div>
+
+      <div class="page-head">
+        <div>
+          <div class="page-tag"><i class="ti ti-door-enter"></i> Admission Reporting</div>
+          <div class="page-title">Student Admission Report</div>
+          <div class="page-sub">Review admission records and open a detailed, printable report for any student.</div>
+        </div>
+        <div class="page-head-actions">
+          <button class="btn btn-ghost" onclick="exportList('Excel')"><i class="ti ti-file-type-xls"></i> Export List</button>
+          <button class="btn btn-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print List</button>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-ico i-teal"><i class="ti ti-users"></i></div><div><div class="kpi-val" id="k-total">0</div><div class="kpi-label">Total Admissions</div></div></div>
+        <div class="kpi"><div class="kpi-ico i-green"><i class="ti ti-circle-check"></i></div><div><div class="kpi-val" id="k-confirmed">0</div><div class="kpi-label">Confirmed</div></div></div>
+        <div class="kpi"><div class="kpi-ico i-amber"><i class="ti ti-clock"></i></div><div><div class="kpi-val" id="k-pending">0</div><div class="kpi-label">Provisional / Pending</div></div></div>
+        <div class="kpi"><div class="kpi-ico i-blue"><i class="ti ti-cash"></i></div><div><div class="kpi-val" id="k-collected">₹0</div><div class="kpi-label">Fees Collected</div></div></div>
+      </div>
+
+      <!-- LISTING -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title"><div class="card-title-ico"><i class="ti ti-report"></i></div>Admission Records <span class="count-badge" id="count-badge">0</span></div>
+        </div>
+        <div class="filters no-print">
+          <div class="finput-wrap"><i class="ti ti-calendar ficon"></i>
+            <select class="finput" id="f-year" onchange="renderRows()">
+              <option value="">All Years</option><option>2025–26</option><option>2024–25</option>
+            </select>
+          </div>
+          <div class="finput-wrap"><i class="ti ti-clipboard-check ficon"></i>
+            <select class="finput" id="f-status" onchange="renderRows()">
+              <option value="">All Statuses</option><option>Confirmed</option><option>Provisional</option><option>Pending</option><option>Cancelled</option>
+            </select>
+          </div>
+          <div class="finput-wrap"><i class="ti ti-cash ficon"></i>
+            <select class="finput" id="f-pay" onchange="renderRows()">
+              <option value="">All Payments</option><option>Paid</option><option>Partial</option><option>Pending</option>
+            </select>
+          </div>
+          <div class="search finput-wrap"><i class="ti ti-search ficon"></i>
+            <input class="finput" id="f-search" placeholder="Search name, application no, course…" oninput="renderRows()" autocomplete="off" />
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Application No</th><th>Student</th><th>Course / Class</th>
+                <th>Admission Date</th><th>Payment</th><th>Status</th><th style="text-align:right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="empty-state" id="empty">
+          <div class="es-icon"><i class="ti ti-file-search"></i></div>
+          <div class="es-title">No admission records found</div>
+          <div class="es-desc">Try adjusting the filters or search to find the admission you’re looking for.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORT DETAIL OVERLAY -->
+    <div class="overlay" id="report-overlay">
+      <div class="report-modal" role="dialog" aria-modal="true" aria-label="Student Admission Report">
+        <div class="rm-bar no-print">
+          <div class="rm-title"><i class="ti ti-file-description" style="color:var(--p)"></i> Student Admission Report</div>
+          <div class="rm-actions">
+            <button class="btn btn-ghost btn-sm" onclick="downloadPdf()"><i class="ti ti-file-type-pdf"></i> Download PDF</button>
+            <button class="btn btn-ghost btn-sm" onclick="exportReport()"><i class="ti ti-file-export"></i> Export</button>
+            <button class="btn btn-primary btn-sm" onclick="window.print()"><i class="ti ti-printer"></i> Print</button>
+            <button class="icon-x" onclick="closeReport()" title="Close"><i class="ti ti-x"></i></button>
+          </div>
+        </div>
+        <div class="rpt-scroll">
+          <div class="rpt" id="report-print-area"><!-- filled by openReport() --></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /* ────────────────────────────────────────────────────────────
+         Demo admission records. In production these come from the
+         Admissions module / API; the View Report flow is identical.
+      ──────────────────────────────────────────────────────────── */
+      var ADMISSIONS = [
+        {id:"A1", app:"APP-2025-0142", adm:"ADM-2025-0098", date:"2025-06-02", year:"2025–26",
+         name:"Aarav Sharma", dob:"2009-04-12", gender:"Male", category:"General", blood:"B+",
+         email:"aarav.sharma@example.com", phone:"98765 00011", address:"12 MG Road, Pune, Maharashtra 411001",
+         guardian:"Rakesh Sharma (Father)", guardianPhone:"98765 00012",
+         course:"PCM (Physics, Chemistry, Maths)", klass:"Class XI", stream:"Science", branch:"Computer Science",
+         institute:"Horizon Science Institute", campus:"Pune Campus", quota:"Merit", appDate:"2025-05-20", source:"Website",
+         fee:125000, paid:125000, mode:"Online (UPI)", receipt:"RCPT-4471",
+         status:"Confirmed", remarks:"All documents verified. Admission confirmed for the academic year."},
+        {id:"A2", app:"APP-2025-0156", adm:"ADM-2025-0103", date:"2025-06-05", year:"2025–26",
+         name:"Diya Patel", dob:"2008-11-23", gender:"Female", category:"OBC", blood:"O+",
+         email:"diya.patel@example.com", phone:"98220 11234", address:"45 Residency Road, Bengaluru, Karnataka 560025",
+         guardian:"Nilesh Patel (Father)", guardianPhone:"98220 11200",
+         course:"B.Com", klass:"First Year", stream:"Commerce", branch:"Accountancy",
+         institute:"Sterling Degree College", campus:"Bengaluru Campus", quota:"Management", appDate:"2025-05-24", source:"Walk-in",
+         fee:88000, paid:44000, mode:"Cheque", receipt:"RCPT-4488",
+         status:"Provisional", remarks:"Provisional admission pending submission of original mark sheet."},
+        {id:"A3", app:"APP-2025-0171", adm:"—", date:"2025-06-08", year:"2025–26",
+         name:"Kabir Khan", dob:"2009-02-09", gender:"Male", category:"General", blood:"A+",
+         email:"kabir.khan@example.com", phone:"99300 22456", address:"7 Linking Road, Mumbai, Maharashtra 400050",
+         guardian:"Imran Khan (Father)", guardianPhone:"99300 22400",
+         course:"PCB (Physics, Chemistry, Biology)", klass:"Class XI", stream:"Science", branch:"Biotechnology",
+         institute:"Horizon Science Institute", campus:"Mumbai Campus", quota:"Merit", appDate:"2025-05-29", source:"Referral",
+         fee:130000, paid:0, mode:"—", receipt:"—",
+         status:"Pending", remarks:"Awaiting fee payment to confirm the seat."},
+        {id:"A4", app:"APP-2025-0188", adm:"ADM-2025-0119", date:"2025-06-11", year:"2025–26",
+         name:"Ananya Iyer", dob:"2007-07-30", gender:"Female", category:"General", blood:"AB+",
+         email:"ananya.iyer@example.com", phone:"94440 33567", address:"23 Anna Salai, Chennai, Tamil Nadu 600002",
+         guardian:"Suresh Iyer (Father)", guardianPhone:"94440 33500",
+         course:"BBA", klass:"First Year", stream:"Management", branch:"Operations",
+         institute:"Nexus Ed-Tech Institute", campus:"Chennai Campus", quota:"Merit", appDate:"2025-06-01", source:"Website",
+         fee:96000, paid:96000, mode:"Online (Card)", receipt:"RCPT-4502",
+         status:"Confirmed", remarks:"Admission confirmed. Welcome kit issued."},
+        {id:"A5", app:"APP-2025-0203", adm:"—", date:"2025-06-12", year:"2025–26",
+         name:"Vivaan Reddy", dob:"2008-09-15", gender:"Male", category:"SC", blood:"O-",
+         email:"vivaan.reddy@example.com", phone:"90000 44678", address:"56 Banjara Hills, Hyderabad, Telangana 500034",
+         guardian:"Mohan Reddy (Father)", guardianPhone:"90000 44600",
+         course:"B.A.", klass:"First Year", stream:"Arts / Humanities", branch:"Psychology",
+         institute:"Sterling Degree College", campus:"Hyderabad Campus", quota:"Reserved", appDate:"2025-06-03", source:"Walk-in",
+         fee:62000, paid:0, mode:"—", receipt:"—",
+         status:"Cancelled", remarks:"Applicant withdrew the application; seat released."},
+        {id:"A6", app:"APP-2024-0991", adm:"ADM-2024-0640", date:"2024-06-18", year:"2024–25",
+         name:"Sara Joseph", dob:"2007-12-04", gender:"Female", category:"General", blood:"A-",
+         email:"sara.joseph@example.com", phone:"97000 55789", address:"9 Marine Drive, Kochi, Kerala 682031",
+         guardian:"Thomas Joseph (Father)", guardianPhone:"97000 55700",
+         course:"B.Com", klass:"Second Year", stream:"Commerce", branch:"Finance",
+         institute:"Sterling Degree College", campus:"Kochi Campus", quota:"Merit", appDate:"2024-06-02", source:"Website",
+         fee:90000, paid:90000, mode:"Online (NetBanking)", receipt:"RCPT-3318",
+         status:"Confirmed", remarks:"Continuing student; admission confirmed."}
+      ];
+
+      /* ── formatters ── */
+      function money(n){ if(n===null||n===undefined||n==="") return "—"; var s=Math.round(n).toString();var last3=s.slice(-3),rest=s.slice(0,-3);if(rest)last3=","+last3;rest=rest.replace(/\B(?=(\d{2})+(?!\d))/g,",");return "₹"+rest+last3; }
+      function fmtDate(iso){ if(!iso||iso==="—") return "—"; var d=new Date(iso+"T00:00:00");if(isNaN(d)) return iso;var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return ("0"+d.getDate()).slice(-2)+" "+m[d.getMonth()]+" "+d.getFullYear(); }
+      function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+      function payStatus(r){ if(r.paid>=r.fee && r.fee>0) return "Paid"; if(r.paid>0) return "Partial"; return "Pending"; }
+      function payBadge(p){ return p==="Paid"?"bg-green":p==="Partial"?"bg-amber":"bg-red"; }
+      function statusBadge(s){ return s==="Confirmed"?"bg-green":s==="Provisional"?"bg-blue":s==="Pending"?"bg-amber":"bg-gray"; }
+      function statusIcon(s){ return s==="Confirmed"?"ti-circle-check":s==="Provisional"?"ti-clock-check":s==="Pending"?"ti-clock":"ti-circle-x"; }
+
+      /* ── KPI summary ── */
+      function renderSummary(){
+        var total=ADMISSIONS.length;
+        var conf=ADMISSIONS.filter(function(r){return r.status==="Confirmed";}).length;
+        var pend=ADMISSIONS.filter(function(r){return r.status==="Provisional"||r.status==="Pending";}).length;
+        var coll=ADMISSIONS.reduce(function(a,r){return a+(r.paid||0);},0);
+        document.getElementById("k-total").textContent=total;
+        document.getElementById("k-confirmed").textContent=conf;
+        document.getElementById("k-pending").textContent=pend;
+        document.getElementById("k-collected").textContent=money(coll);
+      }
+
+      /* ── listing ── */
+      function rowMatches(r){
+        var y=document.getElementById("f-year").value;
+        var s=document.getElementById("f-status").value;
+        var p=document.getElementById("f-pay").value;
+        var q=(document.getElementById("f-search").value||"").trim().toLowerCase();
+        if(y && r.year!==y) return false;
+        if(s && r.status!==s) return false;
+        if(p && payStatus(r)!==p) return false;
+        if(q){ var hay=(r.name+" "+r.app+" "+r.course+" "+r.klass+" "+r.institute).toLowerCase(); if(hay.indexOf(q)===-1) return false; }
+        return true;
+      }
+      function renderRows(){
+        var rows=ADMISSIONS.filter(rowMatches);
+        document.getElementById("count-badge").textContent=rows.length;
+        var tb=document.getElementById("tbody");
+        document.getElementById("empty").classList.toggle("show", rows.length===0);
+        document.querySelector(".table-wrap").style.display = rows.length===0 ? "none":"block";
+        tb.innerHTML=rows.map(function(r){
+          var ini=(r.name||"S").trim().split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase();
+          var ps=payStatus(r);
+          return "<tr>"
+            +"<td><span class='t-sub'>"+esc(r.app)+"</span></td>"
+            +"<td><span class='t-av'>"+ini+"</span><span class='t-name'>"+esc(r.name)+"</span><div class='t-sub' style='margin-left:44px'>"+esc(r.gender)+" · "+esc(r.category)+"</div></td>"
+            +"<td>"+esc(r.course)+"<div class='t-sub'>"+esc(r.klass)+"</div></td>"
+            +"<td>"+fmtDate(r.date)+"</td>"
+            +"<td><span class='badge "+payBadge(ps)+"'>"+ps+"</span></td>"
+            +"<td><span class='badge "+statusBadge(r.status)+"'><i class='ti "+statusIcon(r.status)+"' style='font-size:11px'></i> "+esc(r.status)+"</span></td>"
+            +"<td style='text-align:right'><button class='btn btn-ghost btn-sm' onclick=\"openReport('"+r.id+"')\"><i class='ti ti-eye'></i> View Report</button></td>"
+          +"</tr>";
+        }).join("");
+      }
+
+      /* ── detailed printable report ── */
+      function field(l,v){ return "<div class='rpt-field'><div class='l'>"+l+"</div><div class='v'>"+esc(v||"—")+"</div></div>"; }
+      function fieldFull(l,v){ return "<div class='rpt-field full'><div class='l'>"+l+"</div><div class='v'>"+esc(v||"—")+"</div></div>"; }
+
+      function openReport(id){
+        var r=null; for(var i=0;i<ADMISSIONS.length;i++) if(ADMISSIONS[i].id===id) r=ADMISSIONS[i];
+        if(!r){ toast("Record not found.","err"); return; }
+        var ps=payStatus(r), bal=Math.max((r.fee||0)-(r.paid||0),0);
+        var bannerColor = r.status==="Confirmed" ? ["var(--jade-bg)","rgba(14,165,113,.3)","var(--jade-text)","var(--jade)"]
+                        : r.status==="Provisional" ? ["var(--sky-bg)","rgba(59,130,246,.3)","var(--sky-text)","var(--sky)"]
+                        : r.status==="Pending" ? ["var(--sun-bg)","rgba(245,158,11,.3)","var(--sun-text)","var(--sun)"]
+                        : ["var(--smoke)","var(--line2)","var(--ink3)","var(--ink3)"];
+        var html=""
+          +"<div class='rpt-head'>"
+            +"<div class='rpt-logo'><svg viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg></div>"
+            +"<div class='rpt-org'><div class='rpt-org-name'>"+esc(r.institute)+"</div><div class='rpt-org-sub'>"+esc(r.campus)+" · Aspire ERP</div></div>"
+            +"<div class='rpt-doc'><div class='rpt-doc-title'>Student Admission Report</div><div class='rpt-doc-meta'>Academic Year: "+esc(r.year)+"<br>Generated: "+fmtDate(new Date().toISOString().slice(0,10))+"</div></div>"
+          +"</div>"
+
+          +"<div class='rpt-banner' style='background:"+bannerColor[0]+";border-color:"+bannerColor[1]+";color:"+bannerColor[2]+"'>"
+            +"<div class='b-ico' style='color:"+bannerColor[3]+"'><i class='ti "+statusIcon(r.status)+"'></i></div>"
+            +"<div class='b-text'>Admission Status<br><span class='b-status'>"+esc(r.status)+"</span></div>"
+            +"<div style='margin-left:auto;text-align:right' class='b-text'>Payment Status<br><span class='b-status'>"+ps+"</span></div>"
+          +"</div>"
+
+          +"<div class='rpt-id-row'>"
+            +"<div class='rpt-id'><div class='l'>Application No</div><div class='v'>"+esc(r.app)+"</div></div>"
+            +"<div class='rpt-id'><div class='l'>Admission No</div><div class='v'>"+esc(r.adm)+"</div></div>"
+            +"<div class='rpt-id'><div class='l'>Admission Date</div><div class='v'>"+fmtDate(r.date)+"</div></div>"
+          +"</div>"
+
+          +"<div class='rpt-sec'><div class='rpt-sec-head'><i class='ti ti-user'></i> Student Details</div><div class='rpt-grid'>"
+            +field("Full Name",r.name)+field("Date of Birth",fmtDate(r.dob))
+            +field("Gender",r.gender)+field("Category",r.category)
+            +field("Blood Group",r.blood)+field("Contact Number",r.phone)
+            +fieldFull("Email Address",r.email)
+            +fieldFull("Residential Address",r.address)
+            +field("Parent / Guardian",r.guardian)+field("Guardian Contact",r.guardianPhone)
+          +"</div></div>"
+
+          +"<div class='rpt-sec'><div class='rpt-sec-head'><i class='ti ti-file-text'></i> Application Details</div><div class='rpt-grid'>"
+            +field("Institute",r.institute)+field("Campus",r.campus)
+            +field("Course",r.course)+field("Class / Year",r.klass)
+            +field("Stream / Specialization",r.stream)+field("Branch",r.branch)
+            +field("Admission Quota",r.quota)+field("Application Source",r.source)
+            +field("Application Date",fmtDate(r.appDate))+field("Academic Year",r.year)
+          +"</div></div>"
+
+          +"<div class='rpt-sec'><div class='rpt-sec-head'><i class='ti ti-cash'></i> Payment Details</div>"
+            +"<table class='pay-table'>"
+              +"<tr><td>Total Fee</td><td class='amt'>"+money(r.fee)+"</td></tr>"
+              +"<tr><td>Amount Paid</td><td class='amt'>"+money(r.paid)+"</td></tr>"
+              +"<tr><td>Payment Mode</td><td class='amt'>"+esc(r.mode)+"</td></tr>"
+              +"<tr><td>Receipt No</td><td class='amt'>"+esc(r.receipt)+"</td></tr>"
+              +"<tr class='tot'><td>Balance Due</td><td class='amt'>"+money(bal)+"</td></tr>"
+            +"</table>"
+          +"</div>"
+
+          +"<div class='rpt-sec'><div class='rpt-sec-head'><i class='ti ti-clipboard-check'></i> Admission Status</div><div class='rpt-grid'>"
+            +field("Status",r.status)+field("Payment",ps)
+            +fieldFull("Remarks",r.remarks)
+          +"</div></div>"
+
+          +"<div class='rpt-foot'>"
+            +"<div class='rpt-note'>This is a system-generated admission report from Aspire ERP. Figures reflect records on the generation date and are subject to verification by the institute office.</div>"
+            +"<div class='sign-box'><div class='sign-line'></div><div class='sign-lbl'>Authorised Signatory</div></div>"
+          +"</div>";
+
+        document.getElementById("report-print-area").innerHTML=html;
+        var ov=document.getElementById("report-overlay");
+        ov.classList.add("open");
+        ov.scrollTop=0;
+        document.body.style.overflow="hidden";
+      }
+      function closeReport(){
+        document.getElementById("report-overlay").classList.remove("open");
+        document.body.style.overflow="";
+      }
+      function downloadPdf(){ toast("Preparing PDF… Use Print → Save as PDF, or this will connect to the export service.","info"); }
+      function exportReport(){ toast("Export will be available once connected to the reporting service.","info"); }
+      function exportList(fmt){ toast("Exporting admission list as "+fmt+"…","ok"); }
+
+      /* close on backdrop click + Esc */
+      document.getElementById("report-overlay").addEventListener("click",function(e){ if(e.target===this) closeReport(); });
+      document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeReport(); });
+
+      document.addEventListener("DOMContentLoaded", function(){
+        renderSummary();
+        renderRows();
+        var role=getParam("role")||"Admin",user=getParam("u")||"",el;
+        if((el=document.getElementById("tb-urole"))) el.textContent=role;
+        if(user){var b=user.split("@")[0].split(".")[0]||"priya";var fn=b.charAt(0).toUpperCase()+b.slice(1);
+          if((el=document.getElementById("tb-uname"))) el.textContent=fn;
+          if((el=document.getElementById("tb-avatar"))) el.textContent=(fn[0]||"P").toUpperCase()+"U";}
+        ["back-link","bc-dash"].forEach(function(id){var a=document.getElementById(id);if(a)a.href="dashboard.html"+qs();});
+        var br=document.getElementById("bc-rep"); if(br) br.href="academic-reports.html"+qs();
+      });
+    </script>
+  </body>
+</html>

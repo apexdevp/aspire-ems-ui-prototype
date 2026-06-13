@@ -1,857 +1,2700 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add User — Aspire ERP</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{
-      --ink:#0a0e1a;--ink2:#2d3348;--ink3:#64748b;--ink4:#94a3b8;
-      --smoke:#f7f8fc;--white:#ffffff;--line:#e4e8f0;--line2:#cbd5e1;
-      --jade:#0ea571;--jade-bg:#ecfdf5;--jade-text:#065f46;
-      --fire:#ef4444;--fire-bg:#fef2f2;--fire-text:#991b1b;
-      --sun:#f59e0b;--sun-bg:#fffbeb;--sun-text:#92400e;
-      --sky:#3b82f6;--sky-bg:#eff6ff;--sky-text:#1e40af;
-      --p:#0f4c75;--p2:#1b6ca8;--p3:#2e86c1;
-      --p-glow:rgba(15,76,117,.15);--p-line:rgba(15,76,117,.25);--p-bg:#ebf5fb;
-      --font:"Plus Jakarta Sans",sans-serif;--display:"Clash Display",sans-serif;--mono:"Fira Code",monospace;
-      --r:10px;--r-lg:16px;--r-xl:24px;--r-pill:999px;
-      --sh:0 2px 12px rgba(10,14,26,.08),0 1px 4px rgba(10,14,26,.05);
-      --sh-md:0 8px 32px rgba(10,14,26,.1),0 2px 8px rgba(10,14,26,.06);
-      --sh-lg:0 20px 60px rgba(10,14,26,.14),0 6px 16px rgba(10,14,26,.07);
-      --sh-brand:0 8px 32px rgba(15,76,117,.28),0 2px 8px rgba(15,76,117,.18);
-    }
-    html{font-size:14px;scroll-behavior:smooth}
-    body{font-family:var(--font);background:var(--smoke);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
-    button{font-family:var(--font);cursor:pointer;border:none;outline:none}
-    input,select,textarea{font-family:var(--font)}
-    a{text-decoration:none}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add User — Aspire ERP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #0a0e1a;
+        --ink2: #2d3348;
+        --ink3: #64748b;
+        --ink4: #94a3b8;
+        --smoke: #f7f8fc;
+        --white: #ffffff;
+        --line: #e4e8f0;
+        --line2: #cbd5e1;
+        --jade: #0ea571;
+        --jade-bg: #ecfdf5;
+        --jade-text: #065f46;
+        --fire: #ef4444;
+        --fire-bg: #fef2f2;
+        --fire-text: #991b1b;
+        --sun: #f59e0b;
+        --sun-bg: #fffbeb;
+        --sun-text: #92400e;
+        --sky: #3b82f6;
+        --sky-bg: #eff6ff;
+        --sky-text: #1e40af;
+        --p: #0f4c75;
+        --p2: #1b6ca8;
+        --p3: #2e86c1;
+        --p-glow: rgba(15, 76, 117, 0.15);
+        --p-line: rgba(15, 76, 117, 0.25);
+        --p-bg: #ebf5fb;
+        --font: "Plus Jakarta Sans", sans-serif;
+        --display: "Clash Display", sans-serif;
+        --mono: "Fira Code", monospace;
+        --r: 10px;
+        --r-lg: 16px;
+        --r-xl: 24px;
+        --r-pill: 999px;
+        --sh:
+          0 2px 12px rgba(10, 14, 26, 0.08), 0 1px 4px rgba(10, 14, 26, 0.05);
+        --sh-md:
+          0 8px 32px rgba(10, 14, 26, 0.1), 0 2px 8px rgba(10, 14, 26, 0.06);
+        --sh-lg:
+          0 20px 60px rgba(10, 14, 26, 0.14), 0 6px 16px rgba(10, 14, 26, 0.07);
+        --sh-brand:
+          0 8px 32px rgba(15, 76, 117, 0.28), 0 2px 8px rgba(15, 76, 117, 0.18);
+      }
+      html {
+        font-size: 14px;
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--smoke);
+        color: var(--ink);
+        min-height: 100vh;
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font-family: var(--font);
+        cursor: pointer;
+        border: none;
+        outline: none;
+      }
+      input,
+      select,
+      textarea {
+        font-family: var(--font);
+      }
+      a {
+        text-decoration: none;
+      }
 
-    .topbar{background:var(--white);border-bottom:1.5px solid var(--line);height:62px;display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:200;box-shadow:0 1px 0 var(--line)}
-    .tb-brand{display:flex;align-items:center;gap:11px;cursor:pointer}
-    .tb-mark{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(15,76,117,.3)}
-    .tb-mark svg{width:18px;height:18px}
-    .tb-name{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink);letter-spacing:-.3px}
-    .tb-ver{font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:1px}
-    .tb-divider{width:1px;height:24px;background:var(--line);margin:0 4px}
-    .tb-breadcrumb{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink4)}
-    .tb-breadcrumb a{color:var(--ink4);transition:color .15s}.tb-breadcrumb a:hover{color:var(--p2)}
-    .tb-breadcrumb i{font-size:12px}.tb-breadcrumb .current{color:var(--ink2);font-weight:600}
-    .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-    .tb-icon-btn{width:36px;height:36px;border-radius:var(--r);background:transparent;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:17px;cursor:pointer;transition:all .15s}
-    .tb-icon-btn:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
-    .tb-avatar{width:32px;height:32px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:var(--display)}
+      .topbar {
+        background: var(--white);
+        border-bottom: 1.5px solid var(--line);
+        height: 62px;
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 16px;
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        box-shadow: 0 1px 0 var(--line);
+      }
+      .tb-brand {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        cursor: pointer;
+      }
+      .tb-mark {
+        width: 36px;
+        height: 36px;
+        background: var(--p);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(15, 76, 117, 0.3);
+      }
+      .tb-mark svg {
+        width: 18px;
+        height: 18px;
+      }
+      .tb-name {
+        font-family: var(--display);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.3px;
+      }
+      .tb-ver {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--ink4);
+        margin-top: 1px;
+      }
+      .tb-divider {
+        width: 1px;
+        height: 24px;
+        background: var(--line);
+        margin: 0 4px;
+      }
+      .tb-breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        color: var(--ink4);
+      }
+      .tb-breadcrumb a {
+        color: var(--ink4);
+        transition: color 0.15s;
+      }
+      .tb-breadcrumb a:hover {
+        color: var(--p2);
+      }
+      .tb-breadcrumb i {
+        font-size: 12px;
+      }
+      .tb-breadcrumb .current {
+        color: var(--ink2);
+        font-weight: 600;
+      }
+      .tb-right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tb-icon-btn {
+        width: 36px;
+        height: 36px;
+        border-radius: var(--r);
+        background: transparent;
+        border: 1.5px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ink3);
+        font-size: 17px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .tb-icon-btn:hover {
+        background: var(--smoke);
+        border-color: var(--line2);
+        color: var(--ink);
+      }
+      .tb-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fff;
+        font-family: var(--display);
+      }
 
-    .page-wrap{max-width:960px;margin:0 auto;padding:28px 24px 64px}
-    .page-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
-    .page-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--p2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
-    .page-title{font-family:var(--display);font-size:26px;font-weight:700;color:var(--ink);letter-spacing:-.6px;margin-bottom:4px}
-    .page-sub{font-size:13px;color:var(--ink3);font-weight:300}
+      .page-wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 28px 24px 64px;
+      }
+      .page-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 28px;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .page-tag {
+        font-size: 10.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--p2);
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .page-title {
+        font-family: var(--display);
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -0.6px;
+        margin-bottom: 4px;
+      }
+      .page-sub {
+        font-size: 13px;
+        color: var(--ink3);
+        font-weight: 300;
+      }
 
-    /* Progress steps */
-    .form-steps{display:flex;align-items:center;margin-bottom:28px;gap:0}
-    .form-step{display:flex;align-items:center;gap:8px;flex:1;position:relative}
-    .form-step:not(:last-child)::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:calc(100% - 140px);height:2px;background:var(--line);left:140px}
-    .form-step.done:not(:last-child)::after{background:var(--p)}
-    .fs-node{width:34px;height:34px;border-radius:50%;border:2px solid var(--line2);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--ink4);position:relative;z-index:1;transition:all .3s cubic-bezier(.34,1.56,.64,1);flex-shrink:0}
-    .form-step.active .fs-node{border-color:var(--p);color:var(--p);box-shadow:0 0 0 4px var(--p-glow)}
-    .form-step.done .fs-node{background:var(--p);border-color:var(--p);color:#fff}
-    .fs-label{font-size:11.5px;font-weight:500;color:var(--ink4);margin-left:8px;white-space:nowrap}
-    .form-step.active .fs-label{color:var(--p);font-weight:700}
-    .form-step.done .fs-label{color:var(--p)}
+      /* Progress steps */
+      .form-steps {
+        display: flex;
+        align-items: center;
+        margin-bottom: 28px;
+        gap: 0;
+      }
+      .form-step {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+        position: relative;
+      }
+      .form-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: calc(100% - 140px);
+        height: 2px;
+        background: var(--line);
+        left: 140px;
+      }
+      .form-step.done:not(:last-child)::after {
+        background: var(--p);
+      }
+      .fs-node {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 2px solid var(--line2);
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--ink4);
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        flex-shrink: 0;
+      }
+      .form-step.active .fs-node {
+        border-color: var(--p);
+        color: var(--p);
+        box-shadow: 0 0 0 4px var(--p-glow);
+      }
+      .form-step.done .fs-node {
+        background: var(--p);
+        border-color: var(--p);
+        color: #fff;
+      }
+      .fs-label {
+        font-size: 11.5px;
+        font-weight: 500;
+        color: var(--ink4);
+        margin-left: 8px;
+        white-space: nowrap;
+      }
+      .form-step.active .fs-label {
+        color: var(--p);
+        font-weight: 700;
+      }
+      .form-step.done .fs-label {
+        color: var(--p);
+      }
 
-    /* ════════════════════════════════════════
+      /* ════════════════════════════════════════
        PROFILE PHOTO UPLOAD — full component
     ════════════════════════════════════════ */
 
-    /* Drop zone wrapper */
-    .photo-drop-zone{
-      position:relative;border:2px dashed var(--line2);border-radius:var(--r-lg);
-      background:var(--smoke);transition:all .22s cubic-bezier(.22,1,.36,1);overflow:hidden;
-    }
-    .photo-drop-zone.drag-over{border-color:var(--p2);background:var(--p-bg);box-shadow:0 0 0 4px var(--p-glow)}
-    .photo-drop-zone.has-photo{border-style:solid;border-color:var(--p);background:var(--white)}
-    .photo-drop-zone.has-error{border-color:var(--fire);background:var(--fire-bg)}
+      /* Drop zone wrapper */
+      .photo-drop-zone {
+        position: relative;
+        border: 2px dashed var(--line2);
+        border-radius: var(--r-lg);
+        background: var(--smoke);
+        transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+        overflow: hidden;
+      }
+      .photo-drop-zone.drag-over {
+        border-color: var(--p2);
+        background: var(--p-bg);
+        box-shadow: 0 0 0 4px var(--p-glow);
+      }
+      .photo-drop-zone.has-photo {
+        border-style: solid;
+        border-color: var(--p);
+        background: var(--white);
+      }
+      .photo-drop-zone.has-error {
+        border-color: var(--fire);
+        background: var(--fire-bg);
+      }
 
-    /* Hidden real input */
-    .photo-file-input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;z-index:2}
+      /* Hidden real input */
+      .photo-file-input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
 
-    /* Main content row */
-    .photo-zone-body{display:flex;align-items:center;gap:20px;padding:20px}
+      /* Main content row */
+      .photo-zone-body {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+      }
 
-    /* Avatar ring */
-    .photo-avatar-ring{
-      width:80px;height:80px;border-radius:50%;flex-shrink:0;position:relative;
-      border:3px solid var(--white);box-shadow:var(--sh-md);
-    }
-    .photo-avatar-initials{
-      width:100%;height:100%;border-radius:50%;background:var(--p);
-      display:flex;align-items:center;justify-content:center;
-      font-family:var(--display);font-size:26px;font-weight:700;color:#fff;
-    }
-    .photo-avatar-img{
-      width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;
-      position:absolute;inset:0;
-    }
-    /* Camera overlay on hover when photo set */
-    .photo-camera-overlay{
-      position:absolute;inset:0;border-radius:50%;
-      background:rgba(15,76,117,.6);display:flex;align-items:center;justify-content:center;
-      opacity:0;transition:opacity .18s;cursor:pointer;z-index:3;
-    }
-    .photo-avatar-ring:hover .photo-camera-overlay{opacity:1}
-    .photo-camera-overlay i{font-size:20px;color:#fff}
+      /* Avatar ring */
+      .photo-avatar-ring {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        position: relative;
+        border: 3px solid var(--white);
+        box-shadow: var(--sh-md);
+      }
+      .photo-avatar-initials {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--display);
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .photo-avatar-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        position: absolute;
+        inset: 0;
+      }
+      /* Camera overlay on hover when photo set */
+      .photo-camera-overlay {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: rgba(15, 76, 117, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.18s;
+        cursor: pointer;
+        z-index: 3;
+      }
+      .photo-avatar-ring:hover .photo-camera-overlay {
+        opacity: 1;
+      }
+      .photo-camera-overlay i {
+        font-size: 20px;
+        color: #fff;
+      }
 
-    /* Text side */
-    .photo-zone-text{flex:1;min-width:0}
-    .photo-zone-title{font-size:13.5px;font-weight:700;color:var(--ink);margin-bottom:3px;display:flex;align-items:center;gap:8px}
-    .photo-zone-sub{font-size:12px;color:var(--ink4);line-height:1.6;margin-bottom:12px}
-    .photo-zone-actions{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:3}
+      /* Text side */
+      .photo-zone-text {
+        flex: 1;
+        min-width: 0;
+      }
+      .photo-zone-title {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 3px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .photo-zone-sub {
+        font-size: 12px;
+        color: var(--ink4);
+        line-height: 1.6;
+        margin-bottom: 12px;
+      }
+      .photo-zone-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 3;
+      }
 
-    /* Validation message row */
-    .photo-validation{
-      display:none;align-items:center;gap:8px;padding:10px 20px;
-      font-size:12px;border-top:1.5px solid transparent;
-    }
-    .photo-validation.show{display:flex}
-    .photo-validation.err{background:var(--fire-bg);border-color:rgba(239,68,68,.2);color:var(--fire-text)}
-    .photo-validation.ok{background:var(--jade-bg);border-color:rgba(14,165,113,.2);color:var(--jade-text)}
-    .photo-validation.warn{background:var(--sun-bg);border-color:rgba(245,158,11,.2);color:var(--sun-text)}
-    .photo-validation i{font-size:15px;flex-shrink:0}
+      /* Validation message row */
+      .photo-validation {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        font-size: 12px;
+        border-top: 1.5px solid transparent;
+      }
+      .photo-validation.show {
+        display: flex;
+      }
+      .photo-validation.err {
+        background: var(--fire-bg);
+        border-color: rgba(239, 68, 68, 0.2);
+        color: var(--fire-text);
+      }
+      .photo-validation.ok {
+        background: var(--jade-bg);
+        border-color: rgba(14, 165, 113, 0.2);
+        color: var(--jade-text);
+      }
+      .photo-validation.warn {
+        background: var(--sun-bg);
+        border-color: rgba(245, 158, 11, 0.2);
+        color: var(--sun-text);
+      }
+      .photo-validation i {
+        font-size: 15px;
+        flex-shrink: 0;
+      }
 
-    /* Upload progress bar */
-    .photo-progress{display:none;padding:10px 20px;border-top:1.5px solid var(--line);background:var(--smoke)}
-    .photo-progress.show{display:block}
-    .photo-progress-label{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);margin-bottom:5px}
-    .photo-progress-label .ppl-step{font-weight:600;color:var(--p)}
-    .photo-progress-track{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
-    .photo-progress-fill{
-      height:100%;border-radius:3px;
-      background:linear-gradient(90deg,var(--p),var(--p3));
-      width:0%;transition:width .4s cubic-bezier(.22,1,.36,1);
-    }
+      /* Upload progress bar */
+      .photo-progress {
+        display: none;
+        padding: 10px 20px;
+        border-top: 1.5px solid var(--line);
+        background: var(--smoke);
+      }
+      .photo-progress.show {
+        display: block;
+      }
+      .photo-progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11.5px;
+        color: var(--ink3);
+        margin-bottom: 5px;
+      }
+      .photo-progress-label .ppl-step {
+        font-weight: 600;
+        color: var(--p);
+      }
+      .photo-progress-track {
+        height: 6px;
+        border-radius: 3px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      .photo-progress-fill {
+        height: 100%;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--p), var(--p3));
+        width: 0%;
+        transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      }
 
-    /* Thumbnail strip */
-    .photo-thumb-strip{
-      display:none;flex-wrap:wrap;gap:8px;
-      padding:12px 20px;border-top:1px solid var(--line);background:var(--smoke);
-    }
-    .photo-thumb-strip.show{display:flex}
-    .photo-thumb{
-      width:52px;height:52px;border-radius:var(--r);overflow:hidden;
-      border:2px solid var(--line);cursor:pointer;position:relative;
-      transition:border-color .15s,box-shadow .15s;flex-shrink:0;
-    }
-    .photo-thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .photo-thumb.active{border-color:var(--p);box-shadow:0 0 0 3px var(--p-glow)}
-    .photo-thumb-remove{
-      position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;
-      background:rgba(10,14,26,.7);display:flex;align-items:center;justify-content:center;
-      font-size:8px;color:#fff;opacity:0;transition:opacity .14s;cursor:pointer;z-index:2;
-    }
-    .photo-thumb:hover .photo-thumb-remove{opacity:1}
+      /* Thumbnail strip */
+      .photo-thumb-strip {
+        display: none;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 20px;
+        border-top: 1px solid var(--line);
+        background: var(--smoke);
+      }
+      .photo-thumb-strip.show {
+        display: flex;
+      }
+      .photo-thumb {
+        width: 52px;
+        height: 52px;
+        border-radius: var(--r);
+        overflow: hidden;
+        border: 2px solid var(--line);
+        cursor: pointer;
+        position: relative;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+        flex-shrink: 0;
+      }
+      .photo-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .photo-thumb.active {
+        border-color: var(--p);
+        box-shadow: 0 0 0 3px var(--p-glow);
+      }
+      .photo-thumb-remove {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: rgba(10, 14, 26, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8px;
+        color: #fff;
+        opacity: 0;
+        transition: opacity 0.14s;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .photo-thumb:hover .photo-thumb-remove {
+        opacity: 1;
+      }
 
-    /* Crop/adjust modal overlay */
-    .crop-overlay{
-      position:fixed;inset:0;background:rgba(10,14,26,.8);backdrop-filter:blur(6px);
-      z-index:800;display:flex;align-items:center;justify-content:center;
-      opacity:0;pointer-events:none;transition:opacity .25s;
-    }
-    .crop-overlay.open{opacity:1;pointer-events:all}
-    .crop-modal{
-      background:var(--white);border-radius:var(--r-xl);width:520px;max-width:95vw;
-      box-shadow:var(--sh-lg);transform:scale(.95) translateY(10px);
-      transition:transform .3s cubic-bezier(.34,1.56,.64,1);overflow:hidden;
-    }
-    .crop-overlay.open .crop-modal{transform:none}
-    .crop-modal-head{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:18px 22px 14px;border-bottom:1.5px solid var(--line);
-    }
-    .crop-modal-title{font-family:var(--display);font-size:16px;font-weight:700;color:var(--ink)}
-    .crop-modal-close{
-      width:30px;height:30px;border-radius:8px;border:1.5px solid var(--line);
-      background:none;display:flex;align-items:center;justify-content:center;
-      color:var(--ink4);font-size:15px;cursor:pointer;transition:all .14s;
-    }
-    .crop-modal-close:hover{background:var(--smoke);color:var(--ink)}
-    .crop-canvas-wrap{
-      position:relative;background:#1a1f2e;display:flex;align-items:center;justify-content:center;
-      height:300px;overflow:hidden;cursor:move;user-select:none;
-    }
-    .crop-canvas-wrap img{max-width:100%;max-height:100%;object-fit:contain;pointer-events:none;transition:transform .05s}
-    /* Crop guide circle */
-    .crop-guide{
-      position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-      width:220px;height:220px;border-radius:50%;
-      border:2.5px dashed rgba(255,255,255,.6);
-      box-shadow:0 0 0 9999px rgba(10,14,26,.55);
-      pointer-events:none;
-    }
-    .crop-controls{
-      display:flex;align-items:center;gap:14px;padding:14px 22px;
-      border-top:1px solid var(--line);border-bottom:1.5px solid var(--line);
-      background:var(--smoke);
-    }
-    .crop-ctrl-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);white-space:nowrap}
-    .crop-slider{flex:1;accent-color:var(--p);cursor:pointer;height:4px}
-    .crop-zoom-btns{display:flex;gap:4px}
-    .crop-zoom-btn{
-      width:28px;height:28px;border-radius:7px;border:1.5px solid var(--line);
-      background:var(--white);display:flex;align-items:center;justify-content:center;
-      font-size:14px;color:var(--ink3);cursor:pointer;transition:all .14s;
-    }
-    .crop-zoom-btn:hover{background:var(--smoke);color:var(--ink)}
-    .crop-modal-foot{
-      display:flex;gap:8px;justify-content:flex-end;
-      padding:14px 22px 18px;
-    }
-    /* File info badge */
-    .photo-file-badge{
-      display:inline-flex;align-items:center;gap:6px;
-      background:var(--p-bg);border:1px solid var(--p-line);color:var(--p2);
-      border-radius:var(--r-pill);padding:3px 10px;font-size:11.5px;font-weight:500;
-      font-family:var(--mono);margin-left:6px;
-    }
+      /* Crop/adjust modal overlay */
+      .crop-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 14, 26, 0.8);
+        backdrop-filter: blur(6px);
+        z-index: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s;
+      }
+      .crop-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .crop-modal {
+        background: var(--white);
+        border-radius: var(--r-xl);
+        width: 520px;
+        max-width: 95vw;
+        box-shadow: var(--sh-lg);
+        transform: scale(0.95) translateY(10px);
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        overflow: hidden;
+      }
+      .crop-overlay.open .crop-modal {
+        transform: none;
+      }
+      .crop-modal-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 22px 14px;
+        border-bottom: 1.5px solid var(--line);
+      }
+      .crop-modal-title {
+        font-family: var(--display);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .crop-modal-close {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1.5px solid var(--line);
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ink4);
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.14s;
+      }
+      .crop-modal-close:hover {
+        background: var(--smoke);
+        color: var(--ink);
+      }
+      .crop-canvas-wrap {
+        position: relative;
+        background: #1a1f2e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+        overflow: hidden;
+        cursor: move;
+        user-select: none;
+      }
+      .crop-canvas-wrap img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        pointer-events: none;
+        transition: transform 0.05s;
+      }
+      /* Crop guide circle */
+      .crop-guide {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        border: 2.5px dashed rgba(255, 255, 255, 0.6);
+        box-shadow: 0 0 0 9999px rgba(10, 14, 26, 0.55);
+        pointer-events: none;
+      }
+      .crop-controls {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 22px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1.5px solid var(--line);
+        background: var(--smoke);
+      }
+      .crop-ctrl-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--ink4);
+        white-space: nowrap;
+      }
+      .crop-slider {
+        flex: 1;
+        accent-color: var(--p);
+        cursor: pointer;
+        height: 4px;
+      }
+      .crop-zoom-btns {
+        display: flex;
+        gap: 4px;
+      }
+      .crop-zoom-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        border: 1.5px solid var(--line);
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: var(--ink3);
+        cursor: pointer;
+        transition: all 0.14s;
+      }
+      .crop-zoom-btn:hover {
+        background: var(--smoke);
+        color: var(--ink);
+      }
+      .crop-modal-foot {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        padding: 14px 22px 18px;
+      }
+      /* File info badge */
+      .photo-file-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--p-bg);
+        border: 1px solid var(--p-line);
+        color: var(--p2);
+        border-radius: var(--r-pill);
+        padding: 3px 10px;
+        font-size: 11.5px;
+        font-weight: 500;
+        font-family: var(--mono);
+        margin-left: 6px;
+      }
 
-    /* Card sections */
-    .form-section{background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-lg);margin-bottom:16px;overflow:hidden;box-shadow:var(--sh)}
-    .section-head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1.5px solid var(--line);background:var(--smoke)}
-    .section-ico{width:30px;height:30px;border-radius:8px;background:var(--p-bg);color:var(--p);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-    .section-title{font-size:13.5px;font-weight:700;color:var(--ink);font-family:var(--display)}
-    .section-desc{font-size:11.5px;color:var(--ink4);margin-left:auto}
-    .section-body{padding:20px}
+      /* Card sections */
+      .form-section {
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r-lg);
+        margin-bottom: 16px;
+        overflow: hidden;
+        box-shadow: var(--sh);
+      }
+      .section-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 20px;
+        border-bottom: 1.5px solid var(--line);
+        background: var(--smoke);
+      }
+      .section-ico {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--p-bg);
+        color: var(--p);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .section-title {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: var(--ink);
+        font-family: var(--display);
+      }
+      .section-desc {
+        font-size: 11.5px;
+        color: var(--ink4);
+        margin-left: auto;
+      }
+      .section-body {
+        padding: 20px;
+      }
 
-    /* Form fields */
-    .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .frow-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-    .fgrp{margin-bottom:16px}
-    .fgrp:last-child{margin-bottom:0}
-    .flabel{font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
-    .flabel .req{color:var(--fire)}
-    .flabel .hint{font-size:10.5px;color:var(--ink4);font-weight:400}
-    .finput-wrap{position:relative}
-    .finput{width:100%;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r);padding:10px 13px 10px 38px;font-size:13px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
-    .finput.no-icon{padding-left:13px}
-    .finput:focus{border-color:var(--p2);box-shadow:0 0 0 3px var(--p-glow)}
-    .finput.error{border-color:var(--fire);background:var(--fire-bg)}
-    .finput.valid{border-color:var(--jade)}
-    .finput::placeholder{color:var(--ink4)}
-    .finput:disabled{background:var(--smoke);color:var(--ink4);cursor:not-allowed}
-    .ficon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;color:var(--ink4);pointer-events:none;transition:color .2s}
-    .finput-wrap:focus-within .ficon{color:var(--p2)}
-    select.finput{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
-    .ferror{font-size:11px;color:var(--fire);margin-top:4px;display:flex;align-items:center;gap:4px;max-height:0;overflow:hidden;transition:max-height .25s,opacity .2s;opacity:0}
-    .ferror.show{max-height:24px;opacity:1}
-    textarea.finput{resize:vertical;min-height:80px;padding-top:10px;padding-left:13px}
-    .pw-bars{display:flex;gap:4px;margin-top:6px}
-    .pw-bar{flex:1;height:4px;border-radius:2px;background:var(--line);transition:background .35s}
-    .pw-str-label{font-size:10px;color:var(--ink4);margin-top:3px}
-    .eye-btn{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--ink4);font-size:15px;padding:3px;transition:color .15s}
-    .eye-btn:hover{color:var(--ink2)}
+      /* Form fields */
+      .frow {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .frow-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 16px;
+      }
+      .fgrp {
+        margin-bottom: 16px;
+      }
+      .fgrp:last-child {
+        margin-bottom: 0;
+      }
+      .flabel {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink2);
+        margin-bottom: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .flabel .req {
+        color: var(--fire);
+      }
+      .flabel .hint {
+        font-size: 10.5px;
+        color: var(--ink4);
+        font-weight: 400;
+      }
+      .finput-wrap {
+        position: relative;
+      }
+      .finput {
+        width: 100%;
+        background: var(--white);
+        border: 1.5px solid var(--line);
+        border-radius: var(--r);
+        padding: 10px 13px 10px 38px;
+        font-size: 13px;
+        color: var(--ink);
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .finput.no-icon {
+        padding-left: 13px;
+      }
+      .finput:focus {
+        border-color: var(--p2);
+        box-shadow: 0 0 0 3px var(--p-glow);
+      }
+      .finput.error {
+        border-color: var(--fire);
+        background: var(--fire-bg);
+      }
+      .finput.valid {
+        border-color: var(--jade);
+      }
+      .finput::placeholder {
+        color: var(--ink4);
+      }
+      .finput:disabled {
+        background: var(--smoke);
+        color: var(--ink4);
+        cursor: not-allowed;
+      }
+      .ficon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 15px;
+        color: var(--ink4);
+        pointer-events: none;
+        transition: color 0.2s;
+      }
+      .finput-wrap:focus-within .ficon {
+        color: var(--p2);
+      }
+      select.finput {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 30px;
+      }
+      .ferror {
+        font-size: 11px;
+        color: var(--fire);
+        margin-top: 4px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.25s,
+          opacity 0.2s;
+        opacity: 0;
+      }
+      .ferror.show {
+        max-height: 24px;
+        opacity: 1;
+      }
+      textarea.finput {
+        resize: vertical;
+        min-height: 80px;
+        padding-top: 10px;
+        padding-left: 13px;
+      }
+      .pw-bars {
+        display: flex;
+        gap: 4px;
+        margin-top: 6px;
+      }
+      .pw-bar {
+        flex: 1;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--line);
+        transition: background 0.35s;
+      }
+      .pw-str-label {
+        font-size: 10px;
+        color: var(--ink4);
+        margin-top: 3px;
+      }
+      .eye-btn {
+        position: absolute;
+        right: 11px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--ink4);
+        font-size: 15px;
+        padding: 3px;
+        transition: color 0.15s;
+      }
+      .eye-btn:hover {
+        color: var(--ink2);
+      }
 
-    /* Permissions matrix */
-    .perm-table{width:100%;border-collapse:collapse}
-    .perm-table th{padding:10px 12px;font-size:10.5px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;text-align:left;border-bottom:1.5px solid var(--line);background:var(--smoke)}
-    .perm-table td{padding:11px 12px;font-size:13px;color:var(--ink2);border-bottom:1px solid var(--line)}
-    .perm-table tr:last-child td{border-bottom:none}
-    .perm-table tr:hover td{background:#f9fafc}
-    .perm-ico{width:28px;height:28px;border-radius:7px;background:var(--smoke);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink4)}
-    .perm-cell{display:flex;align-items:center;gap:9px}
-    .perm-toggle-group{display:flex;gap:4px}
-    .perm-opt{padding:4px 10px;border-radius:6px;border:1.5px solid var(--line);background:var(--white);font-size:11px;font-weight:600;color:var(--ink4);cursor:pointer;transition:all .14s;font-family:var(--font)}
-    .perm-opt:hover{border-color:var(--line2)}
-    .perm-opt.active-full{background:var(--p-bg);border-color:var(--p);color:var(--p)}
-    .perm-opt.active-view{background:var(--jade-bg);border-color:rgba(14,165,113,.3);color:var(--jade-text)}
-    .perm-opt.active-none{background:var(--smoke);border-color:var(--line2);color:var(--ink4)}
+      /* Permissions matrix */
+      .perm-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .perm-table th {
+        padding: 10px 12px;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        text-align: left;
+        border-bottom: 1.5px solid var(--line);
+        background: var(--smoke);
+      }
+      .perm-table td {
+        padding: 11px 12px;
+        font-size: 13px;
+        color: var(--ink2);
+        border-bottom: 1px solid var(--line);
+      }
+      .perm-table tr:last-child td {
+        border-bottom: none;
+      }
+      .perm-table tr:hover td {
+        background: #f9fafc;
+      }
+      .perm-ico {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        background: var(--smoke);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: var(--ink4);
+      }
+      .perm-cell {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .perm-toggle-group {
+        display: flex;
+        gap: 4px;
+      }
+      .perm-opt {
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1.5px solid var(--line);
+        background: var(--white);
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--ink4);
+        cursor: pointer;
+        transition: all 0.14s;
+        font-family: var(--font);
+      }
+      .perm-opt:hover {
+        border-color: var(--line2);
+      }
+      .perm-opt.active-full {
+        background: var(--p-bg);
+        border-color: var(--p);
+        color: var(--p);
+      }
+      .perm-opt.active-view {
+        background: var(--jade-bg);
+        border-color: rgba(14, 165, 113, 0.3);
+        color: var(--jade-text);
+      }
+      .perm-opt.active-none {
+        background: var(--smoke);
+        border-color: var(--line2);
+        color: var(--ink4);
+      }
 
-    /* Notification checkboxes */
-    .notif-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .notif-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1.5px solid var(--line);border-radius:var(--r);cursor:pointer;transition:all .15s}
-    .notif-item:hover{border-color:var(--p-line);background:var(--p-bg)}
-    .notif-item input[type=checkbox]{margin-top:2px;accent-color:var(--p)}
-    .notif-label{font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px}
-    .notif-desc{font-size:11px;color:var(--ink4);line-height:1.4}
+      /* Notification checkboxes */
+      .notif-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .notif-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+        border: 1.5px solid var(--line);
+        border-radius: var(--r);
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .notif-item:hover {
+        border-color: var(--p-line);
+        background: var(--p-bg);
+      }
+      .notif-item input[type="checkbox"] {
+        margin-top: 2px;
+        accent-color: var(--p);
+      }
+      .notif-label {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink);
+        margin-bottom: 2px;
+      }
+      .notif-desc {
+        font-size: 11px;
+        color: var(--ink4);
+        line-height: 1.4;
+      }
 
-    /* Form footer */
-    .form-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:20px;flex-wrap:wrap}
+      /* Form footer */
+      .form-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 20px;
+        flex-wrap: wrap;
+      }
 
-    /* Buttons */
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;border:none;outline:none;transition:all .18s;position:relative;overflow:hidden;white-space:nowrap}
-    .btn i{font-size:15px;flex-shrink:0}
-    .btn-primary{background:var(--p);color:#fff;box-shadow:var(--sh-brand)}
-    .btn-primary:hover{background:var(--p2)}
-    .btn-ghost{background:transparent;color:var(--ink3);border:1.5px solid var(--line)}
-    .btn-ghost:hover{background:var(--smoke);border-color:var(--line2);color:var(--ink)}
-    .btn-outline{background:transparent;color:var(--p);border:1.5px solid var(--p-line)}
-    .btn-outline:hover{background:var(--p-bg)}
-    .btn-loading{pointer-events:none}
-    .btn-loading .btn-text{opacity:0}
-    .btn-loading::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 10px 20px;
+        border-radius: var(--r);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        transition: all 0.18s;
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      .btn i {
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .btn-primary {
+        background: var(--p);
+        color: #fff;
+        box-shadow: var(--sh-brand);
+      }
+      .btn-primary:hover {
+        background: var(--p2);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--ink3);
+        border: 1.5px solid var(--line);
+      }
+      .btn-ghost:hover {
+        background: var(--smoke);
+        border-color: var(--line2);
+        color: var(--ink);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--p);
+        border: 1.5px solid var(--p-line);
+      }
+      .btn-outline:hover {
+        background: var(--p-bg);
+      }
+      .btn-loading {
+        pointer-events: none;
+      }
+      .btn-loading .btn-text {
+        opacity: 0;
+      }
+      .btn-loading::before {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
-    /* Panels */
-    .form-panel{display:none;animation:fadeUp .3s ease both}
-    .form-panel.active{display:block}
-    @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-    .anim{animation:fadeUp .35s ease both}
-    .d1{animation-delay:.07s}.d2{animation-delay:.14s}
+      /* Panels */
+      .form-panel {
+        display: none;
+        animation: fadeUp 0.3s ease both;
+      }
+      .form-panel.active {
+        display: block;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .anim {
+        animation: fadeUp 0.35s ease both;
+      }
+      .d1 {
+        animation-delay: 0.07s;
+      }
+      .d2 {
+        animation-delay: 0.14s;
+      }
 
-    /* Toast */
-    #toast-wrap{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-    .toast{display:flex;align-items:center;gap:10px;background:var(--ink);color:var(--smoke);border-radius:var(--r-lg);padding:12px 18px;font-size:13px;min-width:240px;box-shadow:var(--sh-lg);transform:translateX(120%);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s;pointer-events:all}
-    .toast.in{transform:none;opacity:1}
-    .toast i{font-size:17px;flex-shrink:0}
-    .toast.ok i{color:#34d399}.toast.err i{color:#f87171}.toast.info i{color:#60a5fa}
+      /* Toast */
+      #toast-wrap {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        pointer-events: none;
+      }
+      .toast {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--ink);
+        color: var(--smoke);
+        border-radius: var(--r-lg);
+        padding: 12px 18px;
+        font-size: 13px;
+        min-width: 240px;
+        box-shadow: var(--sh-lg);
+        transform: translateX(120%);
+        opacity: 0;
+        transition:
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.2s;
+        pointer-events: all;
+      }
+      .toast.in {
+        transform: none;
+        opacity: 1;
+      }
+      .toast i {
+        font-size: 17px;
+        flex-shrink: 0;
+      }
+      .toast.ok i {
+        color: #34d399;
+      }
+      .toast.err i {
+        color: #f87171;
+      }
+      .toast.info i {
+        color: #60a5fa;
+      }
 
-    @media(max-width:700px){.frow,.frow-3{grid-template-columns:1fr}.notif-grid{grid-template-columns:1fr}.form-step:not(:last-child)::after{display:none}}
-  </style>
-</head>
-<body>
+      @media (max-width: 700px) {
+        .frow,
+        .frow-3 {
+          grid-template-columns: 1fr;
+        }
+        .notif-grid {
+          grid-template-columns: 1fr;
+        }
+        .form-step:not(:last-child)::after {
+          display: none;
+        }
+      }
 
-<div class="topbar">
-  <div class="tb-brand" onclick="location.href='dashboard.html'">
-    <div class="tb-mark">
-      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-    </div>
-    <div><div class="tb-name">Aspire ERP</div><div class="tb-ver">v3.0 · Admin</div></div>
-  </div>
-  <div class="tb-divider"></div>
-  <div class="tb-breadcrumb">
-    <a href="dashboard.html"><i class="ti ti-home" style="font-size:13px;vertical-align:-1px"></i> Dashboard</a>
-    <i class="ti ti-chevron-right"></i>
-    <a href="user-management.html">User Management</a>
-    <i class="ti ti-chevron-right"></i>
-    <span class="current" id="page-crumb">Add User</span>
-  </div>
-  <div class="tb-right">
-    <button class="tb-icon-btn" onclick="location.href='user-management.html'" title="Back to Users"><i class="ti ti-arrow-left"></i></button>
-    <div class="tb-avatar">PM</div>
-  </div>
-</div>
-
-<div class="page-wrap">
-  <div class="page-header anim">
-    <div class="page-header-left">
-      <div class="page-tag" id="form-tag"><i class="ti ti-user-plus"></i> Add New User</div>
-      <div class="page-title" id="form-title">Create User Account</div>
-      <div class="page-sub" id="form-sub">Fill in the details below to create a new user in the system.</div>
-    </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-ghost" onclick="location.href='user-bulk-upload_1.html'"><i class="ti ti-file-upload"></i> Import Users</button>
-      <button class="btn btn-ghost" onclick="location.href='user-management.html'"><i class="ti ti-x"></i> Cancel</button>
-    </div>
-  </div>
-
-  <!-- PROGRESS STEPS -->
-  <div class="form-steps anim d1" id="form-steps">
-    <div class="form-step active" id="step-1">
-      <div class="fs-node" id="fsn-1"><i class="ti ti-user"></i></div>
-      <span class="fs-label">Personal Info</span>
-    </div>
-    <div class="form-step" id="step-2">
-      <div class="fs-node" id="fsn-2">2</div>
-      <span class="fs-label">Access &amp; Role</span>
-    </div>
-    <div class="form-step" id="step-3">
-      <div class="fs-node" id="fsn-3">3</div>
-      <span class="fs-label">Notifications</span>
-    </div>
-  </div>
-
-  <!-- ── STEP 1: Personal Info ── -->
-  <div class="form-panel active" id="panel-1">
-    <div class="form-section anim">
-      <div class="section-head">
-        <div class="section-ico"><i class="ti ti-photo"></i></div>
-        <div>
-          <div class="section-title">Profile Photo</div>
+      /* ── Assign Institute (scalable multi-select) ── */
+      .ai-toolbar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .ai-mini-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: var(--r);
+        border: 1.5px solid var(--line);
+        background: var(--white);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--ink3);
+        cursor: pointer;
+        transition: all 0.14s;
+        font-family: var(--font);
+      }
+      .ai-mini-btn:hover {
+        border-color: var(--p-line);
+        background: var(--p-bg);
+        color: var(--p);
+      }
+      .ai-mini-btn.clear:hover {
+        border-color: rgba(239, 68, 68, 0.3);
+        background: var(--fire-bg);
+        color: var(--fire-text);
+      }
+      .ai-mini-btn i {
+        font-size: 14px;
+      }
+      .ai-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 10px;
+      }
+      .ai-chips:empty {
+        display: none;
+      }
+      .ai-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--p);
+        background: var(--p-bg);
+        border: 1.5px solid var(--p-line);
+        border-radius: var(--r-pill);
+        padding: 5px 6px 5px 11px;
+      }
+      .ai-chip i {
+        cursor: pointer;
+        font-size: 14px;
+        color: var(--p2);
+        border-radius: 50%;
+        transition: color 0.14s;
+      }
+      .ai-chip i:hover {
+        color: var(--fire);
+      }
+      .ai-list {
+        max-height: 280px;
+        overflow-y: auto;
+        border: 1.5px solid var(--line);
+        border-radius: var(--r);
+        background: var(--white);
+        padding: 12px;
+      }
+      .ai-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 14px;
+        border-bottom: 1px solid var(--line);
+        cursor: pointer;
+        transition: background 0.12s;
+      }
+      .ai-row:last-child {
+        border-bottom: none;
+      }
+      .ai-row:hover {
+        background: var(--smoke);
+      }
+      .ai-row input[type="checkbox"] {
+        accent-color: var(--p);
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        cursor: pointer;
+      }
+      .ai-row .ai-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .ai-row .ai-meta {
+        font-size: 11px;
+        color: var(--ink4);
+        margin-top: 1px;
+      }
+      .ai-empty {
+        padding: 22px 16px;
+        text-align: center;
+        font-size: 12.5px;
+        color: var(--ink4);
+        line-height: 1.6;
+      }
+      /* toggle-chip selection (check-group / chk-opt) */
+      .check-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chk-opt {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 14px;
+        border: 1.5px solid var(--line);
+        border-radius: var(--r);
+        background: var(--white);
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--ink2);
+        cursor: pointer;
+        transition: all 0.15s;
+        user-select: none;
+      }
+      .chk-opt:hover {
+        border-color: var(--p-line);
+        background: var(--p-bg);
+        color: var(--p);
+      }
+      .chk-opt i {
+        font-size: 15px;
+        color: var(--ink4);
+        transition: color 0.15s;
+      }
+      .chk-opt:hover i {
+        color: var(--p);
+      }
+      .chk-opt .chk-sub {
+        font-weight: 400;
+        opacity: 0.7;
+      }
+      .chk-opt.on {
+        background: var(--p-bg);
+        border-color: var(--p);
+        color: var(--p);
+        box-shadow: 0 0 0 3px var(--p-glow);
+      }
+      .chk-opt.on i {
+        color: var(--p);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="tb-brand" onclick="location.href = 'dashboard.html'">
+        <div class="tb-mark">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            width="18"
+            height="18"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
         </div>
-        <!-- Status badge shown after photo is set -->
-        <span id="photo-status-badge" style="display:none;margin-left:auto"></span>
+        <div>
+          <div class="tb-name">Aspire ERP</div>
+          <div class="tb-ver">v3.0 · Admin</div>
+        </div>
+      </div>
+      <div class="tb-divider"></div>
+      <div class="tb-breadcrumb">
+        <a href="dashboard.html"
+          ><i
+            class="ti ti-home"
+            style="font-size: 13px; vertical-align: -1px"
+          ></i>
+          Dashboard</a
+        >
+        <i class="ti ti-chevron-right"></i>
+        <a href="user-management.html">User Management</a>
+        <i class="ti ti-chevron-right"></i>
+        <span class="current" id="page-crumb">Add User</span>
+      </div>
+      <div class="tb-right">
+        <button
+          class="tb-icon-btn"
+          onclick="location.href = 'user-management.html'"
+          title="Back to Users"
+        >
+          <i class="ti ti-arrow-left"></i>
+        </button>
+        <div class="tb-avatar">PM</div>
+      </div>
+    </div>
+
+    <div class="page-wrap">
+      <div class="page-header anim">
+        <div class="page-header-left">
+          <div class="page-tag" id="form-tag">
+            <i class="ti ti-user-plus"></i> Add New User
+          </div>
+          <div class="page-title" id="form-title">Create User Account</div>
+          <div class="page-sub" id="form-sub">
+            Fill in the details below to create a new user in the system.
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px">
+          <button
+            class="btn btn-ghost"
+            onclick="location.href = 'user-bulk-upload_1.html'"
+          >
+            <i class="ti ti-file-upload"></i> Import Users
+          </button>
+          <button
+            class="btn btn-ghost"
+            onclick="location.href = 'user-management.html'"
+          >
+            <i class="ti ti-x"></i> Cancel
+          </button>
+        </div>
       </div>
 
-      <!-- ── DROP ZONE ── -->
-      <div class="photo-drop-zone" id="photo-drop-zone">
+      <!-- PROGRESS STEPS -->
+      <div class="form-steps anim d1" id="form-steps">
+        <div class="form-step active" id="step-1">
+          <div class="fs-node" id="fsn-1"><i class="ti ti-user"></i></div>
+          <span class="fs-label">Personal Info</span>
+        </div>
+        <div class="form-step" id="step-2">
+          <div class="fs-node" id="fsn-2">2</div>
+          <span class="fs-label">Access &amp; Role</span>
+        </div>
+        <div class="form-step" id="step-3">
+          <div class="fs-node" id="fsn-3">3</div>
+          <span class="fs-label">Notifications</span>
+        </div>
+      </div>
 
-        <!-- Real hidden file input — no size restriction client-side; backend enforces 2 MB -->
-        <input
-          class="photo-file-input"
-          id="photo-file-input"
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          onchange="onPhotoFileSelected(this)"
-        />
-
-        <!-- Main body row -->
-        <div class="photo-zone-body">
-
-          <!-- Avatar preview ring -->
-          <div class="photo-avatar-ring" id="photo-avatar-ring">
-            <div class="photo-avatar-initials" id="photo-avatar-initials">?</div>
-            <img id="photo-avatar-img" class="photo-avatar-img" src="" alt="" style="display:none"/>
-            <!-- Camera icon overlay — triggers file picker when photo already set -->
-            <div class="photo-camera-overlay" onclick="triggerPhotoPicker(event)">
-              <i class="ti ti-camera"></i>
+      <!-- ── STEP 1: Personal Info ── -->
+      <div class="form-panel active" id="panel-1">
+        <div class="form-section anim">
+          <div class="section-head">
+            <div class="section-ico"><i class="ti ti-photo"></i></div>
+            <div>
+              <div class="section-title">Profile Photo</div>
             </div>
+            <!-- Status badge shown after photo is set -->
+            <span
+              id="photo-status-badge"
+              style="display: none; margin-left: auto"
+            ></span>
           </div>
 
-          <!-- Instructions + actions -->
-          <div class="photo-zone-text">
-            <div class="photo-zone-title" id="photo-zone-title">
-              Drag &amp; drop or click to upload
+          <!-- ── DROP ZONE ── -->
+          <div class="photo-drop-zone" id="photo-drop-zone">
+            <!-- Real hidden file input — no size restriction client-side; backend enforces 2 MB -->
+            <input
+              class="photo-file-input"
+              id="photo-file-input"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onchange="onPhotoFileSelected(this)"
+            />
+
+            <!-- Main body row -->
+            <div class="photo-zone-body">
+              <!-- Avatar preview ring -->
+              <div class="photo-avatar-ring" id="photo-avatar-ring">
+                <div class="photo-avatar-initials" id="photo-avatar-initials">
+                  ?
+                </div>
+                <img
+                  id="photo-avatar-img"
+                  class="photo-avatar-img"
+                  src=""
+                  alt=""
+                  style="display: none"
+                />
+                <!-- Camera icon overlay — triggers file picker when photo already set -->
+                <div
+                  class="photo-camera-overlay"
+                  onclick="triggerPhotoPicker(event)"
+                >
+                  <i class="ti ti-camera"></i>
+                </div>
+              </div>
+
+              <!-- Instructions + actions -->
+              <div class="photo-zone-text">
+                <div class="photo-zone-title" id="photo-zone-title">
+                  Drag &amp; drop or click to upload
+                </div>
+                <div class="photo-zone-sub" id="photo-zone-sub">
+                  JPG · PNG · WebP &nbsp;·&nbsp; Max <b>2 MB</b> &nbsp;·&nbsp;
+                  Recommended <b>400 × 400 px</b> (square)<br />
+                  The backend automatically resizes and compresses oversized
+                  images.
+                </div>
+                <div class="photo-zone-actions">
+                  <button
+                    class="btn btn-primary"
+                    style="padding: 7px 14px; font-size: 12.5px"
+                    type="button"
+                    id="photo-upload-btn"
+                    onclick="triggerPhotoPicker(event)"
+                  >
+                    <i class="ti ti-upload"></i> Choose Photo
+                  </button>
+                  <button
+                    class="btn btn-ghost"
+                    style="padding: 7px 14px; font-size: 12.5px; display: none"
+                    type="button"
+                    id="photo-change-btn"
+                    onclick="triggerPhotoPicker(event)"
+                  >
+                    <i class="ti ti-refresh"></i> Change
+                  </button>
+                  <button
+                    class="btn btn-ghost"
+                    style="
+                      padding: 7px 14px;
+                      font-size: 12.5px;
+                      color: var(--fire);
+                      border-color: rgba(239, 68, 68, 0.25);
+                      display: none;
+                    "
+                    type="button"
+                    id="photo-remove-btn"
+                    onclick="removePhoto()"
+                  >
+                    <i class="ti ti-trash"></i> Remove
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="photo-zone-sub" id="photo-zone-sub">
-              JPG · PNG · WebP &nbsp;·&nbsp; Max <b>2 MB</b> &nbsp;·&nbsp; Recommended <b>400 × 400 px</b> (square)<br>
-              The backend automatically resizes and compresses oversized images.
+
+            <!-- Validation / status message -->
+            <div class="photo-validation" id="photo-validation">
+              <i class="ti" id="photo-val-icon"></i>
+              <span id="photo-val-text"></span>
             </div>
-            <div class="photo-zone-actions">
+
+            <!-- Upload progress -->
+            <div class="photo-progress" id="photo-progress">
+              <div class="photo-progress-label">
+                <span class="ppl-step" id="photo-progress-step"
+                  >Processing…</span
+                >
+                <span id="photo-progress-pct">0%</span>
+              </div>
+              <div class="photo-progress-track">
+                <div class="photo-progress-fill" id="photo-progress-fill"></div>
+              </div>
+            </div>
+
+            <!-- Thumbnail history strip -->
+            <div class="photo-thumb-strip" id="photo-thumb-strip"></div>
+          </div>
+          <!-- /photo-drop-zone -->
+        </div>
+
+        <!-- ── CROP / ADJUST MODAL ── -->
+        <div class="crop-overlay" id="crop-overlay">
+          <div class="crop-modal">
+            <div class="crop-modal-head">
+              <div class="crop-modal-title">
+                <i
+                  class="ti ti-crop"
+                  style="font-size: 16px; color: var(--p); margin-right: 6px"
+                ></i
+                >Adjust &amp; Crop Photo
+              </div>
+              <button class="crop-modal-close" onclick="closeCropModal()">
+                <i class="ti ti-x"></i>
+              </button>
+            </div>
+
+            <!-- Canvas / preview -->
+            <div class="crop-canvas-wrap" id="crop-canvas-wrap">
+              <img id="crop-img" src="" alt="" draggable="false" />
+              <div class="crop-guide"></div>
+            </div>
+
+            <!-- Zoom controls -->
+            <div class="crop-controls">
+              <span class="crop-ctrl-label"
+                ><i
+                  class="ti ti-zoom-in"
+                  style="font-size: 14px; vertical-align: -2px"
+                ></i>
+                Zoom</span
+              >
+              <button class="crop-zoom-btn" onclick="adjustZoom(-0.1)">
+                <i class="ti ti-minus"></i>
+              </button>
+              <input
+                class="crop-slider"
+                id="crop-zoom-slider"
+                type="range"
+                min="0.5"
+                max="3"
+                step="0.05"
+                value="1"
+                oninput="onZoomSlider(this.value)"
+              />
+              <button class="crop-zoom-btn" onclick="adjustZoom(0.1)">
+                <i class="ti ti-plus"></i>
+              </button>
+              <span class="crop-ctrl-label" style="margin-left: 12px"
+                ><i
+                  class="ti ti-rotate"
+                  style="font-size: 14px; vertical-align: -2px"
+                ></i>
+                Rotate</span
+              >
+              <button
+                class="crop-zoom-btn"
+                onclick="rotateCrop(-90)"
+                title="Rotate left"
+              >
+                <i class="ti ti-rotate-counterclockwise"></i>
+              </button>
+              <button
+                class="crop-zoom-btn"
+                onclick="rotateCrop(90)"
+                title="Rotate right"
+              >
+                <i class="ti ti-rotate-clockwise"></i>
+              </button>
+              <button
+                class="crop-zoom-btn"
+                onclick="flipCrop()"
+                title="Flip horizontal"
+              >
+                <i class="ti ti-flip-horizontal"></i>
+              </button>
+            </div>
+
+            <div class="crop-modal-foot">
+              <button
+                class="btn btn-ghost"
+                type="button"
+                onclick="closeCropModal()"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn btn-ghost"
+                type="button"
+                onclick="resetCrop()"
+                style="margin-right: auto"
+              >
+                <i class="ti ti-refresh"></i> Reset
+              </button>
               <button
                 class="btn btn-primary"
-                style="padding:7px 14px;font-size:12.5px"
                 type="button"
-                id="photo-upload-btn"
-                onclick="triggerPhotoPicker(event)"
+                onclick="applyCrop()"
               >
-                <i class="ti ti-upload"></i> Choose Photo
+                <i class="ti ti-check"></i> Apply &amp; Upload
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section anim d1">
+          <div class="section-head">
+            <div class="section-ico"><i class="ti ti-id-badge-2"></i></div>
+            <div><div class="section-title">Personal Information</div></div>
+            <span class="section-desc"
+              >All fields marked <span style="color: var(--fire)">*</span> are
+              required</span
+            >
+          </div>
+          <div class="section-body">
+            <div class="frow">
+              <div class="fgrp">
+                <div class="flabel">First Name <span class="req">*</span></div>
+                <div class="finput-wrap">
+                  <i class="ti ti-user ficon"></i
+                  ><input
+                    class="finput"
+                    type="text"
+                    id="fname"
+                    placeholder="e.g. Priya"
+                    oninput="updatePreview()"
+                  />
+                </div>
+                <div class="ferror" id="fname-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+              </div>
+              <div class="fgrp">
+                <div class="flabel">Last Name <span class="req">*</span></div>
+                <div class="finput-wrap">
+                  <i class="ti ti-user ficon"></i
+                  ><input
+                    class="finput"
+                    type="text"
+                    id="lname"
+                    placeholder="e.g. Menon"
+                    oninput="updatePreview()"
+                  />
+                </div>
+                <div class="ferror" id="lname-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+              </div>
+            </div>
+            <div class="fgrp">
+              <div class="flabel">Work Email <span class="req">*</span></div>
+              <div class="finput-wrap">
+                <i class="ti ti-mail ficon"></i
+                ><input
+                  class="finput"
+                  type="email"
+                  id="email"
+                  placeholder="user@school.edu"
+                />
+              </div>
+              <div class="ferror" id="email-err">
+                <i class="ti ti-alert-circle"></i><span></span>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgrp">
+                <div class="flabel">Phone Number</div>
+                <div class="finput-wrap">
+                  <i class="ti ti-phone ficon"></i
+                  ><input
+                    class="finput"
+                    type="tel"
+                    id="phone"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+              </div>
+              <div class="fgrp">
+                <div class="flabel">
+                  Employee ID
+                  <span
+                    class="hint"
+                    style="color: var(--jade); font-weight: 600"
+                    ><i class="ti ti-sparkles" style="font-size: 11px"></i>
+                    Auto-generated</span
+                  >
+                </div>
+                <div class="finput-wrap">
+                  <i class="ti ti-id ficon"></i
+                  ><input
+                    class="finput"
+                    type="text"
+                    id="empid"
+                    readonly
+                    style="
+                      background: var(--smoke);
+                      color: var(--ink3);
+                      cursor: not-allowed;
+                    "
+                    title="Employee ID is assigned automatically by the system"
+                  />
+                </div>
+                <div class="field-note">
+                  <i class="ti ti-info-circle"></i> Assigned automatically by
+                  the system upon user creation. Cannot be edited.
+                </div>
+              </div>
+            </div>
+            <div class="frow">
+              <div class="fgrp">
+                <div class="flabel">Date of Birth</div>
+                <div class="finput-wrap">
+                  <i class="ti ti-calendar ficon"></i
+                  ><input class="finput" type="date" id="dob" />
+                </div>
+              </div>
+              <div class="fgrp">
+                <div class="flabel">Gender</div>
+                <div class="finput-wrap">
+                  <i class="ti ti-users ficon"></i>
+                  <select class="finput" id="gender">
+                    <option value="">Select gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Non-binary</option>
+                    <option>Prefer not to say</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="fgrp">
+              <div class="flabel">Address</div>
+              <div class="finput-wrap">
+                <textarea
+                  class="finput"
+                  id="address"
+                  placeholder="Street, City, State"
+                  style="padding-left: 13px; min-height: 72px"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section anim d2">
+          <div class="section-head">
+            <div class="section-ico"><i class="ti ti-lock"></i></div>
+            <div><div class="section-title">Set Password</div></div>
+          </div>
+          <div class="section-body">
+            <div class="frow">
+              <div class="fgrp">
+                <div class="flabel">Password <span class="req">*</span></div>
+                <div class="finput-wrap">
+                  <i class="ti ti-lock ficon"></i>
+                  <input
+                    class="finput"
+                    type="password"
+                    id="password"
+                    placeholder="Min 8 chars, 1 uppercase, 1 number"
+                    oninput="updatePwStr(this.value)"
+                  />
+                  <button
+                    class="eye-btn"
+                    type="button"
+                    onclick="toggleEye('password', this)"
+                  >
+                    <i class="ti ti-eye-off"></i>
+                  </button>
+                </div>
+                <div class="pw-bars">
+                  <div class="pw-bar" id="pb0"></div>
+                  <div class="pw-bar" id="pb1"></div>
+                  <div class="pw-bar" id="pb2"></div>
+                  <div class="pw-bar" id="pb3"></div>
+                </div>
+                <div class="pw-str-label" id="pw-str-lbl">Enter a password</div>
+                <div class="ferror" id="password-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+              </div>
+              <div class="fgrp">
+                <div class="flabel">
+                  Confirm Password <span class="req">*</span>
+                </div>
+                <div class="finput-wrap">
+                  <i class="ti ti-lock ficon"></i>
+                  <input
+                    class="finput"
+                    type="password"
+                    id="cpassword"
+                    placeholder="Re-enter password"
+                  />
+                  <button
+                    class="eye-btn"
+                    type="button"
+                    onclick="toggleEye('cpassword', this)"
+                  >
+                    <i class="ti ti-eye-off"></i>
+                  </button>
+                </div>
+                <div class="ferror" id="cpassword-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-top: 4px;
+              "
+            >
+              <input
+                type="checkbox"
+                id="send-creds"
+                style="accent-color: var(--p); width: 15px; height: 15px"
+              />
+              <label
+                for="send-creds"
+                style="font-size: 12.5px; color: var(--ink3); cursor: pointer"
+                >Send login credentials to user's email after creation</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- ── ASSIGN INSTITUTE ── -->
+        <div class="form-section anim d2">
+          <div class="section-head">
+            <div
+              class="section-ico"
+              style="background: var(--jade-bg); color: var(--jade)"
+            >
+              <i class="ti ti-building-skyscraper"></i>
+            </div>
+            <div><div class="section-title">Assign Institute</div></div>
+            <span class="section-desc"
+              ><span id="ai-count">0</span> institute(s) selected</span
+            >
+          </div>
+          <div class="section-body">
+            <div
+              style="
+                background: var(--p-bg);
+                border: 1.5px solid var(--p-line);
+                border-radius: var(--r);
+                padding: 11px 14px;
+                font-size: 12px;
+                color: var(--p2);
+                line-height: 1.6;
+                margin-bottom: 16px;
+                display: flex;
+                gap: 9px;
+                align-items: flex-start;
+              "
+            >
+              <i
+                class="ti ti-info-circle"
+                style="font-size: 15px; margin-top: 1px"
+              ></i>
+              <span
+                >Map this user to one or more institutes. After signing in, the
+                user will have access only to the institutes assigned here.
+                Useful for roles like <b>Principal</b>.</span
+              >
+            </div>
+
+            <div class="fgrp">
+              <div class="flabel">Search Institute</div>
+              <div class="finput-wrap">
+                <i class="ti ti-search ficon"></i>
+                <input
+                  class="finput"
+                  id="ai-search"
+                  placeholder="Search by name, campus, type, or specialization…"
+                  oninput="renderInstituteOptions()"
+                  autocomplete="off"
+                />
+              </div>
+            </div>
+
+            <div class="ai-toolbar">
+              <button
+                type="button"
+                class="ai-mini-btn"
+                onclick="selectAllInstitutes()"
+              >
+                <i class="ti ti-checks"></i> Select All
               </button>
               <button
-                class="btn btn-ghost"
-                style="padding:7px 14px;font-size:12.5px;display:none"
                 type="button"
-                id="photo-change-btn"
-                onclick="triggerPhotoPicker(event)"
+                class="ai-mini-btn clear"
+                onclick="clearInstituteSelection()"
               >
-                <i class="ti ti-refresh"></i> Change
-              </button>
-              <button
-                class="btn btn-ghost"
-                style="padding:7px 14px;font-size:12.5px;color:var(--fire);border-color:rgba(239,68,68,.25);display:none"
-                type="button"
-                id="photo-remove-btn"
-                onclick="removePhoto()"
-              >
-                <i class="ti ti-trash"></i> Remove
+                <i class="ti ti-square-off"></i> Clear All
               </button>
             </div>
+
+            <div class="ai-chips" id="ai-chips"></div>
+            <div class="ai-list" id="ai-list"></div>
           </div>
         </div>
 
-        <!-- Validation / status message -->
-        <div class="photo-validation" id="photo-validation">
-          <i class="ti" id="photo-val-icon"></i>
-          <span id="photo-val-text"></span>
-        </div>
-
-        <!-- Upload progress -->
-        <div class="photo-progress" id="photo-progress">
-          <div class="photo-progress-label">
-            <span class="ppl-step" id="photo-progress-step">Processing…</span>
-            <span id="photo-progress-pct">0%</span>
-          </div>
-          <div class="photo-progress-track">
-            <div class="photo-progress-fill" id="photo-progress-fill"></div>
-          </div>
-        </div>
-
-        <!-- Thumbnail history strip -->
-        <div class="photo-thumb-strip" id="photo-thumb-strip"></div>
-
-      </div><!-- /photo-drop-zone -->
-    </div>
-
-    <!-- ── CROP / ADJUST MODAL ── -->
-    <div class="crop-overlay" id="crop-overlay">
-      <div class="crop-modal">
-        <div class="crop-modal-head">
-          <div class="crop-modal-title"><i class="ti ti-crop" style="font-size:16px;color:var(--p);margin-right:6px"></i>Adjust &amp; Crop Photo</div>
-          <button class="crop-modal-close" onclick="closeCropModal()"><i class="ti ti-x"></i></button>
-        </div>
-
-        <!-- Canvas / preview -->
-        <div class="crop-canvas-wrap" id="crop-canvas-wrap">
-          <img id="crop-img" src="" alt="" draggable="false"/>
-          <div class="crop-guide"></div>
-        </div>
-
-        <!-- Zoom controls -->
-        <div class="crop-controls">
-          <span class="crop-ctrl-label"><i class="ti ti-zoom-in" style="font-size:14px;vertical-align:-2px"></i> Zoom</span>
-          <button class="crop-zoom-btn" onclick="adjustZoom(-0.1)"><i class="ti ti-minus"></i></button>
-          <input class="crop-slider" id="crop-zoom-slider" type="range" min="0.5" max="3" step="0.05" value="1" oninput="onZoomSlider(this.value)"/>
-          <button class="crop-zoom-btn" onclick="adjustZoom(0.1)"><i class="ti ti-plus"></i></button>
-          <span class="crop-ctrl-label" style="margin-left:12px"><i class="ti ti-rotate" style="font-size:14px;vertical-align:-2px"></i> Rotate</span>
-          <button class="crop-zoom-btn" onclick="rotateCrop(-90)" title="Rotate left"><i class="ti ti-rotate-counterclockwise"></i></button>
-          <button class="crop-zoom-btn" onclick="rotateCrop(90)" title="Rotate right"><i class="ti ti-rotate-clockwise"></i></button>
-          <button class="crop-zoom-btn" onclick="flipCrop()" title="Flip horizontal"><i class="ti ti-flip-horizontal"></i></button>
-        </div>
-
-        <div class="crop-modal-foot">
-          <button class="btn btn-ghost" type="button" onclick="closeCropModal()">Cancel</button>
-          <button class="btn btn-ghost" type="button" onclick="resetCrop()" style="margin-right:auto"><i class="ti ti-refresh"></i> Reset</button>
-          <button class="btn btn-primary" type="button" onclick="applyCrop()"><i class="ti ti-check"></i> Apply &amp; Upload</button>
+        <div class="form-footer">
+          <button
+            class="btn btn-ghost"
+            onclick="location.href = 'user-management.html'"
+          >
+            <i class="ti ti-arrow-left"></i> Back to Users
+          </button>
+          <button class="btn btn-primary" onclick="goStep(2)">
+            Next: Access &amp; Role <i class="ti ti-arrow-right"></i>
+          </button>
         </div>
       </div>
-    </div>
 
-    <div class="form-section anim d1">
-      <div class="section-head">
-        <div class="section-ico"><i class="ti ti-id-badge-2"></i></div>
-        <div><div class="section-title">Personal Information</div></div>
-        <span class="section-desc">All fields marked <span style="color:var(--fire)">*</span> are required</span>
-      </div>
-      <div class="section-body">
-        <div class="frow">
-          <div class="fgrp">
-            <div class="flabel">First Name <span class="req">*</span></div>
-            <div class="finput-wrap"><i class="ti ti-user ficon"></i><input class="finput" type="text" id="fname" placeholder="e.g. Priya" oninput="updatePreview()"/></div>
-            <div class="ferror" id="fname-err"><i class="ti ti-alert-circle"></i><span></span></div>
+      <!-- ── STEP 2: Access & Role ── -->
+      <div class="form-panel" id="panel-2">
+        <div class="form-section anim">
+          <div class="section-head">
+            <div class="section-ico"><i class="ti ti-shield-lock"></i></div>
+            <div><div class="section-title">Role &amp; Department</div></div>
           </div>
-          <div class="fgrp">
-            <div class="flabel">Last Name <span class="req">*</span></div>
-            <div class="finput-wrap"><i class="ti ti-user ficon"></i><input class="finput" type="text" id="lname" placeholder="e.g. Menon" oninput="updatePreview()"/></div>
-            <div class="ferror" id="lname-err"><i class="ti ti-alert-circle"></i><span></span></div>
-          </div>
-        </div>
-        <div class="fgrp">
-          <div class="flabel">Work Email <span class="req">*</span></div>
-          <div class="finput-wrap"><i class="ti ti-mail ficon"></i><input class="finput" type="email" id="email" placeholder="user@school.edu"/></div>
-          <div class="ferror" id="email-err"><i class="ti ti-alert-circle"></i><span></span></div>
-        </div>
-        <div class="frow">
-          <div class="fgrp">
-            <div class="flabel">Phone Number</div>
-            <div class="finput-wrap"><i class="ti ti-phone ficon"></i><input class="finput" type="tel" id="phone" placeholder="+91 98765 43210"/></div>
-          </div>
-          <div class="fgrp">
-            <div class="flabel">Employee ID <span class="hint" style="color:var(--jade);font-weight:600"><i class="ti ti-sparkles" style="font-size:11px"></i> Auto-generated</span></div>
-            <div class="finput-wrap"><i class="ti ti-id ficon"></i><input class="finput" type="text" id="empid" readonly style="background:var(--smoke);color:var(--ink3);cursor:not-allowed" title="Employee ID is assigned automatically by the system"/></div>
-            <div class="field-note"><i class="ti ti-info-circle"></i> Assigned automatically by the system upon user creation. Cannot be edited.</div>
-          </div>
-        </div>
-        <div class="frow">
-          <div class="fgrp">
-            <div class="flabel">Date of Birth</div>
-            <div class="finput-wrap"><i class="ti ti-calendar ficon"></i><input class="finput" type="date" id="dob"/></div>
-          </div>
-          <div class="fgrp">
-            <div class="flabel">Gender</div>
-            <div class="finput-wrap"><i class="ti ti-users ficon"></i>
-              <select class="finput" id="gender">
-                <option value="">Select gender</option>
-                <option>Male</option><option>Female</option><option>Non-binary</option><option>Prefer not to say</option>
-              </select>
+          <div class="section-body">
+            <div class="frow">
+              <div class="fgrp">
+                <div class="flabel">
+                  Assigned Role <span class="req">*</span>
+                </div>
+                <div class="finput-wrap">
+                  <i class="ti ti-shield-lock ficon"></i>
+                  <select class="finput" id="role" onchange="onRoleChange()">
+                    <option value="">Select role</option>
+                    <option>Admin</option>
+                    <option>Trustee</option>
+                    <option>Principal</option>
+                    <option>HOD</option>
+                    <option>Teacher</option>
+                    <option>Staff</option>
+                  </select>
+                </div>
+                <div class="ferror" id="role-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+              </div>
+              <div class="fgrp">
+                <div class="flabel">Department <span class="req">*</span></div>
+                <div class="finput-wrap">
+                  <i class="ti ti-building-community ficon"></i>
+                  <select class="finput" id="dept">
+                    <option value="">Select department</option>
+                    <option>Administration</option>
+                    <option>Science</option>
+                    <option>Commerce</option>
+                    <option>Arts</option>
+                    <option>Computer Science</option>
+                    <option>Management</option>
+                  </select>
+                </div>
+                <div class="ferror" id="dept-err">
+                  <i class="ti ti-alert-circle"></i><span></span>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="fgrp">
-          <div class="flabel">Address</div>
-          <div class="finput-wrap"><textarea class="finput" id="address" placeholder="Street, City, State" style="padding-left:13px;min-height:72px"></textarea></div>
-        </div>
-      </div>
-    </div>
+            <div class="frow">
+              <div class="fgrp">
+                <div class="flabel">Joining Date</div>
+                <div class="finput-wrap">
+                  <i class="ti ti-calendar ficon"></i
+                  ><input class="finput" type="date" id="joining" />
+                </div>
+              </div>
+              <div class="fgrp">
+                <div class="flabel">Account Status</div>
+                <div class="finput-wrap">
+                  <i class="ti ti-circle-check ficon"></i>
+                  <select class="finput" id="acc-status">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Pending">Pending Activation</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
-    <div class="form-section anim d2">
-      <div class="section-head">
-        <div class="section-ico"><i class="ti ti-lock"></i></div>
-        <div><div class="section-title">Set Password</div></div>
-      </div>
-      <div class="section-body">
-        <div class="frow">
-          <div class="fgrp">
-            <div class="flabel">Password <span class="req">*</span></div>
-            <div class="finput-wrap">
-              <i class="ti ti-lock ficon"></i>
-              <input class="finput" type="password" id="password" placeholder="Min 8 chars, 1 uppercase, 1 number" oninput="updatePwStr(this.value)"/>
-              <button class="eye-btn" type="button" onclick="toggleEye('password',this)"><i class="ti ti-eye-off"></i></button>
-            </div>
-            <div class="pw-bars"><div class="pw-bar" id="pb0"></div><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div></div>
-            <div class="pw-str-label" id="pw-str-lbl">Enter a password</div>
-            <div class="ferror" id="password-err"><i class="ti ti-alert-circle"></i><span></span></div>
-          </div>
-          <div class="fgrp">
-            <div class="flabel">Confirm Password <span class="req">*</span></div>
-            <div class="finput-wrap">
-              <i class="ti ti-lock ficon"></i>
-              <input class="finput" type="password" id="cpassword" placeholder="Re-enter password"/>
-              <button class="eye-btn" type="button" onclick="toggleEye('cpassword',this)"><i class="ti ti-eye-off"></i></button>
-            </div>
-            <div class="ferror" id="cpassword-err"><i class="ti ti-alert-circle"></i><span></span></div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
-          <input type="checkbox" id="send-creds" style="accent-color:var(--p);width:15px;height:15px"/>
-          <label for="send-creds" style="font-size:12.5px;color:var(--ink3);cursor:pointer">Send login credentials to user's email after creation</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-footer">
-      <button class="btn btn-ghost" onclick="location.href='user-management.html'"><i class="ti ti-arrow-left"></i> Back to Users</button>
-      <button class="btn btn-primary" onclick="goStep(2)">Next: Access &amp; Role <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ── STEP 2: Access & Role ── -->
-  <div class="form-panel" id="panel-2">
-    <div class="form-section anim">
-      <div class="section-head">
-        <div class="section-ico"><i class="ti ti-shield-lock"></i></div>
-        <div><div class="section-title">Role &amp; Department</div></div>
-      </div>
-      <div class="section-body">
-        <div class="frow">
-          <div class="fgrp">
-            <div class="flabel">Assigned Role <span class="req">*</span></div>
-            <div class="finput-wrap"><i class="ti ti-shield-lock ficon"></i>
-              <select class="finput" id="role" onchange="onRoleChange()">
-                <option value="">Select role</option>
-                <option>Admin</option><option>Trustee</option><option>Principal</option>
-                <option>HOD</option><option>Teacher</option><option>Staff</option>
-              </select>
-            </div>
-            <div class="ferror" id="role-err"><i class="ti ti-alert-circle"></i><span></span></div>
-          </div>
-          <div class="fgrp">
-            <div class="flabel">Department <span class="req">*</span></div>
-            <div class="finput-wrap"><i class="ti ti-building-community ficon"></i>
-              <select class="finput" id="dept">
-                <option value="">Select department</option>
-                <option>Administration</option><option>Science</option><option>Commerce</option>
-                <option>Arts</option><option>Computer Science</option><option>Management</option>
-              </select>
-            </div>
-            <div class="ferror" id="dept-err"><i class="ti ti-alert-circle"></i><span></span></div>
-          </div>
-        </div>
-        <div class="frow">
-          <div class="fgrp">
-            <div class="flabel">Joining Date</div>
-            <div class="finput-wrap"><i class="ti ti-calendar ficon"></i><input class="finput" type="date" id="joining"/></div>
-          </div>
-          <div class="fgrp">
-            <div class="flabel">Account Status</div>
-            <div class="finput-wrap"><i class="ti ti-circle-check ficon"></i>
-              <select class="finput" id="acc-status">
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-                <option value="Pending">Pending Activation</option>
-              </select>
+            <!-- Role description box -->
+            <div
+              id="role-desc-box"
+              style="
+                display: none;
+                margin-top: 8px;
+                padding: 12px 14px;
+                background: var(--p-bg);
+                border: 1.5px solid var(--p-line);
+                border-radius: var(--r);
+                font-size: 12.5px;
+                color: var(--p2);
+                line-height: 1.7;
+              "
+            >
+              <i class="ti ti-info-circle" style="margin-right: 5px"></i
+              ><span id="role-desc-text"></span>
             </div>
           </div>
         </div>
 
-        <!-- Role description box -->
-        <div id="role-desc-box" style="display:none;margin-top:8px;padding:12px 14px;background:var(--p-bg);border:1.5px solid var(--p-line);border-radius:var(--r);font-size:12.5px;color:var(--p2);line-height:1.7">
-          <i class="ti ti-info-circle" style="margin-right:5px"></i><span id="role-desc-text"></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-section anim d1">
-      <div class="section-head">
-        <div class="section-ico"><i class="ti ti-key"></i></div>
-        <div><div class="section-title">Module Permissions</div></div>
-        <span class="section-desc">Customise per-module access beyond role defaults</span>
-      </div>
-      <div class="section-body" style="padding:0">
-        <table class="perm-table">
-          <thead><tr><th style="width:36px"></th><th>Module</th><th>Access Level</th><th>Description</th></tr></thead>
-          <tbody id="perm-tbody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="form-section anim d2">
-      <div class="section-head">
-        <div class="section-ico" style="background:var(--jade-bg);color:var(--jade)"><i class="ti ti-shield-check"></i></div>
-        <div><div class="section-title">Security Settings</div></div>
-      </div>
-      <div class="section-body">
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);cursor:pointer">
-            <input type="checkbox" id="require-2fa" checked style="accent-color:var(--p);width:15px;height:15px"/>
-            <div><div style="font-weight:600">Require Two-Factor Authentication (2FA)</div><div style="font-size:11.5px;color:var(--ink4);margin-top:2px">User must set up OTP before first login</div></div>
-          </label>
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);cursor:pointer">
-            <input type="checkbox" id="force-pw-reset" style="accent-color:var(--p);width:15px;height:15px"/>
-            <div><div style="font-weight:600">Force Password Reset on First Login</div><div style="font-size:11.5px;color:var(--ink4);margin-top:2px">User must change temporary password on first sign-in</div></div>
-          </label>
-          <label style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);cursor:pointer">
-            <input type="checkbox" id="session-limit" checked style="accent-color:var(--p);width:15px;height:15px"/>
-            <div><div style="font-weight:600">Limit to Single Active Session</div><div style="font-size:11.5px;color:var(--ink4);margin-top:2px">Signing in on a new device terminates the previous session</div></div>
-          </label>
-        </div>
-      </div>
-    </div>
-
-    <div class="form-footer">
-      <button class="btn btn-ghost" onclick="goStep(1)"><i class="ti ti-arrow-left"></i> Back</button>
-      <button class="btn btn-primary" onclick="goStep(3)">Next: Notifications <i class="ti ti-arrow-right"></i></button>
-    </div>
-  </div>
-
-  <!-- ── STEP 3: Notifications & Submit ── -->
-  <div class="form-panel" id="panel-3">
-    <div class="form-section anim">
-      <div class="section-head">
-        <div class="section-ico" style="background:var(--sun-bg);color:var(--sun)"><i class="ti ti-bell"></i></div>
-        <div><div class="section-title">Notification Preferences</div></div>
-        <span class="section-desc">Configure alerts for this user</span>
-      </div>
-      <div class="section-body">
-        <div class="notif-grid">
-          <label class="notif-item">
-            <input type="checkbox" checked/>
-            <div><div class="notif-label">Login Alerts</div><div class="notif-desc">Notify when account is signed in from a new device or location</div></div>
-          </label>
-          <label class="notif-item">
-            <input type="checkbox" checked/>
-            <div><div class="notif-label">Security Events</div><div class="notif-desc">Password changes, 2FA updates, suspicious activity</div></div>
-          </label>
-          <label class="notif-item">
-            <input type="checkbox" checked/>
-            <div><div class="notif-label">System Announcements</div><div class="notif-desc">Platform updates, maintenance windows, new features</div></div>
-          </label>
-          <label class="notif-item">
-            <input type="checkbox"/>
-            <div><div class="notif-label">Activity Reports</div><div class="notif-desc">Weekly digest of user activity in the system</div></div>
-          </label>
-          <label class="notif-item">
-            <input type="checkbox" checked/>
-            <div><div class="notif-label">Admission Alerts</div><div class="notif-desc">New enquiries, application updates, approvals required</div></div>
-          </label>
-          <label class="notif-item">
-            <input type="checkbox"/>
-            <div><div class="notif-label">Fee &amp; Finance Alerts</div><div class="notif-desc">Fee due reminders, payment receipts, outstanding notices</div></div>
-          </label>
+        <div class="form-section anim d1">
+          <div class="section-head">
+            <div class="section-ico"><i class="ti ti-key"></i></div>
+            <div><div class="section-title">Module Permissions</div></div>
+            <span class="section-desc"
+              >Customise per-module access beyond role defaults</span
+            >
+          </div>
+          <div class="section-body" style="padding: 0">
+            <table class="perm-table">
+              <thead>
+                <tr>
+                  <th style="width: 36px"></th>
+                  <th>Module</th>
+                  <th>Access Level</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody id="perm-tbody"></tbody>
+            </table>
+          </div>
         </div>
 
-        <div style="margin-top:18px;padding-top:16px;border-top:1.5px solid var(--line)">
-          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:10px">Delivery Channels</div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink2);cursor:pointer">
-              <input type="checkbox" checked style="accent-color:var(--p)"/> <i class="ti ti-mail" style="font-size:15px;color:var(--p)"></i> Email
-            </label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink2);cursor:pointer">
-              <input type="checkbox" style="accent-color:var(--p)"/> <i class="ti ti-device-mobile" style="font-size:15px;color:var(--jade)"></i> SMS
-            </label>
-            <label style="display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink2);cursor:pointer">
-              <input type="checkbox" style="accent-color:var(--p)"/> <i class="ti ti-bell" style="font-size:15px;color:var(--sun)"></i> Push
-            </label>
+        <div class="form-section anim d2">
+          <div class="section-head">
+            <div
+              class="section-ico"
+              style="background: var(--jade-bg); color: var(--jade)"
+            >
+              <i class="ti ti-shield-check"></i>
+            </div>
+            <div><div class="section-title">Security Settings</div></div>
+          </div>
+          <div class="section-body">
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  font-size: 13px;
+                  color: var(--ink2);
+                  cursor: pointer;
+                "
+              >
+                <input
+                  type="checkbox"
+                  id="require-2fa"
+                  checked
+                  style="accent-color: var(--p); width: 15px; height: 15px"
+                />
+                <div>
+                  <div style="font-weight: 600">
+                    Require Two-Factor Authentication (2FA)
+                  </div>
+                  <div
+                    style="
+                      font-size: 11.5px;
+                      color: var(--ink4);
+                      margin-top: 2px;
+                    "
+                  >
+                    User must set up OTP before first login
+                  </div>
+                </div>
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  font-size: 13px;
+                  color: var(--ink2);
+                  cursor: pointer;
+                "
+              >
+                <input
+                  type="checkbox"
+                  id="force-pw-reset"
+                  style="accent-color: var(--p); width: 15px; height: 15px"
+                />
+                <div>
+                  <div style="font-weight: 600">
+                    Force Password Reset on First Login
+                  </div>
+                  <div
+                    style="
+                      font-size: 11.5px;
+                      color: var(--ink4);
+                      margin-top: 2px;
+                    "
+                  >
+                    User must change temporary password on first sign-in
+                  </div>
+                </div>
+              </label>
+              <label
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  font-size: 13px;
+                  color: var(--ink2);
+                  cursor: pointer;
+                "
+              >
+                <input
+                  type="checkbox"
+                  id="session-limit"
+                  checked
+                  style="accent-color: var(--p); width: 15px; height: 15px"
+                />
+                <div>
+                  <div style="font-weight: 600">
+                    Limit to Single Active Session
+                  </div>
+                  <div
+                    style="
+                      font-size: 11.5px;
+                      color: var(--ink4);
+                      margin-top: 2px;
+                    "
+                  >
+                    Signing in on a new device terminates the previous session
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn btn-ghost" onclick="goStep(1)">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
+          <button class="btn btn-primary" onclick="goStep(3)">
+            Next: Notifications <i class="ti ti-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Notifications & Submit ── -->
+      <div class="form-panel" id="panel-3">
+        <div class="form-section anim">
+          <div class="section-head">
+            <div
+              class="section-ico"
+              style="background: var(--sun-bg); color: var(--sun)"
+            >
+              <i class="ti ti-bell"></i>
+            </div>
+            <div><div class="section-title">Notification Preferences</div></div>
+            <span class="section-desc">Configure alerts for this user</span>
+          </div>
+          <div class="section-body">
+            <div class="notif-grid">
+              <label class="notif-item">
+                <input type="checkbox" checked />
+                <div>
+                  <div class="notif-label">Login Alerts</div>
+                  <div class="notif-desc">
+                    Notify when account is signed in from a new device or
+                    location
+                  </div>
+                </div>
+              </label>
+              <label class="notif-item">
+                <input type="checkbox" checked />
+                <div>
+                  <div class="notif-label">Security Events</div>
+                  <div class="notif-desc">
+                    Password changes, 2FA updates, suspicious activity
+                  </div>
+                </div>
+              </label>
+              <label class="notif-item">
+                <input type="checkbox" checked />
+                <div>
+                  <div class="notif-label">System Announcements</div>
+                  <div class="notif-desc">
+                    Platform updates, maintenance windows, new features
+                  </div>
+                </div>
+              </label>
+              <label class="notif-item">
+                <input type="checkbox" />
+                <div>
+                  <div class="notif-label">Activity Reports</div>
+                  <div class="notif-desc">
+                    Weekly digest of user activity in the system
+                  </div>
+                </div>
+              </label>
+              <label class="notif-item">
+                <input type="checkbox" checked />
+                <div>
+                  <div class="notif-label">Admission Alerts</div>
+                  <div class="notif-desc">
+                    New enquiries, application updates, approvals required
+                  </div>
+                </div>
+              </label>
+              <label class="notif-item">
+                <input type="checkbox" />
+                <div>
+                  <div class="notif-label">Fee &amp; Finance Alerts</div>
+                  <div class="notif-desc">
+                    Fee due reminders, payment receipts, outstanding notices
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <div
+              style="
+                margin-top: 18px;
+                padding-top: 16px;
+                border-top: 1.5px solid var(--line);
+              "
+            >
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 700;
+                  text-transform: uppercase;
+                  letter-spacing: 0.6px;
+                  color: var(--ink4);
+                  margin-bottom: 10px;
+                "
+              >
+                Delivery Channels
+              </div>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap">
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    font-size: 13px;
+                    color: var(--ink2);
+                    cursor: pointer;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    checked
+                    style="accent-color: var(--p)"
+                  />
+                  <i
+                    class="ti ti-mail"
+                    style="font-size: 15px; color: var(--p)"
+                  ></i>
+                  Email
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    font-size: 13px;
+                    color: var(--ink2);
+                    cursor: pointer;
+                  "
+                >
+                  <input type="checkbox" style="accent-color: var(--p)" />
+                  <i
+                    class="ti ti-device-mobile"
+                    style="font-size: 15px; color: var(--jade)"
+                  ></i>
+                  SMS
+                </label>
+                <label
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    font-size: 13px;
+                    color: var(--ink2);
+                    cursor: pointer;
+                  "
+                >
+                  <input type="checkbox" style="accent-color: var(--p)" />
+                  <i
+                    class="ti ti-bell"
+                    style="font-size: 15px; color: var(--sun)"
+                  ></i>
+                  Push
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Summary -->
+        <div class="form-section anim d1">
+          <div class="section-head">
+            <div
+              class="section-ico"
+              style="background: #f3e8ff; color: #7c3aed"
+            >
+              <i class="ti ti-clipboard-check"></i>
+            </div>
+            <div><div class="section-title">Review Summary</div></div>
+          </div>
+          <div class="section-body">
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px"
+              id="review-grid"
+            >
+              <div
+                style="
+                  grid-column: 1/-1;
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  padding-bottom: 14px;
+                  border-bottom: 1px solid var(--line);
+                "
+              >
+                <div id="rv-photo"></div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.6px;
+                    color: var(--ink4);
+                    margin-bottom: 4px;
+                  "
+                >
+                  Name
+                </div>
+                <div
+                  style="font-size: 13.5px; font-weight: 600; color: var(--ink)"
+                  id="rv-name"
+                >
+                  —
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.6px;
+                    color: var(--ink4);
+                    margin-bottom: 4px;
+                  "
+                >
+                  Email
+                </div>
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: var(--ink);
+                    font-family: var(--mono);
+                  "
+                  id="rv-email"
+                >
+                  —
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.6px;
+                    color: var(--ink4);
+                    margin-bottom: 4px;
+                  "
+                >
+                  Role
+                </div>
+                <div
+                  style="font-size: 13.5px; font-weight: 600; color: var(--p)"
+                  id="rv-role"
+                >
+                  —
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.6px;
+                    color: var(--ink4);
+                    margin-bottom: 4px;
+                  "
+                >
+                  Department
+                </div>
+                <div
+                  style="font-size: 13.5px; font-weight: 600; color: var(--ink)"
+                  id="rv-dept"
+                >
+                  —
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.6px;
+                    color: var(--ink4);
+                    margin-bottom: 4px;
+                  "
+                >
+                  Status
+                </div>
+                <div id="rv-status">—</div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    text-transform: uppercase;
+                    letter-spacing: 0.6px;
+                    color: var(--ink4);
+                    margin-bottom: 4px;
+                  "
+                >
+                  2FA Required
+                </div>
+                <div
+                  style="
+                    font-size: 13.5px;
+                    font-weight: 600;
+                    color: var(--jade);
+                  "
+                  id="rv-2fa"
+                >
+                  Yes
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn btn-ghost" onclick="goStep(2)">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
+          <div style="display: flex; gap: 8px">
+            <button class="btn btn-outline" onclick="saveDraft()">
+              <i class="ti ti-device-floppy"></i> Save as Draft
+            </button>
+            <button
+              class="btn btn-primary"
+              id="submit-btn"
+              onclick="submitUser()"
+            >
+              <span class="btn-text"
+                ><i class="ti ti-user-plus"></i> Create User</span
+              >
+            </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- /page-wrap -->
 
-    <!-- Review Summary -->
-    <div class="form-section anim d1">
-      <div class="section-head">
-        <div class="section-ico" style="background:#f3e8ff;color:#7c3aed"><i class="ti ti-clipboard-check"></i></div>
-        <div><div class="section-title">Review Summary</div></div>
-      </div>
-      <div class="section-body">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" id="review-grid">
-          <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--line)"><div id="rv-photo"></div></div>
-          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Name</div><div style="font-size:13.5px;font-weight:600;color:var(--ink)" id="rv-name">—</div></div>
-          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Email</div><div style="font-size:13px;font-weight:500;color:var(--ink);font-family:var(--mono)" id="rv-email">—</div></div>
-          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Role</div><div style="font-size:13.5px;font-weight:600;color:var(--p)" id="rv-role">—</div></div>
-          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Department</div><div style="font-size:13.5px;font-weight:600;color:var(--ink)" id="rv-dept">—</div></div>
-          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">Status</div><div id="rv-status">—</div></div>
-          <div><div style="font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--ink4);margin-bottom:4px">2FA Required</div><div style="font-size:13.5px;font-weight:600;color:var(--jade)" id="rv-2fa">Yes</div></div>
-        </div>
-      </div>
-    </div>
+    <div id="toast-wrap"></div>
 
-    <div class="form-footer">
-      <button class="btn btn-ghost" onclick="goStep(2)"><i class="ti ti-arrow-left"></i> Back</button>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-outline" onclick="saveDraft()"><i class="ti ti-device-floppy"></i> Save as Draft</button>
-        <button class="btn btn-primary" id="submit-btn" onclick="submitUser()"><span class="btn-text"><i class="ti ti-user-plus"></i> Create User</span></button>
-      </div>
-    </div>
-  </div>
+    <script>
+      var currentStep = 1;
+      var isEdit = false;
+      var editId = null;
 
-</div><!-- /page-wrap -->
+      /* Role descriptions */
+      var ROLE_DESC = {
+        Admin:
+          "Full company-level access: manage users, admissions, finance, settings, and reports.",
+        Trustee:
+          "Cross-company access: view all institutes, consolidated reports, and company management.",
+        Principal:
+          "Institute-level access: manage academic operations, faculty, attendance, and admissions.",
+        HOD: "Department-level access: manage department faculty, attendance, and academic scheduling.",
+        Teacher:
+          "Class-level access: attendance marking, grades, timetable, and student records.",
+        Staff:
+          "Limited access: view assigned modules and perform designated administrative tasks.",
+      };
 
-<div id="toast-wrap"></div>
+      /* Default permissions by role */
+      var ROLE_PERMS = {
+        Admin: {
+          Admissions: "full",
+          Finance: "full",
+          "User Management": "full",
+          Reports: "full",
+          Settings: "full",
+        },
+        Trustee: {
+          Admissions: "view",
+          Finance: "view",
+          "User Management": "view",
+          Reports: "full",
+          Settings: "view",
+        },
+        Principal: {
+          Admissions: "full",
+          Finance: "view",
+          "User Management": "view",
+          Reports: "full",
+          Settings: "none",
+        },
+        HOD: {
+          Admissions: "view",
+          Finance: "none",
+          "User Management": "none",
+          Reports: "view",
+          Settings: "none",
+        },
+        Teacher: {
+          Admissions: "none",
+          Finance: "none",
+          "User Management": "none",
+          Reports: "view",
+          Settings: "none",
+        },
+        Staff: {
+          Admissions: "view",
+          Finance: "none",
+          "User Management": "none",
+          Reports: "none",
+          Settings: "none",
+        },
+      };
 
-<script>
-var currentStep = 1;
-var isEdit = false;
-var editId = null;
+      var MODULES = [
+        {
+          key: "Admissions",
+          icon: "ti-user-check",
+          desc: "Enquiries, applications, admissions flow",
+        },
+        {
+          key: "Finance",
+          icon: "ti-coin",
+          desc: "Fee collection, payments, reports",
+        },
+        {
+          key: "User Management",
+          icon: "ti-users",
+          desc: "Create, edit, deactivate user accounts",
+        },
+        {
+          key: "Reports",
+          icon: "ti-chart-bar",
+          desc: "Academic, attendance, financial reports",
+        },
+        {
+          key: "Settings",
+          icon: "ti-settings",
+          desc: "System configuration and preferences",
+        },
+      ];
 
-/* Role descriptions */
-var ROLE_DESC = {
-  Admin: 'Full company-level access: manage users, admissions, finance, settings, and reports.',
-  Trustee: 'Cross-company access: view all institutes, consolidated reports, and company management.',
-  Principal: 'Institute-level access: manage academic operations, faculty, attendance, and admissions.',
-  HOD: 'Department-level access: manage department faculty, attendance, and academic scheduling.',
-  Teacher: 'Class-level access: attendance marking, grades, timetable, and student records.',
-  Staff: 'Limited access: view assigned modules and perform designated administrative tasks.'
-};
+      var permState = {};
 
-/* Default permissions by role */
-var ROLE_PERMS = {
-  Admin:     {Admissions:'full',Finance:'full','User Management':'full',Reports:'full',Settings:'full'},
-  Trustee:   {Admissions:'view',Finance:'view','User Management':'view',Reports:'full',Settings:'view'},
-  Principal: {Admissions:'full',Finance:'view','User Management':'view',Reports:'full',Settings:'none'},
-  HOD:       {Admissions:'view',Finance:'none','User Management':'none',Reports:'view',Settings:'none'},
-  Teacher:   {Admissions:'none',Finance:'none','User Management':'none',Reports:'view',Settings:'none'},
-  Staff:     {Admissions:'view',Finance:'none','User Management':'none',Reports:'none',Settings:'none'}
-};
+      function init() {
+        var params = new URLSearchParams(location.search);
+        editId = params.get("id");
+        if (editId) {
+          isEdit = true;
+          document.getElementById("page-crumb").textContent = "Edit User";
+          document.getElementById("form-tag").innerHTML =
+            '<i class="ti ti-edit"></i> Edit User';
+          document.getElementById("form-title").textContent =
+            "Edit User Account";
+          document.getElementById("form-sub").textContent =
+            "Update the details for this user account.";
+          document
+            .getElementById("submit-btn")
+            .querySelector(".btn-text").innerHTML =
+            '<i class="ti ti-check"></i> Save Changes';
+          // Prefill demo data
+          document.getElementById("fname").value = "Priya";
+          document.getElementById("lname").value = "Menon";
+          document.getElementById("email").value = "priya.menon@school.edu";
+          document.getElementById("phone").value = "+91 98765 43210";
+          document.getElementById("empid").value =
+            "EMP001"; /* existing ID — read-only, shown as-is */
+          document.getElementById("role").value = "Admin";
+          document.getElementById("dept").value = "Administration";
+          document.getElementById("acc-status").value = "Active";
+          updatePreview();
+          onRoleChange();
+        } else {
+          /* New user — auto-generate Employee ID immediately */
+          document.getElementById("empid").value = generateEmpId();
+        }
+        renderPerms("Admin");
+        initPhotoDrop(); /* wire drag-drop + crop pan events */
+        renderInstituteOptions(); /* populate the Assign Institute list */
+      }
 
-var MODULES = [
-  {key:'Admissions',  icon:'ti-user-check',  desc:'Enquiries, applications, admissions flow'},
-  {key:'Finance',     icon:'ti-coin',         desc:'Fee collection, payments, reports'},
-  {key:'User Management',icon:'ti-users',     desc:'Create, edit, deactivate user accounts'},
-  {key:'Reports',     icon:'ti-chart-bar',    desc:'Academic, attendance, financial reports'},
-  {key:'Settings',    icon:'ti-settings',     desc:'System configuration and preferences'}
-];
-
-var permState = {};
-
-function init(){
-  var params = new URLSearchParams(location.search);
-  editId = params.get('id');
-  if(editId){
-    isEdit = true;
-    document.getElementById('page-crumb').textContent='Edit User';
-    document.getElementById('form-tag').innerHTML='<i class="ti ti-edit"></i> Edit User';
-    document.getElementById('form-title').textContent='Edit User Account';
-    document.getElementById('form-sub').textContent='Update the details for this user account.';
-    document.getElementById('submit-btn').querySelector('.btn-text').innerHTML='<i class="ti ti-check"></i> Save Changes';
-    // Prefill demo data
-    document.getElementById('fname').value='Priya';document.getElementById('lname').value='Menon';
-    document.getElementById('email').value='priya.menon@school.edu';document.getElementById('phone').value='+91 98765 43210';
-    document.getElementById('empid').value='EMP001'; /* existing ID — read-only, shown as-is */
-    document.getElementById('role').value='Admin';
-    document.getElementById('dept').value='Administration';document.getElementById('acc-status').value='Active';
-    updatePreview(); onRoleChange();
-  } else {
-    /* New user — auto-generate Employee ID immediately */
-    document.getElementById('empid').value = generateEmpId();
-  }
-  renderPerms('Admin');
-  initPhotoDrop();   /* wire drag-drop + crop pan events */
-}
-
-/* Generate a unique Employee ID: EMP + zero-padded random 4-digit number.
+      /* Generate a unique Employee ID: EMP + zero-padded random 4-digit number.
    In production this value comes from the server (sequence / UUID) and is
    confirmed only on successful form submission — the client preview is
    informational only. */
-function generateEmpId(){
-  var num = Math.floor(1000 + Math.random() * 9000); /* 1000–9999 */
-  return 'EMP' + num;
-}
+      function generateEmpId() {
+        var num = Math.floor(1000 + Math.random() * 9000); /* 1000–9999 */
+        return "EMP" + num;
+      }
 
-/* ══════════════════════════════════════════════════════════════
+      /* ══════════════════════════════════════════════════════════════
    PROFILE PHOTO UPLOAD — complete client-side implementation
    ══════════════════════════════════════════════════════════════
 
@@ -910,594 +2753,1122 @@ function generateEmpId(){
    RETRIEVAL: <img src="{cdnUrl}?v={timestamp}"> — bust cache on update
 ══════════════════════════════════════════════════════════════ */
 
-/* ── Constants ── */
-var PHOTO_MAX_RAW_MB   = 10;
-var PHOTO_MAX_FINAL_MB = 2;
-var PHOTO_MAX_DIM      = 400;
-var PHOTO_QUALITY_HI   = 0.92;
-var PHOTO_QUALITY_LO   = 0.75;
-var ALLOWED_MIME       = ['image/jpeg','image/png','image/webp'];
-var ALLOWED_EXT        = ['.jpg','.jpeg','.png','.webp'];
+      /* ── Constants ── */
+      var PHOTO_MAX_RAW_MB = 10;
+      var PHOTO_MAX_FINAL_MB = 2;
+      var PHOTO_MAX_DIM = 400;
+      var PHOTO_QUALITY_HI = 0.92;
+      var PHOTO_QUALITY_LO = 0.75;
+      var ALLOWED_MIME = ["image/jpeg", "image/png", "image/webp"];
+      var ALLOWED_EXT = [".jpg", ".jpeg", ".png", ".webp"];
 
-/* ── State ── */
-var PHOTO = {
-  raw        : null,      // original File
-  rawDataUrl : null,      // original DataURL (for crop modal src)
-  blob       : null,      // final processed Blob
-  dataUrl    : null,      // final DataURL (for avatars)
-  fileName   : '',
-  history    : [],        // thumbnail history (DataURLs)
-  // crop state
-  zoom       : 1,
-  rotation   : 0,
-  flipH      : false,
-  offsetX    : 0,
-  offsetY    : 0,
-  dragging   : false,
-  dragStartX : 0,
-  dragStartY : 0,
-};
+      /* ── State ── */
+      var PHOTO = {
+        raw: null, // original File
+        rawDataUrl: null, // original DataURL (for crop modal src)
+        blob: null, // final processed Blob
+        dataUrl: null, // final DataURL (for avatars)
+        fileName: "",
+        history: [], // thumbnail history (DataURLs)
+        // crop state
+        zoom: 1,
+        rotation: 0,
+        flipH: false,
+        offsetX: 0,
+        offsetY: 0,
+        dragging: false,
+        dragStartX: 0,
+        dragStartY: 0,
+      };
 
-/* ──────────────────────────────────────────
+      /* ──────────────────────────────────────────
    DRAG-AND-DROP wiring
 ─────────────────────────────────────────── */
-function initPhotoDrop(){
-  var dz = document.getElementById('photo-drop-zone');
-  if(!dz) return;
+      function initPhotoDrop() {
+        var dz = document.getElementById("photo-drop-zone");
+        if (!dz) return;
 
-  dz.addEventListener('dragover', function(e){
-    e.preventDefault();
-    dz.classList.add('drag-over');
-  });
-  dz.addEventListener('dragleave', function(e){
-    if(!dz.contains(e.relatedTarget)) dz.classList.remove('drag-over');
-  });
-  dz.addEventListener('drop', function(e){
-    e.preventDefault();
-    dz.classList.remove('drag-over');
-    var files = e.dataTransfer && e.dataTransfer.files;
-    if(files && files[0]) processPhotoFile(files[0]);
-  });
+        dz.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          dz.classList.add("drag-over");
+        });
+        dz.addEventListener("dragleave", function (e) {
+          if (!dz.contains(e.relatedTarget)) dz.classList.remove("drag-over");
+        });
+        dz.addEventListener("drop", function (e) {
+          e.preventDefault();
+          dz.classList.remove("drag-over");
+          var files = e.dataTransfer && e.dataTransfer.files;
+          if (files && files[0]) processPhotoFile(files[0]);
+        });
 
-  // Crop modal drag-to-pan
-  var cw = document.getElementById('crop-canvas-wrap');
-  if(cw){
-    cw.addEventListener('mousedown', function(e){ PHOTO.dragging=true; PHOTO.dragStartX=e.clientX-PHOTO.offsetX; PHOTO.dragStartY=e.clientY-PHOTO.offsetY; });
-    window.addEventListener('mousemove', function(e){ if(!PHOTO.dragging) return; PHOTO.offsetX=e.clientX-PHOTO.dragStartX; PHOTO.offsetY=e.clientY-PHOTO.dragStartY; applyCropTransform(); });
-    window.addEventListener('mouseup',  function(){ PHOTO.dragging=false; });
-    // Touch
-    cw.addEventListener('touchstart', function(e){ var t=e.touches[0]; PHOTO.dragging=true; PHOTO.dragStartX=t.clientX-PHOTO.offsetX; PHOTO.dragStartY=t.clientY-PHOTO.offsetY; });
-    window.addEventListener('touchmove',  function(e){ if(!PHOTO.dragging) return; var t=e.touches[0]; PHOTO.offsetX=t.clientX-PHOTO.dragStartX; PHOTO.offsetY=t.clientY-PHOTO.dragStartY; applyCropTransform(); });
-    window.addEventListener('touchend',   function(){ PHOTO.dragging=false; });
-  }
-}
+        // Crop modal drag-to-pan
+        var cw = document.getElementById("crop-canvas-wrap");
+        if (cw) {
+          cw.addEventListener("mousedown", function (e) {
+            PHOTO.dragging = true;
+            PHOTO.dragStartX = e.clientX - PHOTO.offsetX;
+            PHOTO.dragStartY = e.clientY - PHOTO.offsetY;
+          });
+          window.addEventListener("mousemove", function (e) {
+            if (!PHOTO.dragging) return;
+            PHOTO.offsetX = e.clientX - PHOTO.dragStartX;
+            PHOTO.offsetY = e.clientY - PHOTO.dragStartY;
+            applyCropTransform();
+          });
+          window.addEventListener("mouseup", function () {
+            PHOTO.dragging = false;
+          });
+          // Touch
+          cw.addEventListener("touchstart", function (e) {
+            var t = e.touches[0];
+            PHOTO.dragging = true;
+            PHOTO.dragStartX = t.clientX - PHOTO.offsetX;
+            PHOTO.dragStartY = t.clientY - PHOTO.offsetY;
+          });
+          window.addEventListener("touchmove", function (e) {
+            if (!PHOTO.dragging) return;
+            var t = e.touches[0];
+            PHOTO.offsetX = t.clientX - PHOTO.dragStartX;
+            PHOTO.offsetY = t.clientY - PHOTO.dragStartY;
+            applyCropTransform();
+          });
+          window.addEventListener("touchend", function () {
+            PHOTO.dragging = false;
+          });
+        }
+      }
 
-/* ──────────────────────────────────────────
+      /* ──────────────────────────────────────────
    STEP 1 — File selected (input or drop)
 ─────────────────────────────────────────── */
-function triggerPhotoPicker(e){
-  if(e) e.stopPropagation();
-  document.getElementById('photo-file-input').click();
-}
+      function triggerPhotoPicker(e) {
+        if (e) e.stopPropagation();
+        document.getElementById("photo-file-input").click();
+      }
 
-function onPhotoFileSelected(input){
-  if(input.files && input.files[0]) processPhotoFile(input.files[0]);
-  input.value = ''; // reset so same file re-selectable
-}
+      function onPhotoFileSelected(input) {
+        if (input.files && input.files[0]) processPhotoFile(input.files[0]);
+        input.value = ""; // reset so same file re-selectable
+      }
 
-function processPhotoFile(file){
-  setPhotoValidation(''); // clear previous
+      function processPhotoFile(file) {
+        setPhotoValidation(""); // clear previous
 
-  /* ── Client-side validation ── */
-  var ext = '.' + (file.name.split('.').pop()||'').toLowerCase();
-  if(ALLOWED_MIME.indexOf(file.type) === -1 || ALLOWED_EXT.indexOf(ext) === -1){
-    setPhotoValidation('err',
-      'Unsupported file type: <b>' + (file.type||ext) + '</b>. '
-      + 'Please upload a JPG, PNG, or WebP image.');
-    setDropZoneState('error');
-    return;
-  }
-  var rawMB = file.size / (1024*1024);
-  if(rawMB > PHOTO_MAX_RAW_MB){
-    setPhotoValidation('err',
-      'File too large: <b>' + rawMB.toFixed(1) + ' MB</b>. '
-      + 'Maximum allowed before processing is ' + PHOTO_MAX_RAW_MB + ' MB.');
-    setDropZoneState('error');
-    return;
-  }
+        /* ── Client-side validation ── */
+        var ext = "." + (file.name.split(".").pop() || "").toLowerCase();
+        if (
+          ALLOWED_MIME.indexOf(file.type) === -1 ||
+          ALLOWED_EXT.indexOf(ext) === -1
+        ) {
+          setPhotoValidation(
+            "err",
+            "Unsupported file type: <b>" +
+              (file.type || ext) +
+              "</b>. " +
+              "Please upload a JPG, PNG, or WebP image.",
+          );
+          setDropZoneState("error");
+          return;
+        }
+        var rawMB = file.size / (1024 * 1024);
+        if (rawMB > PHOTO_MAX_RAW_MB) {
+          setPhotoValidation(
+            "err",
+            "File too large: <b>" +
+              rawMB.toFixed(1) +
+              " MB</b>. " +
+              "Maximum allowed before processing is " +
+              PHOTO_MAX_RAW_MB +
+              " MB.",
+          );
+          setDropZoneState("error");
+          return;
+        }
 
-  // Warn if unusually large (will be compressed)
-  if(rawMB > 2){
-    setPhotoValidation('warn',
-      'Large file (' + rawMB.toFixed(1) + ' MB) — will be automatically compressed to ≤ 2 MB.');
-  }
+        // Warn if unusually large (will be compressed)
+        if (rawMB > 2) {
+          setPhotoValidation(
+            "warn",
+            "Large file (" +
+              rawMB.toFixed(1) +
+              " MB) — will be automatically compressed to ≤ 2 MB.",
+          );
+        }
 
-  PHOTO.raw      = file;
-  PHOTO.fileName = file.name;
+        PHOTO.raw = file;
+        PHOTO.fileName = file.name;
 
-  var reader = new FileReader();
-  reader.onload = function(ev){
-    PHOTO.rawDataUrl = ev.target.result;
-    openCropModal(ev.target.result, file);
-  };
-  reader.readAsDataURL(file);
-}
+        var reader = new FileReader();
+        reader.onload = function (ev) {
+          PHOTO.rawDataUrl = ev.target.result;
+          openCropModal(ev.target.result, file);
+        };
+        reader.readAsDataURL(file);
+      }
 
-/* ──────────────────────────────────────────
+      /* ──────────────────────────────────────────
    STEP 2 — Crop / Adjust modal
 ─────────────────────────────────────────── */
-function openCropModal(dataUrl, file){
-  PHOTO.zoom = 1; PHOTO.rotation = 0; PHOTO.flipH = false;
-  PHOTO.offsetX = 0; PHOTO.offsetY = 0;
+      function openCropModal(dataUrl, file) {
+        PHOTO.zoom = 1;
+        PHOTO.rotation = 0;
+        PHOTO.flipH = false;
+        PHOTO.offsetX = 0;
+        PHOTO.offsetY = 0;
 
-  var img = document.getElementById('crop-img');
-  img.src = dataUrl;
+        var img = document.getElementById("crop-img");
+        img.src = dataUrl;
 
-  // Show file info in modal title area
-  var mb = (file.size/(1024*1024)).toFixed(2);
-  var dim = '';
-  var tempImg = new Image();
-  tempImg.onload = function(){
-    dim = tempImg.naturalWidth + '×' + tempImg.naturalHeight + ' px';
-    updateCropSubtitle(file.name, mb, dim);
-  };
-  tempImg.src = dataUrl;
-  updateCropSubtitle(file.name, mb, '');
+        // Show file info in modal title area
+        var mb = (file.size / (1024 * 1024)).toFixed(2);
+        var dim = "";
+        var tempImg = new Image();
+        tempImg.onload = function () {
+          dim = tempImg.naturalWidth + "×" + tempImg.naturalHeight + " px";
+          updateCropSubtitle(file.name, mb, dim);
+        };
+        tempImg.src = dataUrl;
+        updateCropSubtitle(file.name, mb, "");
 
-  document.getElementById('crop-zoom-slider').value = 1;
-  applyCropTransform();
-  document.getElementById('crop-overlay').classList.add('open');
-}
+        document.getElementById("crop-zoom-slider").value = 1;
+        applyCropTransform();
+        document.getElementById("crop-overlay").classList.add("open");
+      }
 
-function updateCropSubtitle(name, mb, dim){
-  var titleEl = document.querySelector('.crop-modal-title');
-  if(!titleEl) return;
-  titleEl.innerHTML = '<i class="ti ti-crop" style="font-size:16px;color:var(--p);margin-right:6px"></i>Adjust &amp; Crop Photo'
-    + '<span class="photo-file-badge"><i class="ti ti-file" style="font-size:11px"></i>'
-    + escHtml(name.length > 22 ? name.slice(0,20)+'…' : name)
-    + ' · ' + mb + ' MB' + (dim ? ' · ' + dim : '') + '</span>';
-}
+      function updateCropSubtitle(name, mb, dim) {
+        var titleEl = document.querySelector(".crop-modal-title");
+        if (!titleEl) return;
+        titleEl.innerHTML =
+          '<i class="ti ti-crop" style="font-size:16px;color:var(--p);margin-right:6px"></i>Adjust &amp; Crop Photo' +
+          '<span class="photo-file-badge"><i class="ti ti-file" style="font-size:11px"></i>' +
+          escHtml(name.length > 22 ? name.slice(0, 20) + "…" : name) +
+          " · " +
+          mb +
+          " MB" +
+          (dim ? " · " + dim : "") +
+          "</span>";
+      }
 
-function closeCropModal(){
-  document.getElementById('crop-overlay').classList.remove('open');
-}
+      function closeCropModal() {
+        document.getElementById("crop-overlay").classList.remove("open");
+      }
 
-function resetCrop(){
-  PHOTO.zoom=1; PHOTO.rotation=0; PHOTO.flipH=false; PHOTO.offsetX=0; PHOTO.offsetY=0;
-  document.getElementById('crop-zoom-slider').value=1;
-  applyCropTransform();
-}
+      function resetCrop() {
+        PHOTO.zoom = 1;
+        PHOTO.rotation = 0;
+        PHOTO.flipH = false;
+        PHOTO.offsetX = 0;
+        PHOTO.offsetY = 0;
+        document.getElementById("crop-zoom-slider").value = 1;
+        applyCropTransform();
+      }
 
-function adjustZoom(delta){
-  PHOTO.zoom = Math.min(3, Math.max(0.5, PHOTO.zoom + delta));
-  document.getElementById('crop-zoom-slider').value = PHOTO.zoom;
-  applyCropTransform();
-}
-function onZoomSlider(v){ PHOTO.zoom = parseFloat(v); applyCropTransform(); }
+      function adjustZoom(delta) {
+        PHOTO.zoom = Math.min(3, Math.max(0.5, PHOTO.zoom + delta));
+        document.getElementById("crop-zoom-slider").value = PHOTO.zoom;
+        applyCropTransform();
+      }
+      function onZoomSlider(v) {
+        PHOTO.zoom = parseFloat(v);
+        applyCropTransform();
+      }
 
-function rotateCrop(deg){ PHOTO.rotation = (PHOTO.rotation + deg + 360) % 360; applyCropTransform(); }
-function flipCrop(){ PHOTO.flipH = !PHOTO.flipH; applyCropTransform(); }
+      function rotateCrop(deg) {
+        PHOTO.rotation = (PHOTO.rotation + deg + 360) % 360;
+        applyCropTransform();
+      }
+      function flipCrop() {
+        PHOTO.flipH = !PHOTO.flipH;
+        applyCropTransform();
+      }
 
-function applyCropTransform(){
-  var img = document.getElementById('crop-img');
-  if(!img) return;
-  var scaleX = PHOTO.flipH ? -PHOTO.zoom : PHOTO.zoom;
-  img.style.transform = [
-    'translate(' + PHOTO.offsetX + 'px,' + PHOTO.offsetY + 'px)',
-    'rotate(' + PHOTO.rotation + 'deg)',
-    'scale(' + scaleX + ',' + PHOTO.zoom + ')'
-  ].join(' ');
-}
+      function applyCropTransform() {
+        var img = document.getElementById("crop-img");
+        if (!img) return;
+        var scaleX = PHOTO.flipH ? -PHOTO.zoom : PHOTO.zoom;
+        img.style.transform = [
+          "translate(" + PHOTO.offsetX + "px," + PHOTO.offsetY + "px)",
+          "rotate(" + PHOTO.rotation + "deg)",
+          "scale(" + scaleX + "," + PHOTO.zoom + ")",
+        ].join(" ");
+      }
 
-/* ──────────────────────────────────────────
+      /* ──────────────────────────────────────────
    STEP 3 — Apply crop → canvas → Blob
 ─────────────────────────────────────────── */
-function applyCrop(){
-  closeCropModal();
-  renderCroppedBlob(function(blob, dataUrl){
-    if(!blob){
-      setPhotoValidation('err','Could not process image. Please try a different file.');
-      setDropZoneState('error');
-      return;
-    }
-    var finalMB = blob.size / (1024*1024);
-    if(finalMB > PHOTO_MAX_FINAL_MB){
-      setPhotoValidation('err',
-        'Processed image is still <b>' + finalMB.toFixed(2) + ' MB</b> — exceeds the 2 MB limit. '
-        + 'Please use a smaller or less complex image.');
-      setDropZoneState('error');
-      return;
-    }
-    PHOTO.blob    = blob;
-    PHOTO.dataUrl = dataUrl;
-    simulateUpload(blob, dataUrl, finalMB);
-  });
-}
-
-function renderCroppedBlob(cb){
-  var src = PHOTO.rawDataUrl;
-  if(!src){ cb(null,null); return; }
-
-  var img = new Image();
-  img.onload = function(){
-    var OUT = PHOTO_MAX_DIM;
-    var canvas = document.createElement('canvas');
-    canvas.width = OUT; canvas.height = OUT;
-    var ctx = canvas.getContext('2d');
-
-    ctx.save();
-    ctx.translate(OUT/2 + PHOTO.offsetX * (OUT/300), OUT/2 + PHOTO.offsetY * (OUT/300));
-    ctx.rotate(PHOTO.rotation * Math.PI/180);
-    if(PHOTO.flipH) ctx.scale(-1,1);
-
-    var scale = PHOTO.zoom;
-    var shortSide = Math.min(img.naturalWidth, img.naturalHeight);
-    var drawSize = (OUT / scale);
-    var sx = (img.naturalWidth  - drawSize) / 2;
-    var sy = (img.naturalHeight - drawSize) / 2;
-    ctx.drawImage(img, sx, sy, drawSize, drawSize, -OUT/2, -OUT/2, OUT, OUT);
-    ctx.restore();
-
-    /* First attempt at HI quality */
-    canvas.toBlob(function(blob1){
-      if(!blob1){ cb(null,null); return; }
-      if(blob1.size / (1024*1024) <= PHOTO_MAX_FINAL_MB){
-        var url1 = URL.createObjectURL(blob1);
-        cb(blob1, canvas.toDataURL('image/jpeg', PHOTO_QUALITY_HI));
-        return;
+      function applyCrop() {
+        closeCropModal();
+        renderCroppedBlob(function (blob, dataUrl) {
+          if (!blob) {
+            setPhotoValidation(
+              "err",
+              "Could not process image. Please try a different file.",
+            );
+            setDropZoneState("error");
+            return;
+          }
+          var finalMB = blob.size / (1024 * 1024);
+          if (finalMB > PHOTO_MAX_FINAL_MB) {
+            setPhotoValidation(
+              "err",
+              "Processed image is still <b>" +
+                finalMB.toFixed(2) +
+                " MB</b> — exceeds the 2 MB limit. " +
+                "Please use a smaller or less complex image.",
+            );
+            setDropZoneState("error");
+            return;
+          }
+          PHOTO.blob = blob;
+          PHOTO.dataUrl = dataUrl;
+          simulateUpload(blob, dataUrl, finalMB);
+        });
       }
-      /* Re-encode at lower quality */
-      canvas.toBlob(function(blob2){
-        if(!blob2){ cb(null,null); return; }
-        cb(blob2, canvas.toDataURL('image/jpeg', PHOTO_QUALITY_LO));
-      }, 'image/jpeg', PHOTO_QUALITY_LO);
-    }, 'image/jpeg', PHOTO_QUALITY_HI);
-  };
-  img.onerror = function(){ cb(null,null); };
-  img.src = src;
-}
 
-/* ──────────────────────────────────────────
+      function renderCroppedBlob(cb) {
+        var src = PHOTO.rawDataUrl;
+        if (!src) {
+          cb(null, null);
+          return;
+        }
+
+        var img = new Image();
+        img.onload = function () {
+          var OUT = PHOTO_MAX_DIM;
+          var canvas = document.createElement("canvas");
+          canvas.width = OUT;
+          canvas.height = OUT;
+          var ctx = canvas.getContext("2d");
+
+          ctx.save();
+          ctx.translate(
+            OUT / 2 + PHOTO.offsetX * (OUT / 300),
+            OUT / 2 + PHOTO.offsetY * (OUT / 300),
+          );
+          ctx.rotate((PHOTO.rotation * Math.PI) / 180);
+          if (PHOTO.flipH) ctx.scale(-1, 1);
+
+          var scale = PHOTO.zoom;
+          var shortSide = Math.min(img.naturalWidth, img.naturalHeight);
+          var drawSize = OUT / scale;
+          var sx = (img.naturalWidth - drawSize) / 2;
+          var sy = (img.naturalHeight - drawSize) / 2;
+          ctx.drawImage(
+            img,
+            sx,
+            sy,
+            drawSize,
+            drawSize,
+            -OUT / 2,
+            -OUT / 2,
+            OUT,
+            OUT,
+          );
+          ctx.restore();
+
+          /* First attempt at HI quality */
+          canvas.toBlob(
+            function (blob1) {
+              if (!blob1) {
+                cb(null, null);
+                return;
+              }
+              if (blob1.size / (1024 * 1024) <= PHOTO_MAX_FINAL_MB) {
+                var url1 = URL.createObjectURL(blob1);
+                cb(blob1, canvas.toDataURL("image/jpeg", PHOTO_QUALITY_HI));
+                return;
+              }
+              /* Re-encode at lower quality */
+              canvas.toBlob(
+                function (blob2) {
+                  if (!blob2) {
+                    cb(null, null);
+                    return;
+                  }
+                  cb(blob2, canvas.toDataURL("image/jpeg", PHOTO_QUALITY_LO));
+                },
+                "image/jpeg",
+                PHOTO_QUALITY_LO,
+              );
+            },
+            "image/jpeg",
+            PHOTO_QUALITY_HI,
+          );
+        };
+        img.onerror = function () {
+          cb(null, null);
+        };
+        img.src = src;
+      }
+
+      /* ──────────────────────────────────────────
    STEP 4 — Simulated upload with pipeline
    (replace with real fetch() in production)
 ─────────────────────────────────────────── */
-var UPLOAD_STEPS = [
-  { pct:15,  label:'Validating file format…' },
-  { pct:35,  label:'Compressing image…' },
-  { pct:60,  label:'Uploading to server…' },
-  { pct:80,  label:'Processing &amp; storing…' },
-  { pct:100, label:'Photo saved successfully' },
-];
+      var UPLOAD_STEPS = [
+        { pct: 15, label: "Validating file format…" },
+        { pct: 35, label: "Compressing image…" },
+        { pct: 60, label: "Uploading to server…" },
+        { pct: 80, label: "Processing &amp; storing…" },
+        { pct: 100, label: "Photo saved successfully" },
+      ];
 
-function simulateUpload(blob, dataUrl, finalMB){
-  showPhotoProgress(true);
-  setPhotoValidation('');
+      function simulateUpload(blob, dataUrl, finalMB) {
+        showPhotoProgress(true);
+        setPhotoValidation("");
 
-  var step = 0;
-  function tick(){
-    if(step >= UPLOAD_STEPS.length){
-      showPhotoProgress(false);
-      onUploadComplete(blob, dataUrl, finalMB);
-      return;
-    }
-    var s = UPLOAD_STEPS[step];
-    setPhotoProgressBar(s.pct, s.label);
-    step++;
-    setTimeout(tick, step === UPLOAD_STEPS.length ? 300 : 480);
-  }
-  tick();
-}
+        var step = 0;
+        function tick() {
+          if (step >= UPLOAD_STEPS.length) {
+            showPhotoProgress(false);
+            onUploadComplete(blob, dataUrl, finalMB);
+            return;
+          }
+          var s = UPLOAD_STEPS[step];
+          setPhotoProgressBar(s.pct, s.label);
+          step++;
+          setTimeout(tick, step === UPLOAD_STEPS.length ? 300 : 480);
+        }
+        tick();
+      }
 
-function onUploadComplete(blob, dataUrl, finalMB){
-  applyPhotoToUI(dataUrl);
-  /* No thumbnail strip, no file-size text shown after upload */
+      function onUploadComplete(blob, dataUrl, finalMB) {
+        applyPhotoToUI(dataUrl);
+        /* No thumbnail strip, no file-size text shown after upload */
 
-  setPhotoValidation('ok', 'Profile photo uploaded successfully.');
-  setDropZoneState('has-photo');
+        setPhotoValidation("ok", "Profile photo uploaded successfully.");
+        setDropZoneState("has-photo");
 
-  // Update zone title only — no file details, no sub-text with KB/dimensions
-  document.getElementById('photo-zone-title').innerHTML =
-    'Photo uploaded <i class="ti ti-circle-check" style="color:var(--jade);font-size:16px"></i>';
-  document.getElementById('photo-zone-sub').textContent =
-    'Drag & drop or click to replace the current photo.';
+        // Update zone title only — no file details, no sub-text with KB/dimensions
+        document.getElementById("photo-zone-title").innerHTML =
+          'Photo uploaded <i class="ti ti-circle-check" style="color:var(--jade);font-size:16px"></i>';
+        document.getElementById("photo-zone-sub").textContent =
+          "Drag & drop or click to replace the current photo.";
 
-  // Show change / remove, hide upload button
-  document.getElementById('photo-upload-btn').style.display  = 'none';
-  document.getElementById('photo-change-btn').style.display  = 'inline-flex';
-  document.getElementById('photo-remove-btn').style.display  = 'inline-flex';
+        // Show change / remove, hide upload button
+        document.getElementById("photo-upload-btn").style.display = "none";
+        document.getElementById("photo-change-btn").style.display =
+          "inline-flex";
+        document.getElementById("photo-remove-btn").style.display =
+          "inline-flex";
 
-  // Status badge in card header
-  var badge = document.getElementById('photo-status-badge');
-  badge.style.display = 'inline-flex';
-  badge.innerHTML = '<span style="display:inline-flex;align-items:center;gap:5px;background:var(--jade-bg);color:var(--jade-text);border:1px solid rgba(14,165,113,.2);border-radius:var(--r-pill);padding:3px 10px;font-size:11px;font-weight:600;margin-left:auto"><i class="ti ti-check" style="font-size:11px"></i> Photo uploaded</span>';
+        // Status badge in card header
+        var badge = document.getElementById("photo-status-badge");
+        badge.style.display = "inline-flex";
+        badge.innerHTML =
+          '<span style="display:inline-flex;align-items:center;gap:5px;background:var(--jade-bg);color:var(--jade-text);border:1px solid rgba(14,165,113,.2);border-radius:var(--r-pill);padding:3px 10px;font-size:11px;font-weight:600;margin-left:auto"><i class="ti ti-check" style="font-size:11px"></i> Photo uploaded</span>';
 
-  toast('Profile photo uploaded successfully.','ok');
-}
+        toast("Profile photo uploaded successfully.", "ok");
+      }
 
-/* ──────────────────────────────────────────
+      /* ──────────────────────────────────────────
    REMOVE PHOTO
 ─────────────────────────────────────────── */
-function removePhoto(){
-  PHOTO.raw = null; PHOTO.blob = null; PHOTO.dataUrl = null;
-  PHOTO.rawDataUrl = null; PHOTO.fileName = '';
+      function removePhoto() {
+        PHOTO.raw = null;
+        PHOTO.blob = null;
+        PHOTO.dataUrl = null;
+        PHOTO.rawDataUrl = null;
+        PHOTO.fileName = "";
 
-  // Reset avatar back to initials
-  document.getElementById('photo-avatar-img').style.display = 'none';
-  document.getElementById('photo-avatar-img').src = '';
-  document.getElementById('photo-avatar-initials').style.display = 'flex';
-  updatePreview(); // restore initials from name fields
+        // Reset avatar back to initials
+        document.getElementById("photo-avatar-img").style.display = "none";
+        document.getElementById("photo-avatar-img").src = "";
+        document.getElementById("photo-avatar-initials").style.display = "flex";
+        updatePreview(); // restore initials from name fields
 
-  // Reset zone state
-  setDropZoneState('');
-  setPhotoValidation('');
-  showPhotoProgress(false);
+        // Reset zone state
+        setDropZoneState("");
+        setPhotoValidation("");
+        showPhotoProgress(false);
 
-  // Hide thumb strip
-  document.getElementById('photo-thumb-strip').classList.remove('show');
-  document.getElementById('photo-thumb-strip').innerHTML = '';
-  PHOTO.history = [];
+        // Hide thumb strip
+        document.getElementById("photo-thumb-strip").classList.remove("show");
+        document.getElementById("photo-thumb-strip").innerHTML = "";
+        PHOTO.history = [];
 
-  // Reset buttons
-  document.getElementById('photo-upload-btn').style.display  = 'inline-flex';
-  document.getElementById('photo-change-btn').style.display  = 'none';
-  document.getElementById('photo-remove-btn').style.display  = 'none';
+        // Reset buttons
+        document.getElementById("photo-upload-btn").style.display =
+          "inline-flex";
+        document.getElementById("photo-change-btn").style.display = "none";
+        document.getElementById("photo-remove-btn").style.display = "none";
 
-  // Reset zone title
-  document.getElementById('photo-zone-title').textContent = 'Drag & drop or click to upload';
-  document.getElementById('photo-zone-sub').innerHTML =
-    'JPG · PNG · WebP &nbsp;·&nbsp; Max <b>2 MB</b> &nbsp;·&nbsp; Recommended <b>400 × 400 px</b> (square)<br>'
-    + 'The backend automatically resizes and compresses oversized images.';
+        // Reset zone title
+        document.getElementById("photo-zone-title").textContent =
+          "Drag & drop or click to upload";
+        document.getElementById("photo-zone-sub").innerHTML =
+          "JPG · PNG · WebP &nbsp;·&nbsp; Max <b>2 MB</b> &nbsp;·&nbsp; Recommended <b>400 × 400 px</b> (square)<br>" +
+          "The backend automatically resizes and compresses oversized images.";
 
-  // Hide status badge
-  var badge = document.getElementById('photo-status-badge');
-  badge.style.display = 'none'; badge.innerHTML = '';
+        // Hide status badge
+        var badge = document.getElementById("photo-status-badge");
+        badge.style.display = "none";
+        badge.innerHTML = "";
 
-  toast('Profile photo removed.','info');
-}
+        toast("Profile photo removed.", "info");
+      }
 
-/* ──────────────────────────────────────────
+      /* ──────────────────────────────────────────
    UI HELPERS
 ─────────────────────────────────────────── */
-function applyPhotoToUI(dataUrl){
-  var img  = document.getElementById('photo-avatar-img');
-  var init = document.getElementById('photo-avatar-initials');
-  img.src  = dataUrl;
-  img.style.display   = 'block';
-  init.style.display  = 'none';
-}
+      function applyPhotoToUI(dataUrl) {
+        var img = document.getElementById("photo-avatar-img");
+        var init = document.getElementById("photo-avatar-initials");
+        img.src = dataUrl;
+        img.style.display = "block";
+        init.style.display = "none";
+      }
 
-function addPhotoThumb(dataUrl){
-  PHOTO.history.unshift(dataUrl);
-  if(PHOTO.history.length > 5) PHOTO.history.pop();
+      function addPhotoThumb(dataUrl) {
+        PHOTO.history.unshift(dataUrl);
+        if (PHOTO.history.length > 5) PHOTO.history.pop();
 
-  var strip = document.getElementById('photo-thumb-strip');
-  strip.classList.add('show');
-  strip.innerHTML = PHOTO.history.map(function(url, i){
-    return '<div class="photo-thumb'+(i===0?' active':'')+'" title="Version '+(i+1)+'"'
-      +' onclick="selectThumb('+i+',this)">'
-      +'<img src="'+url+'" alt=""/>'
-      +'<div class="photo-thumb-remove" onclick="removeThumb('+i+',event)"><i class="ti ti-x"></i></div>'
-      +'</div>';
-  }).join('');
-}
+        var strip = document.getElementById("photo-thumb-strip");
+        strip.classList.add("show");
+        strip.innerHTML = PHOTO.history
+          .map(function (url, i) {
+            return (
+              '<div class="photo-thumb' +
+              (i === 0 ? " active" : "") +
+              '" title="Version ' +
+              (i + 1) +
+              '"' +
+              ' onclick="selectThumb(' +
+              i +
+              ',this)">' +
+              '<img src="' +
+              url +
+              '" alt=""/>' +
+              '<div class="photo-thumb-remove" onclick="removeThumb(' +
+              i +
+              ',event)"><i class="ti ti-x"></i></div>' +
+              "</div>"
+            );
+          })
+          .join("");
+      }
 
-function selectThumb(idx, el){
-  var dataUrl = PHOTO.history[idx];
-  if(!dataUrl) return;
-  PHOTO.dataUrl = dataUrl;
-  applyPhotoToUI(dataUrl);
-  document.querySelectorAll('.photo-thumb').forEach(function(t){ t.classList.remove('active'); });
-  el.classList.add('active');
-}
+      function selectThumb(idx, el) {
+        var dataUrl = PHOTO.history[idx];
+        if (!dataUrl) return;
+        PHOTO.dataUrl = dataUrl;
+        applyPhotoToUI(dataUrl);
+        document.querySelectorAll(".photo-thumb").forEach(function (t) {
+          t.classList.remove("active");
+        });
+        el.classList.add("active");
+      }
 
-function removeThumb(idx, e){
-  e.stopPropagation();
-  PHOTO.history.splice(idx,1);
-  if(!PHOTO.history.length){
-    document.getElementById('photo-thumb-strip').classList.remove('show');
-    document.getElementById('photo-thumb-strip').innerHTML='';
-    return;
-  }
-  addPhotoThumb(PHOTO.history[0]); // re-render; history[0] is already there
-}
+      function removeThumb(idx, e) {
+        e.stopPropagation();
+        PHOTO.history.splice(idx, 1);
+        if (!PHOTO.history.length) {
+          document.getElementById("photo-thumb-strip").classList.remove("show");
+          document.getElementById("photo-thumb-strip").innerHTML = "";
+          return;
+        }
+        addPhotoThumb(PHOTO.history[0]); // re-render; history[0] is already there
+      }
 
-function setDropZoneState(state){
-  var dz = document.getElementById('photo-drop-zone');
-  dz.classList.remove('has-photo','has-error','drag-over');
-  if(state) dz.classList.add(state);
-}
+      function setDropZoneState(state) {
+        var dz = document.getElementById("photo-drop-zone");
+        dz.classList.remove("has-photo", "has-error", "drag-over");
+        if (state) dz.classList.add(state);
+      }
 
-function setPhotoValidation(type, htmlMsg){
-  var el   = document.getElementById('photo-validation');
-  var ico  = document.getElementById('photo-val-icon');
-  var txt  = document.getElementById('photo-val-text');
-  el.className = 'photo-validation';
-  if(!type){ return; }
-  el.classList.add('show', type);
-  var icons = { ok:'ti-circle-check', err:'ti-alert-circle', warn:'ti-alert-triangle' };
-  ico.className = 'ti ' + (icons[type]||'ti-info-circle');
-  txt.innerHTML = htmlMsg||'';
-}
+      function setPhotoValidation(type, htmlMsg) {
+        var el = document.getElementById("photo-validation");
+        var ico = document.getElementById("photo-val-icon");
+        var txt = document.getElementById("photo-val-text");
+        el.className = "photo-validation";
+        if (!type) {
+          return;
+        }
+        el.classList.add("show", type);
+        var icons = {
+          ok: "ti-circle-check",
+          err: "ti-alert-circle",
+          warn: "ti-alert-triangle",
+        };
+        ico.className = "ti " + (icons[type] || "ti-info-circle");
+        txt.innerHTML = htmlMsg || "";
+      }
 
-function showPhotoProgress(show){
-  var el = document.getElementById('photo-progress');
-  el.classList.toggle('show', show);
-  if(!show){ setPhotoProgressBar(0,''); }
-}
+      function showPhotoProgress(show) {
+        var el = document.getElementById("photo-progress");
+        el.classList.toggle("show", show);
+        if (!show) {
+          setPhotoProgressBar(0, "");
+        }
+      }
 
-function setPhotoProgressBar(pct, label){
-  var fill  = document.getElementById('photo-progress-fill');
-  var step  = document.getElementById('photo-progress-step');
-  var pctEl = document.getElementById('photo-progress-pct');
-  if(fill)  fill.style.width  = pct + '%';
-  if(step)  step.innerHTML    = label;
-  if(pctEl) pctEl.textContent = pct + '%';
-}
+      function setPhotoProgressBar(pct, label) {
+        var fill = document.getElementById("photo-progress-fill");
+        var step = document.getElementById("photo-progress-step");
+        var pctEl = document.getElementById("photo-progress-pct");
+        if (fill) fill.style.width = pct + "%";
+        if (step) step.innerHTML = label;
+        if (pctEl) pctEl.textContent = pct + "%";
+      }
 
-function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      function escHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
 
-/* ──────────────────────────────────────────
+      /* ──────────────────────────────────────────
    UPDATE initials preview (name → avatar)
 ─────────────────────────────────────────── */
-function updatePreview(){
-  var f = (document.getElementById('fname').value||'').trim();
-  var l = (document.getElementById('lname').value||'').trim();
-  // Only update initials if no real photo is uploaded yet
-  if(!PHOTO.dataUrl){
-    var text = ((f[0]||'') + (l[0]||'')).toUpperCase() || '?';
-    document.getElementById('photo-avatar-initials').textContent = text;
-  }
-}
+      function updatePreview() {
+        var f = (document.getElementById("fname").value || "").trim();
+        var l = (document.getElementById("lname").value || "").trim();
+        // Only update initials if no real photo is uploaded yet
+        if (!PHOTO.dataUrl) {
+          var text = ((f[0] || "") + (l[0] || "")).toUpperCase() || "?";
+          document.getElementById("photo-avatar-initials").textContent = text;
+        }
+      }
 
-function onRoleChange(){
-  var role=document.getElementById('role').value;
-  var box=document.getElementById('role-desc-box');
-  var txt=document.getElementById('role-desc-text');
-  if(role && ROLE_DESC[role]){ box.style.display='block'; txt.textContent=ROLE_DESC[role]; }
-  else box.style.display='none';
-  renderPerms(role||'Staff');
-}
+      function onRoleChange() {
+        var role = document.getElementById("role").value;
+        var box = document.getElementById("role-desc-box");
+        var txt = document.getElementById("role-desc-text");
+        if (role && ROLE_DESC[role]) {
+          box.style.display = "block";
+          txt.textContent = ROLE_DESC[role];
+        } else box.style.display = "none";
+        renderPerms(role || "Staff");
+      }
 
-function renderPerms(role){
-  var defaults = ROLE_PERMS[role]||{};
-  MODULES.forEach(function(m){ permState[m.key] = permState[m.key]||defaults[m.key]||'none'; });
-  document.getElementById('perm-tbody').innerHTML = MODULES.map(function(m){
-    var cur=defaults[m.key]||'none';
-    permState[m.key]=cur;
-    return '<tr>'
-      +'<td><div class="perm-ico"><i class="ti '+m.icon+'"></i></div></td>'
-      +'<td><div class="perm-cell"><div><div style="font-weight:600;font-size:13px">'+m.key+'</div><div style="font-size:11px;color:var(--ink4)">'+m.desc+'</div></div></div></td>'
-      +'<td><div class="perm-toggle-group">'
-        +'<button class="perm-opt '+(cur==='full'?'active-full':'')+'" onclick="setPerm(\''+m.key+'\',\'full\',this.parentElement)">Full</button>'
-        +'<button class="perm-opt '+(cur==='view'?'active-view':'')+'" onclick="setPerm(\''+m.key+'\',\'view\',this.parentElement)">View</button>'
-        +'<button class="perm-opt '+(cur==='none'?'active-none':'')+'" onclick="setPerm(\''+m.key+'\',\'none\',this.parentElement)">None</button>'
-      +'</div></td>'
-      +'<td style="font-size:11.5px;color:var(--ink4)">'+m.desc+'</td>'
-    +'</tr>';
-  }).join('');
-}
+      function renderPerms(role) {
+        var defaults = ROLE_PERMS[role] || {};
+        MODULES.forEach(function (m) {
+          permState[m.key] = permState[m.key] || defaults[m.key] || "none";
+        });
+        document.getElementById("perm-tbody").innerHTML = MODULES.map(
+          function (m) {
+            var cur = defaults[m.key] || "none";
+            permState[m.key] = cur;
+            return (
+              "<tr>" +
+              '<td><div class="perm-ico"><i class="ti ' +
+              m.icon +
+              '"></i></div></td>' +
+              '<td><div class="perm-cell"><div><div style="font-weight:600;font-size:13px">' +
+              m.key +
+              '</div><div style="font-size:11px;color:var(--ink4)">' +
+              m.desc +
+              "</div></div></div></td>" +
+              '<td><div class="perm-toggle-group">' +
+              '<button class="perm-opt ' +
+              (cur === "full" ? "active-full" : "") +
+              '" onclick="setPerm(\'' +
+              m.key +
+              "','full',this.parentElement)\">Full</button>" +
+              '<button class="perm-opt ' +
+              (cur === "view" ? "active-view" : "") +
+              '" onclick="setPerm(\'' +
+              m.key +
+              "','view',this.parentElement)\">View</button>" +
+              '<button class="perm-opt ' +
+              (cur === "none" ? "active-none" : "") +
+              '" onclick="setPerm(\'' +
+              m.key +
+              "','none',this.parentElement)\">None</button>" +
+              "</div></td>" +
+              '<td style="font-size:11.5px;color:var(--ink4)">' +
+              m.desc +
+              "</td>" +
+              "</tr>"
+            );
+          },
+        ).join("");
+      }
 
-function setPerm(mod,val,group){
-  permState[mod]=val;
-  group.querySelectorAll('.perm-opt').forEach(function(b){b.className='perm-opt';});
-  var cls=val==='full'?'active-full':val==='view'?'active-view':'active-none';
-  event.target.className='perm-opt '+cls;
-}
+      function setPerm(mod, val, group) {
+        permState[mod] = val;
+        group.querySelectorAll(".perm-opt").forEach(function (b) {
+          b.className = "perm-opt";
+        });
+        var cls =
+          val === "full"
+            ? "active-full"
+            : val === "view"
+              ? "active-view"
+              : "active-none";
+        event.target.className = "perm-opt " + cls;
+      }
 
-function goStep(n){
-  if(n===2 && !validateStep1()) return;
-  if(n===3){ if(!validateStep2()) return; fillReview(); }
-  currentStep=n;
-  [1,2,3].forEach(function(i){
-    var s=document.getElementById('step-'+i);
-    var n2=document.getElementById('fsn-'+i);
-    var p=document.getElementById('panel-'+i);
-    s.className='form-step'+(i<n?' done':i===n?' active':'');
-    if(i<n) n2.innerHTML='<i class="ti ti-check"></i>';
-    else if(i===n) n2.innerHTML=i===1?'<i class="ti ti-user"></i>':String(i);
-    else n2.textContent=String(i);
-    p.classList.toggle('active',i===n);
-  });
-  window.scrollTo({top:0,behavior:'smooth'});
-}
+      function goStep(n) {
+        if (n === 2 && !validateStep1()) return;
+        if (n === 3) {
+          if (!validateStep2()) return;
+          fillReview();
+        }
+        currentStep = n;
+        [1, 2, 3].forEach(function (i) {
+          var s = document.getElementById("step-" + i);
+          var n2 = document.getElementById("fsn-" + i);
+          var p = document.getElementById("panel-" + i);
+          s.className =
+            "form-step" + (i < n ? " done" : i === n ? " active" : "");
+          if (i < n) n2.innerHTML = '<i class="ti ti-check"></i>';
+          else if (i === n)
+            n2.innerHTML = i === 1 ? '<i class="ti ti-user"></i>' : String(i);
+          else n2.textContent = String(i);
+          p.classList.toggle("active", i === n);
+        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
 
-function validateStep1(){
-  var ok=true;
-  var fn=document.getElementById('fname').value.trim();
-  var ln=document.getElementById('lname').value.trim();
-  var em=document.getElementById('email').value.trim();
-  var pw=document.getElementById('password').value;
-  var cp=document.getElementById('cpassword').value;
-  function showErr(id,msg){ var e=document.getElementById(id+'-err'); if(e){e.querySelector('span').textContent=msg;e.classList.add('show');} document.getElementById(id).classList.add('error'); ok=false; }
-  function clearE(id){ var e=document.getElementById(id+'-err'); if(e)e.classList.remove('show'); var inp=document.getElementById(id); if(inp)inp.classList.remove('error'); }
-  clearE('fname');clearE('lname');clearE('email');clearE('password');clearE('cpassword');
-  if(fn.length<2) showErr('fname','At least 2 characters required.');
-  if(ln.length<2) showErr('lname','At least 2 characters required.');
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) showErr('email','Enter a valid email address.');
-  if(!isEdit){
-    if(pw.length<8) showErr('password','At least 8 characters required.');
-    else if(!/[A-Z]/.test(pw)) showErr('password','Must include at least one uppercase letter.');
-    else if(!/[0-9]/.test(pw)) showErr('password','Must include at least one number.');
-    if(pw && cp!==pw) showErr('cpassword','Passwords do not match.');
-  }
-  return ok;
-}
+      function validateStep1() {
+        var ok = true;
+        var fn = document.getElementById("fname").value.trim();
+        var ln = document.getElementById("lname").value.trim();
+        var em = document.getElementById("email").value.trim();
+        var pw = document.getElementById("password").value;
+        var cp = document.getElementById("cpassword").value;
+        function showErr(id, msg) {
+          var e = document.getElementById(id + "-err");
+          if (e) {
+            e.querySelector("span").textContent = msg;
+            e.classList.add("show");
+          }
+          document.getElementById(id).classList.add("error");
+          ok = false;
+        }
+        function clearE(id) {
+          var e = document.getElementById(id + "-err");
+          if (e) e.classList.remove("show");
+          var inp = document.getElementById(id);
+          if (inp) inp.classList.remove("error");
+        }
+        clearE("fname");
+        clearE("lname");
+        clearE("email");
+        clearE("password");
+        clearE("cpassword");
+        if (fn.length < 2) showErr("fname", "At least 2 characters required.");
+        if (ln.length < 2) showErr("lname", "At least 2 characters required.");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))
+          showErr("email", "Enter a valid email address.");
+        if (!isEdit) {
+          if (pw.length < 8)
+            showErr("password", "At least 8 characters required.");
+          else if (!/[A-Z]/.test(pw))
+            showErr("password", "Must include at least one uppercase letter.");
+          else if (!/[0-9]/.test(pw))
+            showErr("password", "Must include at least one number.");
+          if (pw && cp !== pw) showErr("cpassword", "Passwords do not match.");
+        }
+        return ok;
+      }
 
-function validateStep2(){
-  var ok=true;
-  function showErr(id,msg){ var e=document.getElementById(id+'-err'); if(e){e.querySelector('span').textContent=msg;e.classList.add('show');} var inp=document.getElementById(id); if(inp)inp.classList.add('error'); ok=false; }
-  function clearE(id){ var e=document.getElementById(id+'-err'); if(e)e.classList.remove('show'); var inp=document.getElementById(id); if(inp)inp.classList.remove('error'); }
-  clearE('role');clearE('dept');
-  if(!document.getElementById('role').value) showErr('role','Please select a role.');
-  if(!document.getElementById('dept').value) showErr('dept','Please select a department.');
-  return ok;
-}
+      function validateStep2() {
+        var ok = true;
+        function showErr(id, msg) {
+          var e = document.getElementById(id + "-err");
+          if (e) {
+            e.querySelector("span").textContent = msg;
+            e.classList.add("show");
+          }
+          var inp = document.getElementById(id);
+          if (inp) inp.classList.add("error");
+          ok = false;
+        }
+        function clearE(id) {
+          var e = document.getElementById(id + "-err");
+          if (e) e.classList.remove("show");
+          var inp = document.getElementById(id);
+          if (inp) inp.classList.remove("error");
+        }
+        clearE("role");
+        clearE("dept");
+        if (!document.getElementById("role").value)
+          showErr("role", "Please select a role.");
+        if (!document.getElementById("dept").value)
+          showErr("dept", "Please select a department.");
+        return ok;
+      }
 
-function fillReview(){
-  var fn=document.getElementById('fname').value.trim()||'—';
-  var ln=document.getElementById('lname').value.trim()||'';
-  var em=document.getElementById('email').value.trim()||'—';
-  var role=document.getElementById('role').value||'—';
-  var dept=document.getElementById('dept').value||'—';
-  var status=document.getElementById('acc-status').value||'Active';
-  var twofa=document.getElementById('require-2fa').checked?'Yes':'No';
-  document.getElementById('rv-name').textContent=fn+' '+ln;
-  document.getElementById('rv-email').textContent=em;
-  document.getElementById('rv-role').textContent=role;
-  document.getElementById('rv-dept').textContent=dept;
-  document.getElementById('rv-status').innerHTML='<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:var(--jade-bg);color:var(--jade-text)">'+status+'</span>';
-  document.getElementById('rv-2fa').textContent=twofa;
-  document.getElementById('rv-2fa').style.color=twofa==='Yes'?'var(--jade)':'var(--ink4)';
-  /* Photo summary */
-  var rvPhoto = document.getElementById('rv-photo');
-  if(rvPhoto){
-    if(PHOTO.dataUrl){
-      rvPhoto.innerHTML = '<img src="'+PHOTO.dataUrl+'" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--white);box-shadow:var(--sh)"/> <span style="font-size:12px;color:var(--jade-text);font-weight:600"><i class="ti ti-check" style="font-size:12px"></i> Photo uploaded</span>';
-    } else {
-      rvPhoto.innerHTML = '<div style="width:40px;height:40px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:14px;font-weight:700;color:#fff">'+((fn[0]||'')+(ln[0]||'')).toUpperCase()+'</div><span style="font-size:12px;color:var(--ink4);margin-left:8px">No photo (initials will be used)</span>';
-    }
-  }
-}
+      function fillReview() {
+        var fn = document.getElementById("fname").value.trim() || "—";
+        var ln = document.getElementById("lname").value.trim() || "";
+        var em = document.getElementById("email").value.trim() || "—";
+        var role = document.getElementById("role").value || "—";
+        var dept = document.getElementById("dept").value || "—";
+        var status = document.getElementById("acc-status").value || "Active";
+        var twofa = document.getElementById("require-2fa").checked
+          ? "Yes"
+          : "No";
+        document.getElementById("rv-name").textContent = fn + " " + ln;
+        document.getElementById("rv-email").textContent = em;
+        document.getElementById("rv-role").textContent = role;
+        document.getElementById("rv-dept").textContent = dept;
+        document.getElementById("rv-status").innerHTML =
+          '<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:var(--jade-bg);color:var(--jade-text)">' +
+          status +
+          "</span>";
+        document.getElementById("rv-2fa").textContent = twofa;
+        document.getElementById("rv-2fa").style.color =
+          twofa === "Yes" ? "var(--jade)" : "var(--ink4)";
+        /* Photo summary */
+        var rvPhoto = document.getElementById("rv-photo");
+        if (rvPhoto) {
+          if (PHOTO.dataUrl) {
+            rvPhoto.innerHTML =
+              '<img src="' +
+              PHOTO.dataUrl +
+              '" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--white);box-shadow:var(--sh)"/> <span style="font-size:12px;color:var(--jade-text);font-weight:600"><i class="ti ti-check" style="font-size:12px"></i> Photo uploaded</span>';
+          } else {
+            rvPhoto.innerHTML =
+              '<div style="width:40px;height:40px;border-radius:50%;background:var(--p);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:14px;font-weight:700;color:#fff">' +
+              ((fn[0] || "") + (ln[0] || "")).toUpperCase() +
+              '</div><span style="font-size:12px;color:var(--ink4);margin-left:8px">No photo (initials will be used)</span>';
+          }
+        }
+      }
 
-function updatePwStr(v){
-  var s=0;if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
-  var cols=['#EF4444','#F59E0B','#3B82F6','#0EA571'],labs=['Weak','Fair','Good','Strong'];
-  for(var i=0;i<4;i++){var b=document.getElementById('pb'+i);if(b)b.style.background=i<s?cols[Math.min(s,4)-1]:'#E4E8F0';}
-  var l=document.getElementById('pw-str-lbl');
-  if(l){if(!v.length){l.textContent='Enter a password';l.style.color='var(--ink4)';}else{l.textContent=labs[Math.min(s,4)-1]||'Very weak';l.style.color=cols[Math.min(s,4)-1]||'#EF4444';}}
-}
+      function updatePwStr(v) {
+        var s = 0;
+        if (v.length >= 8) s++;
+        if (/[A-Z]/.test(v)) s++;
+        if (/[0-9]/.test(v)) s++;
+        if (/[^A-Za-z0-9]/.test(v)) s++;
+        var cols = ["#EF4444", "#F59E0B", "#3B82F6", "#0EA571"],
+          labs = ["Weak", "Fair", "Good", "Strong"];
+        for (var i = 0; i < 4; i++) {
+          var b = document.getElementById("pb" + i);
+          if (b)
+            b.style.background = i < s ? cols[Math.min(s, 4) - 1] : "#E4E8F0";
+        }
+        var l = document.getElementById("pw-str-lbl");
+        if (l) {
+          if (!v.length) {
+            l.textContent = "Enter a password";
+            l.style.color = "var(--ink4)";
+          } else {
+            l.textContent = labs[Math.min(s, 4) - 1] || "Very weak";
+            l.style.color = cols[Math.min(s, 4) - 1] || "#EF4444";
+          }
+        }
+      }
 
-function toggleEye(id,btn){
-  var el=document.getElementById(id);var hide=el.type==='password';
-  el.type=hide?'text':'password';
-  btn.innerHTML='<i class="ti '+(hide?'ti-eye':'ti-eye-off')+'"></i>';
-}
+      function toggleEye(id, btn) {
+        var el = document.getElementById(id);
+        var hide = el.type === "password";
+        el.type = hide ? "text" : "password";
+        btn.innerHTML =
+          '<i class="ti ' + (hide ? "ti-eye" : "ti-eye-off") + '"></i>';
+      }
 
-function saveDraft(){ toast('Draft saved successfully.','ok'); }
+      function saveDraft() {
+        toast("Draft saved successfully.", "ok");
+      }
 
-function submitUser(){
-  var btn=document.getElementById('submit-btn');
-  btn.classList.add('btn-loading');
-  setTimeout(function(){
-    btn.classList.remove('btn-loading');
-    var name=document.getElementById('fname').value.trim()+' '+document.getElementById('lname').value.trim();
-    toast((isEdit?'User updated':'User created')+' successfully — '+name.trim(),'ok');
-    setTimeout(function(){ location.href='user-management.html'; },1500);
-  },1200);
-}
+      /* ══════════════════════════════════════════════════════════════
+   ASSIGN INSTITUTE — scalable multi-select
+   Reads institutes from localStorage "aspireInstitutes" (shared with
+   the Institute module). On submit, the selected institutes are mapped
+   to this user; for Principal users the institutes' principalEmail is
+   set so they see only those after login.
+══════════════════════════════════════════════════════════════ */
+      var INSTITUTE_ROLES = [
+        "Principal",
+      ]; /* roles whose login view is scoped to assigned institutes */
+      var aiSelected = {}; /* institute id -> true */
 
-function toast(msg,type){
-  var icons={ok:'ti-circle-check',err:'ti-alert-circle',info:'ti-info-circle'};
-  var wrap=document.getElementById('toast-wrap');
-  var el=document.createElement('div');
-  el.className='toast '+(type||'info');
-  el.innerHTML='<i class="ti '+(icons[type]||icons.info)+'"></i><span>'+msg+'</span>';
-  wrap.appendChild(el);
-  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('in');});});
-  setTimeout(function(){el.classList.remove('in');setTimeout(function(){el.remove();},400);},3400);
-}
+      function readInstitutes() {
+        try {
+          return JSON.parse(localStorage.getItem("aspireInstitutes") || "[]");
+        } catch (e) {
+          return [];
+        }
+      }
+      function readCampuses() {
+        try {
+          return JSON.parse(localStorage.getItem("aspireCampuses") || "[]");
+        } catch (e) {
+          return [];
+        }
+      }
+      function campusNameById(id, camps) {
+        for (var i = 0; i < camps.length; i++) {
+          if (camps[i].id === id) return camps[i].name;
+        }
+        return "";
+      }
 
-init();
-</script>
-</body>
+      function roleNeedsInstitute(role) {
+        return INSTITUTE_ROLES.indexOf(role) > -1;
+      }
+
+      function instituteMatches(it, q, campName) {
+        if (!q) return true;
+        q = q.toLowerCase();
+        return (
+          (it.name || "").toLowerCase().indexOf(q) > -1 ||
+          (campName || "").toLowerCase().indexOf(q) > -1 ||
+          (it.type || "").toLowerCase().indexOf(q) > -1 ||
+          (it.specialization || "").toLowerCase().indexOf(q) > -1
+        );
+      }
+
+      function renderInstituteOptions() {
+        var box = document.getElementById("ai-list");
+        if (!box) return;
+        var list = readInstitutes(),
+          camps = readCampuses();
+        var q = (document.getElementById("ai-search").value || "").trim();
+        if (!list.length) {
+          box.innerHTML =
+            "<div class='ai-empty'>No institutes available yet.<br>Create institutes first under the Institute module, then assign them here.</div>";
+          renderChips();
+          updateAiCount();
+          return;
+        }
+        var rows = list.filter(function (it) {
+          return instituteMatches(it, q, campusNameById(it.campusId, camps));
+        });
+        if (!rows.length) {
+          box.innerHTML =
+            "<div class='ai-empty'>No institutes match “" +
+            escHtml(q) +
+            "”.</div>";
+        } else {
+          box.innerHTML =
+            "<div class='check-group'>" +
+            rows
+              .map(function (it) {
+                var cn = campusNameById(it.campusId, camps);
+                var on = aiSelected[it.id] ? " on" : "";
+                var title = [it.name, cn, it.type, it.specialization]
+                  .filter(Boolean)
+                  .join(" · ");
+                return (
+                  "<div class='chk-opt" +
+                  on +
+                  "' data-id='" +
+                  it.id +
+                  "' onclick=\"toggleInstituteChip(this)\" title='" +
+                  escHtml(title) +
+                  "'>" +
+                  "<i class='ti ti-building-skyscraper'></i>" +
+                  escHtml(it.name || "Untitled Institute") +
+                  (cn
+                    ? "<span class='chk-sub'> · " + escHtml(cn) + "</span>"
+                    : "") +
+                  "</div>"
+                );
+              })
+              .join("") +
+            "</div>";
+        }
+        renderChips();
+        updateAiCount();
+      }
+
+      function toggleInstituteChip(el) {
+        var id = el.getAttribute("data-id");
+        if (aiSelected[id]) {
+          delete aiSelected[id];
+          el.classList.remove("on");
+        } else {
+          aiSelected[id] = true;
+          el.classList.add("on");
+        }
+        renderChips();
+        updateAiCount();
+        clearAiError();
+      }
+
+      function toggleInstitute(id, checked) {
+        if (checked) aiSelected[id] = true;
+        else delete aiSelected[id];
+        renderChips();
+        updateAiCount();
+        clearAiError();
+      }
+
+      function removeChip(id) {
+        delete aiSelected[id];
+        renderInstituteOptions();
+        clearAiError();
+      }
+
+      function renderChips() {
+        var box = document.getElementById("ai-chips");
+        if (!box) return;
+        var byId = {};
+        readInstitutes().forEach(function (it) {
+          byId[it.id] = it;
+        });
+        var ids = Object.keys(aiSelected).filter(function (k) {
+          return aiSelected[k];
+        });
+        box.innerHTML = ids
+          .map(function (id) {
+            var nm = (byId[id] && byId[id].name) || id;
+            return (
+              "<span class='ai-chip'>" +
+              escHtml(nm) +
+              "<i class='ti ti-x' title='Remove' onclick=\"removeChip('" +
+              id +
+              "')\"></i></span>"
+            );
+          })
+          .join("");
+      }
+
+      function updateAiCount() {
+        var n = Object.keys(aiSelected).filter(function (k) {
+          return aiSelected[k];
+        }).length;
+        var el = document.getElementById("ai-count");
+        if (el) el.textContent = n;
+      }
+
+      function selectAllInstitutes() {
+        readInstitutes().forEach(function (it) {
+          aiSelected[it.id] = true;
+        });
+        renderInstituteOptions();
+        clearAiError();
+      }
+      function clearInstituteSelection() {
+        aiSelected = {};
+        renderInstituteOptions();
+      }
+
+      function clearAiError() {
+        var e = document.getElementById("assign-institute-err");
+        if (e) e.classList.remove("show");
+      }
+      function showAiError(msg) {
+        var e = document.getElementById("assign-institute-err");
+        if (e) {
+          e.querySelector("span").textContent = msg;
+          e.classList.add("show");
+        }
+      }
+
+      function selectedInstituteIds() {
+        return Object.keys(aiSelected).filter(function (k) {
+          return aiSelected[k];
+        });
+      }
+
+      /* Persist the institute→principal mapping and a minimal user record. */
+      function applyInstituteAssignment() {
+        var role = document.getElementById("role").value;
+        if (!roleNeedsInstitute(role)) return;
+        var email = (document.getElementById("email").value || "")
+          .trim()
+          .toLowerCase();
+        var pname = (
+          document.getElementById("fname").value.trim() +
+          " " +
+          document.getElementById("lname").value.trim()
+        ).trim();
+        var ids = selectedInstituteIds();
+        /* 1) set principalEmail on selected institutes; unassign ones this principal no longer holds */
+        try {
+          var all = readInstitutes();
+          all.forEach(function (it) {
+            if (ids.indexOf(it.id) > -1) {
+              it.principalEmail = email;
+              it.principalName = pname;
+            } else if ((it.principalEmail || "").toLowerCase() === email) {
+              it.principalEmail = "";
+              it.principalName = "";
+            }
+          });
+          localStorage.setItem("aspireInstitutes", JSON.stringify(all));
+        } catch (e) {}
+        /* 2) upsert a user record so the principal exists in the user store */
+        try {
+          var users = JSON.parse(localStorage.getItem("aspireUsers") || "[]");
+          var rec = {
+            firstName: document.getElementById("fname").value.trim(),
+            lastName: document.getElementById("lname").value.trim(),
+            email: email,
+            role: role,
+            dept: document.getElementById("dept").value,
+            status: document.getElementById("acc-status").value,
+            assignedInstitutes: ids,
+          };
+          var found = false;
+          for (var i = 0; i < users.length; i++) {
+            if ((users[i].email || "").toLowerCase() === email) {
+              users[i] = Object.assign(users[i] || {}, rec);
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            rec.id = "USR-" + Date.now().toString(36);
+            rec.createdAt = new Date().toISOString();
+            users.push(rec);
+          }
+          localStorage.setItem("aspireUsers", JSON.stringify(users));
+        } catch (e) {}
+      }
+
+      function submitUser() {
+        var btn = document.getElementById("submit-btn");
+        btn.classList.add("btn-loading");
+        setTimeout(function () {
+          btn.classList.remove("btn-loading");
+          applyInstituteAssignment();
+          var name =
+            document.getElementById("fname").value.trim() +
+            " " +
+            document.getElementById("lname").value.trim();
+          toast(
+            (isEdit ? "User updated" : "User created") +
+              " successfully — " +
+              name.trim(),
+            "ok",
+          );
+          setTimeout(function () {
+            location.href = "user-management.html";
+          }, 1500);
+        }, 1200);
+      }
+
+      function toast(msg, type) {
+        var icons = {
+          ok: "ti-circle-check",
+          err: "ti-alert-circle",
+          info: "ti-info-circle",
+        };
+        var wrap = document.getElementById("toast-wrap");
+        var el = document.createElement("div");
+        el.className = "toast " + (type || "info");
+        el.innerHTML =
+          '<i class="ti ' +
+          (icons[type] || icons.info) +
+          '"></i><span>' +
+          msg +
+          "</span>";
+        wrap.appendChild(el);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            el.classList.add("in");
+          });
+        });
+        setTimeout(function () {
+          el.classList.remove("in");
+          setTimeout(function () {
+            el.remove();
+          }, 400);
+        }, 3400);
+      }
+
+      init();
+    </script>
+  </body>
 </html>
